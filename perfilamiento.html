@@ -1,21 +1,69 @@
 <!DOCTYPE html>
 <html lang="es">
     <head>
-        <meta charset='utf-8'>
-        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Reporte perfilamiento</title>
+
+        <!--
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        -->
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+        <style>
+            table > tbody > tr > :nth-child(1){
+                font-weight:bold;
+            }
+        </style>
     </head>
+
     <body>
-        <h1>Reporte perfilamiento</h1>
-        <em>Reporte generado automáticamente 07-05-2020 06:36:09 PM</em>
-        <br>
-        <br>
-        <div>
-            <table border="1" id="mi_tabla">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+
+                    <!-- Header -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1>Reporte perfilamiento</h1>
+                            <em>Reporte generado automáticamente 12-05-2020 08:01 PM</em>
+
+                            <!--
+                            <h1 class="hidden-xs bg-danger">This text is hidden on an EXTRA SMALL screen.</h1>
+                            <h1 class="hidden-sm bg-info">This text is hidden on a SMALL screen.</h1>
+                            <h1 class="hidden-md bg-warning">This is text hidden on a MEDIUM screen.</h1>
+                            <h1 class="hidden-lg bg-success">This is text hidden on a LARGE screen.</h1>
+                            -->
+
+                            <hr>
+                        </div>
+                    </div>
+
+                    <!-- Data Summary -->
+                    <div class="row">
+                        <div class="col-md-12" style="border-style: solid; border-width: 1px; border-color: #eee">
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h3><em>Estadísticas generales</em></h3>
+                                </div>
+                            </div>
+
+                            <div class="row hidden-md hidden-lg">
+                                <div class="col-md-12">
+                                    <div class="table-responsive">
+                                        <table class="table table-condensed table-hover" id="mi_tabla">
   <thead>
     <tr style="text-align: right;">
-      <th>categoria</th>
-      <th>valor</th>
+      <th>Categoria</th>
+      <th>Valor</th>
     </tr>
   </thead>
   <tbody>
@@ -65,6 +113,140 @@
     </tr>
   </tbody>
 </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row hidden-xs hidden-sm">
+                                <div class="col-md-6">
+                                    <div class="table-responsive">
+                                        <table class="table table-condensed table-hover" id="mi_tabla">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Categoria</th>
+      <th>Valor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Número de filas</td>
+      <td>1234</td>
+    </tr>
+    <tr>
+      <td>Número de columnas</td>
+      <td>50</td>
+    </tr>
+    <tr>
+      <td>Columnas numéricas</td>
+      <td>25</td>
+    </tr>
+    <tr>
+      <td>Columnas de texto</td>
+      <td>24</td>
+    </tr>
+    <tr>
+      <td>Columnas boolean</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Columnas de fecha</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="table-responsive">
+                                        <table class="table table-condensed table-hover" id="mi_tabla">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Categoria</th>
+      <th>Valor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Otro tipo de columnas</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>Número de filas no únicas</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>Columnas con más de la mitad de datos faltantes</td>
+      <td>17</td>
+    </tr>
+    <tr>
+      <td>Columnas con más del 10% de datos como extremos</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <td>Tamaño de la base en megabytes (redondeado)</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <!-- Tabs -->
+                    <div class="row">
+                        <div class="col-md-12" style="border-style: solid; border-width: 1px; border-color: #eee">
+                            <h3><em>Estadísticas específicas</em></h3>
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#tab01">Tab 1</a></li>
+                                <li><a data-toggle="tab" href="#tab02">Tab 2</a></li>
+                            </ul>
+
+                            <div class="tab-content">
+                                <div id="tab01" class="tab-pane fade in active">
+                                    <h3>Tab 1</h3>
+                                    <p>
+                                        Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de
+                                        relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta).
+                                    </p>
+                                </div>
+
+                                <div id="tab02" class="tab-pane fade">
+                                    <h3>Tab 2</h3>
+                                    <p>
+                                        Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de
+                                        relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta)
+                                        desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen. No sólo
+                                        sobrevivió 500 años, sino que tambien ingresó como texto de relleno en documentos electrónicos, quedando esencialmente
+                                        igual al original. Fue popularizado en los 60s con la creación de las hojas "Letraset", las cuales contenian pasajes de
+                                        Lorem Ipsum, y más recientemente con software de autoedición, como por ejemplo Aldus PageMaker, el cual incluye versiones
+                                        de Lorem Ipsum.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <footer class="text-center">
+                                <hr>
+                                <p>
+                                    Reporte generado con la librería <em><a href="#" target="_blank">calidad_datos</a></em>
+                                    - Versión 1.0 <span class="glyphicon glyphicon-sunglasses" aria-hidden="true" style="font-size:1.2em;"></span>
+                                </p>
+                            </footer>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-1"></div>
+            </div>
         </div>
     </body>
 </html>

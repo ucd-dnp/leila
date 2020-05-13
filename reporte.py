@@ -19,22 +19,35 @@ env = Environment(loader=FileSystemLoader(searchpath='templates'))
 base_template = env.get_template('template_base.html')
 
 
+def df_as_html(dataframe):
+    """
+    Return the results DataFrame as an HTML object.
+    :return: String of HTML.
+    """
+    html = dataframe.to_html(table_id='mi_tabla', index=False, classes=['table', 'table-condensed', 'table-hover']) \
+        .replace('table border="1" class="dataframe ', 'table class="')
+    return html
+
+
 def generar_reporte(dataframe):
     title = 'Reporte perfilamiento'
     timestamp = datetime.datetime.now()
-    current_time = timestamp.strftime("%d-%m-%Y %I:%M:%S %p")
+    current_time = timestamp.strftime("%d-%m-%Y %I:%M %p")
 
     dataframe_summary = data_summary(dataframe).to_frame().reset_index()
-    dataframe_summary.columns = ['categoria', 'valor']
-    html_data_summary = dataframe_summary.to_html(table_id='mi_tabla', index=False) \
-        .replace('table border="1" class="dataframe"', 'table border="1"')
+    dataframe_summary.columns = ['Categoria', 'Valor']
+    html_data_summary_00 = df_as_html(dataframe_summary)
+    html_data_summary_01 = df_as_html(dataframe_summary[:6])
+    html_data_summary_02 = df_as_html(dataframe_summary[-5:])
 
     # Produce and write the report to file
     with open("perfilamiento.html", "w", encoding='utf8') as HTML_file:
         output = base_template.render(
             title=title,
             current_time=current_time,
-            html_data_summary=html_data_summary
+            html_data_summary_00=html_data_summary_00,
+            html_data_summary_01=html_data_summary_01,
+            html_data_summary_02=html_data_summary_02
         )
         HTML_file.write(output)
     print('-----------------------------------------------------------------------')
@@ -58,6 +71,8 @@ def main():
     # print(args)
     df = pd.read_excel(args.dataframe)
     generar_reporte(dataframe=df)
+
+    os.system('perfilamiento.html')
 
 
 if __name__ == "__main__":
