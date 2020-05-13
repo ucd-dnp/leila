@@ -7,6 +7,7 @@ from jinja2 import FileSystemLoader
 from jinja2 import Environment
 
 from datos import data_summary
+from datos import descriptive_stats
 
 import os
 import sys
@@ -20,11 +21,8 @@ base_template = env.get_template('template_base.html')
 
 
 def df_as_html(dataframe):
-    """
-    Return the results DataFrame as an HTML object.
-    :return: String of HTML.
-    """
-    html = dataframe.to_html(table_id='mi_tabla', index=False, classes=['table', 'table-condensed', 'table-hover']) \
+    # html = dataframe.to_html(table_id='mi_tabla', index=False, classes=['table', 'table-condensed', 'table-hover']) \
+    html = dataframe.to_html(index=False, classes=['table', 'table-condensed', 'table-hover']) \
         .replace('table border="1" class="dataframe ', 'table class="')
     return html
 
@@ -32,13 +30,20 @@ def df_as_html(dataframe):
 def generar_reporte(dataframe):
     title = 'Reporte perfilamiento'
     timestamp = datetime.datetime.now()
-    current_time = timestamp.strftime("%d-%m-%Y %I:%M %p")
+    current_time = timestamp.strftime("%d-%m-%Y %I:%M:%S %p")
 
     dataframe_summary = data_summary(dataframe).to_frame().reset_index()
     dataframe_summary.columns = ['Categoria', 'Valor']
     html_data_summary_00 = df_as_html(dataframe_summary)
     html_data_summary_01 = df_as_html(dataframe_summary[:6])
     html_data_summary_02 = df_as_html(dataframe_summary[-5:])
+
+    dataframe_descriptive_stats = descriptive_stats(dataframe)
+    dataframe_descriptive_stats = dataframe_descriptive_stats.T
+    test_list = list(dataframe_descriptive_stats)
+    dataframe_descriptive_stats = dataframe_descriptive_stats.reset_index()
+    html_descriptive_stats = df_as_html(dataframe_descriptive_stats)
+    items = dataframe_descriptive_stats.values.tolist()
 
     # Produce and write the report to file
     with open("perfilamiento.html", "w", encoding='utf8') as HTML_file:
@@ -47,7 +52,10 @@ def generar_reporte(dataframe):
             current_time=current_time,
             html_data_summary_00=html_data_summary_00,
             html_data_summary_01=html_data_summary_01,
-            html_data_summary_02=html_data_summary_02
+            html_data_summary_02=html_data_summary_02,
+            html_descriptive_stats=html_descriptive_stats,
+            test_list=test_list,
+            items=items
         )
         HTML_file.write(output)
     print('-----------------------------------------------------------------------')

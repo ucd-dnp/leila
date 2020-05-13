@@ -19,6 +19,11 @@
             table > tbody > tr > :nth-child(1){
                 font-weight:bold;
             }
+            .borde{
+                border-style: solid;
+                border-width: 1px;
+                border-color: #eee;
+            }
         </style>
     </head>
 
@@ -48,7 +53,7 @@
 
                     <!-- Data Summary -->
                     <div class="row">
-                        <div class="col-md-12" style="border-style: solid; border-width: 1px; border-color: #eee">
+                        <div class="col-md-12 borde">
 
                             <div class="row">
                                 <div class="col-md-6">
@@ -84,35 +89,155 @@
 
                     <!-- Tabs -->
                     <div class="row">
-                        <div class="col-md-12" style="border-style: solid; border-width: 1px; border-color: #eee">
+                        <div class="col-md-12 borde">
 
                             <h3><em>Estadísticas específicas</em></h3>
                             <ul class="nav nav-tabs">
-                                <li class="active"><a data-toggle="tab" href="#tab01">Tab 1</a></li>
-                                <li><a data-toggle="tab" href="#tab02">Tab 2</a></li>
+                                <li class="active"><a data-toggle="tab" href="#tab01">descriptive_stats</a></li>
+                                <!--
+                                <li><a data-toggle="tab" href="#tab02">descriptive_stats temp</a></li>
+                                <li><a data-toggle="tab" href="#tab03">descriptive_stats Play</a></li>
+                                -->
                             </ul>
-
-                            <div class="tab-content">
+                            <!--
+                            <div class="tab-content" style="text-align: justify; text-justify: inter-word;">
                                 <div id="tab01" class="tab-pane fade in active">
-                                    <h3>Tab 1</h3>
+
+                                    <br>
                                     <p>
-                                        Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de
-                                        relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta).
+                                        Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta).
                                     </p>
+
+                                    <div class="row">
+                                        <div class="col-md-3 borde">
+                                            <p><input type="checkbox" onClick="toggle(this)"> Todos</p>
+                                            <p><input type="checkbox" name="first_name" class="checkbox_tab1"> Nombre</p>
+                                            <p><input type="checkbox" name="last_name" class="checkbox_tab1"> Apellido</p>
+                                            <p><input type="checkbox" name="email" class="checkbox_tab1"> Email</p>
+                                        </div>
+                                        <div class="col-md-9 borde table-responsive">
+
+                                            <table class="table table-condensed table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th class="first_name">Nombre</th>
+                                                        <th class="last_name">Apellido</th>
+                                                        <th class="email">Email</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td class="first_name">jairo</td>
+                                                        <td class="last_name">ruiz</td>
+                                                        <td class="email">jairoruiz@correo.com</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>2</td>
+                                                        <td class="first_name">jefesote</td>
+                                                        <td class="last_name">escobar</td>
+                                                        <td class="email">eduescobar@correo.com</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>3</td>
+                                                        <td class="first_name">jefecito</td>
+                                                        <td class="last_name">montenegro</td>
+                                                        <td class="email">pablin@correo.com</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>4</td>
+                                                        <td class="first_name">sebas</td>
+                                                        <td class="last_name">numpaque</td>
+                                                        <td class="email">numpy@correo.com</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>5</td>
+                                                        <td class="first_name">carlos andres</td>
+                                                        <td class="last_name">rocha</td>
+                                                        <td class="email">crocha@correo.com</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>6</td>
+                                                        <td class="first_name">insu</td>
+                                                        <td class="last_name">insu</td>
+                                                        <td class="email">insu@correo.com</td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+
                                 </div>
 
                                 <div id="tab02" class="tab-pane fade">
-                                    <h3>Tab 2</h3>
+                                    <br>
                                     <p>
-                                        Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de
-                                        relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta)
-                                        desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen. No sólo
-                                        sobrevivió 500 años, sino que tambien ingresó como texto de relleno en documentos electrónicos, quedando esencialmente
-                                        igual al original. Fue popularizado en los 60s con la creación de las hojas "Letraset", las cuales contenian pasajes de
-                                        Lorem Ipsum, y más recientemente con software de autoedición, como por ejemplo Aldus PageMaker, el cual incluye versiones
-                                        de Lorem Ipsum.
+                                        Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta).
                                     </p>
+
+                                    <div class="col-md-12">
+                                        <div class="table-responsive">
+                                            {{ html_descriptive_stats }}
+                                        </div>
+                                    </div>
+
                                 </div>
+                            -->
+                                <div id="tab01" class="tab-pane fade in active">
+
+                                    <br>
+                                    <p>
+                                        Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta).
+                                    </p>
+
+                                    <div class="row">
+                                        <div class="col-md-3 borde">
+                                            <h4><strong><em>Variables</em></strong></h4>
+                                            <p><input type="checkbox" onClick="toggle(this)" id="select-all"> Seleccionar todos</p>
+                                            {% for item in test_list %}
+                                                <p><input type="checkbox" name="ds_{{ loop.index }}" class="checkbox_tab1"> {{ loop.index }} - {{ item }}</p>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="col-md-9 borde table-responsive">
+                                            <table class="table table-condensed table-hover">
+
+                                                <thead>
+                                                    <tr>
+                                                        <th>Estadística</th>
+                                                        {% for item in test_list %}
+                                                            <th class="ds_{{ loop.index }}">{{ item }}</th>
+                                                        {% endfor %}
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for row in items%}
+                                                        <tr>
+                                                            {% for column in row %}
+                                                                <td class="ds_{{ loop.index0 }}">
+
+                                                                    {% if loop.index0 == 0 %}
+                                                                        {{ column }}
+                                                                    {% else %}
+                                                                        {{ "%.2f"|format(column|float) }}
+                                                                    {% endif %}
+
+                                                                </td>
+                                                            {% endfor %}
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+
+                                            </table>
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
                             </div>
 
                         </div>
@@ -132,6 +257,46 @@
 
                         </div>
                     </div>
+
+                    <script>
+                        // cambia el valor de los checkboxs de clase 'checkbox_tab1'
+                        // de acuerdo con el valor del checkbox de 'seleccionar todos'
+                        // y hace el toggle de sus respectivas columnas en la tabla
+                        function toggle(source) {
+                            checkboxes = document.getElementsByClassName('checkbox_tab1');
+                            for(var i=0, n=checkboxes.length;i<n;i++) {
+                                checkboxes[i].checked = source.checked;
+                                var shcolumn="."+$(checkboxes[i]).attr("name");
+                                $(shcolumn).toggle(display=source.checked);
+                            }
+                        }
+                    </script>
+
+                    <script>
+                        // hace el toggle de cada columna en la tabla
+                        // de acuerdo con el valor de su respectivo checkbox
+                        $("input:checkbox").attr("checked",true).click(function()
+                        {
+                            var shcolumn="."+$(this).attr("name");
+                            $(shcolumn).toggle(display=this.checked);
+                        });
+                    </script>
+
+                    <script>
+                        // verifica el estado de los checkboxs con clase 'checkbox_tab1',
+                        // si uno es false, cambia el valor del checkbox de 'seleccionar todos' a false
+                        // si todos son true, cambia el valor del checkbox de 'seleccionar todos' a true
+                        $("input:checkbox").change(function(){
+                            checkboxes = document.getElementsByClassName('checkbox_tab1');
+                            var value = true;
+                            for(var i=0, n=checkboxes.length;i<n;i++) {
+                                if (checkboxes[i].checked == false) {
+                                    value = false;
+                                }
+                            }
+                            $('#select-all').prop('checked', value);
+                        });
+                    </script>
 
                 </div>
                 <div class="col-md-1"></div>

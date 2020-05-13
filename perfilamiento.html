@@ -19,6 +19,11 @@
             table > tbody > tr > :nth-child(1){
                 font-weight:bold;
             }
+            .borde{
+                border-style: solid;
+                border-width: 1px;
+                border-color: #eee;
+            }
         </style>
     </head>
 
@@ -33,7 +38,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <h1>Reporte perfilamiento</h1>
-                            <em>Reporte generado automáticamente 12-05-2020 08:01 PM</em>
+                            <em>Reporte generado automáticamente 13-05-2020 06:27:59 PM</em>
 
                             <!--
                             <h1 class="hidden-xs bg-danger">This text is hidden on an EXTRA SMALL screen.</h1>
@@ -48,7 +53,7 @@
 
                     <!-- Data Summary -->
                     <div class="row">
-                        <div class="col-md-12" style="border-style: solid; border-width: 1px; border-color: #eee">
+                        <div class="col-md-12 borde">
 
                             <div class="row">
                                 <div class="col-md-6">
@@ -59,7 +64,7 @@
                             <div class="row hidden-md hidden-lg">
                                 <div class="col-md-12">
                                     <div class="table-responsive">
-                                        <table class="table table-condensed table-hover" id="mi_tabla">
+                                        <table class="table table-condensed table-hover">
   <thead>
     <tr style="text-align: right;">
       <th>Categoria</th>
@@ -120,7 +125,7 @@
                             <div class="row hidden-xs hidden-sm">
                                 <div class="col-md-6">
                                     <div class="table-responsive">
-                                        <table class="table table-condensed table-hover" id="mi_tabla">
+                                        <table class="table table-condensed table-hover">
   <thead>
     <tr style="text-align: right;">
       <th>Categoria</th>
@@ -158,7 +163,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="table-responsive">
-                                        <table class="table table-condensed table-hover" id="mi_tabla">
+                                        <table class="table table-condensed table-hover">
   <thead>
     <tr style="text-align: right;">
       <th>Categoria</th>
@@ -199,41 +204,2679 @@
 
                     <!-- Tabs -->
                     <div class="row">
-                        <div class="col-md-12" style="border-style: solid; border-width: 1px; border-color: #eee">
+                        <div class="col-md-12 borde">
+
                             <h3><em>Estadísticas específicas</em></h3>
                             <ul class="nav nav-tabs">
-                                <li class="active"><a data-toggle="tab" href="#tab01">Tab 1</a></li>
-                                <li><a data-toggle="tab" href="#tab02">Tab 2</a></li>
+                                <li class="active"><a data-toggle="tab" href="#tab01">descriptive_stats</a></li>
+                                <!--
+                                <li><a data-toggle="tab" href="#tab02">descriptive_stats temp</a></li>
+                                <li><a data-toggle="tab" href="#tab03">descriptive_stats Play</a></li>
+                                -->
                             </ul>
-
-                            <div class="tab-content">
+                            <!--
+                            <div class="tab-content" style="text-align: justify; text-justify: inter-word;">
                                 <div id="tab01" class="tab-pane fade in active">
-                                    <h3>Tab 1</h3>
+
+                                    <br>
                                     <p>
-                                        Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de
-                                        relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta).
+                                        Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta).
                                     </p>
+
+                                    <div class="row">
+                                        <div class="col-md-3 borde">
+                                            <p><input type="checkbox" onClick="toggle(this)"> Todos</p>
+                                            <p><input type="checkbox" name="first_name" class="checkbox_tab1"> Nombre</p>
+                                            <p><input type="checkbox" name="last_name" class="checkbox_tab1"> Apellido</p>
+                                            <p><input type="checkbox" name="email" class="checkbox_tab1"> Email</p>
+                                        </div>
+                                        <div class="col-md-9 borde table-responsive">
+
+                                            <table class="table table-condensed table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th class="first_name">Nombre</th>
+                                                        <th class="last_name">Apellido</th>
+                                                        <th class="email">Email</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td class="first_name">jairo</td>
+                                                        <td class="last_name">ruiz</td>
+                                                        <td class="email">jairoruiz@correo.com</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>2</td>
+                                                        <td class="first_name">jefesote</td>
+                                                        <td class="last_name">escobar</td>
+                                                        <td class="email">eduescobar@correo.com</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>3</td>
+                                                        <td class="first_name">jefecito</td>
+                                                        <td class="last_name">montenegro</td>
+                                                        <td class="email">pablin@correo.com</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>4</td>
+                                                        <td class="first_name">sebas</td>
+                                                        <td class="last_name">numpaque</td>
+                                                        <td class="email">numpy@correo.com</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>5</td>
+                                                        <td class="first_name">carlos andres</td>
+                                                        <td class="last_name">rocha</td>
+                                                        <td class="email">crocha@correo.com</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>6</td>
+                                                        <td class="first_name">insu</td>
+                                                        <td class="last_name">insu</td>
+                                                        <td class="email">insu@correo.com</td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+
                                 </div>
 
                                 <div id="tab02" class="tab-pane fade">
-                                    <h3>Tab 2</h3>
+                                    <br>
                                     <p>
-                                        Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de
-                                        relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta)
-                                        desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen. No sólo
-                                        sobrevivió 500 años, sino que tambien ingresó como texto de relleno en documentos electrónicos, quedando esencialmente
-                                        igual al original. Fue popularizado en los 60s con la creación de las hojas "Letraset", las cuales contenian pasajes de
-                                        Lorem Ipsum, y más recientemente con software de autoedición, como por ejemplo Aldus PageMaker, el cual incluye versiones
-                                        de Lorem Ipsum.
+                                        Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta).
                                     </p>
+
+                                    <div class="col-md-12">
+                                        <div class="table-responsive">
+                                            <table class="table table-condensed table-hover">
+  <thead>
+    <tr style="text-align: right;">
+      <th>index</th>
+      <th>Id</th>
+      <th>TipoDocumentoId</th>
+      <th>TipoUsuarioId</th>
+      <th>FechaCreacion</th>
+      <th>Valor unidad comercial</th>
+      <th>UCO alto</th>
+      <th>UCO ancho</th>
+      <th>UCO largo</th>
+      <th>UCO volumen</th>
+      <th>UCO Peso</th>
+      <th>Alto</th>
+      <th>Ancho</th>
+      <th>Largo</th>
+      <th>CapacidadVolumen</th>
+      <th>CapacidadPeso</th>
+      <th>Peso Total producto</th>
+      <th>Valor Total Dolares</th>
+      <th>Valor Total Local</th>
+      <th>Cantidad total del los productos</th>
+      <th>Cantidad por producto</th>
+      <th>valor total de la simulacion</th>
+      <th>Valor total de la simulacion USD</th>
+      <th>PesoTotalKg</th>
+      <th>VolumenTotalMtsCub</th>
+      <th>Fecha creación</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>count</td>
+      <td>1234.000000</td>
+      <td>1202.000000</td>
+      <td>1234.000000</td>
+      <td>38.000000</td>
+      <td>7.180000e+02</td>
+      <td>718.000000</td>
+      <td>718.000000</td>
+      <td>718.000000</td>
+      <td>7.180000e+02</td>
+      <td>7.180000e+02</td>
+      <td>604.000000</td>
+      <td>604.000000</td>
+      <td>604.000000</td>
+      <td>6.040000e+02</td>
+      <td>604.000000</td>
+      <td>7.180000e+02</td>
+      <td>7.180000e+02</td>
+      <td>7.180000e+02</td>
+      <td>1.234000e+03</td>
+      <td>7.180000e+02</td>
+      <td>1.234000e+03</td>
+      <td>1.234000e+03</td>
+      <td>1.234000e+03</td>
+      <td>1.234000e+03</td>
+      <td>1234.000000</td>
+    </tr>
+    <tr>
+      <td>mean</td>
+      <td>15787.021880</td>
+      <td>1.010815</td>
+      <td>3.007293</td>
+      <td>43144.811942</td>
+      <td>1.023688e+07</td>
+      <td>12.237468</td>
+      <td>12.301552</td>
+      <td>44.967174</td>
+      <td>1.628108e+06</td>
+      <td>1.455291e+04</td>
+      <td>13.043988</td>
+      <td>11.475646</td>
+      <td>29.746158</td>
+      <td>1.153307e+08</td>
+      <td>21490.571192</td>
+      <td>1.548480e+08</td>
+      <td>4.326390e+06</td>
+      <td>8.919887e+09</td>
+      <td>4.560827e+03</td>
+      <td>7.626344e+03</td>
+      <td>5.247598e+09</td>
+      <td>2.536438e+06</td>
+      <td>9.122779e+07</td>
+      <td>1.548632e+07</td>
+      <td>43089.221716</td>
+    </tr>
+    <tr>
+      <td>std</td>
+      <td>8580.182524</td>
+      <td>0.103476</td>
+      <td>0.211077</td>
+      <td>332.306878</td>
+      <td>1.060980e+08</td>
+      <td>116.781860</td>
+      <td>131.520972</td>
+      <td>892.006501</td>
+      <td>4.138120e+07</td>
+      <td>3.380514e+05</td>
+      <td>147.332331</td>
+      <td>135.458334</td>
+      <td>339.010071</td>
+      <td>2.004599e+09</td>
+      <td>11484.128788</td>
+      <td>2.468931e+09</td>
+      <td>7.188059e+07</td>
+      <td>2.103032e+11</td>
+      <td>5.799600e+04</td>
+      <td>7.601472e+04</td>
+      <td>1.604357e+11</td>
+      <td>5.485668e+07</td>
+      <td>1.884379e+09</td>
+      <td>3.113136e+08</td>
+      <td>368.629716</td>
+    </tr>
+    <tr>
+      <td>min</td>
+      <td>51.000000</td>
+      <td>1.000000</td>
+      <td>2.000000</td>
+      <td>42521.900045</td>
+      <td>6.000000e-02</td>
+      <td>0.010000</td>
+      <td>0.020000</td>
+      <td>0.000100</td>
+      <td>0.000000e+00</td>
+      <td>2.000000e-04</td>
+      <td>0.050000</td>
+      <td>0.200000</td>
+      <td>0.000300</td>
+      <td>2.400000e-03</td>
+      <td>0.500000</td>
+      <td>2.000000e-04</td>
+      <td>0.000000e+00</td>
+      <td>1.500000e-01</td>
+      <td>0.000000e+00</td>
+      <td>1.000000e+00</td>
+      <td>0.000000e+00</td>
+      <td>0.000000e+00</td>
+      <td>0.000000e+00</td>
+      <td>0.000000e+00</td>
+      <td>42397.628754</td>
+    </tr>
+    <tr>
+      <td>25%</td>
+      <td>8652.000000</td>
+      <td>1.000000</td>
+      <td>3.000000</td>
+      <td>42883.872834</td>
+      <td>4.350000e+03</td>
+      <td>0.230000</td>
+      <td>0.300000</td>
+      <td>0.350000</td>
+      <td>3.127500e-02</td>
+      <td>1.500000e+00</td>
+      <td>2.393000</td>
+      <td>2.294000</td>
+      <td>5.898000</td>
+      <td>3.320000e+01</td>
+      <td>26660.000000</td>
+      <td>2.425000e+01</td>
+      <td>6.116050e+00</td>
+      <td>1.437675e+04</td>
+      <td>0.000000e+00</td>
+      <td>1.000000e+00</td>
+      <td>0.000000e+00</td>
+      <td>0.000000e+00</td>
+      <td>0.000000e+00</td>
+      <td>0.000000e+00</td>
+      <td>42829.576634</td>
+    </tr>
+    <tr>
+      <td>50%</td>
+      <td>16020.500000</td>
+      <td>1.000000</td>
+      <td>3.000000</td>
+      <td>43159.505331</td>
+      <td>4.500000e+04</td>
+      <td>0.350000</td>
+      <td>0.445000</td>
+      <td>0.550000</td>
+      <td>6.410000e-02</td>
+      <td>1.024000e+01</td>
+      <td>2.393000</td>
+      <td>2.352000</td>
+      <td>5.898000</td>
+      <td>3.320000e+01</td>
+      <td>26840.000000</td>
+      <td>9.709000e+02</td>
+      <td>1.294942e+03</td>
+      <td>2.394750e+06</td>
+      <td>1.000000e+00</td>
+      <td>1.150000e+01</td>
+      <td>3.000000e+03</td>
+      <td>1.546400e+00</td>
+      <td>4.750000e+00</td>
+      <td>4.500000e-02</td>
+      <td>43131.914541</td>
+    </tr>
+    <tr>
+      <td>75%</td>
+      <td>23398.250000</td>
+      <td>1.000000</td>
+      <td>3.000000</td>
+      <td>43409.628188</td>
+      <td>1.920000e+05</td>
+      <td>1.200000</td>
+      <td>1.390000</td>
+      <td>1.500000</td>
+      <td>2.039000e+00</td>
+      <td>5.000000e+01</td>
+      <td>2.698000</td>
+      <td>2.352000</td>
+      <td>12.030000</td>
+      <td>7.635000e+01</td>
+      <td>28280.000000</td>
+      <td>1.000000e+04</td>
+      <td>1.380062e+04</td>
+      <td>3.840000e+07</td>
+      <td>1.000000e+02</td>
+      <td>5.000000e+02</td>
+      <td>1.000000e+07</td>
+      <td>4.456223e+03</td>
+      <td>2.900000e+03</td>
+      <td>2.600000e+01</td>
+      <td>43405.809272</td>
+    </tr>
+    <tr>
+      <td>max</td>
+      <td>31536.000000</td>
+      <td>2.000000</td>
+      <td>4.000000</td>
+      <td>43648.513288</td>
+      <td>1.683348e+09</td>
+      <td>2904.000000</td>
+      <td>3470.000000</td>
+      <td>23872.000000</td>
+      <td>1.108457e+09</td>
+      <td>9.049168e+06</td>
+      <td>2632.000000</td>
+      <td>2352.000000</td>
+      <td>5898.000000</td>
+      <td>3.651136e+10</td>
+      <td>50000.000000</td>
+      <td>5.000000e+10</td>
+      <td>1.866240e+09</td>
+      <td>5.598720e+12</td>
+      <td>1.788000e+06</td>
+      <td>1.788000e+06</td>
+      <td>5.598720e+12</td>
+      <td>1.866240e+09</td>
+      <td>5.000000e+10</td>
+      <td>8.897868e+09</td>
+      <td>43677.935752</td>
+    </tr>
+    <tr>
+      <td>missing</td>
+      <td>0.000000</td>
+      <td>0.025932</td>
+      <td>0.000000</td>
+      <td>0.969206</td>
+      <td>4.181524e-01</td>
+      <td>0.418152</td>
+      <td>0.418152</td>
+      <td>0.418152</td>
+      <td>4.181524e-01</td>
+      <td>4.181524e-01</td>
+      <td>0.510535</td>
+      <td>0.510535</td>
+      <td>0.510535</td>
+      <td>5.105348e-01</td>
+      <td>0.510535</td>
+      <td>4.181524e-01</td>
+      <td>4.181524e-01</td>
+      <td>4.181524e-01</td>
+      <td>0.000000e+00</td>
+      <td>4.181524e-01</td>
+      <td>0.000000e+00</td>
+      <td>0.000000e+00</td>
+      <td>0.000000e+00</td>
+      <td>0.000000e+00</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>outliers</td>
+      <td>0.000000</td>
+      <td>0.010535</td>
+      <td>0.044571</td>
+      <td>0.000000</td>
+      <td>1.166937e-01</td>
+      <td>0.108590</td>
+      <td>0.108590</td>
+      <td>0.133712</td>
+      <td>1.312804e-01</td>
+      <td>1.085900e-01</td>
+      <td>0.075365</td>
+      <td>0.117504</td>
+      <td>0.014587</td>
+      <td>1.863857e-02</td>
+      <td>0.117504</td>
+      <td>9.157212e-02</td>
+      <td>1.085900e-01</td>
+      <td>8.914100e-02</td>
+      <td>2.098865e-01</td>
+      <td>9.805511e-02</td>
+      <td>2.017828e-01</td>
+      <td>1.977310e-01</td>
+      <td>1.758509e-01</td>
+      <td>2.001621e-01</td>
+      <td>0.000000</td>
+    </tr>
+  </tbody>
+</table>
+                                        </div>
+                                    </div>
+
                                 </div>
+                            -->
+                                <div id="tab01" class="tab-pane fade in active">
+
+                                    <br>
+                                    <p>
+                                        Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta).
+                                    </p>
+
+                                    <div class="row">
+                                        <div class="col-md-3 borde">
+                                            <h4><strong><em>Variables</em></strong></h4>
+                                            <p><input type="checkbox" onClick="toggle(this)" id="select-all"> Seleccionar todos</p>
+                                            
+                                                <p><input type="checkbox" name="ds_1" class="checkbox_tab1"> 1 - Id</p>
+                                            
+                                                <p><input type="checkbox" name="ds_2" class="checkbox_tab1"> 2 - TipoDocumentoId</p>
+                                            
+                                                <p><input type="checkbox" name="ds_3" class="checkbox_tab1"> 3 - TipoUsuarioId</p>
+                                            
+                                                <p><input type="checkbox" name="ds_4" class="checkbox_tab1"> 4 - FechaCreacion</p>
+                                            
+                                                <p><input type="checkbox" name="ds_5" class="checkbox_tab1"> 5 - Valor unidad comercial</p>
+                                            
+                                                <p><input type="checkbox" name="ds_6" class="checkbox_tab1"> 6 - UCO alto</p>
+                                            
+                                                <p><input type="checkbox" name="ds_7" class="checkbox_tab1"> 7 - UCO ancho</p>
+                                            
+                                                <p><input type="checkbox" name="ds_8" class="checkbox_tab1"> 8 - UCO largo</p>
+                                            
+                                                <p><input type="checkbox" name="ds_9" class="checkbox_tab1"> 9 - UCO volumen</p>
+                                            
+                                                <p><input type="checkbox" name="ds_10" class="checkbox_tab1"> 10 - UCO Peso</p>
+                                            
+                                                <p><input type="checkbox" name="ds_11" class="checkbox_tab1"> 11 - Alto</p>
+                                            
+                                                <p><input type="checkbox" name="ds_12" class="checkbox_tab1"> 12 - Ancho</p>
+                                            
+                                                <p><input type="checkbox" name="ds_13" class="checkbox_tab1"> 13 - Largo</p>
+                                            
+                                                <p><input type="checkbox" name="ds_14" class="checkbox_tab1"> 14 - CapacidadVolumen</p>
+                                            
+                                                <p><input type="checkbox" name="ds_15" class="checkbox_tab1"> 15 - CapacidadPeso</p>
+                                            
+                                                <p><input type="checkbox" name="ds_16" class="checkbox_tab1"> 16 - Peso Total producto</p>
+                                            
+                                                <p><input type="checkbox" name="ds_17" class="checkbox_tab1"> 17 - Valor Total Dolares</p>
+                                            
+                                                <p><input type="checkbox" name="ds_18" class="checkbox_tab1"> 18 - Valor Total Local</p>
+                                            
+                                                <p><input type="checkbox" name="ds_19" class="checkbox_tab1"> 19 - Cantidad total del los productos</p>
+                                            
+                                                <p><input type="checkbox" name="ds_20" class="checkbox_tab1"> 20 - Cantidad por producto</p>
+                                            
+                                                <p><input type="checkbox" name="ds_21" class="checkbox_tab1"> 21 - valor total de la simulacion</p>
+                                            
+                                                <p><input type="checkbox" name="ds_22" class="checkbox_tab1"> 22 - Valor total de la simulacion USD</p>
+                                            
+                                                <p><input type="checkbox" name="ds_23" class="checkbox_tab1"> 23 - PesoTotalKg</p>
+                                            
+                                                <p><input type="checkbox" name="ds_24" class="checkbox_tab1"> 24 - VolumenTotalMtsCub</p>
+                                            
+                                                <p><input type="checkbox" name="ds_25" class="checkbox_tab1"> 25 - Fecha creación</p>
+                                            
+                                        </div>
+                                        <div class="col-md-9 borde table-responsive">
+                                            <table class="table table-condensed table-hover">
+
+                                                <thead>
+                                                    <tr>
+                                                        <th>Estadística</th>
+                                                        
+                                                            <th class="ds_1">Id</th>
+                                                        
+                                                            <th class="ds_2">TipoDocumentoId</th>
+                                                        
+                                                            <th class="ds_3">TipoUsuarioId</th>
+                                                        
+                                                            <th class="ds_4">FechaCreacion</th>
+                                                        
+                                                            <th class="ds_5">Valor unidad comercial</th>
+                                                        
+                                                            <th class="ds_6">UCO alto</th>
+                                                        
+                                                            <th class="ds_7">UCO ancho</th>
+                                                        
+                                                            <th class="ds_8">UCO largo</th>
+                                                        
+                                                            <th class="ds_9">UCO volumen</th>
+                                                        
+                                                            <th class="ds_10">UCO Peso</th>
+                                                        
+                                                            <th class="ds_11">Alto</th>
+                                                        
+                                                            <th class="ds_12">Ancho</th>
+                                                        
+                                                            <th class="ds_13">Largo</th>
+                                                        
+                                                            <th class="ds_14">CapacidadVolumen</th>
+                                                        
+                                                            <th class="ds_15">CapacidadPeso</th>
+                                                        
+                                                            <th class="ds_16">Peso Total producto</th>
+                                                        
+                                                            <th class="ds_17">Valor Total Dolares</th>
+                                                        
+                                                            <th class="ds_18">Valor Total Local</th>
+                                                        
+                                                            <th class="ds_19">Cantidad total del los productos</th>
+                                                        
+                                                            <th class="ds_20">Cantidad por producto</th>
+                                                        
+                                                            <th class="ds_21">valor total de la simulacion</th>
+                                                        
+                                                            <th class="ds_22">Valor total de la simulacion USD</th>
+                                                        
+                                                            <th class="ds_23">PesoTotalKg</th>
+                                                        
+                                                            <th class="ds_24">VolumenTotalMtsCub</th>
+                                                        
+                                                            <th class="ds_25">Fecha creación</th>
+                                                        
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    
+                                                        <tr>
+                                                            
+                                                                <td class="ds_0">
+
+                                                                    
+                                                                        count
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_1">
+
+                                                                    
+                                                                        1234.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_2">
+
+                                                                    
+                                                                        1202.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_3">
+
+                                                                    
+                                                                        1234.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_4">
+
+                                                                    
+                                                                        38.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_5">
+
+                                                                    
+                                                                        718.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_6">
+
+                                                                    
+                                                                        718.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_7">
+
+                                                                    
+                                                                        718.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_8">
+
+                                                                    
+                                                                        718.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_9">
+
+                                                                    
+                                                                        718.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_10">
+
+                                                                    
+                                                                        718.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_11">
+
+                                                                    
+                                                                        604.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_12">
+
+                                                                    
+                                                                        604.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_13">
+
+                                                                    
+                                                                        604.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_14">
+
+                                                                    
+                                                                        604.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_15">
+
+                                                                    
+                                                                        604.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_16">
+
+                                                                    
+                                                                        718.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_17">
+
+                                                                    
+                                                                        718.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_18">
+
+                                                                    
+                                                                        718.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_19">
+
+                                                                    
+                                                                        1234.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_20">
+
+                                                                    
+                                                                        718.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_21">
+
+                                                                    
+                                                                        1234.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_22">
+
+                                                                    
+                                                                        1234.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_23">
+
+                                                                    
+                                                                        1234.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_24">
+
+                                                                    
+                                                                        1234.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_25">
+
+                                                                    
+                                                                        1234.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                        </tr>
+                                                    
+                                                        <tr>
+                                                            
+                                                                <td class="ds_0">
+
+                                                                    
+                                                                        mean
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_1">
+
+                                                                    
+                                                                        15787.02
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_2">
+
+                                                                    
+                                                                        1.01
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_3">
+
+                                                                    
+                                                                        3.01
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_4">
+
+                                                                    
+                                                                        43144.81
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_5">
+
+                                                                    
+                                                                        10236884.85
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_6">
+
+                                                                    
+                                                                        12.24
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_7">
+
+                                                                    
+                                                                        12.30
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_8">
+
+                                                                    
+                                                                        44.97
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_9">
+
+                                                                    
+                                                                        1628107.69
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_10">
+
+                                                                    
+                                                                        14552.91
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_11">
+
+                                                                    
+                                                                        13.04
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_12">
+
+                                                                    
+                                                                        11.48
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_13">
+
+                                                                    
+                                                                        29.75
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_14">
+
+                                                                    
+                                                                        115330697.39
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_15">
+
+                                                                    
+                                                                        21490.57
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_16">
+
+                                                                    
+                                                                        154848035.94
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_17">
+
+                                                                    
+                                                                        4326389.70
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_18">
+
+                                                                    
+                                                                        8919886976.64
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_19">
+
+                                                                    
+                                                                        4560.83
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_20">
+
+                                                                    
+                                                                        7626.34
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_21">
+
+                                                                    
+                                                                        5247598067.14
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_22">
+
+                                                                    
+                                                                        2536437.58
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_23">
+
+                                                                    
+                                                                        91227790.07
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_24">
+
+                                                                    
+                                                                        15486324.16
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_25">
+
+                                                                    
+                                                                        43089.22
+                                                                    
+
+                                                                </td>
+                                                            
+                                                        </tr>
+                                                    
+                                                        <tr>
+                                                            
+                                                                <td class="ds_0">
+
+                                                                    
+                                                                        std
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_1">
+
+                                                                    
+                                                                        8580.18
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_2">
+
+                                                                    
+                                                                        0.10
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_3">
+
+                                                                    
+                                                                        0.21
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_4">
+
+                                                                    
+                                                                        332.31
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_5">
+
+                                                                    
+                                                                        106098046.40
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_6">
+
+                                                                    
+                                                                        116.78
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_7">
+
+                                                                    
+                                                                        131.52
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_8">
+
+                                                                    
+                                                                        892.01
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_9">
+
+                                                                    
+                                                                        41381204.50
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_10">
+
+                                                                    
+                                                                        338051.44
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_11">
+
+                                                                    
+                                                                        147.33
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_12">
+
+                                                                    
+                                                                        135.46
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_13">
+
+                                                                    
+                                                                        339.01
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_14">
+
+                                                                    
+                                                                        2004598510.79
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_15">
+
+                                                                    
+                                                                        11484.13
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_16">
+
+                                                                    
+                                                                        2468930872.38
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_17">
+
+                                                                    
+                                                                        71880588.75
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_18">
+
+                                                                    
+                                                                        210303200757.17
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_19">
+
+                                                                    
+                                                                        57996.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_20">
+
+                                                                    
+                                                                        76014.72
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_21">
+
+                                                                    
+                                                                        160435683218.03
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_22">
+
+                                                                    
+                                                                        54856678.78
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_23">
+
+                                                                    
+                                                                        1884378983.17
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_24">
+
+                                                                    
+                                                                        311313582.78
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_25">
+
+                                                                    
+                                                                        368.63
+                                                                    
+
+                                                                </td>
+                                                            
+                                                        </tr>
+                                                    
+                                                        <tr>
+                                                            
+                                                                <td class="ds_0">
+
+                                                                    
+                                                                        min
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_1">
+
+                                                                    
+                                                                        51.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_2">
+
+                                                                    
+                                                                        1.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_3">
+
+                                                                    
+                                                                        2.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_4">
+
+                                                                    
+                                                                        42521.90
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_5">
+
+                                                                    
+                                                                        0.06
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_6">
+
+                                                                    
+                                                                        0.01
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_7">
+
+                                                                    
+                                                                        0.02
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_8">
+
+                                                                    
+                                                                        0.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_9">
+
+                                                                    
+                                                                        0.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_10">
+
+                                                                    
+                                                                        0.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_11">
+
+                                                                    
+                                                                        0.05
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_12">
+
+                                                                    
+                                                                        0.20
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_13">
+
+                                                                    
+                                                                        0.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_14">
+
+                                                                    
+                                                                        0.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_15">
+
+                                                                    
+                                                                        0.50
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_16">
+
+                                                                    
+                                                                        0.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_17">
+
+                                                                    
+                                                                        0.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_18">
+
+                                                                    
+                                                                        0.15
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_19">
+
+                                                                    
+                                                                        0.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_20">
+
+                                                                    
+                                                                        1.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_21">
+
+                                                                    
+                                                                        0.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_22">
+
+                                                                    
+                                                                        0.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_23">
+
+                                                                    
+                                                                        0.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_24">
+
+                                                                    
+                                                                        0.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_25">
+
+                                                                    
+                                                                        42397.63
+                                                                    
+
+                                                                </td>
+                                                            
+                                                        </tr>
+                                                    
+                                                        <tr>
+                                                            
+                                                                <td class="ds_0">
+
+                                                                    
+                                                                        25%
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_1">
+
+                                                                    
+                                                                        8652.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_2">
+
+                                                                    
+                                                                        1.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_3">
+
+                                                                    
+                                                                        3.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_4">
+
+                                                                    
+                                                                        42883.87
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_5">
+
+                                                                    
+                                                                        4350.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_6">
+
+                                                                    
+                                                                        0.23
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_7">
+
+                                                                    
+                                                                        0.30
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_8">
+
+                                                                    
+                                                                        0.35
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_9">
+
+                                                                    
+                                                                        0.03
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_10">
+
+                                                                    
+                                                                        1.50
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_11">
+
+                                                                    
+                                                                        2.39
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_12">
+
+                                                                    
+                                                                        2.29
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_13">
+
+                                                                    
+                                                                        5.90
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_14">
+
+                                                                    
+                                                                        33.20
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_15">
+
+                                                                    
+                                                                        26660.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_16">
+
+                                                                    
+                                                                        24.25
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_17">
+
+                                                                    
+                                                                        6.12
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_18">
+
+                                                                    
+                                                                        14376.75
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_19">
+
+                                                                    
+                                                                        0.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_20">
+
+                                                                    
+                                                                        1.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_21">
+
+                                                                    
+                                                                        0.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_22">
+
+                                                                    
+                                                                        0.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_23">
+
+                                                                    
+                                                                        0.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_24">
+
+                                                                    
+                                                                        0.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_25">
+
+                                                                    
+                                                                        42829.58
+                                                                    
+
+                                                                </td>
+                                                            
+                                                        </tr>
+                                                    
+                                                        <tr>
+                                                            
+                                                                <td class="ds_0">
+
+                                                                    
+                                                                        50%
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_1">
+
+                                                                    
+                                                                        16020.50
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_2">
+
+                                                                    
+                                                                        1.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_3">
+
+                                                                    
+                                                                        3.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_4">
+
+                                                                    
+                                                                        43159.51
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_5">
+
+                                                                    
+                                                                        45000.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_6">
+
+                                                                    
+                                                                        0.35
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_7">
+
+                                                                    
+                                                                        0.45
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_8">
+
+                                                                    
+                                                                        0.55
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_9">
+
+                                                                    
+                                                                        0.06
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_10">
+
+                                                                    
+                                                                        10.24
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_11">
+
+                                                                    
+                                                                        2.39
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_12">
+
+                                                                    
+                                                                        2.35
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_13">
+
+                                                                    
+                                                                        5.90
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_14">
+
+                                                                    
+                                                                        33.20
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_15">
+
+                                                                    
+                                                                        26840.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_16">
+
+                                                                    
+                                                                        970.90
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_17">
+
+                                                                    
+                                                                        1294.94
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_18">
+
+                                                                    
+                                                                        2394750.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_19">
+
+                                                                    
+                                                                        1.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_20">
+
+                                                                    
+                                                                        11.50
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_21">
+
+                                                                    
+                                                                        3000.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_22">
+
+                                                                    
+                                                                        1.55
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_23">
+
+                                                                    
+                                                                        4.75
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_24">
+
+                                                                    
+                                                                        0.04
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_25">
+
+                                                                    
+                                                                        43131.91
+                                                                    
+
+                                                                </td>
+                                                            
+                                                        </tr>
+                                                    
+                                                        <tr>
+                                                            
+                                                                <td class="ds_0">
+
+                                                                    
+                                                                        75%
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_1">
+
+                                                                    
+                                                                        23398.25
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_2">
+
+                                                                    
+                                                                        1.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_3">
+
+                                                                    
+                                                                        3.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_4">
+
+                                                                    
+                                                                        43409.63
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_5">
+
+                                                                    
+                                                                        192000.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_6">
+
+                                                                    
+                                                                        1.20
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_7">
+
+                                                                    
+                                                                        1.39
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_8">
+
+                                                                    
+                                                                        1.50
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_9">
+
+                                                                    
+                                                                        2.04
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_10">
+
+                                                                    
+                                                                        50.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_11">
+
+                                                                    
+                                                                        2.70
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_12">
+
+                                                                    
+                                                                        2.35
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_13">
+
+                                                                    
+                                                                        12.03
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_14">
+
+                                                                    
+                                                                        76.35
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_15">
+
+                                                                    
+                                                                        28280.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_16">
+
+                                                                    
+                                                                        10000.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_17">
+
+                                                                    
+                                                                        13800.62
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_18">
+
+                                                                    
+                                                                        38400000.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_19">
+
+                                                                    
+                                                                        100.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_20">
+
+                                                                    
+                                                                        500.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_21">
+
+                                                                    
+                                                                        10000000.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_22">
+
+                                                                    
+                                                                        4456.22
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_23">
+
+                                                                    
+                                                                        2900.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_24">
+
+                                                                    
+                                                                        26.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_25">
+
+                                                                    
+                                                                        43405.81
+                                                                    
+
+                                                                </td>
+                                                            
+                                                        </tr>
+                                                    
+                                                        <tr>
+                                                            
+                                                                <td class="ds_0">
+
+                                                                    
+                                                                        max
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_1">
+
+                                                                    
+                                                                        31536.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_2">
+
+                                                                    
+                                                                        2.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_3">
+
+                                                                    
+                                                                        4.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_4">
+
+                                                                    
+                                                                        43648.51
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_5">
+
+                                                                    
+                                                                        1683348362.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_6">
+
+                                                                    
+                                                                        2904.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_7">
+
+                                                                    
+                                                                        3470.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_8">
+
+                                                                    
+                                                                        23872.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_9">
+
+                                                                    
+                                                                        1108456800.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_10">
+
+                                                                    
+                                                                        9049168.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_11">
+
+                                                                    
+                                                                        2632.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_12">
+
+                                                                    
+                                                                        2352.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_13">
+
+                                                                    
+                                                                        5898.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_14">
+
+                                                                    
+                                                                        36511356672.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_15">
+
+                                                                    
+                                                                        50000.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_16">
+
+                                                                    
+                                                                        50000000000.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_17">
+
+                                                                    
+                                                                        1866240000.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_18">
+
+                                                                    
+                                                                        5598720000000.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_19">
+
+                                                                    
+                                                                        1788000.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_20">
+
+                                                                    
+                                                                        1788000.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_21">
+
+                                                                    
+                                                                        5598720000000.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_22">
+
+                                                                    
+                                                                        1866240000.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_23">
+
+                                                                    
+                                                                        50000000000.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_24">
+
+                                                                    
+                                                                        8897868000.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_25">
+
+                                                                    
+                                                                        43677.94
+                                                                    
+
+                                                                </td>
+                                                            
+                                                        </tr>
+                                                    
+                                                        <tr>
+                                                            
+                                                                <td class="ds_0">
+
+                                                                    
+                                                                        missing
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_1">
+
+                                                                    
+                                                                        0.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_2">
+
+                                                                    
+                                                                        0.03
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_3">
+
+                                                                    
+                                                                        0.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_4">
+
+                                                                    
+                                                                        0.97
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_5">
+
+                                                                    
+                                                                        0.42
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_6">
+
+                                                                    
+                                                                        0.42
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_7">
+
+                                                                    
+                                                                        0.42
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_8">
+
+                                                                    
+                                                                        0.42
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_9">
+
+                                                                    
+                                                                        0.42
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_10">
+
+                                                                    
+                                                                        0.42
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_11">
+
+                                                                    
+                                                                        0.51
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_12">
+
+                                                                    
+                                                                        0.51
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_13">
+
+                                                                    
+                                                                        0.51
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_14">
+
+                                                                    
+                                                                        0.51
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_15">
+
+                                                                    
+                                                                        0.51
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_16">
+
+                                                                    
+                                                                        0.42
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_17">
+
+                                                                    
+                                                                        0.42
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_18">
+
+                                                                    
+                                                                        0.42
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_19">
+
+                                                                    
+                                                                        0.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_20">
+
+                                                                    
+                                                                        0.42
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_21">
+
+                                                                    
+                                                                        0.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_22">
+
+                                                                    
+                                                                        0.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_23">
+
+                                                                    
+                                                                        0.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_24">
+
+                                                                    
+                                                                        0.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_25">
+
+                                                                    
+                                                                        0.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                        </tr>
+                                                    
+                                                        <tr>
+                                                            
+                                                                <td class="ds_0">
+
+                                                                    
+                                                                        outliers
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_1">
+
+                                                                    
+                                                                        0.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_2">
+
+                                                                    
+                                                                        0.01
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_3">
+
+                                                                    
+                                                                        0.04
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_4">
+
+                                                                    
+                                                                        0.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_5">
+
+                                                                    
+                                                                        0.12
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_6">
+
+                                                                    
+                                                                        0.11
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_7">
+
+                                                                    
+                                                                        0.11
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_8">
+
+                                                                    
+                                                                        0.13
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_9">
+
+                                                                    
+                                                                        0.13
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_10">
+
+                                                                    
+                                                                        0.11
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_11">
+
+                                                                    
+                                                                        0.08
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_12">
+
+                                                                    
+                                                                        0.12
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_13">
+
+                                                                    
+                                                                        0.01
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_14">
+
+                                                                    
+                                                                        0.02
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_15">
+
+                                                                    
+                                                                        0.12
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_16">
+
+                                                                    
+                                                                        0.09
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_17">
+
+                                                                    
+                                                                        0.11
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_18">
+
+                                                                    
+                                                                        0.09
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_19">
+
+                                                                    
+                                                                        0.21
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_20">
+
+                                                                    
+                                                                        0.10
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_21">
+
+                                                                    
+                                                                        0.20
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_22">
+
+                                                                    
+                                                                        0.20
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_23">
+
+                                                                    
+                                                                        0.18
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_24">
+
+                                                                    
+                                                                        0.20
+                                                                    
+
+                                                                </td>
+                                                            
+                                                                <td class="ds_25">
+
+                                                                    
+                                                                        0.00
+                                                                    
+
+                                                                </td>
+                                                            
+                                                        </tr>
+                                                    
+                                                </tbody>
+
+                                            </table>
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
                             </div>
+
                         </div>
                     </div>
 
                     <!-- Footer -->
                     <div class="row">
                         <div class="col-md-12">
+
                             <footer class="text-center">
                                 <hr>
                                 <p>
@@ -241,8 +2884,47 @@
                                     - Versión 1.0 <span class="glyphicon glyphicon-sunglasses" aria-hidden="true" style="font-size:1.2em;"></span>
                                 </p>
                             </footer>
+
                         </div>
                     </div>
+
+                    <script>
+                        function toggle(source) {
+                            checkboxes = document.getElementsByClassName('checkbox_tab1');
+                            for(var i=0, n=checkboxes.length;i<n;i++) {
+                                checkboxes[i].checked = source.checked;
+                                var shcolumn="."+$(checkboxes[i]).attr("name");
+                                $(shcolumn).toggle(display=source.checked);
+                            }
+                        }
+                    </script>
+
+                    <script>
+                        $("input:checkbox").attr("checked",true).click(function()
+                        {
+                            var shcolumn="."+$(this).attr("name");
+                            $(shcolumn).toggle(display=this.checked);
+                        });
+                    </script>
+
+                    <script>
+                        $("input:checkbox").change(function(){
+                            //if($(this).prop("checked") == false){
+                            //    $('#select-all').prop('checked', false);
+                            //}
+
+                            checkboxes = document.getElementsByClassName('checkbox_tab1');
+                            var value = true;
+                            for(var i=0, n=checkboxes.length;i<n;i++) {
+                                if (checkboxes[i].checked == false) {
+                                    value = false;
+                                }
+                            }
+                            $('#select-all').prop('checked', value);
+
+                            console.log('hola');
+                        });
+                    </script>
 
                 </div>
                 <div class="col-md-1"></div>
