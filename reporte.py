@@ -8,6 +8,10 @@ from jinja2 import Environment
 
 from datos import data_summary
 from datos import descriptive_stats
+from datos import col_type
+from datos import memoria
+from datos import unique_col
+from datos import unique_text
 
 import os
 import sys
@@ -28,22 +32,48 @@ def df_as_html(dataframe):
 
 
 def generar_reporte(dataframe):
+
     title = 'Reporte perfilamiento'
     timestamp = datetime.datetime.now()
     current_time = timestamp.strftime("%d-%m-%Y %I:%M:%S %p")
 
+    # Estadísticas generales ----------------------------------------------------
     dataframe_summary = data_summary(dataframe).to_frame().reset_index()
     dataframe_summary.columns = ['Categoria', 'Valor']
     html_data_summary_00 = df_as_html(dataframe_summary)
     html_data_summary_01 = df_as_html(dataframe_summary[:6])
     html_data_summary_02 = df_as_html(dataframe_summary[-5:])
 
+    # Tab 1 ---------------------------------------------------------------------
     dataframe_descriptive_stats = descriptive_stats(dataframe)
     dataframe_descriptive_stats = dataframe_descriptive_stats.T
-    test_list = list(dataframe_descriptive_stats)
+    header_list = list(dataframe_descriptive_stats)
     dataframe_descriptive_stats = dataframe_descriptive_stats.reset_index()
-    html_descriptive_stats = df_as_html(dataframe_descriptive_stats)
     items = dataframe_descriptive_stats.values.tolist()
+
+    # Tab 2 ---------------------------------------------------------------------
+    tipo_df_low = col_type(dataframe, detail="low").to_frame()
+    tipo_df_high = col_type(dataframe, detail="high").to_frame()
+    dataframe_descriptive_stats_2 = pd.merge(tipo_df_low, tipo_df_high, left_index=True, right_index=True, how='outer')
+
+    memoria_df = memoria(dataframe, col=True).to_frame()
+    memoria_df = memoria_df.loc[~memoria_df.index.isin(['Index'])]
+    dataframe_descriptive_stats_2 = pd.merge(dataframe_descriptive_stats_2, memoria_df, left_index=True, right_index=True, how='outer')
+
+    valores_unicos_df = unique_col(dataframe).to_frame()
+    dataframe_descriptive_stats_2 = pd.merge(dataframe_descriptive_stats_2, valores_unicos_df, left_index=True, right_index=True, how='outer')
+
+    dataframe_descriptive_stats_2.columns = ['Tipo', 'Tipo (específico)', 'Memoria', 'Valores únicos']
+    dataframe_descriptive_stats_2['Memoria'] = dataframe_descriptive_stats_2['Memoria'].map('{:,.6f}'.format)
+    dataframe_descriptive_stats_2 = dataframe_descriptive_stats_2.T
+    header_list_2 = list(dataframe_descriptive_stats_2)
+    dataframe_descriptive_stats_2 = dataframe_descriptive_stats_2.reset_index()
+    items_2 = dataframe_descriptive_stats_2.values.tolist()
+
+    # Tab 3 ---------------------------------------------------------------------
+    dataframe_unique_text = unique_text(dataframe)
+    html_dataframe_unique_text = df_as_html(dataframe_unique_text)
+    # ----------------------------------------------------------------------------
 
     # Produce and write the report to file
     with open("perfilamiento.html", "w", encoding='utf8') as HTML_file:
@@ -53,9 +83,11 @@ def generar_reporte(dataframe):
             html_data_summary_00=html_data_summary_00,
             html_data_summary_01=html_data_summary_01,
             html_data_summary_02=html_data_summary_02,
-            html_descriptive_stats=html_descriptive_stats,
-            test_list=test_list,
-            items=items
+            header_list=header_list,
+            items=items,
+            header_list_2=header_list_2,
+            items_2=items_2,
+            html_dataframe_unique_text=html_dataframe_unique_text,
         )
         HTML_file.write(output)
     print('-----------------------------------------------------------------------')
