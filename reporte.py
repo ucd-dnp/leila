@@ -17,6 +17,25 @@ import os
 import sys
 import numpy as np
 
+pd.set_option('display.max_columns', None)
+pd.set_option('display.max_rows', None)
+pd.set_option('max_colwidth', None)
+
+# https://pandas.pydata.org/docs/user_guide/options.html
+
+# pd.set_option('precision', 7)
+# pd.reset_option('max_colwidth')
+# pd.reset_option("display.max_columns")
+# pd.reset_option("^display")
+
+# pd.get_option('max_colwidth')
+# pd.get_option('display.max_columns')
+# pd.get_option('display.max_rows')
+
+# pd.set_option('display.max_columns', None)
+# pd.set_option('display.max_columns', 30)
+# pd.set_option('max_colwidth',150)
+
 # Configure Jinja and ready the loader
 env = Environment(loader=FileSystemLoader(searchpath='templates'))
 
@@ -26,7 +45,7 @@ base_template = env.get_template('template_base.html')
 
 def df_as_html(dataframe):
     # html = dataframe.to_html(table_id='mi_tabla', index=False, classes=['table', 'table-condensed', 'table-hover']) \
-    html = dataframe.to_html(index=False, classes=['table', 'table-condensed', 'table-hover']) \
+    html = dataframe.to_html(index=False, classes=['table', 'table-condensed']) \
         .replace('table border="1" class="dataframe ', 'table class="')
     return html
 
@@ -43,6 +62,15 @@ def generar_reporte(dataframe):
     html_data_summary_00 = df_as_html(dataframe_summary)
     html_data_summary_01 = df_as_html(dataframe_summary[:6])
     html_data_summary_02 = df_as_html(dataframe_summary[-5:])
+
+    # Muestra de datos ----------------------------------------------------------
+    # Head
+    html_dataframe_head = df_as_html(dataframe.head())
+    # Tail
+    html_dataframe_tail = df_as_html(dataframe.tail())
+    # Shape
+    df_shape = dataframe.shape
+    dataframe_shape = str(df_shape[0]) + ' filas x ' + str(df_shape[1]) + ' columnas'
 
     # Tab 1 ---------------------------------------------------------------------
     dataframe_descriptive_stats = descriptive_stats(dataframe)
@@ -73,6 +101,9 @@ def generar_reporte(dataframe):
     # Tab 3 ---------------------------------------------------------------------
     dataframe_unique_text = unique_text(dataframe)
     html_dataframe_unique_text = df_as_html(dataframe_unique_text)
+    variables_list_3 = dataframe_unique_text.Columna.unique()
+    columnas_list_3 = list(dataframe_unique_text)
+    items_3 = dataframe_unique_text.values.tolist()
     # ----------------------------------------------------------------------------
 
     # Produce and write the report to file
@@ -88,6 +119,12 @@ def generar_reporte(dataframe):
             header_list_2=header_list_2,
             items_2=items_2,
             html_dataframe_unique_text=html_dataframe_unique_text,
+            html_dataframe_head=html_dataframe_head,
+            html_dataframe_tail=html_dataframe_tail,
+            dataframe_shape=dataframe_shape,
+            variables_list_3=variables_list_3,
+            columnas_list_3=columnas_list_3,
+            items_3=items_3,
         )
         HTML_file.write(output)
     print('-----------------------------------------------------------------------')

@@ -20,7 +20,20 @@
                 font-weight:bold;
             }
 
-            table > tbody > tr:nth-child(even) {background: #ebebeb;}
+            table > tbody > tr:hover {
+                /* background-color: #d9edfd !important; */
+                background-color: #ffff99 !important;
+            }
+
+            table > tbody > tr:nth-child(even) {background: #ededed;}
+
+            tr td {
+                white-space: nowrap;
+            }
+
+            tr th {
+                white-space: nowrap;
+            }
 
             .borde{
                 border-style: solid;
@@ -39,6 +52,16 @@
             p {
                 margin-bottom:5px;
             }
+
+            .tableFixHead {
+                overflow-y: auto;
+                height: 100px;
+            }
+            .tableFixHead thead th {
+                position: sticky;
+                top: 0;
+                background:#ffffff;
+            }
         </style>
     </head>
 
@@ -54,17 +77,16 @@
                         <div class="col-md-12">
                             <h1>{{ title }}</h1>
                             <em>Reporte generado automáticamente {{ current_time }}</em>
-
                             <!--
                             <h1 class="hidden-xs bg-danger">This text is hidden on an EXTRA SMALL screen.</h1>
                             <h1 class="hidden-sm bg-info">This text is hidden on a SMALL screen.</h1>
                             <h1 class="hidden-md bg-warning">This is text hidden on a MEDIUM screen.</h1>
                             <h1 class="hidden-lg bg-success">This is text hidden on a LARGE screen.</h1>
                             -->
-
-                            <hr>
                         </div>
                     </div>
+
+                    <hr>
 
                     <!-- Data Summary -->
                     <div class="row max_size_row">
@@ -102,6 +124,34 @@
 
                     <br>
 
+                    <!-- Sample -->
+                    <div class="row">
+                        <div class="col-md-12 borde">
+                            <h3><em>Muestra de datos</em></h3>
+
+                            <hr>
+
+                            <h4><em>Primeras 5 filas</em></h4>
+                            <div class="table-responsive">
+                                {{ html_dataframe_head }}
+                            </div>
+
+                            <hr>
+
+                            <h4><em>Últimas 5 filas</em></h4>
+                            <div class="table-responsive">
+                                {{ html_dataframe_tail }}
+                            </div>
+
+                            <hr>
+                            <em>{{ dataframe_shape }}</em>
+                            <br><br>
+
+                        </div>
+                    </div>
+
+                    <br>
+
                     <!-- Tabs -->
                     <div class="row max_size_row">
                         <div class="col-md-12 borde">
@@ -111,6 +161,7 @@
                                 <li class="active"><a data-toggle="tab" href="#tab01">descriptive_stats</a></li>
                                 <li><a data-toggle="tab" href="#tab02">col_type | memoria | unique_col</a></li>
                                 <li><a data-toggle="tab" href="#tab03">unique_text</a></li>
+                                <li><a data-toggle="tab" href="#tab04">test</a></li>
                             </ul>
 
                             <div class="tab-content" style="text-align: justify; text-justify: inter-word;">
@@ -132,7 +183,7 @@
                                             {% endfor %}
                                         </div>
                                         <div class="col-md-8 borde table-responsive">
-                                            <table class="table table-condensed table-hover">
+                                            <table class="table table-condensed">
 
                                                 <thead>
                                                     <tr>
@@ -163,7 +214,7 @@
                                     </div>
                                 </div>
 
-                                <!-- test -->
+                                <!-- col_type | memoria | unique_col -->
                                 <div id="tab02" class="tab-pane fade">
 
                                     <br>
@@ -180,7 +231,7 @@
                                             {% endfor %}
                                         </div>
                                         <div class="col-md-8 borde table-responsive">
-                                            <table class="table table-condensed table-hover">
+                                            <table class="table table-condensed">
 
                                                 <thead>
                                                     <tr>
@@ -208,6 +259,7 @@
 
                                 </div>
 
+                                <!-- unique text -->
                                 <div id="tab03" class="tab-pane fade">
 
                                     <br>
@@ -217,17 +269,72 @@
 
                                     <div class="row max_size_row aligned-row">
 
-                                        <div class="col-md-12 borde table-responsive">
-                                            {{ html_dataframe_unique_text }}
+                                        <div class="col-md-4 borde table-responsive">
+                                            <h4><strong><em>Variables</em></strong></h4>
+                                            <p><input type="checkbox" onClick="toggle3(this)" id="select-all_3"> Seleccionar todos</p>
+                                            {% for item in variables_list_3 %}
+                                                <p><input type="checkbox" name="tab3" class="checkbox_tab3" value="{{ item }}"> {{ loop.index }} - {{ item }}</p>
+                                            {% endfor %}
+                                        </div>
+
+                                        <div class="col-md-8 borde table-responsive">
+                                            <table class="table table-condensed tableFixHead" id="StatusTable">
+
+                                                <thead>
+                                                    <tr>
+                                                        {% for item in columnas_list_3 %}
+                                                            <th>{{ item }}</th>
+                                                        {% endfor %}
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for row in items_3%}
+                                                        <tr>
+                                                            {% for column in row %}
+                                                                {% if loop.index0 == 0 %}
+                                                                    <td class="referencia">{{ column }}</td>
+                                                                {% else %}
+                                                                    <td>{{ column }}</td>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+
+                                            </table>
+
                                         </div>
                                     </div>
-
                                 </div>
 
-                            </div>
+                                <br>
 
+                                <!-- test -->
+                                <div id="tab04" class="tab-pane fade">
+
+                                    <br>
+                                    <p>
+                                        Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta).
+                                    </p>
+
+                                    <div class="row max_size_row aligned-row">
+
+
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
+
+                            </div>
                         </div>
                     </div>
+
+                    <br>
 
                     <!-- Footer -->
                     <div class="row">
@@ -315,6 +422,67 @@
                                 }
                             }
                             $('#select-all_2').prop('checked', value);
+                        });
+                    </script>
+
+                    <!-- scripts para tab3 -->
+                    <script>
+                        // Filtro de tabla
+                        $("input[name='tab3']").change(function () {
+                            var classes = [];
+
+                            $("input[name='tab3']").each(function () {
+                                if ($(this).is(":checked")) { classes.push($(this).val()); }
+                            });
+
+                            if (classes == "") { // if no filters selected, show all items
+                                $("#StatusTable tbody tr").hide();
+                            } else { // otherwise, hide everything...
+                                $("#StatusTable tbody tr").hide();
+
+                                $("#StatusTable tr").each(function () {
+                                    var show = false;
+                                    var row = $(this);
+                                    classes.forEach(function (className) {
+                                        if (row.find('td' + '.referencia').html() == className) { show = true; }
+                                    });
+                                    if (show) { row.show(); }
+                                });
+                            }
+                        });
+                    </script>
+
+                    <script>
+                        // cambia el valor de los checkboxs de clase 'checkbox_tab3'
+                        // de acuerdo con el valor del checkbox de 'seleccionar todos'
+                        // y hace el toggle de sus respectivas columnas en la tabla
+                        function toggle3(source) {
+                            checkboxes = document.getElementsByClassName('checkbox_tab3');
+                            for(var i=0, n=checkboxes.length;i<n;i++) {
+                                checkboxes[i].checked = source.checked;
+                            }
+
+                            if (source.checked == true) {
+                                $("#StatusTable tbody tr").show();
+                            } else {
+                                $("#StatusTable tbody tr").hide();
+                            }
+                        }
+                    </script>
+
+                    <script>
+                        // verifica el estado de los checkboxs con clase 'checkbox_tab3',
+                        // si uno es false, cambia el valor del checkbox de 'seleccionar todos' a false
+                        // si todos son true, cambia el valor del checkbox de 'seleccionar todos' a true
+                        $("input[name='tab3']").change(function () {
+                            checkboxes = document.getElementsByClassName('checkbox_tab3');
+                            var value = true;
+                            for(var i=0, n=checkboxes.length;i<n;i++) {
+                                if (checkboxes[i].checked == false) {
+                                    value = false;
+                                }
+                            }
+                            $('#select-all_3').prop('checked', value);
                         });
                     </script>
 
