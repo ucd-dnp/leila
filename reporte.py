@@ -65,9 +65,9 @@ def generar_reporte(dataframe):
 
     # Muestra de datos ----------------------------------------------------------
     # Head
-    html_dataframe_head = df_as_html(dataframe.head())
+    html_dataframe_head = df_as_html(dataframe.head(10))
     # Tail
-    html_dataframe_tail = df_as_html(dataframe.tail())
+    html_dataframe_tail = df_as_html(dataframe.tail(10))
     # Shape
     df_shape = dataframe.shape
     dataframe_shape = str(df_shape[0]) + ' filas x ' + str(df_shape[1]) + ' columnas'

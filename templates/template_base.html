@@ -20,6 +20,10 @@
                 font-weight:bold;
             }
 
+            .tabla_sin_bold > table > tbody > tr > :nth-child(1){
+                font-weight:normal !important;
+            }
+
             table > tbody > tr:hover {
                 /* background-color: #d9edfd !important; */
                 background-color: #ffff99 !important;
@@ -127,20 +131,31 @@
                     <!-- Sample -->
                     <div class="row">
                         <div class="col-md-12 borde">
+
                             <h3><em>Muestra de datos</em></h3>
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#tab_head">Primeras 10 filas</a></li>
+                                <li><a data-toggle="tab" href="#tab_tail">Últimas 10 filas</a></li>
+                            </ul>
 
-                            <hr>
+                            <div class="tab-content" style="text-align: justify; text-justify: inter-word;">
 
-                            <h4><em>Primeras 5 filas</em></h4>
-                            <div class="table-responsive">
-                                {{ html_dataframe_head }}
-                            </div>
+                                <!-- Primeras filas -->
+                                <div id="tab_head" class="tab-pane fade in active">
+                                    <br>
+                                    <div class="table-responsive tabla_sin_bold">
+                                        {{ html_dataframe_head }}
+                                    </div>
+                                </div>
 
-                            <hr>
+                                <!-- Últimas filas -->
+                                <div id="tab_tail" class="tab-pane fade">
+                                    <br>
+                                    <div class="table-responsive tabla_sin_bold">
+                                        {{ html_dataframe_tail }}
+                                    </div>
+                                </div>
 
-                            <h4><em>Últimas 5 filas</em></h4>
-                            <div class="table-responsive">
-                                {{ html_dataframe_tail }}
                             </div>
 
                             <hr>

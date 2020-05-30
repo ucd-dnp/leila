@@ -1,4 +1,5 @@
 .idea
 env
 __temp
+__pycache__
 *.xlsx
