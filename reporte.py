@@ -12,6 +12,7 @@ from datos import col_type
 from datos import memoria
 from datos import unique_col
 from datos import unique_text
+from datos import duplic
 
 import os
 import sys
@@ -104,6 +105,13 @@ def generar_reporte(dataframe):
     variables_list_3 = dataframe_unique_text.Columna.unique()
     columnas_list_3 = list(dataframe_unique_text)
     items_3 = dataframe_unique_text.values.tolist()
+
+    # Tab 4 ---------------------------------------------------------------------
+    dataframe_duplic01 = duplic(dataframe, col=False)
+    html_dataframe_duplic01 = df_as_html(dataframe_duplic01)
+    dataframe_duplic02 = duplic(dataframe, col=True)
+    html_dataframe_duplic02 = df_as_html(dataframe_duplic02)
+
     # ----------------------------------------------------------------------------
 
     # Produce and write the report to file
@@ -125,6 +133,8 @@ def generar_reporte(dataframe):
             variables_list_3=variables_list_3,
             columnas_list_3=columnas_list_3,
             items_3=items_3,
+            html_dataframe_duplic01=html_dataframe_duplic01,
+            html_dataframe_duplic02=html_dataframe_duplic02,
         )
         HTML_file.write(output)
     print('-----------------------------------------------------------------------')

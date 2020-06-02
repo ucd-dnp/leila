@@ -5,70 +5,27 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Reporte perfilamiento</title>
 
-        <!--
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-        -->
-
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
         <style>
-            table > tbody > tr > :nth-child(1){
-                font-weight:bold;
-            }
-
-            .tabla_sin_bold > table > tbody > tr > :nth-child(1){
-                font-weight:normal !important;
-            }
-
-            table > tbody > tr:hover {
-                /* background-color: #d9edfd !important; */
-                background-color: #ffff99 !important;
-            }
-
-            table > tbody > tr:nth-child(even) {background: #ededed;}
-
-            tr td {
-                white-space: nowrap;
-            }
-
-            tr th {
-                white-space: nowrap;
-            }
-
-            .borde{
-                border-style: solid;
-                border-width: 1px;
-                border-color: #eee;
-            }
-
-            .aligned-row {
-                display: flex;
-            }
-
-            .max_size_row {
-                max-height:450px !important;
-            }
-
-            p {
-                margin-bottom:5px;
-            }
-
-            .tableFixHead {
-                overflow-y: auto;
-                height: 100px;
-            }
-            .tableFixHead thead th {
-                position: sticky;
-                top: 0;
-                background:#ffffff;
-            }
+            .aligned-row { display: flex; }
+            .borde{ border-style: solid; border-width: 1px; border-color: #c2c2c2; }
+            .descripcion   { min-height:40px; }
+            .max_size_row  { max-height:450px !important; }
+            .max_size_row2 { height:380px !important; }
+            p { margin-bottom:5px; }
+            table > tbody > tr > :nth-child(1) { font-weight:bold; }
+            table > tbody > tr:hover           { background-color: #ffff99 !important; }
+            table > tbody > tr:nth-child(even) { background: #ededed; }
+            .tabla_sin_bold > table > tbody > tr > :nth-child(1){ font-weight:normal !important; }
+            .tableFixHead { overflow-y: auto; height: 100px; }
+            .tableFixHead thead th { position: sticky; top: 0; background:#ffffff; }
+            tr td { white-space: nowrap; }
+            tr th { white-space: nowrap;}
         </style>
     </head>
-
     <body>
         <div class="container-fluid">
 
@@ -80,7 +37,7 @@
                     <div class="row max_size_row">
                         <div class="col-md-12">
                             <h1>Reporte perfilamiento</h1>
-                            <em>Reporte generado automáticamente 29-05-2020 10:20:16 PM</em>
+                            <em>Reporte generado automáticamente 02-06-2020 05:44:05 PM</em>
                             <!--
                             <h1 class="hidden-xs bg-danger">This text is hidden on an EXTRA SMALL screen.</h1>
                             <h1 class="hidden-sm bg-info">This text is hidden on a SMALL screen.</h1>
@@ -92,16 +49,14 @@
 
                     <hr>
 
-                    <!-- Data Summary -->
+                    <!-- Estadísticas generales -->
                     <div class="row max_size_row">
                         <div class="col-md-12 borde">
-
                             <div class="row">
                                 <div class="col-md-6">
                                     <h3><em>Estadísticas generales</em></h3>
                                 </div>
                             </div>
-
                             <div class="row hidden-md hidden-lg">
                                 <div class="col-md-12">
                                     <div class="table-responsive">
@@ -162,7 +117,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="row hidden-xs hidden-sm">
                                 <div class="col-md-6">
                                     <div class="table-responsive">
@@ -237,13 +191,12 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
 
                     <br>
 
-                    <!-- Sample -->
+                    <!-- Muestra de datos -->
                     <div class="row">
                         <div class="col-md-12 borde">
 
@@ -253,8 +206,7 @@
                                 <li><a data-toggle="tab" href="#tab_tail">Últimas 10 filas</a></li>
                             </ul>
 
-                            <div class="tab-content" style="text-align: justify; text-justify: inter-word;">
-
+                            <div class="tab-content">
                                 <!-- Primeras filas -->
                                 <div id="tab_head" class="tab-pane fade in active">
                                     <br>
@@ -1446,42 +1398,37 @@
 </table>
                                     </div>
                                 </div>
-
                             </div>
 
-                            <hr>
-                            <em>1239 filas x 51 columnas</em>
-                            <br><br>
+                            <hr><em>1239 filas x 51 columnas</em><br><br>
 
                         </div>
                     </div>
 
                     <br>
 
-                    <!-- Tabs -->
-                    <div class="row max_size_row">
+                    <!-- Estadísticas específicas -->
+                    <div class="row">
                         <div class="col-md-12 borde">
 
                             <h3><em>Estadísticas específicas</em></h3>
                             <ul class="nav nav-tabs">
-                                <li class="active"><a data-toggle="tab" href="#tab01">descriptive_stats</a></li>
-                                <li><a data-toggle="tab" href="#tab02">col_type | memoria | unique_col</a></li>
-                                <li><a data-toggle="tab" href="#tab03">unique_text</a></li>
-                                <li><a data-toggle="tab" href="#tab04">test</a></li>
+                                <li class="active"><a data-toggle="tab" href="#tab01">Estadísticas Descriptivas</a></li>
+                                <li><a data-toggle="tab" href="#tab02">Información general</a></li>
+                                <li><a data-toggle="tab" href="#tab03">Frecuencia de valores únicos</a></li>
+                                <li><a data-toggle="tab" href="#tab04">Datos duplicados</a></li>
                             </ul>
 
                             <div class="tab-content" style="text-align: justify; text-justify: inter-word;">
 
-                                <!-- descriptive_stats -->
+                                <!-- Estadísticas Descriptivas -->
                                 <div id="tab01" class="tab-pane fade in active">
-
                                     <br>
-                                    <p>
-                                        Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta).
+                                    <p class="descripcion">
+                                        Contiene información para cada columna, incluye media, mediana, percentiles, desviación estándar, valores extremos y porcentaje de valores faltantes.
                                     </p>
-
-                                    <div class="row max_size_row aligned-row">
-                                        <div class="col-md-4 borde table-responsive">
+                                    <div class="row max_size_row2 aligned-row">
+                                        <div class="col-md-4 table-responsive">
                                             <h4><strong><em>Variables</em></strong></h4>
                                             <p><input type="checkbox" onClick="toggle(this)" id="select-all"> Seleccionar todos</p>
                                             
@@ -1536,9 +1483,8 @@
                                                 <p><input type="checkbox" name="ds_25" class="checkbox_tab1"> 25 - Fecha creación</p>
                                             
                                         </div>
-                                        <div class="col-md-8 borde table-responsive">
+                                        <div class="col-md-8 table-responsive">
                                             <table class="table table-condensed">
-
                                                 <thead>
                                                     <tr>
                                                         <th>Estadística</th>
@@ -3198,22 +3144,19 @@
                                                         </tr>
                                                     
                                                 </tbody>
-
                                             </table>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- col_type | memoria | unique_col -->
+                                <!-- Información general -->
                                 <div id="tab02" class="tab-pane fade">
-
                                     <br>
-                                    <p>
-                                        Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta).
+                                    <p class="descripcion">
+                                        Esta función está compuesta por cuatro elementos. La cual contiene, el tipo general (numérica, texto, boolean, fecha y otro) y especifico (str, float, int, numpy.int64, numpy.float64)de cada columna, el tamaño de la base de datos por columnas en megabytes y el número de valores únicos de cada columna sin incluir valores faltantes.
                                     </p>
-
-                                    <div class="row max_size_row aligned-row">
-                                        <div class="col-md-4 borde table-responsive">
+                                    <div class="row max_size_row2 aligned-row">
+                                        <div class="col-md-4 table-responsive">
                                             <h4><strong><em>Variables</em></strong></h4>
                                             <p><input type="checkbox" onClick="toggle2(this)" id="select-all_2"> Seleccionar todos</p>
                                             
@@ -3320,9 +3263,8 @@
                                                 <p><input type="checkbox" name="ds2_51" class="checkbox_tab2"> 51 - Pais DestinoTI</p>
                                             
                                         </div>
-                                        <div class="col-md-8 borde table-responsive">
+                                        <div class="col-md-8 table-responsive">
                                             <table class="table table-condensed">
-
                                                 <thead>
                                                     <tr>
                                                         <th>Estadística</th>
@@ -4282,24 +4224,20 @@
                                                         </tr>
                                                     
                                                 </tbody>
-
                                             </table>
                                         </div>
                                     </div>
-
                                 </div>
 
-                                <!-- unique text -->
+                                <!-- Frecuencia de valores únicos -->
                                 <div id="tab03" class="tab-pane fade">
-
                                     <br>
-                                    <p>
-                                        Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta).
+                                    <p class="descripcion">
+                                        Contiene los primeros valores únicos más frecuentes de las columnas tipo texto y presenta el porcentaje dentro del total de observaciones. Esta función incluye valores faltantes.
                                     </p>
+                                    <div class="row max_size_row2 aligned-row">
 
-                                    <div class="row max_size_row aligned-row">
-
-                                        <div class="col-md-4 borde table-responsive">
+                                        <div class="col-md-4 table-responsive">
                                             <h4><strong><em>Variables</em></strong></h4>
                                             <p><input type="checkbox" onClick="toggle3(this)" id="select-all_3"> Seleccionar todos</p>
                                             
@@ -4350,10 +4288,8 @@
                                                 <p><input type="checkbox" name="tab3" class="checkbox_tab3" value="Pais DestinoTI"> 23 - Pais DestinoTI</p>
                                             
                                         </div>
-
-                                        <div class="col-md-8 borde table-responsive">
+                                        <div class="col-md-8 table-responsive">
                                             <table class="table table-condensed tableFixHead" id="StatusTable">
-
                                                 <thead>
                                                     <tr>
                                                         
@@ -5176,7 +5112,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>09.01.21.10</td>
+                                                                    <td>61.02.10.00</td>
                                                                 
                                                             
                                                                 
@@ -5416,7 +5352,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>solido y/o manteca vegetal</td>
+                                                                    <td>RUANAS</td>
                                                                 
                                                             
                                                                 
@@ -5436,7 +5372,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>camisetas</td>
+                                                                    <td>solido y/o manteca vegetal</td>
                                                                 
                                                             
                                                                 
@@ -5616,6 +5552,26 @@
                                                                 
                                                             
                                                                 
+                                                                    <td>RUANAS</td>
+                                                                
+                                                            
+                                                                
+                                                                    <td>5</td>
+                                                                
+                                                            
+                                                                
+                                                                    <td>0.004035512510088781</td>
+                                                                
+                                                            
+                                                        </tr>
+                                                    
+                                                        <tr>
+                                                            
+                                                                
+                                                                    <td class="referencia">NombreEn</td>
+                                                                
+                                                            
+                                                                
                                                                     <td>PANTS</td>
                                                                 
                                                             
@@ -5656,27 +5612,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>RUANAS</td>
-                                                                
-                                                            
-                                                                
-                                                                    <td>5</td>
-                                                                
-                                                            
-                                                                
-                                                                    <td>0.004035512510088781</td>
-                                                                
-                                                            
-                                                        </tr>
-                                                    
-                                                        <tr>
-                                                            
-                                                                
-                                                                    <td class="referencia">NombreEn</td>
-                                                                
-                                                            
-                                                                
-                                                                    <td>Swim suit</td>
+                                                                    <td>jeans</td>
                                                                 
                                                             
                                                                 
@@ -5756,6 +5692,26 @@
                                                                 
                                                             
                                                                 
+                                                                    <td>AGUCATES FRESCOS</td>
+                                                                
+                                                            
+                                                                
+                                                                    <td>8</td>
+                                                                
+                                                            
+                                                                
+                                                                    <td>0.00645682001614205</td>
+                                                                
+                                                            
+                                                        </tr>
+                                                    
+                                                        <tr>
+                                                            
+                                                                
+                                                                    <td class="referencia">Descripcion</td>
+                                                                
+                                                            
+                                                                
                                                                     <td>Camisetas</td>
                                                                 
                                                             
@@ -5777,26 +5733,6 @@
                                                             
                                                                 
                                                                     <td>Margarina Preparado</td>
-                                                                
-                                                            
-                                                                
-                                                                    <td>8</td>
-                                                                
-                                                            
-                                                                
-                                                                    <td>0.00645682001614205</td>
-                                                                
-                                                            
-                                                        </tr>
-                                                    
-                                                        <tr>
-                                                            
-                                                                
-                                                                    <td class="referencia">Descripcion</td>
-                                                                
-                                                            
-                                                                
-                                                                    <td>AGUCATES FRESCOS</td>
                                                                 
                                                             
                                                                 
@@ -5896,7 +5832,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>Jugo a base de pulpa  de fruta</td>
+                                                                    <td>VIBRADOR</td>
                                                                 
                                                             
                                                                 
@@ -5916,7 +5852,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>solido y/o manteca vegetal</td>
+                                                                    <td>Jugo a base de pulpa  de fruta</td>
                                                                 
                                                             
                                                                 
@@ -6236,7 +6172,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>CAJA POR 24 PANTALONES</td>
+                                                                    <td>UCHUVA</td>
                                                                 
                                                             
                                                                 
@@ -6256,7 +6192,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>UCHUVA</td>
+                                                                    <td>CAJA MAESTRA</td>
                                                                 
                                                             
                                                                 
@@ -6476,7 +6412,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>ESTACAS</td>
+                                                                    <td>PALET</td>
                                                                 
                                                             
                                                                 
@@ -6496,7 +6432,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>PALET</td>
+                                                                    <td>ESTACAS</td>
                                                                 
                                                             
                                                                 
@@ -6556,7 +6492,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>CAJA DE CARTÓN</td>
+                                                                    <td>PALLET DE MADERA</td>
                                                                 
                                                             
                                                                 
@@ -6916,6 +6852,46 @@
                                                                 
                                                             
                                                                 
+                                                                    <td>Taiwán</td>
+                                                                
+                                                            
+                                                                
+                                                                    <td>2</td>
+                                                                
+                                                            
+                                                                
+                                                                    <td>0.0016142050040355124</td>
+                                                                
+                                                            
+                                                        </tr>
+                                                    
+                                                        <tr>
+                                                            
+                                                                
+                                                                    <td class="referencia">Pais OrigenTI</td>
+                                                                
+                                                            
+                                                                
+                                                                    <td>México</td>
+                                                                
+                                                            
+                                                                
+                                                                    <td>2</td>
+                                                                
+                                                            
+                                                                
+                                                                    <td>0.0016142050040355124</td>
+                                                                
+                                                            
+                                                        </tr>
+                                                    
+                                                        <tr>
+                                                            
+                                                                
+                                                                    <td class="referencia">Pais OrigenTI</td>
+                                                                
+                                                            
+                                                                
                                                                     <td>China</td>
                                                                 
                                                             
@@ -6936,47 +6912,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>Argentina</td>
-                                                                
-                                                            
-                                                                
-                                                                    <td>2</td>
-                                                                
-                                                            
-                                                                
-                                                                    <td>0.0016142050040355124</td>
-                                                                
-                                                            
-                                                        </tr>
-                                                    
-                                                        <tr>
-                                                            
-                                                                
-                                                                    <td class="referencia">Pais OrigenTI</td>
-                                                                
-                                                            
-                                                                
                                                                     <td>Países Bajos</td>
-                                                                
-                                                            
-                                                                
-                                                                    <td>2</td>
-                                                                
-                                                            
-                                                                
-                                                                    <td>0.0016142050040355124</td>
-                                                                
-                                                            
-                                                        </tr>
-                                                    
-                                                        <tr>
-                                                            
-                                                                
-                                                                    <td class="referencia">Pais OrigenTI</td>
-                                                                
-                                                            
-                                                                
-                                                                    <td>Taiwán</td>
                                                                 
                                                             
                                                                 
@@ -7136,7 +7072,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>Cali</td>
+                                                                    <td>Pasto</td>
                                                                 
                                                             
                                                                 
@@ -7156,7 +7092,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>Pasto</td>
+                                                                    <td>Cali</td>
                                                                 
                                                             
                                                                 
@@ -7196,7 +7132,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>Rionegro</td>
+                                                                    <td>Ipiales</td>
                                                                 
                                                             
                                                                 
@@ -7376,7 +7312,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>Alemania</td>
+                                                                    <td>Canadá</td>
                                                                 
                                                             
                                                                 
@@ -7396,7 +7332,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>Canadá</td>
+                                                                    <td>Alemania</td>
                                                                 
                                                             
                                                                 
@@ -7510,59 +7446,134 @@
                                                         </tr>
                                                     
                                                 </tbody>
-
                                             </table>
-
                                         </div>
                                     </div>
                                 </div>
 
-                                <br>
-
-                                <!-- test -->
+                                <!-- Datos duplicados -->
                                 <div id="tab04" class="tab-pane fade">
-
                                     <br>
-                                    <p>
-                                        Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta).
+                                    <p class="descripcion">
+                                        Contiene los nombres de columnas y filas duplicadas. Si la opción es False, elige las filas duplicadas. De lo contrario se buscan las columnas duplicadas.
                                     </p>
+                                    <div class="row max_size_row2 aligned-row">
+                                        <div class="col-md-12 table-responsive">
+                                            <ul class="nav nav-tabs">
+                                                <li class="active"><a data-toggle="tab" href="#duplic_by_row">Filas</a></li>
+                                                <li><a data-toggle="tab" href="#duplic_by_column">Columnas</a></li>
+                                            </ul>
+                                            <div class="tab-content" style="text-align: justify; text-justify: inter-word;">
 
-                                    <div class="row max_size_row aligned-row">
+                                                <!-- Duplicados por filas -->
+                                                <div id="duplic_by_row" class="tab-pane fade in active">
+                                                    <br>
+                                                    <div class="tabla_sin_bold">
+                                                        <table class="table table-condensed">
+  <thead>
+    <tr style="text-align: right;">
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>3</td>
+      <td>4</td>
+      <td>5</td>
+      <td>6</td>
+      <td>7</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <td>1068</td>
+      <td>1069</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+  </tbody>
+</table>
+                                                    </div>
+                                                </div>
 
-
+                                                <!-- Duplicados por columnas -->
+                                                <div id="duplic_by_column" class="tab-pane fade">
+                                                    <br>
+                                                    <div class="tabla_sin_bold">
+                                                        <table class="table table-condensed">
+  <thead>
+    <tr style="text-align: right;">
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>subSector</td>
+      <td>Empresa</td>
+      <td>NombreAsesor</td>
+      <td>Ciudad usuario</td>
+      <td>Sector</td>
+      <td>país usuario</td>
+      <td>NumIdTributaria</td>
+    </tr>
+    <tr>
+      <td>Estado</td>
+      <td>Estado2</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <td>Unidad de peso UC</td>
+      <td>Unidad de peso</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+  </tbody>
+</table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-
-
-
-
-
-
-
-
                             </div>
+                            <br>
                         </div>
                     </div>
-
-                    <br>
 
                     <!-- Footer -->
                     <div class="row">
                         <div class="col-md-12">
-
                             <footer class="text-center">
                                 <hr>
                                 <p>
                                     Reporte generado con la librería <em><a href="#" target="_blank">calidad_datos</a></em>
                                     - Versión 1.0 <span class="glyphicon glyphicon-sunglasses" aria-hidden="true" style="font-size:1.2em;"></span>
                                 </p>
+                                <br>
                             </footer>
-
                         </div>
                     </div>
 
-
-                    <!-- scripts general -->
+                    <!-- scripts generales -->
                     <script>
                         // hace el toggle de cada columna en la tabla
                         // de acuerdo con el valor de su respectivo checkbox
