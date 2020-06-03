@@ -122,19 +122,59 @@
 
                             <h3><em>Estadísticas específicas</em></h3>
                             <ul class="nav nav-tabs">
-                                <li class="active"><a data-toggle="tab" href="#tab01">Estadísticas Descriptivas</a></li>
-                                <li><a data-toggle="tab" href="#tab02">Información general</a></li>
+                                <li class="active"><a data-toggle="tab" href="#tab01">Información general</a></li>
+                                <li><a data-toggle="tab" href="#tab02">Estadísticas descriptivas</a></li>
                                 <li><a data-toggle="tab" href="#tab03">Frecuencia de valores únicos</a></li>
                                 <li><a data-toggle="tab" href="#tab04">Datos duplicados</a></li>
                             </ul>
 
                             <div class="tab-content" style="text-align: justify; text-justify: inter-word;">
 
-                                <!-- Estadísticas Descriptivas -->
+                                <!-- Información general -->
                                 <div id="tab01" class="tab-pane fade in active">
                                     <br>
                                     <p class="descripcion">
-                                        Contiene información para cada columna, incluye media, mediana, percentiles, desviación estándar, valores extremos y porcentaje de valores faltantes.
+                                        Esta función está compuesta por cuatro elementos. La cual contiene, el tipo general (numérica, texto, boolean, fecha y otro) y especifico (str, float, int, numpy.int64, numpy.float64)de cada columna, el tamaño de la base de datos por columnas en megabytes y el número de valores únicos de cada columna sin incluir valores faltantes.
+                                    </p>
+                                    <div class="row max_size_row2 aligned-row">
+                                        <div class="col-md-4 table-responsive">
+                                            <h4><strong><em>Variables</em></strong></h4>
+                                            <p><input type="checkbox" onClick="toggle2(this)" id="select-all_2"> Seleccionar todos</p>
+                                            {% for item in header_list_2 %}
+                                                <p><input type="checkbox" name="ds2_{{ loop.index }}" class="checkbox_tab2"> {{ loop.index }} - {{ item }}</p>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="col-md-8 table-responsive">
+                                            <table class="table table-condensed">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Estadística</th>
+                                                        {% for item in header_list_2 %}
+                                                            <th class="ds2_{{ loop.index }}">{{ item }}</th>
+                                                        {% endfor %}
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for row in items_2%}
+                                                        <tr>
+                                                            {% for column in row %}
+                                                                <td class="ds2_{{ loop.index0 }}">
+                                                                    {{ column }}
+                                                                </td>
+                                                            {% endfor %}
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Estadísticas Descriptivas -->
+                                <div id="tab02" class="tab-pane fade">
+                                    <br>
+                                    <p class="descripcion">
+                                        Contiene información para cada columna de tipo numérico, incluye media, mediana, percentiles, desviación estándar, valores extremos y porcentaje de valores faltantes.
                                     </p>
                                     <div class="row max_size_row2 aligned-row">
                                         <div class="col-md-4 table-responsive">
@@ -164,46 +204,6 @@
                                                                     {% else %}
                                                                         {{ "%.2f"|format(column|float) }}
                                                                     {% endif %}
-                                                                </td>
-                                                            {% endfor %}
-                                                        </tr>
-                                                    {% endfor %}
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Información general -->
-                                <div id="tab02" class="tab-pane fade">
-                                    <br>
-                                    <p class="descripcion">
-                                        Esta función está compuesta por cuatro elementos. La cual contiene, el tipo general (numérica, texto, boolean, fecha y otro) y especifico (str, float, int, numpy.int64, numpy.float64)de cada columna, el tamaño de la base de datos por columnas en megabytes y el número de valores únicos de cada columna sin incluir valores faltantes.
-                                    </p>
-                                    <div class="row max_size_row2 aligned-row">
-                                        <div class="col-md-4 table-responsive">
-                                            <h4><strong><em>Variables</em></strong></h4>
-                                            <p><input type="checkbox" onClick="toggle2(this)" id="select-all_2"> Seleccionar todos</p>
-                                            {% for item in header_list_2 %}
-                                                <p><input type="checkbox" name="ds2_{{ loop.index }}" class="checkbox_tab2"> {{ loop.index }} - {{ item }}</p>
-                                            {% endfor %}
-                                        </div>
-                                        <div class="col-md-8 table-responsive">
-                                            <table class="table table-condensed">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Estadística</th>
-                                                        {% for item in header_list_2 %}
-                                                            <th class="ds2_{{ loop.index }}">{{ item }}</th>
-                                                        {% endfor %}
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {% for row in items_2%}
-                                                        <tr>
-                                                            {% for column in row %}
-                                                                <td class="ds2_{{ loop.index0 }}">
-                                                                    {{ column }}
                                                                 </td>
                                                             {% endfor %}
                                                         </tr>
@@ -301,13 +301,14 @@
                                 <hr>
                                 <p>
                                     Reporte generado con la librería <em><a href="#" target="_blank">calidad_datos</a></em>
-                                    - Versión 1.0 <span class="glyphicon glyphicon-sunglasses" aria-hidden="true" style="font-size:1.2em;"></span>
+                                    - Versión 1.0
                                 </p>
                                 <br>
                             </footer>
                         </div>
                     </div>
 
+                    <!-- scripts generales -->
                     <!-- scripts generales -->
                     <script>
                         // hace el toggle de cada columna en la tabla

@@ -37,7 +37,7 @@
                     <div class="row max_size_row">
                         <div class="col-md-12">
                             <h1>Reporte perfilamiento</h1>
-                            <em>Reporte generado automáticamente 02-06-2020 05:44:05 PM</em>
+                            <em>Reporte generado automáticamente 03-06-2020 12:05:46 PM</em>
                             <!--
                             <h1 class="hidden-xs bg-danger">This text is hidden on an EXTRA SMALL screen.</h1>
                             <h1 class="hidden-sm bg-info">This text is hidden on a SMALL screen.</h1>
@@ -63,7 +63,7 @@
                                         <table class="table table-condensed">
   <thead>
     <tr style="text-align: right;">
-      <th>Categoria</th>
+      <th>Categoría</th>
       <th>Valor</th>
     </tr>
   </thead>
@@ -123,7 +123,7 @@
                                         <table class="table table-condensed">
   <thead>
     <tr style="text-align: right;">
-      <th>Categoria</th>
+      <th>Categoría</th>
       <th>Valor</th>
     </tr>
   </thead>
@@ -161,7 +161,7 @@
                                         <table class="table table-condensed">
   <thead>
     <tr style="text-align: right;">
-      <th>Categoria</th>
+      <th>Categoría</th>
       <th>Valor</th>
     </tr>
   </thead>
@@ -1413,19 +1413,1099 @@
 
                             <h3><em>Estadísticas específicas</em></h3>
                             <ul class="nav nav-tabs">
-                                <li class="active"><a data-toggle="tab" href="#tab01">Estadísticas Descriptivas</a></li>
-                                <li><a data-toggle="tab" href="#tab02">Información general</a></li>
+                                <li class="active"><a data-toggle="tab" href="#tab01">Información general</a></li>
+                                <li><a data-toggle="tab" href="#tab02">Estadísticas descriptivas</a></li>
                                 <li><a data-toggle="tab" href="#tab03">Frecuencia de valores únicos</a></li>
                                 <li><a data-toggle="tab" href="#tab04">Datos duplicados</a></li>
                             </ul>
 
                             <div class="tab-content" style="text-align: justify; text-justify: inter-word;">
 
-                                <!-- Estadísticas Descriptivas -->
+                                <!-- Información general -->
                                 <div id="tab01" class="tab-pane fade in active">
                                     <br>
                                     <p class="descripcion">
-                                        Contiene información para cada columna, incluye media, mediana, percentiles, desviación estándar, valores extremos y porcentaje de valores faltantes.
+                                        Esta función está compuesta por cuatro elementos. La cual contiene, el tipo general (numérica, texto, boolean, fecha y otro) y especifico (str, float, int, numpy.int64, numpy.float64)de cada columna, el tamaño de la base de datos por columnas en megabytes y el número de valores únicos de cada columna sin incluir valores faltantes.
+                                    </p>
+                                    <div class="row max_size_row2 aligned-row">
+                                        <div class="col-md-4 table-responsive">
+                                            <h4><strong><em>Variables</em></strong></h4>
+                                            <p><input type="checkbox" onClick="toggle2(this)" id="select-all_2"> Seleccionar todos</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_1" class="checkbox_tab2"> 1 - Id</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_2" class="checkbox_tab2"> 2 - Nombre de la simulación</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_3" class="checkbox_tab2"> 3 - TipoDocumentoId</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_4" class="checkbox_tab2"> 4 - NumIdTributaria</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_5" class="checkbox_tab2"> 5 - TipoUsuarioId</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_6" class="checkbox_tab2"> 6 - Moneda Local</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_7" class="checkbox_tab2"> 7 - FechaCreacion</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_8" class="checkbox_tab2"> 8 - Tipousuario</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_9" class="checkbox_tab2"> 9 - Estado2</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_10" class="checkbox_tab2"> 10 - Estado</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_11" class="checkbox_tab2"> 11 - Empresa</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_12" class="checkbox_tab2"> 12 - subSector</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_13" class="checkbox_tab2"> 13 - Sector</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_14" class="checkbox_tab2"> 14 - Ciudad usuario</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_15" class="checkbox_tab2"> 15 - país usuario</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_16" class="checkbox_tab2"> 16 - NombreAsesor</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_17" class="checkbox_tab2"> 17 - Referencia</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_18" class="checkbox_tab2"> 18 - PosicionArancelaria</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_19" class="checkbox_tab2"> 19 - NombreEs</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_20" class="checkbox_tab2"> 20 - NombreEn</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_21" class="checkbox_tab2"> 21 - Descripcion</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_22" class="checkbox_tab2"> 22 - Valor unidad comercial</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_23" class="checkbox_tab2"> 23 - Tipo Carga</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_24" class="checkbox_tab2"> 24 - Unidad comercial</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_25" class="checkbox_tab2"> 25 - UCO alto</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_26" class="checkbox_tab2"> 26 - UCO ancho</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_27" class="checkbox_tab2"> 27 - UCO largo</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_28" class="checkbox_tab2"> 28 - UCO volumen</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_29" class="checkbox_tab2"> 29 - UCO Peso</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_30" class="checkbox_tab2"> 30 - Unidad de peso</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_31" class="checkbox_tab2"> 31 - Unidad de carga</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_32" class="checkbox_tab2"> 32 - Alto</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_33" class="checkbox_tab2"> 33 - Ancho</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_34" class="checkbox_tab2"> 34 - Largo</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_35" class="checkbox_tab2"> 35 - CapacidadVolumen</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_36" class="checkbox_tab2"> 36 - CapacidadPeso</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_37" class="checkbox_tab2"> 37 - Unidad de peso UC</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_38" class="checkbox_tab2"> 38 - Peso Total producto</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_39" class="checkbox_tab2"> 39 - Valor Total Dolares</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_40" class="checkbox_tab2"> 40 - Valor Total Local</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_41" class="checkbox_tab2"> 41 - Cantidad total del los productos</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_42" class="checkbox_tab2"> 42 - Cantidad por producto</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_43" class="checkbox_tab2"> 43 - valor total de la simulacion</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_44" class="checkbox_tab2"> 44 - Valor total de la simulacion USD</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_45" class="checkbox_tab2"> 45 - PesoTotalKg</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_46" class="checkbox_tab2"> 46 - VolumenTotalMtsCub</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_47" class="checkbox_tab2"> 47 - Fecha creación</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_48" class="checkbox_tab2"> 48 - Nombre de Alternativa</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_49" class="checkbox_tab2"> 49 - Pais OrigenTI</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_50" class="checkbox_tab2"> 50 - Ciudad OrigenTI</p>
+                                            
+                                                <p><input type="checkbox" name="ds2_51" class="checkbox_tab2"> 51 - Pais DestinoTI</p>
+                                            
+                                        </div>
+                                        <div class="col-md-8 table-responsive">
+                                            <table class="table table-condensed">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Estadística</th>
+                                                        
+                                                            <th class="ds2_1">Id</th>
+                                                        
+                                                            <th class="ds2_2">Nombre de la simulación</th>
+                                                        
+                                                            <th class="ds2_3">TipoDocumentoId</th>
+                                                        
+                                                            <th class="ds2_4">NumIdTributaria</th>
+                                                        
+                                                            <th class="ds2_5">TipoUsuarioId</th>
+                                                        
+                                                            <th class="ds2_6">Moneda Local</th>
+                                                        
+                                                            <th class="ds2_7">FechaCreacion</th>
+                                                        
+                                                            <th class="ds2_8">Tipousuario</th>
+                                                        
+                                                            <th class="ds2_9">Estado2</th>
+                                                        
+                                                            <th class="ds2_10">Estado</th>
+                                                        
+                                                            <th class="ds2_11">Empresa</th>
+                                                        
+                                                            <th class="ds2_12">subSector</th>
+                                                        
+                                                            <th class="ds2_13">Sector</th>
+                                                        
+                                                            <th class="ds2_14">Ciudad usuario</th>
+                                                        
+                                                            <th class="ds2_15">país usuario</th>
+                                                        
+                                                            <th class="ds2_16">NombreAsesor</th>
+                                                        
+                                                            <th class="ds2_17">Referencia</th>
+                                                        
+                                                            <th class="ds2_18">PosicionArancelaria</th>
+                                                        
+                                                            <th class="ds2_19">NombreEs</th>
+                                                        
+                                                            <th class="ds2_20">NombreEn</th>
+                                                        
+                                                            <th class="ds2_21">Descripcion</th>
+                                                        
+                                                            <th class="ds2_22">Valor unidad comercial</th>
+                                                        
+                                                            <th class="ds2_23">Tipo Carga</th>
+                                                        
+                                                            <th class="ds2_24">Unidad comercial</th>
+                                                        
+                                                            <th class="ds2_25">UCO alto</th>
+                                                        
+                                                            <th class="ds2_26">UCO ancho</th>
+                                                        
+                                                            <th class="ds2_27">UCO largo</th>
+                                                        
+                                                            <th class="ds2_28">UCO volumen</th>
+                                                        
+                                                            <th class="ds2_29">UCO Peso</th>
+                                                        
+                                                            <th class="ds2_30">Unidad de peso</th>
+                                                        
+                                                            <th class="ds2_31">Unidad de carga</th>
+                                                        
+                                                            <th class="ds2_32">Alto</th>
+                                                        
+                                                            <th class="ds2_33">Ancho</th>
+                                                        
+                                                            <th class="ds2_34">Largo</th>
+                                                        
+                                                            <th class="ds2_35">CapacidadVolumen</th>
+                                                        
+                                                            <th class="ds2_36">CapacidadPeso</th>
+                                                        
+                                                            <th class="ds2_37">Unidad de peso UC</th>
+                                                        
+                                                            <th class="ds2_38">Peso Total producto</th>
+                                                        
+                                                            <th class="ds2_39">Valor Total Dolares</th>
+                                                        
+                                                            <th class="ds2_40">Valor Total Local</th>
+                                                        
+                                                            <th class="ds2_41">Cantidad total del los productos</th>
+                                                        
+                                                            <th class="ds2_42">Cantidad por producto</th>
+                                                        
+                                                            <th class="ds2_43">valor total de la simulacion</th>
+                                                        
+                                                            <th class="ds2_44">Valor total de la simulacion USD</th>
+                                                        
+                                                            <th class="ds2_45">PesoTotalKg</th>
+                                                        
+                                                            <th class="ds2_46">VolumenTotalMtsCub</th>
+                                                        
+                                                            <th class="ds2_47">Fecha creación</th>
+                                                        
+                                                            <th class="ds2_48">Nombre de Alternativa</th>
+                                                        
+                                                            <th class="ds2_49">Pais OrigenTI</th>
+                                                        
+                                                            <th class="ds2_50">Ciudad OrigenTI</th>
+                                                        
+                                                            <th class="ds2_51">Pais DestinoTI</th>
+                                                        
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    
+                                                        <tr>
+                                                            
+                                                                <td class="ds2_0">
+                                                                    Tipo
+                                                                </td>
+                                                            
+                                                                <td class="ds2_1">
+                                                                    Numérico
+                                                                </td>
+                                                            
+                                                                <td class="ds2_2">
+                                                                    Texto
+                                                                </td>
+                                                            
+                                                                <td class="ds2_3">
+                                                                    Numérico
+                                                                </td>
+                                                            
+                                                                <td class="ds2_4">
+                                                                    Texto
+                                                                </td>
+                                                            
+                                                                <td class="ds2_5">
+                                                                    Numérico
+                                                                </td>
+                                                            
+                                                                <td class="ds2_6">
+                                                                    Texto
+                                                                </td>
+                                                            
+                                                                <td class="ds2_7">
+                                                                    Numérico
+                                                                </td>
+                                                            
+                                                                <td class="ds2_8">
+                                                                    Texto
+                                                                </td>
+                                                            
+                                                                <td class="ds2_9">
+                                                                    Boolean
+                                                                </td>
+                                                            
+                                                                <td class="ds2_10">
+                                                                    Boolean
+                                                                </td>
+                                                            
+                                                                <td class="ds2_11">
+                                                                    Texto
+                                                                </td>
+                                                            
+                                                                <td class="ds2_12">
+                                                                    Texto
+                                                                </td>
+                                                            
+                                                                <td class="ds2_13">
+                                                                    Texto
+                                                                </td>
+                                                            
+                                                                <td class="ds2_14">
+                                                                    Texto
+                                                                </td>
+                                                            
+                                                                <td class="ds2_15">
+                                                                    Texto
+                                                                </td>
+                                                            
+                                                                <td class="ds2_16">
+                                                                    Texto
+                                                                </td>
+                                                            
+                                                                <td class="ds2_17">
+                                                                    Texto
+                                                                </td>
+                                                            
+                                                                <td class="ds2_18">
+                                                                    Texto
+                                                                </td>
+                                                            
+                                                                <td class="ds2_19">
+                                                                    Texto
+                                                                </td>
+                                                            
+                                                                <td class="ds2_20">
+                                                                    Texto
+                                                                </td>
+                                                            
+                                                                <td class="ds2_21">
+                                                                    Texto
+                                                                </td>
+                                                            
+                                                                <td class="ds2_22">
+                                                                    Numérico
+                                                                </td>
+                                                            
+                                                                <td class="ds2_23">
+                                                                    Texto
+                                                                </td>
+                                                            
+                                                                <td class="ds2_24">
+                                                                    Texto
+                                                                </td>
+                                                            
+                                                                <td class="ds2_25">
+                                                                    Numérico
+                                                                </td>
+                                                            
+                                                                <td class="ds2_26">
+                                                                    Numérico
+                                                                </td>
+                                                            
+                                                                <td class="ds2_27">
+                                                                    Numérico
+                                                                </td>
+                                                            
+                                                                <td class="ds2_28">
+                                                                    Numérico
+                                                                </td>
+                                                            
+                                                                <td class="ds2_29">
+                                                                    Numérico
+                                                                </td>
+                                                            
+                                                                <td class="ds2_30">
+                                                                    Texto
+                                                                </td>
+                                                            
+                                                                <td class="ds2_31">
+                                                                    Texto
+                                                                </td>
+                                                            
+                                                                <td class="ds2_32">
+                                                                    Numérico
+                                                                </td>
+                                                            
+                                                                <td class="ds2_33">
+                                                                    Numérico
+                                                                </td>
+                                                            
+                                                                <td class="ds2_34">
+                                                                    Numérico
+                                                                </td>
+                                                            
+                                                                <td class="ds2_35">
+                                                                    Numérico
+                                                                </td>
+                                                            
+                                                                <td class="ds2_36">
+                                                                    Numérico
+                                                                </td>
+                                                            
+                                                                <td class="ds2_37">
+                                                                    Texto
+                                                                </td>
+                                                            
+                                                                <td class="ds2_38">
+                                                                    Numérico
+                                                                </td>
+                                                            
+                                                                <td class="ds2_39">
+                                                                    Numérico
+                                                                </td>
+                                                            
+                                                                <td class="ds2_40">
+                                                                    Numérico
+                                                                </td>
+                                                            
+                                                                <td class="ds2_41">
+                                                                    Numérico
+                                                                </td>
+                                                            
+                                                                <td class="ds2_42">
+                                                                    Numérico
+                                                                </td>
+                                                            
+                                                                <td class="ds2_43">
+                                                                    Numérico
+                                                                </td>
+                                                            
+                                                                <td class="ds2_44">
+                                                                    Numérico
+                                                                </td>
+                                                            
+                                                                <td class="ds2_45">
+                                                                    Numérico
+                                                                </td>
+                                                            
+                                                                <td class="ds2_46">
+                                                                    Numérico
+                                                                </td>
+                                                            
+                                                                <td class="ds2_47">
+                                                                    Numérico
+                                                                </td>
+                                                            
+                                                                <td class="ds2_48">
+                                                                    Texto
+                                                                </td>
+                                                            
+                                                                <td class="ds2_49">
+                                                                    Texto
+                                                                </td>
+                                                            
+                                                                <td class="ds2_50">
+                                                                    Texto
+                                                                </td>
+                                                            
+                                                                <td class="ds2_51">
+                                                                    Texto
+                                                                </td>
+                                                            
+                                                        </tr>
+                                                    
+                                                        <tr>
+                                                            
+                                                                <td class="ds2_0">
+                                                                    Tipo (específico)
+                                                                </td>
+                                                            
+                                                                <td class="ds2_1">
+                                                                    'numpy.int64'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_2">
+                                                                    'str'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_3">
+                                                                    'numpy.float64'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_4">
+                                                                    'str'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_5">
+                                                                    'numpy.int64'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_6">
+                                                                    'str'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_7">
+                                                                    'numpy.float64'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_8">
+                                                                    'str'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_9">
+                                                                    'bool'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_10">
+                                                                    'bool'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_11">
+                                                                    'str'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_12">
+                                                                    'str'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_13">
+                                                                    'str'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_14">
+                                                                    'str'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_15">
+                                                                    'str'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_16">
+                                                                    'str'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_17">
+                                                                    'str'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_18">
+                                                                    'str'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_19">
+                                                                    'str'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_20">
+                                                                    'str'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_21">
+                                                                    'str'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_22">
+                                                                    'numpy.float64'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_23">
+                                                                    'str'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_24">
+                                                                    'str'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_25">
+                                                                    'numpy.float64'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_26">
+                                                                    'numpy.float64'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_27">
+                                                                    'numpy.float64'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_28">
+                                                                    'numpy.float64'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_29">
+                                                                    'numpy.float64'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_30">
+                                                                    'str'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_31">
+                                                                    'str'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_32">
+                                                                    'numpy.float64'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_33">
+                                                                    'numpy.float64'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_34">
+                                                                    'numpy.float64'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_35">
+                                                                    'numpy.float64'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_36">
+                                                                    'numpy.float64'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_37">
+                                                                    'str'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_38">
+                                                                    'numpy.float64'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_39">
+                                                                    'numpy.float64'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_40">
+                                                                    'numpy.float64'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_41">
+                                                                    'numpy.int64'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_42">
+                                                                    'numpy.float64'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_43">
+                                                                    'numpy.float64'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_44">
+                                                                    'numpy.float64'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_45">
+                                                                    'numpy.float64'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_46">
+                                                                    'numpy.float64'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_47">
+                                                                    'numpy.float64'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_48">
+                                                                    'str'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_49">
+                                                                    'str'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_50">
+                                                                    'str'
+                                                                </td>
+                                                            
+                                                                <td class="ds2_51">
+                                                                    'str'
+                                                                </td>
+                                                            
+                                                        </tr>
+                                                    
+                                                        <tr>
+                                                            
+                                                                <td class="ds2_0">
+                                                                    Memoria
+                                                                </td>
+                                                            
+                                                                <td class="ds2_1">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_2">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_3">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_4">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_5">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_6">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_7">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_8">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_9">
+                                                                    0.001182
+                                                                </td>
+                                                            
+                                                                <td class="ds2_10">
+                                                                    0.001182
+                                                                </td>
+                                                            
+                                                                <td class="ds2_11">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_12">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_13">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_14">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_15">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_16">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_17">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_18">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_19">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_20">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_21">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_22">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_23">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_24">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_25">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_26">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_27">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_28">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_29">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_30">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_31">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_32">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_33">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_34">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_35">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_36">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_37">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_38">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_39">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_40">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_41">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_42">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_43">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_44">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_45">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_46">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_47">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_48">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_49">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_50">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                                <td class="ds2_51">
+                                                                    0.009453
+                                                                </td>
+                                                            
+                                                        </tr>
+                                                    
+                                                        <tr>
+                                                            
+                                                                <td class="ds2_0">
+                                                                    Valores únicos
+                                                                </td>
+                                                            
+                                                                <td class="ds2_1">
+                                                                    1056
+                                                                </td>
+                                                            
+                                                                <td class="ds2_2">
+                                                                    922
+                                                                </td>
+                                                            
+                                                                <td class="ds2_3">
+                                                                    2
+                                                                </td>
+                                                            
+                                                                <td class="ds2_4">
+                                                                    1
+                                                                </td>
+                                                            
+                                                                <td class="ds2_5">
+                                                                    3
+                                                                </td>
+                                                            
+                                                                <td class="ds2_6">
+                                                                    1
+                                                                </td>
+                                                            
+                                                                <td class="ds2_7">
+                                                                    26
+                                                                </td>
+                                                            
+                                                                <td class="ds2_8">
+                                                                    3
+                                                                </td>
+                                                            
+                                                                <td class="ds2_9">
+                                                                    2
+                                                                </td>
+                                                            
+                                                                <td class="ds2_10">
+                                                                    2
+                                                                </td>
+                                                            
+                                                                <td class="ds2_11">
+                                                                    1
+                                                                </td>
+                                                            
+                                                                <td class="ds2_12">
+                                                                    1
+                                                                </td>
+                                                            
+                                                                <td class="ds2_13">
+                                                                    1
+                                                                </td>
+                                                            
+                                                                <td class="ds2_14">
+                                                                    1
+                                                                </td>
+                                                            
+                                                                <td class="ds2_15">
+                                                                    1
+                                                                </td>
+                                                            
+                                                                <td class="ds2_16">
+                                                                    1
+                                                                </td>
+                                                            
+                                                                <td class="ds2_17">
+                                                                    428
+                                                                </td>
+                                                            
+                                                                <td class="ds2_18">
+                                                                    374
+                                                                </td>
+                                                            
+                                                                <td class="ds2_19">
+                                                                    462
+                                                                </td>
+                                                            
+                                                                <td class="ds2_20">
+                                                                    391
+                                                                </td>
+                                                            
+                                                                <td class="ds2_21">
+                                                                    431
+                                                                </td>
+                                                            
+                                                                <td class="ds2_22">
+                                                                    300
+                                                                </td>
+                                                            
+                                                                <td class="ds2_23">
+                                                                    4
+                                                                </td>
+                                                            
+                                                                <td class="ds2_24">
+                                                                    417
+                                                                </td>
+                                                            
+                                                                <td class="ds2_25">
+                                                                    140
+                                                                </td>
+                                                            
+                                                                <td class="ds2_26">
+                                                                    138
+                                                                </td>
+                                                            
+                                                                <td class="ds2_27">
+                                                                    136
+                                                                </td>
+                                                            
+                                                                <td class="ds2_28">
+                                                                    335
+                                                                </td>
+                                                            
+                                                                <td class="ds2_29">
+                                                                    208
+                                                                </td>
+                                                            
+                                                                <td class="ds2_30">
+                                                                    2
+                                                                </td>
+                                                            
+                                                                <td class="ds2_31">
+                                                                    71
+                                                                </td>
+                                                            
+                                                                <td class="ds2_32">
+                                                                    56
+                                                                </td>
+                                                            
+                                                                <td class="ds2_33">
+                                                                    44
+                                                                </td>
+                                                            
+                                                                <td class="ds2_34">
+                                                                    46
+                                                                </td>
+                                                            
+                                                                <td class="ds2_35">
+                                                                    76
+                                                                </td>
+                                                            
+                                                                <td class="ds2_36">
+                                                                    59
+                                                                </td>
+                                                            
+                                                                <td class="ds2_37">
+                                                                    2
+                                                                </td>
+                                                            
+                                                                <td class="ds2_38">
+                                                                    323
+                                                                </td>
+                                                            
+                                                                <td class="ds2_39">
+                                                                    529
+                                                                </td>
+                                                            
+                                                                <td class="ds2_40">
+                                                                    387
+                                                                </td>
+                                                            
+                                                                <td class="ds2_41">
+                                                                    156
+                                                                </td>
+                                                            
+                                                                <td class="ds2_42">
+                                                                    159
+                                                                </td>
+                                                            
+                                                                <td class="ds2_43">
+                                                                    364
+                                                                </td>
+                                                            
+                                                                <td class="ds2_44">
+                                                                    492
+                                                                </td>
+                                                            
+                                                                <td class="ds2_45">
+                                                                    315
+                                                                </td>
+                                                            
+                                                                <td class="ds2_46">
+                                                                    422
+                                                                </td>
+                                                            
+                                                                <td class="ds2_47">
+                                                                    1056
+                                                                </td>
+                                                            
+                                                                <td class="ds2_48">
+                                                                    5
+                                                                </td>
+                                                            
+                                                                <td class="ds2_49">
+                                                                    15
+                                                                </td>
+                                                            
+                                                                <td class="ds2_50">
+                                                                    53
+                                                                </td>
+                                                            
+                                                                <td class="ds2_51">
+                                                                    44
+                                                                </td>
+                                                            
+                                                        </tr>
+                                                    
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Estadísticas Descriptivas -->
+                                <div id="tab02" class="tab-pane fade">
+                                    <br>
+                                    <p class="descripcion">
+                                        Contiene información para cada columna de tipo numérico, incluye media, mediana, percentiles, desviación estándar, valores extremos y porcentaje de valores faltantes.
                                     </p>
                                     <div class="row max_size_row2 aligned-row">
                                         <div class="col-md-4 table-responsive">
@@ -3149,1086 +4229,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Información general -->
-                                <div id="tab02" class="tab-pane fade">
-                                    <br>
-                                    <p class="descripcion">
-                                        Esta función está compuesta por cuatro elementos. La cual contiene, el tipo general (numérica, texto, boolean, fecha y otro) y especifico (str, float, int, numpy.int64, numpy.float64)de cada columna, el tamaño de la base de datos por columnas en megabytes y el número de valores únicos de cada columna sin incluir valores faltantes.
-                                    </p>
-                                    <div class="row max_size_row2 aligned-row">
-                                        <div class="col-md-4 table-responsive">
-                                            <h4><strong><em>Variables</em></strong></h4>
-                                            <p><input type="checkbox" onClick="toggle2(this)" id="select-all_2"> Seleccionar todos</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_1" class="checkbox_tab2"> 1 - Id</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_2" class="checkbox_tab2"> 2 - Nombre de la simulación</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_3" class="checkbox_tab2"> 3 - TipoDocumentoId</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_4" class="checkbox_tab2"> 4 - NumIdTributaria</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_5" class="checkbox_tab2"> 5 - TipoUsuarioId</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_6" class="checkbox_tab2"> 6 - Moneda Local</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_7" class="checkbox_tab2"> 7 - FechaCreacion</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_8" class="checkbox_tab2"> 8 - Tipousuario</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_9" class="checkbox_tab2"> 9 - Estado2</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_10" class="checkbox_tab2"> 10 - Estado</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_11" class="checkbox_tab2"> 11 - Empresa</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_12" class="checkbox_tab2"> 12 - subSector</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_13" class="checkbox_tab2"> 13 - Sector</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_14" class="checkbox_tab2"> 14 - Ciudad usuario</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_15" class="checkbox_tab2"> 15 - país usuario</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_16" class="checkbox_tab2"> 16 - NombreAsesor</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_17" class="checkbox_tab2"> 17 - Referencia</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_18" class="checkbox_tab2"> 18 - PosicionArancelaria</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_19" class="checkbox_tab2"> 19 - NombreEs</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_20" class="checkbox_tab2"> 20 - NombreEn</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_21" class="checkbox_tab2"> 21 - Descripcion</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_22" class="checkbox_tab2"> 22 - Valor unidad comercial</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_23" class="checkbox_tab2"> 23 - Tipo Carga</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_24" class="checkbox_tab2"> 24 - Unidad comercial</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_25" class="checkbox_tab2"> 25 - UCO alto</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_26" class="checkbox_tab2"> 26 - UCO ancho</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_27" class="checkbox_tab2"> 27 - UCO largo</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_28" class="checkbox_tab2"> 28 - UCO volumen</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_29" class="checkbox_tab2"> 29 - UCO Peso</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_30" class="checkbox_tab2"> 30 - Unidad de peso</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_31" class="checkbox_tab2"> 31 - Unidad de carga</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_32" class="checkbox_tab2"> 32 - Alto</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_33" class="checkbox_tab2"> 33 - Ancho</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_34" class="checkbox_tab2"> 34 - Largo</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_35" class="checkbox_tab2"> 35 - CapacidadVolumen</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_36" class="checkbox_tab2"> 36 - CapacidadPeso</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_37" class="checkbox_tab2"> 37 - Unidad de peso UC</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_38" class="checkbox_tab2"> 38 - Peso Total producto</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_39" class="checkbox_tab2"> 39 - Valor Total Dolares</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_40" class="checkbox_tab2"> 40 - Valor Total Local</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_41" class="checkbox_tab2"> 41 - Cantidad total del los productos</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_42" class="checkbox_tab2"> 42 - Cantidad por producto</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_43" class="checkbox_tab2"> 43 - valor total de la simulacion</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_44" class="checkbox_tab2"> 44 - Valor total de la simulacion USD</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_45" class="checkbox_tab2"> 45 - PesoTotalKg</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_46" class="checkbox_tab2"> 46 - VolumenTotalMtsCub</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_47" class="checkbox_tab2"> 47 - Fecha creación</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_48" class="checkbox_tab2"> 48 - Nombre de Alternativa</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_49" class="checkbox_tab2"> 49 - Pais OrigenTI</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_50" class="checkbox_tab2"> 50 - Ciudad OrigenTI</p>
-                                            
-                                                <p><input type="checkbox" name="ds2_51" class="checkbox_tab2"> 51 - Pais DestinoTI</p>
-                                            
-                                        </div>
-                                        <div class="col-md-8 table-responsive">
-                                            <table class="table table-condensed">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Estadística</th>
-                                                        
-                                                            <th class="ds2_1">Id</th>
-                                                        
-                                                            <th class="ds2_2">Nombre de la simulación</th>
-                                                        
-                                                            <th class="ds2_3">TipoDocumentoId</th>
-                                                        
-                                                            <th class="ds2_4">NumIdTributaria</th>
-                                                        
-                                                            <th class="ds2_5">TipoUsuarioId</th>
-                                                        
-                                                            <th class="ds2_6">Moneda Local</th>
-                                                        
-                                                            <th class="ds2_7">FechaCreacion</th>
-                                                        
-                                                            <th class="ds2_8">Tipousuario</th>
-                                                        
-                                                            <th class="ds2_9">Estado2</th>
-                                                        
-                                                            <th class="ds2_10">Estado</th>
-                                                        
-                                                            <th class="ds2_11">Empresa</th>
-                                                        
-                                                            <th class="ds2_12">subSector</th>
-                                                        
-                                                            <th class="ds2_13">Sector</th>
-                                                        
-                                                            <th class="ds2_14">Ciudad usuario</th>
-                                                        
-                                                            <th class="ds2_15">país usuario</th>
-                                                        
-                                                            <th class="ds2_16">NombreAsesor</th>
-                                                        
-                                                            <th class="ds2_17">Referencia</th>
-                                                        
-                                                            <th class="ds2_18">PosicionArancelaria</th>
-                                                        
-                                                            <th class="ds2_19">NombreEs</th>
-                                                        
-                                                            <th class="ds2_20">NombreEn</th>
-                                                        
-                                                            <th class="ds2_21">Descripcion</th>
-                                                        
-                                                            <th class="ds2_22">Valor unidad comercial</th>
-                                                        
-                                                            <th class="ds2_23">Tipo Carga</th>
-                                                        
-                                                            <th class="ds2_24">Unidad comercial</th>
-                                                        
-                                                            <th class="ds2_25">UCO alto</th>
-                                                        
-                                                            <th class="ds2_26">UCO ancho</th>
-                                                        
-                                                            <th class="ds2_27">UCO largo</th>
-                                                        
-                                                            <th class="ds2_28">UCO volumen</th>
-                                                        
-                                                            <th class="ds2_29">UCO Peso</th>
-                                                        
-                                                            <th class="ds2_30">Unidad de peso</th>
-                                                        
-                                                            <th class="ds2_31">Unidad de carga</th>
-                                                        
-                                                            <th class="ds2_32">Alto</th>
-                                                        
-                                                            <th class="ds2_33">Ancho</th>
-                                                        
-                                                            <th class="ds2_34">Largo</th>
-                                                        
-                                                            <th class="ds2_35">CapacidadVolumen</th>
-                                                        
-                                                            <th class="ds2_36">CapacidadPeso</th>
-                                                        
-                                                            <th class="ds2_37">Unidad de peso UC</th>
-                                                        
-                                                            <th class="ds2_38">Peso Total producto</th>
-                                                        
-                                                            <th class="ds2_39">Valor Total Dolares</th>
-                                                        
-                                                            <th class="ds2_40">Valor Total Local</th>
-                                                        
-                                                            <th class="ds2_41">Cantidad total del los productos</th>
-                                                        
-                                                            <th class="ds2_42">Cantidad por producto</th>
-                                                        
-                                                            <th class="ds2_43">valor total de la simulacion</th>
-                                                        
-                                                            <th class="ds2_44">Valor total de la simulacion USD</th>
-                                                        
-                                                            <th class="ds2_45">PesoTotalKg</th>
-                                                        
-                                                            <th class="ds2_46">VolumenTotalMtsCub</th>
-                                                        
-                                                            <th class="ds2_47">Fecha creación</th>
-                                                        
-                                                            <th class="ds2_48">Nombre de Alternativa</th>
-                                                        
-                                                            <th class="ds2_49">Pais OrigenTI</th>
-                                                        
-                                                            <th class="ds2_50">Ciudad OrigenTI</th>
-                                                        
-                                                            <th class="ds2_51">Pais DestinoTI</th>
-                                                        
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    
-                                                        <tr>
-                                                            
-                                                                <td class="ds2_0">
-                                                                    Tipo
-                                                                </td>
-                                                            
-                                                                <td class="ds2_1">
-                                                                    Numérico
-                                                                </td>
-                                                            
-                                                                <td class="ds2_2">
-                                                                    Texto
-                                                                </td>
-                                                            
-                                                                <td class="ds2_3">
-                                                                    Numérico
-                                                                </td>
-                                                            
-                                                                <td class="ds2_4">
-                                                                    Texto
-                                                                </td>
-                                                            
-                                                                <td class="ds2_5">
-                                                                    Numérico
-                                                                </td>
-                                                            
-                                                                <td class="ds2_6">
-                                                                    Texto
-                                                                </td>
-                                                            
-                                                                <td class="ds2_7">
-                                                                    Numérico
-                                                                </td>
-                                                            
-                                                                <td class="ds2_8">
-                                                                    Texto
-                                                                </td>
-                                                            
-                                                                <td class="ds2_9">
-                                                                    Boolean
-                                                                </td>
-                                                            
-                                                                <td class="ds2_10">
-                                                                    Boolean
-                                                                </td>
-                                                            
-                                                                <td class="ds2_11">
-                                                                    Texto
-                                                                </td>
-                                                            
-                                                                <td class="ds2_12">
-                                                                    Texto
-                                                                </td>
-                                                            
-                                                                <td class="ds2_13">
-                                                                    Texto
-                                                                </td>
-                                                            
-                                                                <td class="ds2_14">
-                                                                    Texto
-                                                                </td>
-                                                            
-                                                                <td class="ds2_15">
-                                                                    Texto
-                                                                </td>
-                                                            
-                                                                <td class="ds2_16">
-                                                                    Texto
-                                                                </td>
-                                                            
-                                                                <td class="ds2_17">
-                                                                    Texto
-                                                                </td>
-                                                            
-                                                                <td class="ds2_18">
-                                                                    Texto
-                                                                </td>
-                                                            
-                                                                <td class="ds2_19">
-                                                                    Texto
-                                                                </td>
-                                                            
-                                                                <td class="ds2_20">
-                                                                    Texto
-                                                                </td>
-                                                            
-                                                                <td class="ds2_21">
-                                                                    Texto
-                                                                </td>
-                                                            
-                                                                <td class="ds2_22">
-                                                                    Numérico
-                                                                </td>
-                                                            
-                                                                <td class="ds2_23">
-                                                                    Texto
-                                                                </td>
-                                                            
-                                                                <td class="ds2_24">
-                                                                    Texto
-                                                                </td>
-                                                            
-                                                                <td class="ds2_25">
-                                                                    Numérico
-                                                                </td>
-                                                            
-                                                                <td class="ds2_26">
-                                                                    Numérico
-                                                                </td>
-                                                            
-                                                                <td class="ds2_27">
-                                                                    Numérico
-                                                                </td>
-                                                            
-                                                                <td class="ds2_28">
-                                                                    Numérico
-                                                                </td>
-                                                            
-                                                                <td class="ds2_29">
-                                                                    Numérico
-                                                                </td>
-                                                            
-                                                                <td class="ds2_30">
-                                                                    Texto
-                                                                </td>
-                                                            
-                                                                <td class="ds2_31">
-                                                                    Texto
-                                                                </td>
-                                                            
-                                                                <td class="ds2_32">
-                                                                    Numérico
-                                                                </td>
-                                                            
-                                                                <td class="ds2_33">
-                                                                    Numérico
-                                                                </td>
-                                                            
-                                                                <td class="ds2_34">
-                                                                    Numérico
-                                                                </td>
-                                                            
-                                                                <td class="ds2_35">
-                                                                    Numérico
-                                                                </td>
-                                                            
-                                                                <td class="ds2_36">
-                                                                    Numérico
-                                                                </td>
-                                                            
-                                                                <td class="ds2_37">
-                                                                    Texto
-                                                                </td>
-                                                            
-                                                                <td class="ds2_38">
-                                                                    Numérico
-                                                                </td>
-                                                            
-                                                                <td class="ds2_39">
-                                                                    Numérico
-                                                                </td>
-                                                            
-                                                                <td class="ds2_40">
-                                                                    Numérico
-                                                                </td>
-                                                            
-                                                                <td class="ds2_41">
-                                                                    Numérico
-                                                                </td>
-                                                            
-                                                                <td class="ds2_42">
-                                                                    Numérico
-                                                                </td>
-                                                            
-                                                                <td class="ds2_43">
-                                                                    Numérico
-                                                                </td>
-                                                            
-                                                                <td class="ds2_44">
-                                                                    Numérico
-                                                                </td>
-                                                            
-                                                                <td class="ds2_45">
-                                                                    Numérico
-                                                                </td>
-                                                            
-                                                                <td class="ds2_46">
-                                                                    Numérico
-                                                                </td>
-                                                            
-                                                                <td class="ds2_47">
-                                                                    Numérico
-                                                                </td>
-                                                            
-                                                                <td class="ds2_48">
-                                                                    Texto
-                                                                </td>
-                                                            
-                                                                <td class="ds2_49">
-                                                                    Texto
-                                                                </td>
-                                                            
-                                                                <td class="ds2_50">
-                                                                    Texto
-                                                                </td>
-                                                            
-                                                                <td class="ds2_51">
-                                                                    Texto
-                                                                </td>
-                                                            
-                                                        </tr>
-                                                    
-                                                        <tr>
-                                                            
-                                                                <td class="ds2_0">
-                                                                    Tipo (específico)
-                                                                </td>
-                                                            
-                                                                <td class="ds2_1">
-                                                                    'numpy.int64'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_2">
-                                                                    'str'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_3">
-                                                                    'numpy.float64'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_4">
-                                                                    'str'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_5">
-                                                                    'numpy.int64'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_6">
-                                                                    'str'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_7">
-                                                                    'numpy.float64'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_8">
-                                                                    'str'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_9">
-                                                                    'bool'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_10">
-                                                                    'bool'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_11">
-                                                                    'str'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_12">
-                                                                    'str'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_13">
-                                                                    'str'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_14">
-                                                                    'str'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_15">
-                                                                    'str'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_16">
-                                                                    'str'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_17">
-                                                                    'str'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_18">
-                                                                    'str'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_19">
-                                                                    'str'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_20">
-                                                                    'str'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_21">
-                                                                    'str'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_22">
-                                                                    'numpy.float64'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_23">
-                                                                    'str'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_24">
-                                                                    'str'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_25">
-                                                                    'numpy.float64'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_26">
-                                                                    'numpy.float64'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_27">
-                                                                    'numpy.float64'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_28">
-                                                                    'numpy.float64'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_29">
-                                                                    'numpy.float64'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_30">
-                                                                    'str'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_31">
-                                                                    'str'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_32">
-                                                                    'numpy.float64'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_33">
-                                                                    'numpy.float64'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_34">
-                                                                    'numpy.float64'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_35">
-                                                                    'numpy.float64'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_36">
-                                                                    'numpy.float64'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_37">
-                                                                    'str'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_38">
-                                                                    'numpy.float64'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_39">
-                                                                    'numpy.float64'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_40">
-                                                                    'numpy.float64'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_41">
-                                                                    'numpy.int64'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_42">
-                                                                    'numpy.float64'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_43">
-                                                                    'numpy.float64'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_44">
-                                                                    'numpy.float64'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_45">
-                                                                    'numpy.float64'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_46">
-                                                                    'numpy.float64'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_47">
-                                                                    'numpy.float64'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_48">
-                                                                    'str'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_49">
-                                                                    'str'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_50">
-                                                                    'str'
-                                                                </td>
-                                                            
-                                                                <td class="ds2_51">
-                                                                    'str'
-                                                                </td>
-                                                            
-                                                        </tr>
-                                                    
-                                                        <tr>
-                                                            
-                                                                <td class="ds2_0">
-                                                                    Memoria
-                                                                </td>
-                                                            
-                                                                <td class="ds2_1">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_2">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_3">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_4">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_5">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_6">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_7">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_8">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_9">
-                                                                    0.001182
-                                                                </td>
-                                                            
-                                                                <td class="ds2_10">
-                                                                    0.001182
-                                                                </td>
-                                                            
-                                                                <td class="ds2_11">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_12">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_13">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_14">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_15">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_16">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_17">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_18">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_19">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_20">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_21">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_22">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_23">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_24">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_25">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_26">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_27">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_28">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_29">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_30">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_31">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_32">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_33">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_34">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_35">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_36">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_37">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_38">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_39">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_40">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_41">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_42">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_43">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_44">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_45">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_46">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_47">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_48">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_49">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_50">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                                <td class="ds2_51">
-                                                                    0.009453
-                                                                </td>
-                                                            
-                                                        </tr>
-                                                    
-                                                        <tr>
-                                                            
-                                                                <td class="ds2_0">
-                                                                    Valores únicos
-                                                                </td>
-                                                            
-                                                                <td class="ds2_1">
-                                                                    1056
-                                                                </td>
-                                                            
-                                                                <td class="ds2_2">
-                                                                    922
-                                                                </td>
-                                                            
-                                                                <td class="ds2_3">
-                                                                    2
-                                                                </td>
-                                                            
-                                                                <td class="ds2_4">
-                                                                    1
-                                                                </td>
-                                                            
-                                                                <td class="ds2_5">
-                                                                    3
-                                                                </td>
-                                                            
-                                                                <td class="ds2_6">
-                                                                    1
-                                                                </td>
-                                                            
-                                                                <td class="ds2_7">
-                                                                    26
-                                                                </td>
-                                                            
-                                                                <td class="ds2_8">
-                                                                    3
-                                                                </td>
-                                                            
-                                                                <td class="ds2_9">
-                                                                    2
-                                                                </td>
-                                                            
-                                                                <td class="ds2_10">
-                                                                    2
-                                                                </td>
-                                                            
-                                                                <td class="ds2_11">
-                                                                    1
-                                                                </td>
-                                                            
-                                                                <td class="ds2_12">
-                                                                    1
-                                                                </td>
-                                                            
-                                                                <td class="ds2_13">
-                                                                    1
-                                                                </td>
-                                                            
-                                                                <td class="ds2_14">
-                                                                    1
-                                                                </td>
-                                                            
-                                                                <td class="ds2_15">
-                                                                    1
-                                                                </td>
-                                                            
-                                                                <td class="ds2_16">
-                                                                    1
-                                                                </td>
-                                                            
-                                                                <td class="ds2_17">
-                                                                    428
-                                                                </td>
-                                                            
-                                                                <td class="ds2_18">
-                                                                    374
-                                                                </td>
-                                                            
-                                                                <td class="ds2_19">
-                                                                    462
-                                                                </td>
-                                                            
-                                                                <td class="ds2_20">
-                                                                    391
-                                                                </td>
-                                                            
-                                                                <td class="ds2_21">
-                                                                    431
-                                                                </td>
-                                                            
-                                                                <td class="ds2_22">
-                                                                    300
-                                                                </td>
-                                                            
-                                                                <td class="ds2_23">
-                                                                    4
-                                                                </td>
-                                                            
-                                                                <td class="ds2_24">
-                                                                    417
-                                                                </td>
-                                                            
-                                                                <td class="ds2_25">
-                                                                    140
-                                                                </td>
-                                                            
-                                                                <td class="ds2_26">
-                                                                    138
-                                                                </td>
-                                                            
-                                                                <td class="ds2_27">
-                                                                    136
-                                                                </td>
-                                                            
-                                                                <td class="ds2_28">
-                                                                    335
-                                                                </td>
-                                                            
-                                                                <td class="ds2_29">
-                                                                    208
-                                                                </td>
-                                                            
-                                                                <td class="ds2_30">
-                                                                    2
-                                                                </td>
-                                                            
-                                                                <td class="ds2_31">
-                                                                    71
-                                                                </td>
-                                                            
-                                                                <td class="ds2_32">
-                                                                    56
-                                                                </td>
-                                                            
-                                                                <td class="ds2_33">
-                                                                    44
-                                                                </td>
-                                                            
-                                                                <td class="ds2_34">
-                                                                    46
-                                                                </td>
-                                                            
-                                                                <td class="ds2_35">
-                                                                    76
-                                                                </td>
-                                                            
-                                                                <td class="ds2_36">
-                                                                    59
-                                                                </td>
-                                                            
-                                                                <td class="ds2_37">
-                                                                    2
-                                                                </td>
-                                                            
-                                                                <td class="ds2_38">
-                                                                    323
-                                                                </td>
-                                                            
-                                                                <td class="ds2_39">
-                                                                    529
-                                                                </td>
-                                                            
-                                                                <td class="ds2_40">
-                                                                    387
-                                                                </td>
-                                                            
-                                                                <td class="ds2_41">
-                                                                    156
-                                                                </td>
-                                                            
-                                                                <td class="ds2_42">
-                                                                    159
-                                                                </td>
-                                                            
-                                                                <td class="ds2_43">
-                                                                    364
-                                                                </td>
-                                                            
-                                                                <td class="ds2_44">
-                                                                    492
-                                                                </td>
-                                                            
-                                                                <td class="ds2_45">
-                                                                    315
-                                                                </td>
-                                                            
-                                                                <td class="ds2_46">
-                                                                    422
-                                                                </td>
-                                                            
-                                                                <td class="ds2_47">
-                                                                    1056
-                                                                </td>
-                                                            
-                                                                <td class="ds2_48">
-                                                                    5
-                                                                </td>
-                                                            
-                                                                <td class="ds2_49">
-                                                                    15
-                                                                </td>
-                                                            
-                                                                <td class="ds2_50">
-                                                                    53
-                                                                </td>
-                                                            
-                                                                <td class="ds2_51">
-                                                                    44
-                                                                </td>
-                                                            
-                                                        </tr>
-                                                    
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <!-- Frecuencia de valores únicos -->
                                 <div id="tab03" class="tab-pane fade">
                                     <br>
@@ -5072,26 +5072,6 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>61.09.90.90</td>
-                                                                
-                                                            
-                                                                
-                                                                    <td>7</td>
-                                                                
-                                                            
-                                                                
-                                                                    <td>0.005649717514124294</td>
-                                                                
-                                                            
-                                                        </tr>
-                                                    
-                                                        <tr>
-                                                            
-                                                                
-                                                                    <td class="referencia">PosicionArancelaria</td>
-                                                                
-                                                            
-                                                                
                                                                     <td>08.04.30.00</td>
                                                                 
                                                             
@@ -5112,7 +5092,27 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>61.02.10.00</td>
+                                                                    <td>61.09.90.90</td>
+                                                                
+                                                            
+                                                                
+                                                                    <td>7</td>
+                                                                
+                                                            
+                                                                
+                                                                    <td>0.005649717514124294</td>
+                                                                
+                                                            
+                                                        </tr>
+                                                    
+                                                        <tr>
+                                                            
+                                                                
+                                                                    <td class="referencia">PosicionArancelaria</td>
+                                                                
+                                                            
+                                                                
+                                                                    <td>64.03</td>
                                                                 
                                                             
                                                                 
@@ -5132,7 +5132,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>08.10.90.50</td>
+                                                                    <td>61.02.10.00</td>
                                                                 
                                                             
                                                                 
@@ -5372,7 +5372,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>solido y/o manteca vegetal</td>
+                                                                    <td>PANTALONES LARGOS</td>
                                                                 
                                                             
                                                                 
@@ -5552,7 +5552,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>RUANAS</td>
+                                                                    <td>cocoa</td>
                                                                 
                                                             
                                                                 
@@ -5592,7 +5592,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>cocoa</td>
+                                                                    <td>RUANAS</td>
                                                                 
                                                             
                                                                 
@@ -5612,7 +5612,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>jeans</td>
+                                                                    <td>Orange</td>
                                                                 
                                                             
                                                                 
@@ -5792,26 +5792,6 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>margarina industrial</td>
-                                                                
-                                                            
-                                                                
-                                                                    <td>5</td>
-                                                                
-                                                            
-                                                                
-                                                                    <td>0.004035512510088781</td>
-                                                                
-                                                            
-                                                        </tr>
-                                                    
-                                                        <tr>
-                                                            
-                                                                
-                                                                    <td class="referencia">Descripcion</td>
-                                                                
-                                                            
-                                                                
                                                                     <td>PANTALONES LARGOS</td>
                                                                 
                                                             
@@ -5832,7 +5812,27 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>VIBRADOR</td>
+                                                                    <td>margarina industrial</td>
+                                                                
+                                                            
+                                                                
+                                                                    <td>5</td>
+                                                                
+                                                            
+                                                                
+                                                                    <td>0.004035512510088781</td>
+                                                                
+                                                            
+                                                        </tr>
+                                                    
+                                                        <tr>
+                                                            
+                                                                
+                                                                    <td class="referencia">Descripcion</td>
+                                                                
+                                                            
+                                                                
+                                                                    <td>Jugo a base de pulpa  de fruta</td>
                                                                 
                                                             
                                                                 
@@ -5852,7 +5852,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>Jugo a base de pulpa  de fruta</td>
+                                                                    <td>pantalones</td>
                                                                 
                                                             
                                                                 
@@ -6192,7 +6192,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>CAJA MAESTRA</td>
+                                                                    <td>ROBLE</td>
                                                                 
                                                             
                                                                 
@@ -6372,7 +6372,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>CONTENEDOR 40 R</td>
+                                                                    <td>PALLET</td>
                                                                 
                                                             
                                                                 
@@ -6392,7 +6392,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>PALLET</td>
+                                                                    <td>CONTENEDOR 40 R</td>
                                                                 
                                                             
                                                                 
@@ -6452,7 +6452,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>CAJA</td>
+                                                                    <td>PALLET DE MADERA</td>
                                                                 
                                                             
                                                                 
@@ -6492,7 +6492,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>PALLET DE MADERA</td>
+                                                                    <td>CAJA</td>
                                                                 
                                                             
                                                                 
@@ -6832,7 +6832,27 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>Canadá</td>
+                                                                    <td>Países Bajos</td>
+                                                                
+                                                            
+                                                                
+                                                                    <td>2</td>
+                                                                
+                                                            
+                                                                
+                                                                    <td>0.0016142050040355124</td>
+                                                                
+                                                            
+                                                        </tr>
+                                                    
+                                                        <tr>
+                                                            
+                                                                
+                                                                    <td class="referencia">Pais OrigenTI</td>
+                                                                
+                                                            
+                                                                
+                                                                    <td>China</td>
                                                                 
                                                             
                                                                 
@@ -6892,27 +6912,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>China</td>
-                                                                
-                                                            
-                                                                
-                                                                    <td>2</td>
-                                                                
-                                                            
-                                                                
-                                                                    <td>0.0016142050040355124</td>
-                                                                
-                                                            
-                                                        </tr>
-                                                    
-                                                        <tr>
-                                                            
-                                                                
-                                                                    <td class="referencia">Pais OrigenTI</td>
-                                                                
-                                                            
-                                                                
-                                                                    <td>Países Bajos</td>
+                                                                    <td>Canadá</td>
                                                                 
                                                             
                                                                 
@@ -7072,7 +7072,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>Pasto</td>
+                                                                    <td>Cali</td>
                                                                 
                                                             
                                                                 
@@ -7092,7 +7092,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>Cali</td>
+                                                                    <td>Pasto</td>
                                                                 
                                                             
                                                                 
@@ -7152,7 +7152,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>Medellín</td>
+                                                                    <td>Rionegro</td>
                                                                 
                                                             
                                                                 
@@ -7520,17 +7520,17 @@
   </thead>
   <tbody>
     <tr>
-      <td>subSector</td>
       <td>Empresa</td>
+      <td>subSector</td>
       <td>NombreAsesor</td>
-      <td>Ciudad usuario</td>
-      <td>Sector</td>
       <td>país usuario</td>
+      <td>Ciudad usuario</td>
       <td>NumIdTributaria</td>
+      <td>Sector</td>
     </tr>
     <tr>
-      <td>Estado</td>
       <td>Estado2</td>
+      <td>Estado</td>
       <td>None</td>
       <td>None</td>
       <td>None</td>
@@ -7566,13 +7566,14 @@
                                 <hr>
                                 <p>
                                     Reporte generado con la librería <em><a href="#" target="_blank">calidad_datos</a></em>
-                                    - Versión 1.0 <span class="glyphicon glyphicon-sunglasses" aria-hidden="true" style="font-size:1.2em;"></span>
+                                    - Versión 1.0
                                 </p>
                                 <br>
                             </footer>
                         </div>
                     </div>
 
+                    <!-- scripts generales -->
                     <!-- scripts generales -->
                     <script>
                         // hace el toggle de cada columna en la tabla

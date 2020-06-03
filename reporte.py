@@ -59,7 +59,7 @@ def generar_reporte(dataframe):
 
     # Estadísticas generales ----------------------------------------------------
     dataframe_summary = data_summary(dataframe).to_frame().reset_index()
-    dataframe_summary.columns = ['Categoria', 'Valor']
+    dataframe_summary.columns = ['Categoría', 'Valor']
     html_data_summary_00 = df_as_html(dataframe_summary)
     html_data_summary_01 = df_as_html(dataframe_summary[:6])
     html_data_summary_02 = df_as_html(dataframe_summary[-5:])
