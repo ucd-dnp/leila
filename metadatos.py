@@ -22,6 +22,59 @@ def sodapy_data(api_id,token=None):
     base_original = pd.DataFrame.from_records(results)
     return(base_original)
 
+# OBTENER LA TABLA QUE TIENE DATOS ABIERTOS CON INFORMACIÓN DE LAS BASES DE DATOS
+def asset_inventory(token=None):
+    import pandas as pd
+    from sodapy import Socrata
+    client = Socrata("www.datos.gov.co",app_token=token)
+    results = client.get("uzcf-b9dh",limit=1000000000)
+    asset_inventory = pd.DataFrame.from_records(results)
+    return(asset_inventory)
+
+asset=asset_inventory(token="WnkJhtSI1mjrtpymw0gVNZEcl")
+
+
+def asset_pretty(token=None):
+    asset=asset_inventory(token=token)
+    
+    dic_rename={
+         "uid":"No. identificación API",
+         "name":"Nombre",
+         "description":"Descripción",
+         "owner":"Dueño",
+         "type":"Tipo de datos",
+         "category":"Categoría",
+         "tags":"Términos clave",
+         "url":"URL",
+         "creation_date":"Fecha de creación",
+         "last_data_updated_date":"Fecha de última actualización",
+         "row_count":"Número de filas",
+         "column_count":"Número de columnas",
+         "contact_email":"Correo electrónico del contacto",
+         "license":"Licencia",
+         "attribution":"Entidad creadora de la base de datos",
+         "attribution_link":"URL de entidad",
+         "informacindelaentidad_sector":"Sector de la entidad",
+         "informacindelaentidad_departamento":"Departamento de la entidad",
+         "informacindelaentidad_orden":"Orden de la entidad",
+         "informacindelaentidad_reaodependencia":"Dependencia de la entidad",
+         "informacindelaentidad_municipio":"Municipio de la entidad",
+         "informacindedatos_frecuenciadeactualizacin":"Frecuencia de actualización",
+         "informacindedatos_idioma":"Idioma",
+         "informacindedatos_coberturageogrfica":"Cobertura"     
+         }
+    
+    lista_columnas=list(dic_rename.keys())
+    asset=asset[lista_columnas].rename(columns=dic_rename)
+    return(asset)
+
+def meta_show(api_id,token=None):
+    asset=asset_pretty(token=token)
+    base_info=asset[asset["No. identificación API"]==api_id]
+    base_info=pd.Series(base_info.iloc[0])
+    base_info=base_info.replace("","CAMPO NO DILIGENCIADO").replace(np.nan,"CAMPO NO DILIGENCIADO")
+    return(base_info)
+
 ############ METADATOS
 # OBTENER INFORMACIÓN DE COLUMNAS DE LA BASE DE DATOS SEGÚN LA METADATA
 def info_cols_meta(api_id):
@@ -109,14 +162,7 @@ def cols_vs_meta(api_id,token=None):
     comparacion="Columnas en metadatos: {0}. Columnas en microdatos: {1}".format(meta_col,micro_col)
     return(comparacion)
     
-# OBTENER LA TABLA QUE TIENE DATOS ABIERTOS CON INFORMACIÓN DE LAS BASES DE DATOS
-def asset_inventory(token=None):
-    import pandas as pd
-    from sodapy import Socrata
-    client = Socrata("www.datos.gov.co",app_token=token)
-    results = client.get("sxce-zrhe",limit=1000000000)
-    asset_inventory = pd.DataFrame.from_records(results)
-    return(asset_inventory)
+
     
 # OBTENER LA TABLA QUE SE SCRAPEÓ CON LA INFORMACIÓN DE LOS METADATOS DE DATOS ABIERTOS
 def table_meta():
