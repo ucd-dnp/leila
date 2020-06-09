@@ -5,3 +5,4 @@ __pycache__
 *.xlsx
 doc
 example_google.py
+example_restructuredtext_spamfilter.py

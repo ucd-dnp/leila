@@ -37,12 +37,6 @@ pd.set_option('max_colwidth', None)
 # pd.set_option('display.max_columns', 30)
 # pd.set_option('max_colwidth',150)
 
-# Configure Jinja and ready the loader
-env = Environment(loader=FileSystemLoader(searchpath='templates'))
-
-# Assemble the templates we'll use
-base_template = env.get_template('template_base.html')
-
 
 def df_as_html(dataframe):
     # html = dataframe.to_html(table_id='mi_tabla', index=False, classes=['table', 'table-condensed', 'table-hover']) \
@@ -113,6 +107,12 @@ def generar_reporte(dataframe):
     html_dataframe_duplic02 = df_as_html(dataframe_duplic02)
 
     # ----------------------------------------------------------------------------
+
+    # Configure Jinja and ready the loader    
+    env = Environment(loader=FileSystemLoader(searchpath='templates'))
+
+    # Assemble the templates we'll use
+    base_template = env.get_template('template_base.html')
 
     # Produce and write the report to file
     with open("perfilamiento.html", "w", encoding='utf8') as HTML_file:
