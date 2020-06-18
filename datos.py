@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Wed Sep 18 16:33:57 2019
+# Created on Wed Sep 18 16:33:57 2019
+# @author: pabmontenegro
 
-@author: pabmontenegro
-"""
 import pandas as pd
 import numpy as np
 # from sodapy import Socrata
@@ -21,6 +19,12 @@ import numpy as np
 
 ## Tipos de las columnas
 def col_type(base,detail="low"):
+    """ Retorna el tipo de dato de cada columna del dataframe, se clasifican como de tipo numérico, texto, boolean u otro.
+
+    :param base: (dataframe) base de datos de interés a ser analizada.
+    :param detail: (str) {'low', 'high'}, valor por defecto: 'low'. Nivel de detalle en la descripción del tipo.
+    :return: serie de pandas con el tipo de dato de cada columna.
+    """
     lista=[[],[]]
     
     if detail=="low":
@@ -56,6 +60,12 @@ def col_type(base,detail="low"):
 ########## valores únicos en cada columna
 # sin missing values
 def unique_col(base,missing=False):
+    """ Calcula la cantidad de valores únicos de cada columna del dataframe.
+
+    :param base: (dataframe) base de datos de interés a ser analizada.
+    :param missing: (bool) {True, False}, valor por defecto: False. Indica si desea tener en cuenta los valores faltantes en el conteo de valores únicos.
+    :return: serie de pandas con la cantidad de valores únicos de cada columna.
+    """
     if missing==False:
         unicos_columnas=base.apply(lambda x:len(x.value_counts()),axis=0)
     elif missing==True:
@@ -66,6 +76,12 @@ def unique_col(base,missing=False):
     
 ########## COMPLETITUD. Missing 
 def missing(base,perc=True):
+    """ Calcula el porcentaje/número de valores faltantes de cada columna del dataframe.
+
+    :param base: (dataframe) base de datos de interés a ser analizada.
+    :param perc: (bool) {True, False}, valor por defecto: True. Si el valor es True el resultado se expresa como un porcentaje, si el valor es False el valor se expresa como una cantidad de registros (número entero).
+    :return: serie de pandas con la cantidad/porcentaje de valores faltantes de cada columna.
+    """
     if perc==True:
         missing_columnas=pd.isnull(base).sum()/len(base)
     elif perc==False:
@@ -77,6 +93,13 @@ def missing(base,perc=True):
         
 ########## Unicidad. Porcentaje y número de filas y columnas no únicas
 def nounique(base,col=True,perc=True):
+    """ Valida la unicidad del dataframe, retorna el porcentaje/número de filas o columnas no únicas en el dataframe.
+
+    :param base: (dataframe) base de datos de interés a ser analizada.
+    :param col: (bool) {True, False}, valor por defecto: True. Si el valor es True la validación se realiza por columnas, si el valor es False la validación se realiza por filas.
+    :param perc: (bool) {True, False}, valor por defecto: True. Si el valor es True el resultado se expresa como un porcentaje, si el valor es False el valor se expresa como una cantidad de registros (número entero).
+    :return: (int o float) resultado de unicidad.
+    """
     if col==True and perc==True:
         no_unic_columnas=base.T.duplicated(keep=False)
         cols=no_unic_columnas[no_unic_columnas==True].shape[0]/base.shape[1]
@@ -99,7 +122,13 @@ def nounique(base,col=True,perc=True):
     
 ########## MATCHING DE COLUMNAS Y FILAS NO ÚNICAS
 def duplic(base,col=True):
-        
+    """ Retorna las columnas o filas que presenten valores duplicados del dataframe.
+
+    :param base: (dataframe) base de datos de interés a ser analizada.
+    :param col: (bool) {True, False}, valor por defecto: True. Si el valor es True la validación se realiza por columnas, si el valor es False la validación se realiza por filas.
+    :return: matriz (dataframe) que relaciona las indices de filas/nombre de columnas que presentan valores duplicados.
+    """
+
     # if col!=True or col!=False:
     #     return("El parámetro 'col' tiene valores distintos a True o False")
     # else:
@@ -158,6 +187,13 @@ def duplic(base,col=True):
 
 ########## CONSISTENCIA. Porcentaje de outliers
 def outliers(base,outliers="both",perc=True):
+    """ Calcula el porcentaje o cantidad de outliers de cada columna numérica (las columnas con números en formato string se intentarán transformar a columnas numéricas)
+
+    :param base: (dataframe) base de datos de interés a ser analizada.
+    :param outliers: (str) {'upper', 'lower', 'both'}, valor por defecto: 'both'. Si el valor es '**lower**' se tienen en cuenta los registros con valor menor al límite inferior calculado por la metodología de valor atípico por rango intercuartílico. Si el valor es '**upper**' se tienen en cuenta los registros con valor mayor al límite superior calculado por la metodología de valor atípico por rango intercuartílico. Si el valor es '**both**' se tienen en cuenta los registros con valor menor al límite inferior calculado por la metodología de valor atípico por rango intercuartílico, y también aquellos con valor mayor al límite superior calculado por la metodología de valor atípico por rango intercuartílico.
+    :param perc: (bool) {True, False}, valor por defecto: True. Si el valor es True el resultado se expresa como un porcentaje, si el valor es False el valor se expresa como una cantidad de registros (número entero).
+    :return: serie de pandas con la cantidad/porcentaje de valores outliers de cada columna.
+    """
     col_tipos=col_type(base,detail="low")
     col_num=col_tipos[col_tipos=="Numérico"].index
     base_num=base[col_num]
@@ -201,7 +237,13 @@ def outliers(base,outliers="both",perc=True):
     
 ############## describe de columnas
 def descriptive_stats(base,float_transform=False):
-    
+    """ Calcula estadísticas descriptivas de cada columna numérica. Incluyen media, mediana, valores en distintos percentiles, desviación estándar, valores extremos y porcentaje de valores faltantes.
+
+    :param base: (dataframe) base de datos de interés a ser analizada.
+    :param float_transform: (bool) {True, False}, valor por defecto: True. Si el valor es True se intenta realizar una transformación de valores de texto a numérico (float) para ser incluidas en el análisis, si el valor es False no se intenta realizar la transformación.
+    :return: dataframe con las estadísticas descriptivas.
+    """
+
     if float_transform==True:
         base=base.apply(lambda x:x.astype(float,errors="ignore"),axis=0)
     elif float_transform==False:
@@ -226,6 +268,14 @@ def descriptive_stats(base,float_transform=False):
 
 ###############
 def var_high_low(base,percent_low=5,percent_high=95):
+    """ Retorna las columnas numéricas cuyo percentil inferior percent_low sea igual a su percentil superior percent_high.
+
+    :param base: (dataframe) base de datos de interés a ser analizada.
+    :param percent_low: (float), valor por defecto: 5. Percentil inferior de referencia en la comparación.
+    :param percent_high: (float), valor por defecto: 95. Percentil superior de referencia en la comparación.
+    :return: indices de columnas cuyo percentil inferior es igual al percentil superior.
+    """
+
     cols_tipos=base.dtypes
     lista_nums=[]
     for i in range(len(cols_tipos)):
@@ -238,8 +288,8 @@ def var_high_low(base,percent_low=5,percent_high=95):
         else:
             pass
         
-    percentil_bajo=base_num.apply(lambda x:np.percentile(x.dropna(),5),axis=0)
-    percentil_alto=base_num.apply(lambda x:np.percentile(x.dropna(),95),axis=0)
+    percentil_bajo=base_num.apply(lambda x:np.percentile(x.dropna(),percent_low),axis=0)
+    percentil_alto=base_num.apply(lambda x:np.percentile(x.dropna(),percent_high),axis=0)
     
     percentiles=pd.concat([percentil_bajo,percentil_alto],axis=1)
     percentiles_true=(percentiles.iloc[:,0]==percentiles.iloc[:,1])
@@ -253,6 +303,14 @@ def var_high_low(base,percent_low=5,percent_high=95):
 ############### tabla de valores únicos para cada variable de texto
 # Falta definir qué es una variable categórica
 def unique_text(base,limit=0.5,nums=False,variables=None):
+    """ Genera una tabla con los primeros 10 valores más frecuentes de las columnas de tipo texto del dataframe, además calcula su frecuencia y porcentaje dentro del total de observaciones. Incluye los valores faltantes.
+
+    :param base: (dataframe) base de datos de interés a ser analizada.
+    :param limit: (float) (valor de 0 a 1) límite de referencia, se utiliza para determinar si las variables posiblemente son de tipo categóricas y ser incluidas en el análisis. Si el número de valores únicos por columna es mayor al número de registros * limit, se considera que la variable no es categórica.
+    :param nums: (bool) {True, False}, determina si se desea considerar las variables como categóricas e incluirlas en el análisis. Si el valor es True se incluyen las variables numéricas en el análisis, si el valor es False no se incluyen las variables numéricas en el análisis.
+    :param variables: (str) nombres de las columnas separados por comas. Permite escoger las columnas de interés de análisis del dataframe
+    :return: dataframe con las estadísticas descriptivas de las columnas de tipo texto.
+    """
     # Filtrar la base por las variables escogidas en la opción 'variables'
     if variables is not None:
         base=base[variables]
@@ -260,7 +318,6 @@ def unique_text(base,limit=0.5,nums=False,variables=None):
         pass
     
     # Calcular qué variables tipo object tienen valores únicos menores al 50% (o valor de 'limit') del total de filas de la base original
-    limit=0.5
     col_object=base.dtypes
     col_object=col_object[col_object=="object"]
     lista_object_unicos=[]
@@ -284,7 +341,7 @@ def unique_text(base,limit=0.5,nums=False,variables=None):
         pass
     else:
         return("La opción 'nums' tiene un valor distinto a True o False")
-    
+
     # Crear el dataframe con la información
     lista_counts=[]
     for s in lista_object_unicos:
@@ -323,6 +380,12 @@ def unique_text(base,limit=0.5,nums=False,variables=None):
     
 ########## Tamaño de la base de datos en la memoria
 def memoria(base,col=False):
+    """ Calcula el tamaño de la base de datos en memoria (megabytes)
+
+    :param base: (dataframe) base de datos de interés a ser analizada.
+    :param col: (bool) {True, False}, valor por defecto: False. Si el valor es False realiza el cálculo de memoria del dataframe completo, si el valor es True realiza el cálculo de memoria por cada columna del dataframe.
+    :return: valor (float) del tamaño de la base de datos en megabytes (si el parámetro col es False). Serie de pandas con el cálculo de memoria en megabytes por cada columna del dataframe. (si el parámetro col es True).
+    """
     if col==False:
         memoria=base.memory_usage(index=True).sum()
     elif col==True:   
@@ -333,6 +396,11 @@ def memoria(base,col=False):
     
 ########## tabla de resumen pequeña
 def data_summary(base):
+    """ Retorna una tabla con información general de la base de datos. Incluye número de filas y columnas, número de columnas numéricas y de texto, número de columnas con más de la mitad de las observaciones con datos faltantes, número de columnas con más del 10% de observaciones con datos extremos y número de filas y columnas no únicas.
+
+    :param base: (dataframe) base de datos de interés a ser analizada.
+    :return: serie de pandas con las estadísticas descriptivas del dataframe.
+    """
     datos=["" for q in range(11)]
     # nombres=["Número de filas","Número de columnas","Columnas numéricas","Columnas de texto","Columnas boolean","Columnas de fecha","Otro tipo de columnas","Número de filas no únicas","Número de columnas no únicas","Columnas con más de la mitad de datos faltantes","Columnas con más del 10% de datos como extremos","Tamaño de la base en megabytes (redondeado)"]
     nombres=["Número de filas","Número de columnas","Columnas numéricas","Columnas de texto","Columnas boolean","Columnas de fecha","Otro tipo de columnas","Número de filas no únicas","Columnas con más de la mitad de datos faltantes","Columnas con más del 10% de datos como extremos","Tamaño de la base en megabytes (redondeado)"]

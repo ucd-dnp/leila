@@ -38,21 +38,35 @@ pd.set_option('max_colwidth', None)
 # pd.set_option('max_colwidth',150)
 
 
-def df_as_html(dataframe):
-    # html = dataframe.to_html(table_id='mi_tabla', index=False, classes=['table', 'table-condensed', 'table-hover']) \
-    html = dataframe.to_html(index=False, classes=['table', 'table-condensed']) \
+def df_as_html(base):
+    """ Transforma el dataframe de entrada en una tabla HTML, se asignan al tab table las clases 'table' y
+    'table-condensed' utilizadas por `Bootstrap v3.4`_.
+
+    .. _Bootstrap v3.4: https://getbootstrap.com/docs/3.4/
+
+    :param base: (dataframe) dataframe de interés a ser transformado en tabla.
+    :return: código de tabla HTML con los datos del dataframe.
+    """
+    # html = base.to_html(table_id='mi_tabla', index=False, classes=['table', 'table-condensed', 'table-hover']) \
+    html = base.to_html(index=False, classes=['table', 'table-condensed']) \
         .replace('table border="1" class="dataframe ', 'table class="')
     return html
 
 
-def generar_reporte(dataframe):
+def generar_reporte(base, titulo='Reporte perfilamiento', archivo='perfilamiento.html'):
+    """Genera un reporte de calidad de datos en formato HTML
 
-    title = 'Reporte perfilamiento'
+    :param base: (dataframe) base de datos de insumo para la generación del reporte de calidad de datos.
+    :param titulo: (str) valor por defecto: 'Reporte perfilamiento'. Título del reporte a generar.
+    :param archivo: (str) valor por defecto: 'perfilamiento.html'. Ruta donde guardar el reporte.
+    :return: archivo de reporte en formato HTML.
+    """
+
     timestamp = datetime.datetime.now()
     current_time = timestamp.strftime("%d-%m-%Y %I:%M:%S %p")
 
     # Estadísticas generales ----------------------------------------------------
-    dataframe_summary = data_summary(dataframe).to_frame().reset_index()
+    dataframe_summary = data_summary(base).to_frame().reset_index()
     dataframe_summary.columns = ['Categoría', 'Valor']
     html_data_summary_00 = df_as_html(dataframe_summary)
     html_data_summary_01 = df_as_html(dataframe_summary[:6])
@@ -60,30 +74,30 @@ def generar_reporte(dataframe):
 
     # Muestra de datos ----------------------------------------------------------
     # Head
-    html_dataframe_head = df_as_html(dataframe.head(10))
+    html_dataframe_head = df_as_html(base.head(10))
     # Tail
-    html_dataframe_tail = df_as_html(dataframe.tail(10))
+    html_dataframe_tail = df_as_html(base.tail(10))
     # Shape
-    df_shape = dataframe.shape
+    df_shape = base.shape
     dataframe_shape = str(df_shape[0]) + ' filas x ' + str(df_shape[1]) + ' columnas'
 
     # Tab 1 ---------------------------------------------------------------------
-    dataframe_descriptive_stats = descriptive_stats(dataframe)
+    dataframe_descriptive_stats = descriptive_stats(base)
     dataframe_descriptive_stats = dataframe_descriptive_stats.T
     header_list = list(dataframe_descriptive_stats)
     dataframe_descriptive_stats = dataframe_descriptive_stats.reset_index()
     items = dataframe_descriptive_stats.values.tolist()
 
     # Tab 2 ---------------------------------------------------------------------
-    tipo_df_low = col_type(dataframe, detail="low").to_frame()
-    tipo_df_high = col_type(dataframe, detail="high").to_frame()
+    tipo_df_low = col_type(base, detail="low").to_frame()
+    tipo_df_high = col_type(base, detail="high").to_frame()
     dataframe_descriptive_stats_2 = pd.merge(tipo_df_low, tipo_df_high, left_index=True, right_index=True, how='outer')
 
-    memoria_df = memoria(dataframe, col=True).to_frame()
+    memoria_df = memoria(base, col=True).to_frame()
     memoria_df = memoria_df.loc[~memoria_df.index.isin(['Index'])]
     dataframe_descriptive_stats_2 = pd.merge(dataframe_descriptive_stats_2, memoria_df, left_index=True, right_index=True, how='outer')
 
-    valores_unicos_df = unique_col(dataframe).to_frame()
+    valores_unicos_df = unique_col(base).to_frame()
     dataframe_descriptive_stats_2 = pd.merge(dataframe_descriptive_stats_2, valores_unicos_df, left_index=True, right_index=True, how='outer')
 
     dataframe_descriptive_stats_2.columns = ['Tipo', 'Tipo (específico)', 'Memoria', 'Valores únicos']
@@ -94,16 +108,16 @@ def generar_reporte(dataframe):
     items_2 = dataframe_descriptive_stats_2.values.tolist()
 
     # Tab 3 ---------------------------------------------------------------------
-    dataframe_unique_text = unique_text(dataframe)
+    dataframe_unique_text = unique_text(base)
     html_dataframe_unique_text = df_as_html(dataframe_unique_text)
     variables_list_3 = dataframe_unique_text.Columna.unique()
     columnas_list_3 = list(dataframe_unique_text)
     items_3 = dataframe_unique_text.values.tolist()
 
     # Tab 4 ---------------------------------------------------------------------
-    dataframe_duplic01 = duplic(dataframe, col=False)
+    dataframe_duplic01 = duplic(base, col=False)
     html_dataframe_duplic01 = df_as_html(dataframe_duplic01)
-    dataframe_duplic02 = duplic(dataframe, col=True)
+    dataframe_duplic02 = duplic(base, col=True)
     html_dataframe_duplic02 = df_as_html(dataframe_duplic02)
 
     # ----------------------------------------------------------------------------
@@ -115,9 +129,9 @@ def generar_reporte(dataframe):
     base_template = env.get_template('template_base.html')
 
     # Produce and write the report to file
-    with open("perfilamiento.html", "w", encoding='utf8') as HTML_file:
+    with open(archivo, "w", encoding='utf8') as HTML_file:
         output = base_template.render(
-            title=title,
+            title=titulo,
             current_time=current_time,
             html_data_summary_00=html_data_summary_00,
             html_data_summary_01=html_data_summary_01,
@@ -139,7 +153,7 @@ def generar_reporte(dataframe):
         HTML_file.write(output)
     print('-----------------------------------------------------------------------')
     print('Se ha generado el reporte "perfilamiento.html"')
-    print('dataframe shape:' + str(dataframe.shape))
+    print('dataframe shape:' + str(base.shape))
     print(timestamp.strftime("%I:%M:%S %p"))
     print('-----------------------------------------------------------------------')
 
@@ -157,7 +171,7 @@ def main():
 
     # print(args)
     df = pd.read_excel(args.dataframe)
-    generar_reporte(dataframe=df)
+    generar_reporte(base=df)
 
     os.system('perfilamiento.html')
 

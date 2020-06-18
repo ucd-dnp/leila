@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Mon Oct 28 09:13:22 2019
-
-@author: pabmontenegro
-"""
+# Created on Mon Oct 28 09:13:22 2019
+# @author: pabmontenegro
 
 import pandas as pd
 import numpy as np
@@ -14,7 +11,13 @@ from sodapy import Socrata
 direccion_metatabla="https://dl.dropboxusercontent.com/s/84lt7ddrt73vzzu/tabla_final.txt?dl=0"
 
 def sodapy_data(api_id,token=None):
+    """ La función se conecta al API de Socrata y retorna la base de datos descargada del Portal de Datos Abiertos
+    como dataframe.
 
+    :param api_id: (str) Identificación de la base de datos asociado con la API de Socrata.
+    :param token: (str) *opcional* - token de usuario de la API Socrata.
+    :return: base de datos en formato dataframe.
+    """
     client = Socrata("www.datos.gov.co",
                      app_token=token)
 
@@ -24,6 +27,12 @@ def sodapy_data(api_id,token=None):
 
 # OBTENER LA TABLA QUE TIENE DATOS ABIERTOS CON INFORMACIÓN DE LAS BASES DE DATOS
 def asset_inventory(token=None):
+    """ La función se conecta al API de Socrata y retorna la base de datos *Asset Inventory* descargada del Portal de Datos Abiertos
+    como dataframe. Este conjunto de datos es un inventario de los recursos en el sitio.
+
+    :param token: (str) *opcional* - token de usuario de la API Socrata.
+    :return: base de datos en formato dataframe.
+    """
     import pandas as pd
     from sodapy import Socrata
     client = Socrata("www.datos.gov.co",app_token=token)
@@ -35,6 +44,12 @@ asset=asset_inventory(token="WnkJhtSI1mjrtpymw0gVNZEcl")
 
 
 def asset_pretty(token=None):
+    """ La función se conecta al API de Socrata y retorna la base de datos *Asset Inventory* descargada del Portal de Datos Abiertos
+    como dataframe, selecciona columnas de interés y las renombra con un término en español. Este conjunto de datos es un inventario de los recursos en el sitio.
+
+    :param token: (str) *opcional* - token de usuario de la API Socrata.
+    :return: base de datos en formato dataframe.
+    """
     asset=asset_inventory(token=token)
     
     dic_rename={
@@ -69,6 +84,12 @@ def asset_pretty(token=None):
     return(asset)
 
 def meta_show(api_id,token=None):
+    """ Se conecta al API de Socrata y retorna los metadatos asociados a la base del api_id.
+
+    :param api_id: (str) Identificación de la base de datos asociado con la API de Socrata.
+    :param token: (str) *opcional* - token de usuario de la API Socrata.
+    :return: serie de pandas con los metadatos.
+    """
     asset=asset_pretty(token=token)
     base_info=asset[asset["No. identificación API"]==api_id]
     base_info=pd.Series(base_info.iloc[0])
@@ -78,6 +99,11 @@ def meta_show(api_id,token=None):
 ############ METADATOS
 # OBTENER INFORMACIÓN DE COLUMNAS DE LA BASE DE DATOS SEGÚN LA METADATA
 def info_cols_meta(api_id):
+    """ Se conecta al API de Socrata y retorna el nombre, descripción y tipo de datos de cada una de las columnas de la base de datos asociada con el *api_id*.
+
+    :param api_id: (str) Identificación de la base de datos asociado con la API de Socrata.
+    :return: base de datos en formato dataframe
+    """
     import pandas as pd  
     
     tabla_conj=pd.read_csv(direccion_metatabla)
@@ -106,6 +132,12 @@ def info_cols_meta(api_id):
     
 # COMPARAR LAS FILAS DE LOS METADATOS CON LA BASE DE DATOS MICRO
 def compare_meta(api_id,token=None):
+    """ Se conecta al API de Socrata y consulta el número de filas y columnas de los metadatos de la base de datos asociada con el *api_id* para construir una tabla, adicionalmente se agregan los datos actuales del número de filas y columnas de la base de datos.
+
+    :param api_id: (str) Identificación de la base de datos asociado con la API de Socrata.
+    :param token: (str) *opcional* - token de usuario de la API Socrata.
+    :return: serie de pandas con el número de columnas y filas según los datos y metadatos.
+    """
     import pandas as pd
     from sodapy import Socrata
     
@@ -130,6 +162,8 @@ def compare_meta(api_id,token=None):
     return(comparacion)
 
 def rows_vs_meta(api_id,token=None):
+    """ Esta función sobra, la idea es borrarla """
+
     import pandas as pd
     from sodapy import Socrata
     
@@ -147,6 +181,8 @@ def rows_vs_meta(api_id,token=None):
     
 # COMPARAR LAS COLUMNAS DE LOS METADATOS CON LA BASE DE DATOS MICRO
 def cols_vs_meta(api_id,token=None):
+    """ Esta función sobra, la idea es borrarla """
+
     import pandas as pd
     from sodapy import Socrata
     
@@ -161,17 +197,23 @@ def cols_vs_meta(api_id,token=None):
     micro_col=base_original.shape[1]
     comparacion="Columnas en metadatos: {0}. Columnas en microdatos: {1}".format(meta_col,micro_col)
     return(comparacion)
-    
 
-    
 # OBTENER LA TABLA QUE SE SCRAPEÓ CON LA INFORMACIÓN DE LOS METADATOS DE DATOS ABIERTOS
 def table_meta():
+    """ Esta función sobra, la idea es borrarla """
+
     import pandas as pd
     tabla_conj=pd.read_csv(direccion_metatabla)    
     return(tabla_conj)
 
 #     
 def table_search(columnas_valor,columnas_operacion):
+    """ Permite filtrar la base de datos de *Asset Inventory* de acuerdo a diferentes términos de búsqueda. Como son fechas, textos y otros.
+
+    :param columnas_valor: (dictinario) {'nombre de columna':'valor a buscar o rangos'}. Correponde al nombre de la columna a consultar y el valor a buscar.
+    :param columnas_operacion: (str) {'contiene', 'igual', 'entre', 'menor', 'mayor', 'mayor igual', 'menor igual'} condición de comparación para filtrar la información.
+    :return: dataframe *Asset Inventory* filtrado con los términos de búsqueda).
+    """
     # base_filtro=tabla.copy()
     base_filtro=table_meta
 
@@ -275,6 +317,12 @@ def table_search(columnas_valor,columnas_operacion):
 
 # VERIFICAR SI ACTUALIZACIONES DE DATOS Y METADATOS ESTÁN AL DÍA
 def updated_data(api_id,tipo_dato="metadatos"):
+    """ Compara la última fecha de actualización de la base de datos con la frecuencia de actualización indicada en el *Asset Inventory*
+
+    :param api_id: (str) Identificación de la base de datos asociado con la API de Socrata.
+    :param tipo_dato: (str) {'datos', 'metadatos'}, valor por defecto: 'metadatos. Fecha a validar, se tienen dos fechas de actualización, fecha de actualización de datos y fecha de actualización de metadatos.
+    :return: texto con validación de última fecha de actualización.
+    """
     tabla_conj=pd.read_csv(direccion_metatabla)
     tabla_conj=tabla_conj.loc[tabla_conj.loc[:,"tipo"]=="Conjunto de Datos"]
     
@@ -391,10 +439,6 @@ def updated_data(api_id,tipo_dato="metadatos"):
         
     else:
         return("El segundo parámetro de la función 'actualización' (el tipo de dato) tiene que ser una de las siguientes palabras: 'datos' o 'metadatos'")
-
-
-
-
 
 #def infos_cols_tabla(base):
 #    tipo_columna=col_type(base)
