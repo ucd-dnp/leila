@@ -4,18 +4,6 @@
 
 import pandas as pd
 import numpy as np
-# from sodapy import Socrata
-
-
-#def sodapy_data(api_id,token=None):
-#
-#    client = Socrata("www.datos.gov.co",
-#                     app_token=token)
-#
-#    results = client.get(api_id,limit=1000000000)
-#    base_original = pd.DataFrame.from_records(results)
-#    return(base_original)
-
 
 ## Tipos de las columnas
 def col_type(base,detail="low"):
@@ -436,15 +424,35 @@ def data_summary(base):
     tabla_resumen=pd.Series(data=datos,index=nombres).astype(int)
     return(tabla_resumen)
  
-
+########### Matrices de correlación para las variables numéricas
+def correlacion(base,metodo="pearson",variables=None):
+    
+    # Filtrar la base por las variables escogidas en la opción 'variables'
+    if type(variables)==list:
+        base=base[variables]
+    else:
+        pass
+    
+    # Filtrar por columnas que sean numéricas
+    col_tipos=col_type(base,detail="low")
+    col_num=col_tipos[col_tipos=="Numérico"].index
+    base_num=base[col_num]
+    
+    # Crear la matriz de correlación dependiendo del método escogido
+    if metodo=="pearson":
+        correlacion=base_num.corr(method="pearson")
+    elif metodo=="kendall":
+        correlacion=base_num.corr(method="kendall")
+    elif metodo=="spearman":
+        correlacion=base_num.corr(method="spearman")
+    else:
+        return("El parámetro 'metodo' tiene valores diferentes a 'pearson', 'kendall' o 'spearman")
+    
+    return correlacion
 
 #from distutils.sysconfig import get_python_lib
 #print(get_python_lib())
 #
-
-
-
-np.nan==np.nan
 
 
 
