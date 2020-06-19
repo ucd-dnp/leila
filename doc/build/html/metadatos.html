@@ -1,0 +1,377 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="es" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="es" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Metadatos &mdash; documentación de Calidad de Datos - 1.0</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script src="_static/translations.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Reporte" href="reporte.html" />
+    <link rel="prev" title="Datos" href="datos.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Calidad de Datos
+          
+
+          
+            
+            <img src="_static/logo_200.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                Versión 1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">CALIDAD DE DATOS:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="genindex.html">Índice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduccion.html">Introducción</a></li>
+<li class="toctree-l1"><a class="reference internal" href="instalacion.html">Instalación</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Módulos y funciones:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="datos.html">Datos</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Metadatos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reporte.html">Reporte</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Calidad de Datos</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content style-external-links">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Metadatos</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="metadatos">
+<span id="id1"></span><h1>Metadatos<a class="headerlink" href="#metadatos" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>Este módulo permite conectar y evaluar desde el código los metadatos del Portal de Datos Abiertos y descargar las bases de datos a dataframes.</p>
+<span class="target" id="module-metadatos"></span><dl class="py function">
+<dt id="metadatos.asset_inventory">
+<code class="descclassname">metadatos.</code><code class="descname">asset_inventory</code><span class="sig-paren">(</span><em><span class="n">token</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#metadatos.asset_inventory" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>La función se conecta al API de Socrata y retorna la base de datos <em>Asset Inventory</em> descargada del Portal de Datos Abiertos
+como dataframe. Este conjunto de datos es un inventario de los recursos en el sitio.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>token</strong> – (str) <em>opcional</em> - token de usuario de la API Socrata.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body">base de datos en formato dataframe.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py function">
+<dt id="metadatos.asset_pretty">
+<code class="descclassname">metadatos.</code><code class="descname">asset_pretty</code><span class="sig-paren">(</span><em><span class="n">token</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#metadatos.asset_pretty" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>La función se conecta al API de Socrata y retorna la base de datos <em>Asset Inventory</em> descargada del Portal de Datos Abiertos
+como dataframe, selecciona columnas de interés y las renombra con un término en español. Este conjunto de datos es un inventario de los recursos en el sitio.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>token</strong> – (str) <em>opcional</em> - token de usuario de la API Socrata.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body">base de datos en formato dataframe.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py function">
+<dt id="metadatos.compare_meta">
+<code class="descclassname">metadatos.</code><code class="descname">compare_meta</code><span class="sig-paren">(</span><em><span class="n">api_id</span></em>, <em><span class="n">token</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#metadatos.compare_meta" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Se conecta al API de Socrata y consulta el número de filas y columnas de los metadatos de la base de datos asociada con el <em>api_id</em> para construir una tabla, adicionalmente se agregan los datos actuales del número de filas y columnas de la base de datos.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>api_id</strong> – (str) Identificación de la base de datos asociado con la API de Socrata.</li>
+<li><strong>token</strong> – (str) <em>opcional</em> - token de usuario de la API Socrata.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">serie de pandas con el número de columnas y filas según los datos y metadatos.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py function">
+<dt id="metadatos.info_cols_meta">
+<code class="descclassname">metadatos.</code><code class="descname">info_cols_meta</code><span class="sig-paren">(</span><em><span class="n">api_id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#metadatos.info_cols_meta" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Se conecta al API de Socrata y retorna el nombre, descripción y tipo de datos de cada una de las columnas de la base de datos asociada con el <em>api_id</em>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>api_id</strong> – (str) Identificación de la base de datos asociado con la API de Socrata.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body">base de datos en formato dataframe</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py function">
+<dt id="metadatos.meta_show">
+<code class="descclassname">metadatos.</code><code class="descname">meta_show</code><span class="sig-paren">(</span><em><span class="n">api_id</span></em>, <em><span class="n">token</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#metadatos.meta_show" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Se conecta al API de Socrata y retorna los metadatos asociados a la base del api_id.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>api_id</strong> – (str) Identificación de la base de datos asociado con la API de Socrata.</li>
+<li><strong>token</strong> – (str) <em>opcional</em> - token de usuario de la API Socrata.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">serie de pandas con los metadatos.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py function">
+<dt id="metadatos.sodapy_data">
+<code class="descclassname">metadatos.</code><code class="descname">sodapy_data</code><span class="sig-paren">(</span><em><span class="n">api_id</span></em>, <em><span class="n">token</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#metadatos.sodapy_data" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>La función se conecta al API de Socrata y retorna la base de datos descargada del Portal de Datos Abiertos
+como dataframe.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>api_id</strong> – (str) Identificación de la base de datos asociado con la API de Socrata.</li>
+<li><strong>token</strong> – (str) <em>opcional</em> - token de usuario de la API Socrata.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">base de datos en formato dataframe.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py function">
+<dt id="metadatos.table_search">
+<code class="descclassname">metadatos.</code><code class="descname">table_search</code><span class="sig-paren">(</span><em><span class="n">columnas_valor</span></em>, <em><span class="n">columnas_operacion</span></em><span class="sig-paren">)</span><a class="headerlink" href="#metadatos.table_search" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Permite filtrar la base de datos de <em>Asset Inventory</em> de acuerdo a diferentes términos de búsqueda. Como son fechas, textos y otros.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>columnas_valor</strong> – (dictinario) {“nombre de columna”:”valor a buscar o rangos”}. Correponde al nombre de la columna a consultar y el valor a buscar.</li>
+<li><strong>columnas_operacion</strong> – (str) {“contiene”, “igual”, “entre”, “menor”, “mayor”, “mayor igual”, “menor igual”} condición de comparación para filtrar la información.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">dataframe <em>Asset Inventory</em> filtrado con los términos de búsqueda).</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py function">
+<dt id="metadatos.updated_data">
+<code class="descclassname">metadatos.</code><code class="descname">updated_data</code><span class="sig-paren">(</span><em><span class="n">api_id</span></em>, <em><span class="n">tipo_dato</span><span class="o">=</span><span class="default_value">'metadatos'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#metadatos.updated_data" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Compara la última fecha de actualización de la base de datos con la frecuencia de actualización indicada en el <em>Asset Inventory</em></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>api_id</strong> – (str) Identificación de la base de datos asociado con la API de Socrata.</li>
+<li><strong>tipo_dato</strong> – (str) {“datos”, “metadatos”}, valor por defecto: “metadatos. Fecha a validar, se tienen dos fechas de actualización, fecha de actualización de datos y fecha de actualización de metadatos.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">texto con validación de última fecha de actualización.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="reporte.html" class="btn btn-neutral float-right" title="Reporte" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="datos.html" class="btn btn-neutral float-left" title="Datos" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, UCD - DNP
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

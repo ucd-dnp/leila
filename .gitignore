@@ -3,6 +3,7 @@ env
 __temp
 __pycache__
 *.xlsx
-doc
 example_google.py
 example_restructuredtext_spamfilter.py
+doc/_guia
+doc/env_doc

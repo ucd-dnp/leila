@@ -1,0 +1,457 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="es" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="es" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Datos &mdash; documentación de Calidad de Datos - 1.0</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script src="_static/translations.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Metadatos" href="metadatos.html" />
+    <link rel="prev" title="Instalación" href="instalacion.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Calidad de Datos
+          
+
+          
+            
+            <img src="_static/logo_200.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                Versión 1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">CALIDAD DE DATOS:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="genindex.html">Índice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduccion.html">Introducción</a></li>
+<li class="toctree-l1"><a class="reference internal" href="instalacion.html">Instalación</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Módulos y funciones:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="metadatos.html">Metadatos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reporte.html">Reporte</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Calidad de Datos</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content style-external-links">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Datos</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="datos">
+<span id="id1"></span><h1>Datos<a class="headerlink" href="#datos" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>Este módulo se enfoca en analizar cualquier base de datos (dataframe) de interes para el usuario. Se tiene acceso a funciones de estadísticas descriptivas, cálculo de memoria, registros duplicados, faltantes y otras.</p>
+<span class="target" id="module-datos"></span><dl class="py function">
+<dt id="datos.col_type">
+<code class="descclassname">datos.</code><code class="descname">col_type</code><span class="sig-paren">(</span><em><span class="n">base</span></em>, <em><span class="n">detail</span><span class="o">=</span><span class="default_value">'low'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos.col_type" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Retorna el tipo de dato de cada columna del dataframe, se clasifican como de tipo numérico, texto, boolean u otro.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>base</strong> – (dataframe) base de datos de interés a ser analizada.</li>
+<li><strong>detail</strong> – (str) {“low”, “high”}, valor por defecto: “low”. Nivel de detalle en la descripción del tipo.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">serie de pandas con el tipo de dato de cada columna.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py function">
+<dt id="datos.correlacion">
+<code class="descclassname">datos.</code><code class="descname">correlacion</code><span class="sig-paren">(</span><em><span class="n">base</span></em>, <em><span class="n">metodo</span><span class="o">=</span><span class="default_value">'pearson'</span></em>, <em><span class="n">variables</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos.correlacion" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="datos.data_summary">
+<code class="descclassname">datos.</code><code class="descname">data_summary</code><span class="sig-paren">(</span><em><span class="n">base</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos.data_summary" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Retorna una tabla con información general de la base de datos. Incluye número de filas y columnas, número de columnas numéricas y de texto, número de columnas con más de la mitad de las observaciones con datos faltantes, número de columnas con más del 10% de observaciones con datos extremos y número de filas y columnas no únicas.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>base</strong> – (dataframe) base de datos de interés a ser analizada.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body">serie de pandas con las estadísticas descriptivas del dataframe.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py function">
+<dt id="datos.descriptive_stats">
+<code class="descclassname">datos.</code><code class="descname">descriptive_stats</code><span class="sig-paren">(</span><em><span class="n">base</span></em>, <em><span class="n">float_transform</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos.descriptive_stats" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Calcula estadísticas descriptivas de cada columna numérica. Incluyen media, mediana, valores en distintos percentiles, desviación estándar, valores extremos y porcentaje de valores faltantes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>base</strong> – (dataframe) base de datos de interés a ser analizada.</li>
+<li><strong>float_transform</strong> – (bool) {True, False}, valor por defecto: True. Si el valor es True se intenta realizar una transformación de valores de texto a numérico (float) para ser incluidas en el análisis, si el valor es False no se intenta realizar la transformación.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">dataframe con las estadísticas descriptivas.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py function">
+<dt id="datos.duplic">
+<code class="descclassname">datos.</code><code class="descname">duplic</code><span class="sig-paren">(</span><em><span class="n">base</span></em>, <em><span class="n">col</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos.duplic" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Retorna las columnas o filas que presenten valores duplicados del dataframe.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>base</strong> – (dataframe) base de datos de interés a ser analizada.</li>
+<li><strong>col</strong> – (bool) {True, False}, valor por defecto: True. Si el valor es True la validación se realiza por columnas, si el valor es False la validación se realiza por filas.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">matriz (dataframe) que relaciona las indices de filas/nombre de columnas que presentan valores duplicados.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py function">
+<dt id="datos.memoria">
+<code class="descclassname">datos.</code><code class="descname">memoria</code><span class="sig-paren">(</span><em><span class="n">base</span></em>, <em><span class="n">col</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos.memoria" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Calcula el tamaño de la base de datos en memoria (megabytes)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>base</strong> – (dataframe) base de datos de interés a ser analizada.</li>
+<li><strong>col</strong> – (bool) {True, False}, valor por defecto: False. Si el valor es False realiza el cálculo de memoria del dataframe completo, si el valor es True realiza el cálculo de memoria por cada columna del dataframe.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">valor (float) del tamaño de la base de datos en megabytes (si el parámetro col es False). Serie de pandas con el cálculo de memoria en megabytes por cada columna del dataframe. (si el parámetro col es True).</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py function">
+<dt id="datos.missing">
+<code class="descclassname">datos.</code><code class="descname">missing</code><span class="sig-paren">(</span><em><span class="n">base</span></em>, <em><span class="n">perc</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos.missing" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Calcula el porcentaje/número de valores faltantes de cada columna del dataframe.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>base</strong> – (dataframe) base de datos de interés a ser analizada.</li>
+<li><strong>perc</strong> – (bool) {True, False}, valor por defecto: True. Si el valor es True el resultado se expresa como un porcentaje, si el valor es False el valor se expresa como una cantidad de registros (número entero).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">serie de pandas con la cantidad/porcentaje de valores faltantes de cada columna.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py function">
+<dt id="datos.nounique">
+<code class="descclassname">datos.</code><code class="descname">nounique</code><span class="sig-paren">(</span><em><span class="n">base</span></em>, <em><span class="n">col</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">perc</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos.nounique" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Valida la unicidad del dataframe, retorna el porcentaje/número de filas o columnas no únicas en el dataframe.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>base</strong> – (dataframe) base de datos de interés a ser analizada.</li>
+<li><strong>col</strong> – (bool) {True, False}, valor por defecto: True. Si el valor es True la validación se realiza por columnas, si el valor es False la validación se realiza por filas.</li>
+<li><strong>perc</strong> – (bool) {True, False}, valor por defecto: True. Si el valor es True el resultado se expresa como un porcentaje, si el valor es False el valor se expresa como una cantidad de registros (número entero).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">(int o float) resultado de unicidad.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py function">
+<dt id="datos.outliers">
+<code class="descclassname">datos.</code><code class="descname">outliers</code><span class="sig-paren">(</span><em><span class="n">base</span></em>, <em><span class="n">outliers</span><span class="o">=</span><span class="default_value">'both'</span></em>, <em><span class="n">perc</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos.outliers" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Calcula el porcentaje o cantidad de outliers de cada columna numérica (las columnas con números en formato string se intentarán transformar a columnas numéricas)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>base</strong> – (dataframe) base de datos de interés a ser analizada.</li>
+<li><strong>outliers</strong> – (str) {“upper”, “lower”, “both”}, valor por defecto: “both”. Si el valor es “<strong>lower</strong>” se tienen en cuenta los registros con valor menor al límite inferior calculado por la metodología de valor atípico por rango intercuartílico. Si el valor es “<strong>upper</strong>” se tienen en cuenta los registros con valor mayor al límite superior calculado por la metodología de valor atípico por rango intercuartílico. Si el valor es “<strong>both</strong>” se tienen en cuenta los registros con valor menor al límite inferior calculado por la metodología de valor atípico por rango intercuartílico, y también aquellos con valor mayor al límite superior calculado por la metodología de valor atípico por rango intercuartílico.</li>
+<li><strong>perc</strong> – (bool) {True, False}, valor por defecto: True. Si el valor es True el resultado se expresa como un porcentaje, si el valor es False el valor se expresa como una cantidad de registros (número entero).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">serie de pandas con la cantidad/porcentaje de valores outliers de cada columna.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py function">
+<dt id="datos.unique_col">
+<code class="descclassname">datos.</code><code class="descname">unique_col</code><span class="sig-paren">(</span><em><span class="n">base</span></em>, <em><span class="n">missing</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos.unique_col" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Calcula la cantidad de valores únicos de cada columna del dataframe.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>base</strong> – (dataframe) base de datos de interés a ser analizada.</li>
+<li><strong>missing</strong> – (bool) {True, False}, valor por defecto: False. Indica si desea tener en cuenta los valores faltantes en el conteo de valores únicos.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">serie de pandas con la cantidad de valores únicos de cada columna.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py function">
+<dt id="datos.unique_text">
+<code class="descclassname">datos.</code><code class="descname">unique_text</code><span class="sig-paren">(</span><em><span class="n">base</span></em>, <em><span class="n">limit</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em><span class="n">nums</span><span class="o">=</span><span class="default_value">False</span></em>, <em><span class="n">variables</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos.unique_text" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Genera una tabla con los primeros 10 valores más frecuentes de las columnas de tipo texto del dataframe, además calcula su frecuencia y porcentaje dentro del total de observaciones. Incluye los valores faltantes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>base</strong> – (dataframe) base de datos de interés a ser analizada.</li>
+<li><strong>limit</strong> – (float) (valor de 0 a 1) límite de referencia, se utiliza para determinar si las variables posiblemente son de tipo categóricas y ser incluidas en el análisis. Si el número de valores únicos por columna es mayor al número de registros * limit, se considera que la variable no es categórica.</li>
+<li><strong>nums</strong> – (bool) {True, False}, determina si se desea considerar las variables como categóricas e incluirlas en el análisis. Si el valor es True se incluyen las variables numéricas en el análisis, si el valor es False no se incluyen las variables numéricas en el análisis.</li>
+<li><strong>variables</strong> – (str) nombres de las columnas separados por comas. Permite escoger las columnas de interés de análisis del dataframe</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">dataframe con las estadísticas descriptivas de las columnas de tipo texto.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py function">
+<dt id="datos.var_high_low">
+<code class="descclassname">datos.</code><code class="descname">var_high_low</code><span class="sig-paren">(</span><em><span class="n">base</span></em>, <em><span class="n">percent_low</span><span class="o">=</span><span class="default_value">5</span></em>, <em><span class="n">percent_high</span><span class="o">=</span><span class="default_value">95</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos.var_high_low" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Retorna las columnas numéricas cuyo percentil inferior percent_low sea igual a su percentil superior percent_high.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>base</strong> – (dataframe) base de datos de interés a ser analizada.</li>
+<li><strong>percent_low</strong> – (float), valor por defecto: 5. Percentil inferior de referencia en la comparación.</li>
+<li><strong>percent_high</strong> – (float), valor por defecto: 95. Percentil superior de referencia en la comparación.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">indices de columnas cuyo percentil inferior es igual al percentil superior.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="metadatos.html" class="btn btn-neutral float-right" title="Metadatos" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="instalacion.html" class="btn btn-neutral float-left" title="Instalación" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, UCD - DNP
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

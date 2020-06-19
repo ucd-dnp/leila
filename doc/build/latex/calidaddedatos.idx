@@ -1,0 +1,27 @@
+\indexentry{módulo@\spxentry{módulo}!datos@\spxentry{datos}|hyperpage}{5}
+\indexentry{datos@\spxentry{datos}!módulo@\spxentry{módulo}|hyperpage}{5}
+\indexentry{col\_type() (en el módulo datos)@\spxentry{col\_type()}\spxextra{en el módulo datos}|hyperpage}{5}
+\indexentry{correlacion() (en el módulo datos)@\spxentry{correlacion()}\spxextra{en el módulo datos}|hyperpage}{5}
+\indexentry{data\_summary() (en el módulo datos)@\spxentry{data\_summary()}\spxextra{en el módulo datos}|hyperpage}{5}
+\indexentry{descriptive\_stats() (en el módulo datos)@\spxentry{descriptive\_stats()}\spxextra{en el módulo datos}|hyperpage}{5}
+\indexentry{duplic() (en el módulo datos)@\spxentry{duplic()}\spxextra{en el módulo datos}|hyperpage}{6}
+\indexentry{memoria() (en el módulo datos)@\spxentry{memoria()}\spxextra{en el módulo datos}|hyperpage}{6}
+\indexentry{missing() (en el módulo datos)@\spxentry{missing()}\spxextra{en el módulo datos}|hyperpage}{6}
+\indexentry{nounique() (en el módulo datos)@\spxentry{nounique()}\spxextra{en el módulo datos}|hyperpage}{6}
+\indexentry{outliers() (en el módulo datos)@\spxentry{outliers()}\spxextra{en el módulo datos}|hyperpage}{6}
+\indexentry{unique\_col() (en el módulo datos)@\spxentry{unique\_col()}\spxextra{en el módulo datos}|hyperpage}{7}
+\indexentry{unique\_text() (en el módulo datos)@\spxentry{unique\_text()}\spxextra{en el módulo datos}|hyperpage}{7}
+\indexentry{var\_high\_low() (en el módulo datos)@\spxentry{var\_high\_low()}\spxextra{en el módulo datos}|hyperpage}{7}
+\indexentry{módulo@\spxentry{módulo}!metadatos@\spxentry{metadatos}|hyperpage}{8}
+\indexentry{metadatos@\spxentry{metadatos}!módulo@\spxentry{módulo}|hyperpage}{8}
+\indexentry{asset\_inventory() (en el módulo metadatos)@\spxentry{asset\_inventory()}\spxextra{en el módulo metadatos}|hyperpage}{8}
+\indexentry{asset\_pretty() (en el módulo metadatos)@\spxentry{asset\_pretty()}\spxextra{en el módulo metadatos}|hyperpage}{8}
+\indexentry{compare\_meta() (en el módulo metadatos)@\spxentry{compare\_meta()}\spxextra{en el módulo metadatos}|hyperpage}{8}
+\indexentry{info\_cols\_meta() (en el módulo metadatos)@\spxentry{info\_cols\_meta()}\spxextra{en el módulo metadatos}|hyperpage}{8}
+\indexentry{meta\_show() (en el módulo metadatos)@\spxentry{meta\_show()}\spxextra{en el módulo metadatos}|hyperpage}{9}
+\indexentry{sodapy\_data() (en el módulo metadatos)@\spxentry{sodapy\_data()}\spxextra{en el módulo metadatos}|hyperpage}{9}
+\indexentry{table\_search() (en el módulo metadatos)@\spxentry{table\_search()}\spxextra{en el módulo metadatos}|hyperpage}{9}
+\indexentry{updated\_data() (en el módulo metadatos)@\spxentry{updated\_data()}\spxextra{en el módulo metadatos}|hyperpage}{9}
+\indexentry{módulo@\spxentry{módulo}!reporte@\spxentry{reporte}|hyperpage}{10}
+\indexentry{reporte@\spxentry{reporte}!módulo@\spxentry{módulo}|hyperpage}{10}
+\indexentry{generar\_reporte() (en el módulo reporte)@\spxentry{generar\_reporte()}\spxextra{en el módulo reporte}|hyperpage}{10}
