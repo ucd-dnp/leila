@@ -296,7 +296,7 @@ def unique_text(base,limit=0.5,nums=False,variables=None):
     :param base: (dataframe) base de datos de interés a ser analizada.
     :param limit: (float) (valor de 0 a 1) límite de referencia, se utiliza para determinar si las variables posiblemente son de tipo categóricas y ser incluidas en el análisis. Si el número de valores únicos por columna es mayor al número de registros * limit, se considera que la variable no es categórica.
     :param nums: (bool) {True, False}, determina si se desea considerar las variables como categóricas e incluirlas en el análisis. Si el valor es True se incluyen las variables numéricas en el análisis, si el valor es False no se incluyen las variables numéricas en el análisis.
-    :param variables: (str) nombres de las columnas separados por comas. Permite escoger las columnas de interés de análisis del dataframe
+    :param variables: (list) lista de nombres de las columnas separados por comas. Permite escoger las columnas de interés de análisis del dataframe
     :return: dataframe con las estadísticas descriptivas de las columnas de tipo texto.
     """
     # Filtrar la base por las variables escogidas en la opción 'variables'
@@ -426,7 +426,14 @@ def data_summary(base):
  
 ########### Matrices de correlación para las variables numéricas
 def correlacion(base,metodo="pearson",variables=None):
-    
+    """ Genera una matriz de correlación entre las variables de tipo numérico
+
+    :param base: (dataframe) base de datos de interés a ser analizada.
+    :param metodo: (str) {'pearson', 'kendall', 'spearman'}, valor por defecto: 'pearson'. Medida de correlación a utilizar.
+    :param variables: (list) lista de nombres de las columnas separados por comas. Permite escoger las columnas de interés de análisis del dataframe
+
+    :return: dataframe con las correlaciones de las columnas de tipo numérico analizadas.
+    """
     # Filtrar la base por las variables escogidas en la opción 'variables'
     if type(variables)==list:
         base=base[variables]
