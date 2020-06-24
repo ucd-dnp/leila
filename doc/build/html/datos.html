@@ -191,7 +191,24 @@
 <dl class="py function">
 <dt id="datos.correlacion">
 <code class="descclassname">datos.</code><code class="descname">correlacion</code><span class="sig-paren">(</span><em><span class="n">base</span></em>, <em><span class="n">metodo</span><span class="o">=</span><span class="default_value">'pearson'</span></em>, <em><span class="n">variables</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos.correlacion" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Genera una matriz de correlación entre las variables de tipo numérico</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>base</strong> – (dataframe) base de datos de interés a ser analizada.</li>
+<li><strong>metodo</strong> – (str) {“pearson”, “kendall”, “spearman”}, valor por defecto: “pearson”. Medida de correlación a utilizar.</li>
+<li><strong>variables</strong> – (list) lista de nombres de las columnas separados por comas. Permite escoger las columnas de interés de análisis del dataframe</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">dataframe con las correlaciones de las columnas de tipo numérico analizadas.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="py function">
 <dt id="datos.data_summary">
@@ -370,7 +387,7 @@
 <li><strong>base</strong> – (dataframe) base de datos de interés a ser analizada.</li>
 <li><strong>limit</strong> – (float) (valor de 0 a 1) límite de referencia, se utiliza para determinar si las variables posiblemente son de tipo categóricas y ser incluidas en el análisis. Si el número de valores únicos por columna es mayor al número de registros * limit, se considera que la variable no es categórica.</li>
 <li><strong>nums</strong> – (bool) {True, False}, determina si se desea considerar las variables como categóricas e incluirlas en el análisis. Si el valor es True se incluyen las variables numéricas en el análisis, si el valor es False no se incluyen las variables numéricas en el análisis.</li>
-<li><strong>variables</strong> – (str) nombres de las columnas separados por comas. Permite escoger las columnas de interés de análisis del dataframe</li>
+<li><strong>variables</strong> – (list) lista de nombres de las columnas separados por comas. Permite escoger las columnas de interés de análisis del dataframe</li>
 </ul>
 </td>
 </tr>

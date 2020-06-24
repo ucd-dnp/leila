@@ -76,7 +76,7 @@
 
 
 \title{Calidad de Datos}
-\date{18 de junio de 2020}
+\date{24 de junio de 2020}
 \release{1.0}
 \author{UCD \sphinxhyphen{} DNP}
 \newcommand{\sphinxlogo}{\vbox{}}
@@ -205,6 +205,25 @@ serie de pandas con el tipo de dato de cada columna.
 
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{datos:datos.correlacion}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{datos.}}\sphinxbfcode{\sphinxupquote{correlacion}}}{\emph{\DUrole{n}{base}}, \emph{\DUrole{n}{metodo}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}pearson\textquotesingle{}}}, \emph{\DUrole{n}{variables}\DUrole{o}{=}\DUrole{default_value}{None}}}{}
+Genera una matriz de correlación entre las variables de tipo numérico
+\begin{quote}\begin{description}
+\item[{Parámetros}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{base}} \textendash{} (dataframe) base de datos de interés a ser analizada.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{metodo}} \textendash{} (str) \{“pearson”, “kendall”, “spearman”\}, valor por defecto: “pearson”. Medida de correlación a utilizar.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{variables}} \textendash{} (list) lista de nombres de las columnas separados por comas. Permite escoger las columnas de interés de análisis del dataframe
+
+\end{itemize}
+
+\item[{Devuelve}] \leavevmode
+dataframe con las correlaciones de las columnas de tipo numérico analizadas.
+
+\end{description}\end{quote}
+
 \end{fulllineitems}
 
 \index{data\_summary() (en el módulo datos)@\spxentry{data\_summary()}\spxextra{en el módulo datos}}
@@ -400,7 +419,7 @@ Genera una tabla con los primeros 10 valores más frecuentes de las columnas de 
 \sphinxstyleliteralstrong{\sphinxupquote{nums}} \textendash{} (bool) \{True, False\}, determina si se desea considerar las variables como categóricas e incluirlas en el análisis. Si el valor es True se incluyen las variables numéricas en el análisis, si el valor es False no se incluyen las variables numéricas en el análisis.
 
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{variables}} \textendash{} (str) nombres de las columnas separados por comas. Permite escoger las columnas de interés de análisis del dataframe
+\sphinxstyleliteralstrong{\sphinxupquote{variables}} \textendash{} (list) lista de nombres de las columnas separados por comas. Permite escoger las columnas de interés de análisis del dataframe
 
 \end{itemize}
 
