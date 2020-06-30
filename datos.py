@@ -1,21 +1,17 @@
 # -*- coding: utf-8 -*-
-# Created on Wed Sep 18 16:33:57 2019
-# @author: pabmontenegro
+"""
+Created on Wed Sep 18 16:33:57 2019
 
+@author: pabmontenegro
+"""
 import pandas as pd
 import numpy as np
 
 ## Tipos de las columnas
-def col_type(base,detail="low"):
-    """ Retorna el tipo de dato de cada columna del dataframe, se clasifican como de tipo numérico, texto, boolean u otro.
-
-    :param base: (dataframe) base de datos de interés a ser analizada.
-    :param detail: (str) {'low', 'high'}, valor por defecto: 'low'. Nivel de detalle en la descripción del tipo.
-    :return: serie de pandas con el tipo de dato de cada columna.
-    """
+def col_tipo(base,detalle="bajo"):
     lista=[[],[]]
     
-    if detail=="low":
+    if detalle=="bajo":
         
         for s in base.columns:
             tip=str(type(base[s].value_counts(dropna=True).index[0]))
@@ -31,7 +27,7 @@ def col_type(base,detail="low"):
             else:
                 lista[1].append("Otro")
              
-    elif detail=="high":
+    elif detalle=="alto":
         
         for s in base.columns:
             tip=str(type(base[s].value_counts(dropna=True).index[0])).replace("<class ","").replace(">","").replace("'","'")
@@ -39,7 +35,7 @@ def col_type(base,detail="low"):
             lista[1].append(tip)
 
     else:
-        return("Se ha ingresado en la opción 'detail' un valor distinto a 'low' o 'high'")
+        return("Se ha ingresado en la opción 'detalle' un valor distinto a 'bajo' o 'alto'")
     
     tips=pd.DataFrame(lista).T.set_index(keys=0,drop=True).iloc[:,0]
             
@@ -47,81 +43,51 @@ def col_type(base,detail="low"):
 
 ########## valores únicos en cada columna
 # sin missing values
-def unique_col(base,missing=False):
-    """ Calcula la cantidad de valores únicos de cada columna del dataframe.
-
-    :param base: (dataframe) base de datos de interés a ser analizada.
-    :param missing: (bool) {True, False}, valor por defecto: False. Indica si desea tener en cuenta los valores faltantes en el conteo de valores únicos.
-    :return: serie de pandas con la cantidad de valores únicos de cada columna.
-    """
-    if missing==False:
+def unicos(base,faltantes=False):
+    if faltantes==False:
         unicos_columnas=base.apply(lambda x:len(x.value_counts()),axis=0)
-    elif missing==True:
+    elif faltantes==True:
         unicos_columnas=base.apply(lambda x:len(x.value_counts(dropna=False)),axis=0)
     else:
         return("La opción 'missing' tiene un valor distinto a False o True")
     return(unicos_columnas)
     
 ########## COMPLETITUD. Missing 
-def missing(base,perc=True):
-    """ Calcula el porcentaje/número de valores faltantes de cada columna del dataframe.
-
-    :param base: (dataframe) base de datos de interés a ser analizada.
-    :param perc: (bool) {True, False}, valor por defecto: True. Si el valor es True el resultado se expresa como un porcentaje, si el valor es False el valor se expresa como una cantidad de registros (número entero).
-    :return: serie de pandas con la cantidad/porcentaje de valores faltantes de cada columna.
-    """
-    if perc==True:
+def faltantes(base,porc=True):
+    if porc==True:
         missing_columnas=pd.isnull(base).sum()/len(base)
-    elif perc==False:
+    elif porc==False:
         missing_columnas=pd.isnull(base).sum()
     else:
-        return("La opción 'perc' tiene un valor distinto a True o False")
+        return("La opción 'porc' tiene un valor distinto a True o False")
     return(missing_columnas)
 
         
 ########## Unicidad. Porcentaje y número de filas y columnas no únicas
-def nounique(base,col=True,perc=True):
-    """ Valida la unicidad del dataframe, retorna el porcentaje/número de filas o columnas no únicas en el dataframe.
-
-    :param base: (dataframe) base de datos de interés a ser analizada.
-    :param col: (bool) {True, False}, valor por defecto: True. Si el valor es True la validación se realiza por columnas, si el valor es False la validación se realiza por filas.
-    :param perc: (bool) {True, False}, valor por defecto: True. Si el valor es True el resultado se expresa como un porcentaje, si el valor es False el valor se expresa como una cantidad de registros (número entero).
-    :return: (int o float) resultado de unicidad.
-    """
-    if col==True and perc==True:
+def nounicos(base,col=True,porc=True):
+    if col==True and porc==True:
         no_unic_columnas=base.T.duplicated(keep=False)
         cols=no_unic_columnas[no_unic_columnas==True].shape[0]/base.shape[1]
         
-    elif col==True and perc==False:
+    elif col==True and porc==False:
         no_unic_columnas=base.T.duplicated(keep=False)
         cols=no_unic_columnas[no_unic_columnas==True].shape[0]
         
-    elif col==False and perc==True:
+    elif col==False and porc==True:
         no_unic_filas=base.duplicated(keep=False)
         cols=no_unic_filas[no_unic_filas==True].shape[0]/base.shape[0]   
         
-    elif col==False and perc==False:
+    elif col==False and porc==False:
         no_unic_filas=base.duplicated(keep=False)
         cols=no_unic_filas[no_unic_filas==True].shape[0]
     else:
-        return("Las opciones 'col' y 'perc' tienen valores distintos a True y False")
+        return("Las opciones 'col' y 'porc' tienen valores distintos a True y False")
     
     return(cols)
     
 ########## MATCHING DE COLUMNAS Y FILAS NO ÚNICAS
 def duplic(base,col=True):
-    """ Retorna las columnas o filas que presenten valores duplicados del dataframe.
-
-    :param base: (dataframe) base de datos de interés a ser analizada.
-    :param col: (bool) {True, False}, valor por defecto: True. Si el valor es True la validación se realiza por columnas, si el valor es False la validación se realiza por filas.
-    :return: matriz (dataframe) que relaciona las indices de filas/nombre de columnas que presentan valores duplicados.
-    """
-
-    # if col!=True or col!=False:
-    #     return("El parámetro 'col' tiene valores distintos a True o False")
-    # else:
-    #     pass
-    
+        
     if col==True:
         dupli=base.T.duplicated(keep=False)
     elif col==False:
@@ -169,20 +135,22 @@ def duplic(base,col=True):
         for ii in range(len(lista_listas[i])):
             lista_listas[i][ii]=str(lista_listas[i][ii])
     
-
     df=pd.DataFrame(lista_listas).drop_duplicates().reset_index(drop=True)
+    
+    df=df.T
+    
+    if col==True:
+        lista_columnas_df=["Columnas iguales {0}".format(q) for q in range(1,df.shape[1]+1)]        
+        df.columns=lista_columnas_df
+    else:
+        lista_columnas_df=["Filas iguales {0}".format(q) for q in range(1,df.shape[1]+1)]        
+        df.columns=lista_columnas_df
+        
     return(df)
 
 ########## CONSISTENCIA. Porcentaje de outliers
-def outliers(base,outliers="both",perc=True):
-    """ Calcula el porcentaje o cantidad de outliers de cada columna numérica (las columnas con números en formato string se intentarán transformar a columnas numéricas)
-
-    :param base: (dataframe) base de datos de interés a ser analizada.
-    :param outliers: (str) {'upper', 'lower', 'both'}, valor por defecto: 'both'. Si el valor es '**lower**' se tienen en cuenta los registros con valor menor al límite inferior calculado por la metodología de valor atípico por rango intercuartílico. Si el valor es '**upper**' se tienen en cuenta los registros con valor mayor al límite superior calculado por la metodología de valor atípico por rango intercuartílico. Si el valor es '**both**' se tienen en cuenta los registros con valor menor al límite inferior calculado por la metodología de valor atípico por rango intercuartílico, y también aquellos con valor mayor al límite superior calculado por la metodología de valor atípico por rango intercuartílico.
-    :param perc: (bool) {True, False}, valor por defecto: True. Si el valor es True el resultado se expresa como un porcentaje, si el valor es False el valor se expresa como una cantidad de registros (número entero).
-    :return: serie de pandas con la cantidad/porcentaje de valores outliers de cada columna.
-    """
-    col_tipos=col_type(base,detail="low")
+def extremos(base,extremos="ambos",porc=True):
+    col_tipos=col_tipo(base,detalle="bajo")
     col_num=col_tipos[col_tipos=="Numérico"].index
     base_num=base[col_num]
     
@@ -191,55 +159,49 @@ def outliers(base,outliers="both",perc=True):
     else:
         pass
     
-    percentiles_25=base_num.apply(lambda x:np.nanpercentile(x,25),axis=0)
-    percentiles_75=base_num.apply(lambda x:np.nanpercentile(x,75),axis=0)
+    porcentiles_25=base_num.apply(lambda x:np.nanpercentile(x,25),axis=0)
+    porcentiles_75=base_num.apply(lambda x:np.nanpercentile(x,75),axis=0)
     
-    iqr=percentiles_75-percentiles_25
-    iqr_upper=percentiles_75+iqr*1.5
-    iqr_lower=percentiles_25-iqr*1.5
+    iqr=porcentiles_75-porcentiles_25
+    iqr_upper=porcentiles_75+iqr*1.5
+    iqr_lower=porcentiles_25-iqr*1.5
 
     dic_outliers={}
     
-    if outliers=="both":
+    if extremos=="ambos":
         for i in range(0,len(iqr)):
             dic_outliers[base_num.columns[i]]=(base_num.iloc[:,i]>iqr_upper[i])|(base_num.iloc[:,i]<iqr_lower[i])
-    elif outliers=="upper":
+    elif extremos=="superior":
         for i in range(0,len(iqr)):
             dic_outliers[base_num.columns[i]]=(base_num.iloc[:,i]>iqr_upper[i])
-    elif outliers=="lower":
+    elif extremos=="inferior":
         for i in range(0,len(iqr)):
             dic_outliers[base_num.columns[i]]=(base_num.iloc[:,i]<iqr_lower[i])
     else:
-        return("La opción outliers tiene valores distintos a 'both', 'upper' o 'lower")
+        return("La opción extremos tiene valores distintos a 'ambos', 'superior' o 'inferior")
     
     base_outliers=pd.DataFrame(dic_outliers)
     
-    if perc==True:
+    if porc==True:
         base_outliers_porc=base_outliers.sum()/base_outliers.shape[0]
-    elif perc==False:
+    elif porc==False:
         base_outliers_porc=base_outliers.sum()
     else:
-        return("La opción 'perc' tiene valores distintos a True o False")
+        return("La opción 'porc' tiene valores distintos a True o False")
 
     return(base_outliers_porc)        
     
 ############## describe de columnas
-def descriptive_stats(base,float_transform=False):
-    """ Calcula estadísticas descriptivas de cada columna numérica. Incluyen media, mediana, valores en distintos percentiles, desviación estándar, valores extremos y porcentaje de valores faltantes.
-
-    :param base: (dataframe) base de datos de interés a ser analizada.
-    :param float_transform: (bool) {True, False}, valor por defecto: True. Si el valor es True se intenta realizar una transformación de valores de texto a numérico (float) para ser incluidas en el análisis, si el valor es False no se intenta realizar la transformación.
-    :return: dataframe con las estadísticas descriptivas.
-    """
-
-    if float_transform==True:
+def descriptivas(base,float_transformar=False):
+    
+    if float_transformar==True:
         base=base.apply(lambda x:x.astype(float,errors="ignore"),axis=0)
-    elif float_transform==False:
+    elif float_transformar==False:
         pass
     else:
         return("La opción 'float_transform' tiene valores distintos a True o False")
 
-    col_tipos=col_type(base,detail="low")
+    col_tipos=col_tipo(base,detalle="bajo")
     col_num=col_tipos[(col_tipos=="Numérico")|(col_tipos=="Float")].index
     base_num=base[col_num] 
     
@@ -250,19 +212,22 @@ def descriptive_stats(base,float_transform=False):
     
     base_descripcion=base.describe().T
     base_descripcion["missing"]=pd.isnull(base_num).sum()/len(base_num)
-    base_descripcion["outliers"]=outliers(base)
+    base_descripcion["outliers_total"]=extremos(base)
+    base_descripcion["outliers_altos"]=extremos(base,extremos="superior")
+    base_descripcion["outliers_bajos"]=extremos(base,extremos="inferior")
+    
     
     return(base_descripcion)
 
 ###############
-def var_high_low(base,percent_low=5,percent_high=95):
-    """ Retorna las columnas numéricas cuyo percentil inferior percent_low sea igual a su percentil superior percent_high.
-
-    :param base: (dataframe) base de datos de interés a ser analizada.
-    :param percent_low: (float), valor por defecto: 5. Percentil inferior de referencia en la comparación.
-    :param percent_high: (float), valor por defecto: 95. Percentil superior de referencia en la comparación.
-    :return: indices de columnas cuyo percentil inferior es igual al percentil superior.
-    """
+def varianza_percentil(base,percentil_inferior=5,percentil_superior=95,float_transform=False):
+    
+    if float_transform==True:
+        base=base.apply(lambda x:x.astype(float,errors="ignore"),axis=0)
+    elif float_transform==False:
+        pass
+    else:
+        return("La opción 'float_transform' tiene valores distintos a True o False")
 
     cols_tipos=base.dtypes
     lista_nums=[]
@@ -276,46 +241,37 @@ def var_high_low(base,percent_low=5,percent_high=95):
         else:
             pass
         
-    percentil_bajo=base_num.apply(lambda x:np.percentile(x.dropna(),percent_low),axis=0)
-    percentil_alto=base_num.apply(lambda x:np.percentile(x.dropna(),percent_high),axis=0)
+    percentil_bajo=base_num.apply(lambda x:np.percentile(x.dropna(),5),axis=0)
+    percentil_alto=base_num.apply(lambda x:np.percentile(x.dropna(),95),axis=0)
     
     percentiles=pd.concat([percentil_bajo,percentil_alto],axis=1)
     percentiles_true=(percentiles.iloc[:,0]==percentiles.iloc[:,1])
     percentiles_true=percentiles_true[percentiles_true==True]
     
     if len(percentiles_true)==0:
-        return("No hay ninguna columna numérica que tenga el percentil {0} y el percentil {1} igual".format(percent_low,percent_high))
+        return("No hay ninguna columna numérica que tenga el percentil {0} y el percentil {1} igual".format(percentil_inferior,percentil_superior))
     else:
         return percentiles_true.index
     
 ############### tabla de valores únicos para cada variable de texto
-# Falta definir qué es una variable categórica
-def unique_text(base,limit=0.5,nums=False,variables=None):
-    """ Genera una tabla con los primeros 10 valores más frecuentes de las columnas de tipo texto del dataframe, además calcula su frecuencia y porcentaje dentro del total de observaciones. Incluye los valores faltantes.
-
-    :param base: (dataframe) base de datos de interés a ser analizada.
-    :param limit: (float) (valor de 0 a 1) límite de referencia, se utiliza para determinar si las variables posiblemente son de tipo categóricas y ser incluidas en el análisis. Si el número de valores únicos por columna es mayor al número de registros * limit, se considera que la variable no es categórica.
-    :param nums: (bool) {True, False}, determina si se desea considerar las variables como categóricas e incluirlas en el análisis. Si el valor es True se incluyen las variables numéricas en el análisis, si el valor es False no se incluyen las variables numéricas en el análisis.
-    :param variables: (list) lista de nombres de las columnas separados por comas. Permite escoger las columnas de interés de análisis del dataframe
-    :return: dataframe con las estadísticas descriptivas de las columnas de tipo texto.
-    """
+def categorias(base,limite=0.5,transformar_nums=False,variables=None):
     # Filtrar la base por las variables escogidas en la opción 'variables'
-    if variables is not None:
+    if type(variables)==list:
         base=base[variables]
     else:
         pass
     
-    # Calcular qué variables tipo object tienen valores únicos menores al 50% (o valor de 'limit') del total de filas de la base original
+    # Calcular qué variables tipo object tienen valores únicos menores al 50% (o valor de 'limite') del total de filas de la base original
     col_object=base.dtypes
     col_object=col_object[col_object=="object"]
     lista_object_unicos=[]
     for s in col_object.index:
         unico=len(pd.unique(base[s]))
-        if unico<base.shape[0]*limit:
+        if unico<base.shape[0]*limite:
             lista_object_unicos.append(s)
             
-    # Si la opción 'nums' es True, incluir las variables numéricas con repeticiones menores al 50% (o el límite) del total de filas   
-    if nums==True:
+    # Si la opción 'transformar_nums' es True, incluir las variables numéricas con repeticiones menores al 50% (o el límite) del total de filas   
+    if transformar_nums==True:
         cols_types=base.dtypes
         col_nums=[]
         for i in range(len(cols_types)):
@@ -323,21 +279,22 @@ def unique_text(base,limit=0.5,nums=False,variables=None):
                 col_nums.append(cols_types.index[i])
         for s in col_nums:
             unico=len(pd.unique(base[s]))
-            if unico<base.shape[0]*limit:
+            if unico<base.shape[0]*limite:
                 lista_object_unicos.append(s)
-    elif nums==False:
+    elif transformar_nums==False:
         pass
     else:
-        return("La opción 'nums' tiene un valor distinto a True o False")
-
+        return("La opción 'transformar_nums' tiene un valor distinto a True o False")
+    
     # Crear el dataframe con la información
     lista_counts=[]
     for s in lista_object_unicos:
-        counts=base[s].value_counts()
+        counts=base[s].astype(str).value_counts().drop("nan",errors="ignore")
         if type(counts.index[0])==dict:
             continue
+        # counts=list(counts)
         lista=counts[0:10]
-        resto=counts[10:len(counts)].sum()
+        resto=sum(counts[10:len(counts)])
         miss=pd.isnull(base[s]).sum()
 
         lista["Demás categorías"]=resto
@@ -353,9 +310,7 @@ def unique_text(base,limit=0.5,nums=False,variables=None):
         if resto==0:
             lista=lista.drop("Demás categorías",axis=0)
 
-
         lista=lista.reset_index()
-        
         
         s=lista.columns.tolist()[1]
         colis=["Columna","index",s,"Porcentaje del total de filas"]
@@ -368,72 +323,150 @@ def unique_text(base,limit=0.5,nums=False,variables=None):
     
 ########## Tamaño de la base de datos en la memoria
 def memoria(base,col=False):
-    """ Calcula el tamaño de la base de datos en memoria (megabytes)
-
-    :param base: (dataframe) base de datos de interés a ser analizada.
-    :param col: (bool) {True, False}, valor por defecto: False. Si el valor es False realiza el cálculo de memoria del dataframe completo, si el valor es True realiza el cálculo de memoria por cada columna del dataframe.
-    :return: valor (float) del tamaño de la base de datos en megabytes (si el parámetro col es False). Serie de pandas con el cálculo de memoria en megabytes por cada columna del dataframe. (si el parámetro col es True).
-    """
     if col==False:
         memoria=base.memory_usage(index=True).sum()
     elif col==True:   
         memoria=base.memory_usage(index=True)
     else:
         return("La opción 'col' tiene un valor distinto a True o False")
-    return memoria/1024/1024
+    memoria_mb=memoria/(1024**2)
+    return memoria_mb
     
 ########## tabla de resumen pequeña
-def data_summary(base):
-    """ Retorna una tabla con información general de la base de datos. Incluye número de filas y columnas, número de columnas numéricas y de texto, número de columnas con más de la mitad de las observaciones con datos faltantes, número de columnas con más del 10% de observaciones con datos extremos y número de filas y columnas no únicas.
-
-    :param base: (dataframe) base de datos de interés a ser analizada.
-    :return: serie de pandas con las estadísticas descriptivas del dataframe.
-    """
-    datos=["" for q in range(11)]
-    # nombres=["Número de filas","Número de columnas","Columnas numéricas","Columnas de texto","Columnas boolean","Columnas de fecha","Otro tipo de columnas","Número de filas no únicas","Número de columnas no únicas","Columnas con más de la mitad de datos faltantes","Columnas con más del 10% de datos como extremos","Tamaño de la base en megabytes (redondeado)"]
-    nombres=["Número de filas","Número de columnas","Columnas numéricas","Columnas de texto","Columnas boolean","Columnas de fecha","Otro tipo de columnas","Número de filas no únicas","Columnas con más de la mitad de datos faltantes","Columnas con más del 10% de datos como extremos","Tamaño de la base en megabytes (redondeado)"]
-   
-    col_tipos=col_type(base,detail="low")
-    col_texto=col_tipos[col_tipos=="Texto"]
-    col_num=col_tipos[col_tipos=="Numérico"]
-    col_bool=col_tipos[col_tipos=="Boolean"]
-    col_date=col_tipos[col_tipos=="Fecha"]
-    col_other=col_tipos[col_tipos=="Otro"]
-   
-    col_missing=missing(base,perc=True)
-    col_missing_50=col_missing[col_missing>0.5]
-
-    col_porc=outliers(base,outliers="both",perc=True)
-    col_porc_10=col_porc[col_porc>0.1]
+def resumen_base(base,filas=True,columnas=True,col_numericas=True,col_texto=True,
+                 col_booleanas=True,col_fecha=True,col_otro=True,filas_nounicas=True,columnas_nounicas=False,
+                 col_faltantes=True,col_extremos=True,memoria_total=True):
+    # Lista donde se guardarán resultados, dependiendo de si se escoge o no ver el cálculo
+    lista_resumen=[[],[]]
     
-    memoria_tot=memoria(base)
+    # Calcular tipo de columnas
+    col_tipos=col_tipo(base,detalle="bajo")
+    
+    ## Agregar a lista, si se escoge que sea así
+    
+    # Número de filas
+    if filas==True:
+        calculo=base.shape[0]
+        nombre="Número de filas"
+        lista_resumen[0].append(nombre)
+        lista_resumen[1].append(calculo)
+    else:
+        pass  
+      
+    # Número de columnas
+    if columnas==True:
+        calculo=base.shape[1]
+        nombre="Número de columnas"
+        lista_resumen[0].append(nombre)
+        lista_resumen[1].append(calculo)
+    else:
+        pass  
+      
+    # Número de columnas numéricas
+    if col_numericas==True:
+        calculo=len(col_tipos[col_tipos=="Numérico"])
+        nombre="Columnas numéricas"
+        lista_resumen[0].append(nombre)
+        lista_resumen[1].append(calculo)
+    else:
+        pass 
+       
+    # Número de columnas de texto
+    if col_texto==True:
+        calculo=len(col_tipos[col_tipos=="Texto"])
+        nombre="Columnas de texto"
+        lista_resumen[0].append(nombre)
+        lista_resumen[1].append(calculo)
+    else:
+        pass   
+     
+    # Número de columnas booleanas
+    if col_booleanas==True:
+        calculo=len(col_tipos[col_tipos=="Boolean"])
+        nombre="Columnas booleanas"
+        lista_resumen[0].append(nombre)
+        lista_resumen[1].append(calculo)
+    else:
+        pass        
 
-    datos[0]=base.shape[0]
-    datos[1]=base.shape[1]
-    datos[2]=len(col_num)
-    datos[3]=len(col_texto)
-    datos[4]=len(col_bool)
-    datos[5]=len(col_date)
-    datos[6]=len(col_other)
-    datos[7]=nounique(base,col=False,perc=False)
-    # datos[8]=nounique(base,col=True,perc=False)
-    datos[8]=len(col_missing_50)
-    datos[9]=len(col_porc_10)
-    datos[10]=memoria_tot
+    # Número de columnas de fecha
+    if col_fecha==True:
+        calculo=len(col_tipos[col_tipos=="Fecha"])
+        nombre="Columnas de fecha"
+        lista_resumen[0].append(nombre)
+        lista_resumen[1].append(calculo)
+    else:
+        pass 
+       
+    # Número de columnas de otro tipo
+    if col_otro==True:
+        calculo=len(col_tipos[col_tipos=="Otro"])
+        nombre="Otro tipo de columnas"
+        lista_resumen[0].append(nombre)
+        lista_resumen[1].append(calculo)
+    else:
+        pass        
+   
+    # Número de filas no únicas
+    if filas_nounicas==True:
+        calculo=nounicos(base,col=False,porc=False)
+        nombre="Número de filas no únicas"
+        lista_resumen[0].append(nombre)
+        lista_resumen[1].append(calculo)
+    else:
+        pass  
+      
+    # Número de columnas no únicas
+    if columnas_nounicas==True:
+        calculo=nounicos(base,col=True,porc=False)
+        nombre="Número de columnas no únicas"
+        lista_resumen[0].append(nombre)
+        lista_resumen[1].append(calculo)
+    else:
+        pass        
 
-    tabla_resumen=pd.Series(data=datos,index=nombres).astype(int)
+    # Porcentaje de columnas con más de la mitad de datos faltantes
+    if col_faltantes==True:
+        col_missing=faltantes(base,porc=True)
+        calculo=len(col_missing[col_missing>0.5])
+        nombre="Columnas con más de la mitad de datos faltantes"
+        lista_resumen[0].append(nombre)
+        lista_resumen[1].append(calculo)
+    else:
+        pass     
+    
+    # Columnas con más del 10% de datos como extremos
+    if col_extremos==True:
+        col_porc=extremos(base,extremos="ambos",porc=True)
+        calculo=len(col_porc[col_porc>0.1])
+        nombre="Columnas con más del 10% de datos como extremos"
+        lista_resumen[0].append(nombre)
+        lista_resumen[1].append(calculo)
+    else:
+        pass         
+    
+    # Tamaño de la base en la memoria
+    if memoria_total==True:
+        
+        memoria_tot=memoria(base)
+        if memoria_tot>1024:
+            memoria_tot=memoria_tot/1024
+            nombre="Tamaño de la base en gygabytes (redondeado)"
+        else:
+            nombre="Tamaño de la base en megabytes (redondeado)"
+        calculo=memoria_tot
+        lista_resumen[0].append(nombre)
+        lista_resumen[1].append(calculo)
+    else:
+        pass         
+    
+    tabla_resumen=pd.Series(data=lista_resumen[1],index=lista_resumen[0]).astype(int)
+    
     return(tabla_resumen)
  
 ########### Matrices de correlación para las variables numéricas
 def correlacion(base,metodo="pearson",variables=None):
-    """ Genera una matriz de correlación entre las variables de tipo numérico
-
-    :param base: (dataframe) base de datos de interés a ser analizada.
-    :param metodo: (str) {'pearson', 'kendall', 'spearman'}, valor por defecto: 'pearson'. Medida de correlación a utilizar.
-    :param variables: (list) lista de nombres de las columnas separados por comas. Permite escoger las columnas de interés de análisis del dataframe
-
-    :return: dataframe con las correlaciones de las columnas de tipo numérico analizadas.
-    """
+    
     # Filtrar la base por las variables escogidas en la opción 'variables'
     if type(variables)==list:
         base=base[variables]
@@ -441,7 +474,7 @@ def correlacion(base,metodo="pearson",variables=None):
         pass
     
     # Filtrar por columnas que sean numéricas
-    col_tipos=col_type(base,detail="low")
+    col_tipos=col_tipo(base,detalle="bajo")
     col_num=col_tipos[col_tipos=="Numérico"].index
     base_num=base[col_num]
     
