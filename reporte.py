@@ -6,12 +6,12 @@ import pandas as pd
 from jinja2 import FileSystemLoader
 from jinja2 import Environment
 
-from datos import data_summary
-from datos import descriptive_stats
-from datos import col_type
+from datos import resumen_base
+from datos import descriptivas
+from datos import col_tipo
 from datos import memoria
-from datos import unique_col
-from datos import unique_text
+from datos import unicos
+from datos import categorias
 from datos import duplic
 
 import os
@@ -66,7 +66,7 @@ def generar_reporte(base, titulo='Reporte perfilamiento', archivo='perfilamiento
     current_time = timestamp.strftime("%d-%m-%Y %I:%M:%S %p")
 
     # Estadísticas generales ----------------------------------------------------
-    dataframe_summary = data_summary(base).to_frame().reset_index()
+    dataframe_summary = resumen_base(base).to_frame().reset_index()
     dataframe_summary.columns = ['Categoría', 'Valor']
     html_data_summary_00 = df_as_html(dataframe_summary)
     html_data_summary_01 = df_as_html(dataframe_summary[:6])
@@ -82,22 +82,22 @@ def generar_reporte(base, titulo='Reporte perfilamiento', archivo='perfilamiento
     dataframe_shape = str(df_shape[0]) + ' filas x ' + str(df_shape[1]) + ' columnas'
 
     # Tab 1 ---------------------------------------------------------------------
-    dataframe_descriptive_stats = descriptive_stats(base)
+    dataframe_descriptive_stats = descriptivas(base)
     dataframe_descriptive_stats = dataframe_descriptive_stats.T
     header_list = list(dataframe_descriptive_stats)
     dataframe_descriptive_stats = dataframe_descriptive_stats.reset_index()
     items = dataframe_descriptive_stats.values.tolist()
 
     # Tab 2 ---------------------------------------------------------------------
-    tipo_df_low = col_type(base, detail="low").to_frame()
-    tipo_df_high = col_type(base, detail="high").to_frame()
+    tipo_df_low = col_tipo(base, detalle="bajo").to_frame()
+    tipo_df_high = col_tipo(base, detalle="alto").to_frame()
     dataframe_descriptive_stats_2 = pd.merge(tipo_df_low, tipo_df_high, left_index=True, right_index=True, how='outer')
 
     memoria_df = memoria(base, col=True).to_frame()
     memoria_df = memoria_df.loc[~memoria_df.index.isin(['Index'])]
     dataframe_descriptive_stats_2 = pd.merge(dataframe_descriptive_stats_2, memoria_df, left_index=True, right_index=True, how='outer')
 
-    valores_unicos_df = unique_col(base).to_frame()
+    valores_unicos_df = unicos(base).to_frame()
     dataframe_descriptive_stats_2 = pd.merge(dataframe_descriptive_stats_2, valores_unicos_df, left_index=True, right_index=True, how='outer')
 
     dataframe_descriptive_stats_2.columns = ['Tipo', 'Tipo (específico)', 'Memoria', 'Valores únicos']
@@ -108,7 +108,7 @@ def generar_reporte(base, titulo='Reporte perfilamiento', archivo='perfilamiento
     items_2 = dataframe_descriptive_stats_2.values.tolist()
 
     # Tab 3 ---------------------------------------------------------------------
-    dataframe_unique_text = unique_text(base)
+    dataframe_unique_text = categorias(base)
     html_dataframe_unique_text = df_as_html(dataframe_unique_text)
     variables_list_3 = dataframe_unique_text.Columna.unique()
     columnas_list_3 = list(dataframe_unique_text)
