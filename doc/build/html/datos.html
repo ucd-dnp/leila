@@ -168,8 +168,31 @@
 <span id="id1"></span><h1>Datos<a class="headerlink" href="#datos" title="Enlazar permanentemente con este título">¶</a></h1>
 <p>Este módulo se enfoca en analizar cualquier base de datos (dataframe) de interes para el usuario. Se tiene acceso a funciones de estadísticas descriptivas, cálculo de memoria, registros duplicados, faltantes y otras.</p>
 <span class="target" id="module-datos"></span><dl class="py function">
-<dt id="datos.col_type">
-<code class="descclassname">datos.</code><code class="descname">col_type</code><span class="sig-paren">(</span><em><span class="n">base</span></em>, <em><span class="n">detail</span><span class="o">=</span><span class="default_value">'low'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos.col_type" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dt id="datos.categorias">
+<code class="descclassname">datos.</code><code class="descname">categorias</code><span class="sig-paren">(</span><em><span class="n">base</span></em>, <em><span class="n">limite</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em><span class="n">transformar_nums</span><span class="o">=</span><span class="default_value">False</span></em>, <em><span class="n">variables</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos.categorias" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Genera una tabla con los primeros 10 valores más frecuentes de las columnas de tipo texto del dataframe, además calcula su frecuencia y porcentaje dentro del total de observaciones. Incluye los valores faltantes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>base</strong> – (dataframe) base de datos de interés a ser analizada.</li>
+<li><strong>limite</strong> – (float) (valor de 0 a 1) límite de referencia, se utiliza para determinar si las variables posiblemente son de tipo categóricas y ser incluidas en el análisis. Si el número de valores únicos por columna es mayor al número de registros * limit, se considera que la variable no es categórica.</li>
+<li><strong>transformar_nums</strong> – (bool) {True, False}, determina si se desea considerar las variables como categóricas e incluirlas en el análisis. Si el valor es True se incluyen las variables numéricas en el análisis, si el valor es False no se incluyen las variables numéricas en el análisis.</li>
+<li><strong>variables</strong> – (list) lista de nombres de las columnas separados por comas. Permite escoger las columnas de interés de análisis del dataframe</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">dataframe con las estadísticas descriptivas de las columnas de tipo texto.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py function">
+<dt id="datos.col_tipo">
+<code class="descclassname">datos.</code><code class="descname">col_tipo</code><span class="sig-paren">(</span><em><span class="n">base</span></em>, <em><span class="n">detalle</span><span class="o">=</span><span class="default_value">'bajo'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos.col_tipo" title="Enlazar permanentemente con esta definición">¶</a></dt>
 <dd><p>Retorna el tipo de dato de cada columna del dataframe, se clasifican como de tipo numérico, texto, boolean u otro.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -177,7 +200,7 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
 <li><strong>base</strong> – (dataframe) base de datos de interés a ser analizada.</li>
-<li><strong>detail</strong> – (str) {“low”, “high”}, valor por defecto: “low”. Nivel de detalle en la descripción del tipo.</li>
+<li><strong>detalle</strong> – (str) {“bajo”, “alto”}, valor por defecto: “bajo”. Indica el nivel de detalle en la descripción del tipo.</li>
 </ul>
 </td>
 </tr>
@@ -211,24 +234,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt id="datos.data_summary">
-<code class="descclassname">datos.</code><code class="descname">data_summary</code><span class="sig-paren">(</span><em><span class="n">base</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos.data_summary" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Retorna una tabla con información general de la base de datos. Incluye número de filas y columnas, número de columnas numéricas y de texto, número de columnas con más de la mitad de las observaciones con datos faltantes, número de columnas con más del 10% de observaciones con datos extremos y número de filas y columnas no únicas.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>base</strong> – (dataframe) base de datos de interés a ser analizada.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body">serie de pandas con las estadísticas descriptivas del dataframe.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="py function">
-<dt id="datos.descriptive_stats">
-<code class="descclassname">datos.</code><code class="descname">descriptive_stats</code><span class="sig-paren">(</span><em><span class="n">base</span></em>, <em><span class="n">float_transform</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos.descriptive_stats" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dt id="datos.descriptivas">
+<code class="descclassname">datos.</code><code class="descname">descriptivas</code><span class="sig-paren">(</span><em><span class="n">base</span></em>, <em><span class="n">float_transformar</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos.descriptivas" title="Enlazar permanentemente con esta definición">¶</a></dt>
 <dd><p>Calcula estadísticas descriptivas de cada columna numérica. Incluyen media, mediana, valores en distintos percentiles, desviación estándar, valores extremos y porcentaje de valores faltantes.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -236,7 +243,7 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
 <li><strong>base</strong> – (dataframe) base de datos de interés a ser analizada.</li>
-<li><strong>float_transform</strong> – (bool) {True, False}, valor por defecto: True. Si el valor es True se intenta realizar una transformación de valores de texto a numérico (float) para ser incluidas en el análisis, si el valor es False no se intenta realizar la transformación.</li>
+<li><strong>float_transformar</strong> – (bool) {True, False}, valor por defecto: True. Si el valor es True se intenta realizar una transformación de valores de texto a numérico (float) para ser incluidas en el análisis, si el valor es False no se intenta realizar la transformación.</li>
 </ul>
 </td>
 </tr>
@@ -269,6 +276,49 @@
 </dd></dl>
 
 <dl class="py function">
+<dt id="datos.extremos">
+<code class="descclassname">datos.</code><code class="descname">extremos</code><span class="sig-paren">(</span><em><span class="n">base</span></em>, <em><span class="n">extremos</span><span class="o">=</span><span class="default_value">'ambos'</span></em>, <em><span class="n">porc</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos.extremos" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Calcula el porcentaje o cantidad de outliers de cada columna numérica (las columnas con números en formato string se intentarán transformar a columnas numéricas)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>base</strong> – (dataframe) base de datos de interés a ser analizada.</li>
+<li><strong>extremos</strong> – (str) {“superior”, “inferior”, “ambos”}, valor por defecto: “ambos”. Si el valor es “<strong>inferior</strong>” se tienen en cuenta los registros con valor menor al límite inferior calculado por la metodología de valor atípico por rango intercuartílico. Si el valor es “<strong>superior</strong>” se tienen en cuenta los registros con valor mayor al límite superior calculado por la metodología de valor atípico por rango intercuartílico. Si el valor es “<strong>ambos</strong>” se tienen en cuenta los registros con valor menor al límite inferior calculado por la metodología de valor atípico por rango intercuartílico, y también aquellos con valor mayor al límite superior calculado por la metodología de valor atípico por rango intercuartílico.</li>
+<li><strong>porc</strong> – (bool) {True, False}, valor por defecto: True. Si el valor es True el resultado se expresa como un porcentaje, si el valor es False el valor se expresa como una cantidad de registros (número entero).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">serie de pandas con la cantidad/porcentaje de valores outliers de cada columna.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py function">
+<dt id="datos.faltantes">
+<code class="descclassname">datos.</code><code class="descname">faltantes</code><span class="sig-paren">(</span><em><span class="n">base</span></em>, <em><span class="n">porc</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos.faltantes" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Calcula el porcentaje/número de valores faltantes de cada columna del dataframe.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>base</strong> – (dataframe) base de datos de interés a ser analizada.</li>
+<li><strong>porc</strong> – (bool) {True, False}, valor por defecto: True. Si el valor es True el resultado se expresa como un porcentaje, si el valor es False el valor se expresa como una cantidad de registros (número entero).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">serie de pandas con la cantidad/porcentaje de valores faltantes de cada columna.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py function">
 <dt id="datos.memoria">
 <code class="descclassname">datos.</code><code class="descname">memoria</code><span class="sig-paren">(</span><em><span class="n">base</span></em>, <em><span class="n">col</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos.memoria" title="Enlazar permanentemente con esta definición">¶</a></dt>
 <dd><p>Calcula el tamaño de la base de datos en memoria (megabytes)</p>
@@ -290,29 +340,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt id="datos.missing">
-<code class="descclassname">datos.</code><code class="descname">missing</code><span class="sig-paren">(</span><em><span class="n">base</span></em>, <em><span class="n">perc</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos.missing" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Calcula el porcentaje/número de valores faltantes de cada columna del dataframe.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
-<li><strong>base</strong> – (dataframe) base de datos de interés a ser analizada.</li>
-<li><strong>perc</strong> – (bool) {True, False}, valor por defecto: True. Si el valor es True el resultado se expresa como un porcentaje, si el valor es False el valor se expresa como una cantidad de registros (número entero).</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">serie de pandas con la cantidad/porcentaje de valores faltantes de cada columna.</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="py function">
-<dt id="datos.nounique">
-<code class="descclassname">datos.</code><code class="descname">nounique</code><span class="sig-paren">(</span><em><span class="n">base</span></em>, <em><span class="n">col</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">perc</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos.nounique" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dt id="datos.nounicos">
+<code class="descclassname">datos.</code><code class="descname">nounicos</code><span class="sig-paren">(</span><em><span class="n">base</span></em>, <em><span class="n">col</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">porc</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos.nounicos" title="Enlazar permanentemente con esta definición">¶</a></dt>
 <dd><p>Valida la unicidad del dataframe, retorna el porcentaje/número de filas o columnas no únicas en el dataframe.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -321,7 +350,7 @@
 <tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
 <li><strong>base</strong> – (dataframe) base de datos de interés a ser analizada.</li>
 <li><strong>col</strong> – (bool) {True, False}, valor por defecto: True. Si el valor es True la validación se realiza por columnas, si el valor es False la validación se realiza por filas.</li>
-<li><strong>perc</strong> – (bool) {True, False}, valor por defecto: True. Si el valor es True el resultado se expresa como un porcentaje, si el valor es False el valor se expresa como una cantidad de registros (número entero).</li>
+<li><strong>porc</strong> – (bool) {True, False}, valor por defecto: True. Si el valor es True el resultado se expresa como un porcentaje, si el valor es False el valor se expresa como una cantidad de registros (número entero).</li>
 </ul>
 </td>
 </tr>
@@ -333,21 +362,34 @@
 </dd></dl>
 
 <dl class="py function">
-<dt id="datos.outliers">
-<code class="descclassname">datos.</code><code class="descname">outliers</code><span class="sig-paren">(</span><em><span class="n">base</span></em>, <em><span class="n">outliers</span><span class="o">=</span><span class="default_value">'both'</span></em>, <em><span class="n">perc</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos.outliers" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Calcula el porcentaje o cantidad de outliers de cada columna numérica (las columnas con números en formato string se intentarán transformar a columnas numéricas)</p>
+<dt id="datos.resumen_base">
+<code class="descclassname">datos.</code><code class="descname">resumen_base</code><span class="sig-paren">(</span><em><span class="n">base</span></em>, <em><span class="n">filas</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">columnas</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">col_numericas</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">col_texto</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">col_booleanas</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">col_fecha</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">col_otro</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">filas_nounicas</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">columnas_nounicas</span><span class="o">=</span><span class="default_value">False</span></em>, <em><span class="n">col_faltantes</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">col_extremos</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">memoria_total</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos.resumen_base" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Retorna una tabla con información general de la base de datos.
+Incluye número de filas y columnas, número de columnas de tipo numéricas, de texto, booleanas, fecha y otros,
+número de filas y columnas no únicas, número de columnas con más de la mitad de las observaciones con datos faltantes,
+número de columnas con más del 10% de observaciones con datos extremos y el tamaño de la base de datos en memoria.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
 <li><strong>base</strong> – (dataframe) base de datos de interés a ser analizada.</li>
-<li><strong>outliers</strong> – (str) {“upper”, “lower”, “both”}, valor por defecto: “both”. Si el valor es “<strong>lower</strong>” se tienen en cuenta los registros con valor menor al límite inferior calculado por la metodología de valor atípico por rango intercuartílico. Si el valor es “<strong>upper</strong>” se tienen en cuenta los registros con valor mayor al límite superior calculado por la metodología de valor atípico por rango intercuartílico. Si el valor es “<strong>both</strong>” se tienen en cuenta los registros con valor menor al límite inferior calculado por la metodología de valor atípico por rango intercuartílico, y también aquellos con valor mayor al límite superior calculado por la metodología de valor atípico por rango intercuartílico.</li>
-<li><strong>perc</strong> – (bool) {True, False}, valor por defecto: True. Si el valor es True el resultado se expresa como un porcentaje, si el valor es False el valor se expresa como una cantidad de registros (número entero).</li>
+<li><strong>filas</strong> – (bool) {True, False}, valor por defecto: True. Indica si se incluye el cálculo de número de filas del dataframe.</li>
+<li><strong>columnas</strong> – (bool) {True, False}, valor por defecto: True. Indica si se incluye el cálculo de número de filas del dataframe.</li>
+<li><strong>col_numericas</strong> – (bool) {True, False}, valor por defecto: True. Indica si se incluye el número de columnas de tipo numéricas.</li>
+<li><strong>col_texto</strong> – (bool) {True, False}, valor por defecto: True. Indica si se incluye el número de columnas de tipo texto.</li>
+<li><strong>col_booleanas</strong> – (bool) {True, False}, valor por defecto: True. Indica si se incluye el número de columnas de tipo boolean.</li>
+<li><strong>col_fecha</strong> – (bool) {True, False}, valor por defecto: True. Indica si se incluye el número de columnas de tipo fecha.</li>
+<li><strong>col_otro</strong> – (bool) {True, False}, valor por defecto: True. Indica si se incluye el número de columnas de otro tipo deferente a los anteriores.</li>
+<li><strong>filas_nounicas</strong> – (bool) {True, False}, valor por defecto: True. Indica si se incluye el número de filas no únicas.</li>
+<li><strong>columnas_nounicas</strong> – (bool) {True, False}, valor por defecto: False. Indica si se incluye el número de columnas no únicas.</li>
+<li><strong>col_faltantes</strong> – (bool) {True, False}, valor por defecto: True. Indica si se incluye el número de columnas con más de la mitad de las observaciones con datos faltantes.</li>
+<li><strong>col_extremos</strong> – (bool) {True, False}, valor por defecto: True. Indica si se incluye el número de columnas con más del 10% de observaciones con datos extremos.</li>
+<li><strong>memoria_total</strong> – (bool) {True, False}, valor por defecto: True. Indica si se incluye el cálculo del tamaño de la base de datos en memoria.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">serie de pandas con la cantidad/porcentaje de valores outliers de cada columna.</p>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">serie de pandas con las estadísticas descriptivas del dataframe.</p>
 </td>
 </tr>
 </tbody>
@@ -355,8 +397,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt id="datos.unique_col">
-<code class="descclassname">datos.</code><code class="descname">unique_col</code><span class="sig-paren">(</span><em><span class="n">base</span></em>, <em><span class="n">missing</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos.unique_col" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dt id="datos.unicos">
+<code class="descclassname">datos.</code><code class="descname">unicos</code><span class="sig-paren">(</span><em><span class="n">base</span></em>, <em><span class="n">faltantes</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos.unicos" title="Enlazar permanentemente con esta definición">¶</a></dt>
 <dd><p>Calcula la cantidad de valores únicos de cada columna del dataframe.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -364,7 +406,7 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
 <li><strong>base</strong> – (dataframe) base de datos de interés a ser analizada.</li>
-<li><strong>missing</strong> – (bool) {True, False}, valor por defecto: False. Indica si desea tener en cuenta los valores faltantes en el conteo de valores únicos.</li>
+<li><strong>faltantes</strong> – (bool) {True, False}, valor por defecto: False. Indica si desea tener en cuenta los valores faltantes en el conteo de valores únicos.</li>
 </ul>
 </td>
 </tr>
@@ -376,31 +418,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt id="datos.unique_text">
-<code class="descclassname">datos.</code><code class="descname">unique_text</code><span class="sig-paren">(</span><em><span class="n">base</span></em>, <em><span class="n">limit</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em><span class="n">nums</span><span class="o">=</span><span class="default_value">False</span></em>, <em><span class="n">variables</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos.unique_text" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Genera una tabla con los primeros 10 valores más frecuentes de las columnas de tipo texto del dataframe, además calcula su frecuencia y porcentaje dentro del total de observaciones. Incluye los valores faltantes.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
-<li><strong>base</strong> – (dataframe) base de datos de interés a ser analizada.</li>
-<li><strong>limit</strong> – (float) (valor de 0 a 1) límite de referencia, se utiliza para determinar si las variables posiblemente son de tipo categóricas y ser incluidas en el análisis. Si el número de valores únicos por columna es mayor al número de registros * limit, se considera que la variable no es categórica.</li>
-<li><strong>nums</strong> – (bool) {True, False}, determina si se desea considerar las variables como categóricas e incluirlas en el análisis. Si el valor es True se incluyen las variables numéricas en el análisis, si el valor es False no se incluyen las variables numéricas en el análisis.</li>
-<li><strong>variables</strong> – (list) lista de nombres de las columnas separados por comas. Permite escoger las columnas de interés de análisis del dataframe</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">dataframe con las estadísticas descriptivas de las columnas de tipo texto.</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="py function">
-<dt id="datos.var_high_low">
-<code class="descclassname">datos.</code><code class="descname">var_high_low</code><span class="sig-paren">(</span><em><span class="n">base</span></em>, <em><span class="n">percent_low</span><span class="o">=</span><span class="default_value">5</span></em>, <em><span class="n">percent_high</span><span class="o">=</span><span class="default_value">95</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos.var_high_low" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dt id="datos.varianza_percentil">
+<code class="descclassname">datos.</code><code class="descname">varianza_percentil</code><span class="sig-paren">(</span><em><span class="n">base</span></em>, <em><span class="n">percentil_inferior</span><span class="o">=</span><span class="default_value">5</span></em>, <em><span class="n">percentil_superior</span><span class="o">=</span><span class="default_value">95</span></em>, <em><span class="n">float_transform</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos.varianza_percentil" title="Enlazar permanentemente con esta definición">¶</a></dt>
 <dd><p>Retorna las columnas numéricas cuyo percentil inferior percent_low sea igual a su percentil superior percent_high.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -408,8 +427,8 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
 <li><strong>base</strong> – (dataframe) base de datos de interés a ser analizada.</li>
-<li><strong>percent_low</strong> – (float), valor por defecto: 5. Percentil inferior de referencia en la comparación.</li>
-<li><strong>percent_high</strong> – (float), valor por defecto: 95. Percentil superior de referencia en la comparación.</li>
+<li><strong>percentil_inferior</strong> – (float), valor por defecto: 5. Percentil inferior de referencia en la comparación.</li>
+<li><strong>percentil_superior</strong> – (float), valor por defecto: 95. Percentil superior de referencia en la comparación.</li>
 </ul>
 </td>
 </tr>
