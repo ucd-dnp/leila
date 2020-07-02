@@ -10,6 +10,9 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 
+        <!-- Load plotly.js into the DOM -->
+	    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+
         <style>
             .aligned-row { display: flex; }
             .borde{ border-style: solid; border-width: 1px; border-color: #c2c2c2; }
@@ -23,8 +26,23 @@
             .tabla_sin_bold > table > tbody > tr > :nth-child(1){ font-weight:normal !important; }
             .tableFixHead { overflow-y: auto; height: 100px; }
             .tableFixHead thead th { position: sticky; top: 0; background:#ffffff; }
-            tr td { white-space: nowrap; }
+            tr td { white-space: nowrap;}
             tr th { white-space: nowrap;}
+
+            #gd1 {
+                width:100%;
+                height:100%;
+                float: right;
+            }
+
+            .container {
+                width:100%;
+                border:1px solid red;
+                text-align: center;
+                overflow:display;
+            }
+
+
         </style>
     </head>
     <body>
@@ -38,7 +56,7 @@
                     <div class="row max_size_row">
                         <div class="col-md-12">
                             <h1>Reporte perfilamiento</h1>
-                            <em>Reporte generado automáticamente 19-06-2020 04:42:39 PM</em>
+                            <em>Reporte generado automáticamente 01-07-2020 09:12:46 PM</em>
                             <!--
                             <h1 class="hidden-xs bg-danger">This text is hidden on an EXTRA SMALL screen.</h1>
                             <h1 class="hidden-sm bg-info">This text is hidden on a SMALL screen.</h1>
@@ -86,7 +104,7 @@
       <td>24</td>
     </tr>
     <tr>
-      <td>Columnas boolean</td>
+      <td>Columnas booleanas</td>
       <td>2</td>
     </tr>
     <tr>
@@ -146,7 +164,7 @@
       <td>24</td>
     </tr>
     <tr>
-      <td>Columnas boolean</td>
+      <td>Columnas booleanas</td>
       <td>2</td>
     </tr>
     <tr>
@@ -4068,7 +4086,7 @@
                                                             
                                                                 <td class="ds_0">
                                                                     
-                                                                        outliers
+                                                                        outliers_total
                                                                     
                                                                 </td>
                                                             
@@ -4213,6 +4231,326 @@
                                                                 <td class="ds_24">
                                                                     
                                                                         0.20
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_25">
+                                                                    
+                                                                        0.00
+                                                                    
+                                                                </td>
+                                                            
+                                                        </tr>
+                                                    
+                                                        <tr>
+                                                            
+                                                                <td class="ds_0">
+                                                                    
+                                                                        outliers_altos
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_1">
+                                                                    
+                                                                        0.00
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_2">
+                                                                    
+                                                                        0.01
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_3">
+                                                                    
+                                                                        0.03
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_4">
+                                                                    
+                                                                        0.00
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_5">
+                                                                    
+                                                                        0.12
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_6">
+                                                                    
+                                                                        0.11
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_7">
+                                                                    
+                                                                        0.11
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_8">
+                                                                    
+                                                                        0.13
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_9">
+                                                                    
+                                                                        0.13
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_10">
+                                                                    
+                                                                        0.11
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_11">
+                                                                    
+                                                                        0.02
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_12">
+                                                                    
+                                                                        0.03
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_13">
+                                                                    
+                                                                        0.01
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_14">
+                                                                    
+                                                                        0.02
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_15">
+                                                                    
+                                                                        0.00
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_16">
+                                                                    
+                                                                        0.09
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_17">
+                                                                    
+                                                                        0.11
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_18">
+                                                                    
+                                                                        0.09
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_19">
+                                                                    
+                                                                        0.21
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_20">
+                                                                    
+                                                                        0.10
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_21">
+                                                                    
+                                                                        0.20
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_22">
+                                                                    
+                                                                        0.21
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_23">
+                                                                    
+                                                                        0.18
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_24">
+                                                                    
+                                                                        0.20
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_25">
+                                                                    
+                                                                        0.00
+                                                                    
+                                                                </td>
+                                                            
+                                                        </tr>
+                                                    
+                                                        <tr>
+                                                            
+                                                                <td class="ds_0">
+                                                                    
+                                                                        outliers_bajos
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_1">
+                                                                    
+                                                                        0.00
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_2">
+                                                                    
+                                                                        0.00
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_3">
+                                                                    
+                                                                        0.02
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_4">
+                                                                    
+                                                                        0.00
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_5">
+                                                                    
+                                                                        0.00
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_6">
+                                                                    
+                                                                        0.00
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_7">
+                                                                    
+                                                                        0.00
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_8">
+                                                                    
+                                                                        0.00
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_9">
+                                                                    
+                                                                        0.00
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_10">
+                                                                    
+                                                                        0.00
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_11">
+                                                                    
+                                                                        0.05
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_12">
+                                                                    
+                                                                        0.09
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_13">
+                                                                    
+                                                                        0.00
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_14">
+                                                                    
+                                                                        0.00
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_15">
+                                                                    
+                                                                        0.12
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_16">
+                                                                    
+                                                                        0.00
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_17">
+                                                                    
+                                                                        0.00
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_18">
+                                                                    
+                                                                        0.00
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_19">
+                                                                    
+                                                                        0.00
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_20">
+                                                                    
+                                                                        0.00
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_21">
+                                                                    
+                                                                        0.00
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_22">
+                                                                    
+                                                                        0.00
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_23">
+                                                                    
+                                                                        0.00
+                                                                    
+                                                                </td>
+                                                            
+                                                                <td class="ds_24">
+                                                                    
+                                                                        0.00
                                                                     
                                                                 </td>
                                                             
@@ -5073,26 +5411,6 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>08.04.30.00</td>
-                                                                
-                                                            
-                                                                
-                                                                    <td>7</td>
-                                                                
-                                                            
-                                                                
-                                                                    <td>0.005649717514124294</td>
-                                                                
-                                                            
-                                                        </tr>
-                                                    
-                                                        <tr>
-                                                            
-                                                                
-                                                                    <td class="referencia">PosicionArancelaria</td>
-                                                                
-                                                            
-                                                                
                                                                     <td>61.09.90.90</td>
                                                                 
                                                             
@@ -5113,7 +5431,27 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>9019100000</td>
+                                                                    <td>08.04.30.00</td>
+                                                                
+                                                            
+                                                                
+                                                                    <td>7</td>
+                                                                
+                                                            
+                                                                
+                                                                    <td>0.005649717514124294</td>
+                                                                
+                                                            
+                                                        </tr>
+                                                    
+                                                        <tr>
+                                                            
+                                                                
+                                                                    <td class="referencia">PosicionArancelaria</td>
+                                                                
+                                                            
+                                                                
+                                                                    <td>08.10.90.50</td>
                                                                 
                                                             
                                                                 
@@ -5353,7 +5691,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>Aguacate Hass</td>
+                                                                    <td>solido y/o manteca vegetal</td>
                                                                 
                                                             
                                                                 
@@ -5553,26 +5891,6 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>RUANAS</td>
-                                                                
-                                                            
-                                                                
-                                                                    <td>5</td>
-                                                                
-                                                            
-                                                                
-                                                                    <td>0.004035512510088781</td>
-                                                                
-                                                            
-                                                        </tr>
-                                                    
-                                                        <tr>
-                                                            
-                                                                
-                                                                    <td class="referencia">NombreEn</td>
-                                                                
-                                                            
-                                                                
                                                                     <td>cocoa</td>
                                                                 
                                                             
@@ -5613,7 +5931,27 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>Swim suit</td>
+                                                                    <td>RUANAS</td>
+                                                                
+                                                            
+                                                                
+                                                                    <td>5</td>
+                                                                
+                                                            
+                                                                
+                                                                    <td>0.004035512510088781</td>
+                                                                
+                                                            
+                                                        </tr>
+                                                    
+                                                        <tr>
+                                                            
+                                                                
+                                                                    <td class="referencia">NombreEn</td>
+                                                                
+                                                            
+                                                                
+                                                                    <td>CHOCOLOMBIA</td>
                                                                 
                                                             
                                                                 
@@ -5713,7 +6051,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>AGUCATES FRESCOS</td>
+                                                                    <td>Margarina Preparado</td>
                                                                 
                                                             
                                                                 
@@ -5733,7 +6071,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>Margarina Preparado</td>
+                                                                    <td>AGUCATES FRESCOS</td>
                                                                 
                                                             
                                                                 
@@ -5793,26 +6131,6 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>margarina industrial</td>
-                                                                
-                                                            
-                                                                
-                                                                    <td>5</td>
-                                                                
-                                                            
-                                                                
-                                                                    <td>0.004035512510088781</td>
-                                                                
-                                                            
-                                                        </tr>
-                                                    
-                                                        <tr>
-                                                            
-                                                                
-                                                                    <td class="referencia">Descripcion</td>
-                                                                
-                                                            
-                                                                
                                                                     <td>PANTALONES LARGOS</td>
                                                                 
                                                             
@@ -5833,7 +6151,27 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>solido y/o manteca vegetal</td>
+                                                                    <td>margarina industrial</td>
+                                                                
+                                                            
+                                                                
+                                                                    <td>5</td>
+                                                                
+                                                            
+                                                                
+                                                                    <td>0.004035512510088781</td>
+                                                                
+                                                            
+                                                        </tr>
+                                                    
+                                                        <tr>
+                                                            
+                                                                
+                                                                    <td class="referencia">Descripcion</td>
+                                                                
+                                                            
+                                                                
+                                                                    <td>VIBRADOR</td>
                                                                 
                                                             
                                                                 
@@ -5853,7 +6191,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>Jugo a base de pulpa  de fruta</td>
+                                                                    <td>solido y/o manteca vegetal</td>
                                                                 
                                                             
                                                                 
@@ -6133,26 +6471,6 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>CAJAS</td>
-                                                                
-                                                            
-                                                                
-                                                                    <td>7</td>
-                                                                
-                                                            
-                                                                
-                                                                    <td>0.005649717514124294</td>
-                                                                
-                                                            
-                                                        </tr>
-                                                    
-                                                        <tr>
-                                                            
-                                                                
-                                                                    <td class="referencia">Unidad comercial</td>
-                                                                
-                                                            
-                                                                
                                                                     <td>RUANAS</td>
                                                                 
                                                             
@@ -6173,7 +6491,27 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>ROBLE</td>
+                                                                    <td>CAJAS</td>
+                                                                
+                                                            
+                                                                
+                                                                    <td>7</td>
+                                                                
+                                                            
+                                                                
+                                                                    <td>0.005649717514124294</td>
+                                                                
+                                                            
+                                                        </tr>
+                                                    
+                                                        <tr>
+                                                            
+                                                                
+                                                                    <td class="referencia">Unidad comercial</td>
+                                                                
+                                                            
+                                                                
+                                                                    <td>UCHUVA</td>
                                                                 
                                                             
                                                                 
@@ -6193,7 +6531,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>UCHUVA</td>
+                                                                    <td>ROBLE</td>
                                                                 
                                                             
                                                                 
@@ -6373,7 +6711,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>CONTENEDOR 40 R</td>
+                                                                    <td>PALLET</td>
                                                                 
                                                             
                                                                 
@@ -6393,7 +6731,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>PALLET</td>
+                                                                    <td>CONTENEDOR 40 R</td>
                                                                 
                                                             
                                                                 
@@ -6453,7 +6791,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>CAJA DE CARTÓN</td>
+                                                                    <td>CAJA</td>
                                                                 
                                                             
                                                                 
@@ -6853,26 +7191,6 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>Argentina</td>
-                                                                
-                                                            
-                                                                
-                                                                    <td>2</td>
-                                                                
-                                                            
-                                                                
-                                                                    <td>0.0016142050040355124</td>
-                                                                
-                                                            
-                                                        </tr>
-                                                    
-                                                        <tr>
-                                                            
-                                                                
-                                                                    <td class="referencia">Pais OrigenTI</td>
-                                                                
-                                                            
-                                                                
                                                                     <td>Países Bajos</td>
                                                                 
                                                             
@@ -6893,7 +7211,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>México</td>
+                                                                    <td>Canadá</td>
                                                                 
                                                             
                                                                 
@@ -6913,7 +7231,27 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>Canadá</td>
+                                                                    <td>China</td>
+                                                                
+                                                            
+                                                                
+                                                                    <td>2</td>
+                                                                
+                                                            
+                                                                
+                                                                    <td>0.0016142050040355124</td>
+                                                                
+                                                            
+                                                        </tr>
+                                                    
+                                                        <tr>
+                                                            
+                                                                
+                                                                    <td class="referencia">Pais OrigenTI</td>
+                                                                
+                                                            
+                                                                
+                                                                    <td>México</td>
                                                                 
                                                             
                                                                 
@@ -7073,7 +7411,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>Cali</td>
+                                                                    <td>Callao</td>
                                                                 
                                                             
                                                                 
@@ -7113,7 +7451,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>Callao</td>
+                                                                    <td>Cali</td>
                                                                 
                                                             
                                                                 
@@ -7153,7 +7491,7 @@
                                                                 
                                                             
                                                                 
-                                                                    <td>Ipiales</td>
+                                                                    <td>Medellín</td>
                                                                 
                                                             
                                                                 
@@ -7473,29 +7811,33 @@
                                                         <table class="table table-condensed">
   <thead>
     <tr style="text-align: right;">
-      <th>0</th>
-      <th>1</th>
-      <th>2</th>
-      <th>3</th>
-      <th>4</th>
-      <th>5</th>
+      <th>Filas iguales 1</th>
+      <th>Filas iguales 2</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>3</td>
-      <td>4</td>
-      <td>5</td>
-      <td>6</td>
-      <td>7</td>
-      <td>8</td>
+      <td>1068</td>
     </tr>
     <tr>
-      <td>1068</td>
+      <td>4</td>
       <td>1069</td>
+    </tr>
+    <tr>
+      <td>5</td>
       <td>None</td>
+    </tr>
+    <tr>
+      <td>6</td>
       <td>None</td>
+    </tr>
+    <tr>
+      <td>7</td>
       <td>None</td>
+    </tr>
+    <tr>
+      <td>8</td>
       <td>None</td>
     </tr>
   </tbody>
@@ -7510,41 +7852,53 @@
                                                         <table class="table table-condensed">
   <thead>
     <tr style="text-align: right;">
-      <th>0</th>
-      <th>1</th>
-      <th>2</th>
-      <th>3</th>
-      <th>4</th>
-      <th>5</th>
-      <th>6</th>
+      <th>Columnas iguales 1</th>
+      <th>Columnas iguales 2</th>
+      <th>Columnas iguales 3</th>
+      <th>Columnas iguales 4</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>Sector</td>
-      <td>Empresa</td>
-      <td>Ciudad usuario</td>
-      <td>NombreAsesor</td>
       <td>subSector</td>
-      <td>país usuario</td>
-      <td>NumIdTributaria</td>
-    </tr>
-    <tr>
       <td>Estado2</td>
+      <td>subSector</td>
+      <td>Unidad de peso UC</td>
+    </tr>
+    <tr>
+      <td>Sector</td>
       <td>Estado</td>
+      <td>Sector</td>
+      <td>Unidad de peso</td>
+    </tr>
+    <tr>
+      <td>NombreAsesor</td>
       <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>Ciudad usuario</td>
       <td>None</td>
     </tr>
     <tr>
-      <td>Unidad de peso</td>
-      <td>Unidad de peso UC</td>
+      <td>Ciudad usuario</td>
       <td>None</td>
+      <td>país usuario</td>
       <td>None</td>
+    </tr>
+    <tr>
+      <td>país usuario</td>
       <td>None</td>
+      <td>NumIdTributaria</td>
       <td>None</td>
+    </tr>
+    <tr>
+      <td>NumIdTributaria</td>
+      <td>None</td>
+      <td>NombreAsesor</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <td>Empresa</td>
+      <td>None</td>
+      <td>Empresa</td>
       <td>None</td>
     </tr>
   </tbody>
@@ -7603,6 +7957,44 @@
                                     <div class="row max_size_row2 aligned-row">
                                         <div class="col-md-12 table-responsive">
                                             gráfico correlación de kendall
+
+                                            <table class="table table-condensed">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Id</th>
+      <th>UCO alto</th>
+      <th>UCO largo</th>
+      <th>UCO volumen</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1.000000</td>
+      <td>-0.030113</td>
+      <td>0.030602</td>
+      <td>-0.046212</td>
+    </tr>
+    <tr>
+      <td>-0.030113</td>
+      <td>1.000000</td>
+      <td>0.005742</td>
+      <td>0.927618</td>
+    </tr>
+    <tr>
+      <td>0.030602</td>
+      <td>0.005742</td>
+      <td>1.000000</td>
+      <td>0.005279</td>
+    </tr>
+    <tr>
+      <td>-0.046212</td>
+      <td>0.927618</td>
+      <td>0.005279</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+
                                         </div>
                                     </div>
                                 </div>
@@ -7613,9 +8005,13 @@
                                     <p class="descripcion">
                                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium consequatur cupiditate deleniti est et fugiat illum iste minus nam necessitatibus nesciunt possimus provident quasi repellendus reprehenderit, repudiandae, sint ut voluptas.
                                     </p>
+                                    <!-- <div class="row max_size_row2 aligned-row"> -->
                                     <div class="row max_size_row2 aligned-row">
-                                        <div class="col-md-12 table-responsive">
+                                        <div class="col-md-12">
                                             gráfico correlación de spearman
+                                            <div class="container">
+                                                <div id='gd1' class="max_size_row2"></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -7781,7 +8177,7 @@
                                 labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
                                 datasets: [{
                                     label: '# of Votes',
-                                    data: [12, 19, 3, 5, 2, 3],
+                                    data: [1, 2, 3, 4, 5, 6],
                                     backgroundColor: [
                                         'rgba(255, 99, 132, 0.9)',
                                         'rgba(54, 162, 235, 0.9)',
@@ -7810,6 +8206,53 @@
                                     }]
                                 }
                             }
+                        });
+                    </script>
+
+                    <!-- Heatmap con Plotly -->
+                    <script>
+                        var data = [
+                          {
+                            z: [[1, null, 30, 50, 1], [20, 1, 60, 80, 30], [30, 60, 1, -10, 20]],
+                            x: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+                            y: ['Morning', 'Afternoon', 'Evening'],
+                            type: 'heatmap',
+                            hoverongaps: false
+                          }
+                        ];
+
+                        var layout = {
+                            title: 'Hide the Modebar',
+                            yaxis: {fixedrange: true,
+                                    automargin: true},
+                            xaxis : {fixedrange: true},
+                            showlegend: true,
+                            font: {size: 12},
+                            autosize: true,
+                            width:1055,
+                            margin: {
+                                l: 50,
+                                r: 50,
+                                b: 50,
+                                t: 50
+                            }
+                        };
+
+                        Plotly.newPlot('gd1', data, layout, {displayModeBar: false});
+
+                        var gd1 = document.getElementById('gd1');
+                        window.onresize = function() {
+                           Plotly.Plots.resize(gd1);
+                        };
+
+
+                    </script>
+
+                    <script>
+                        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                            var gd1 = document.getElementById('gd1');
+                            Plotly.Plots.resize(gd1);
+                            console.log('prueba');
                         });
                     </script>
 

@@ -5,6 +5,6 @@ __pycache__
 *.xlsx
 example_google.py
 example_restructuredtext_spamfilter.py
-sphinx/_guia
-sphinx/env_doc
+doc/_guia
+doc/env_doc
 heatmap D3

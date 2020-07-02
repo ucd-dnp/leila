@@ -13,6 +13,7 @@ from datos import memoria
 from datos import unicos
 from datos import categorias
 from datos import duplic
+from datos import correlacion
 
 import os
 import sys
@@ -120,6 +121,21 @@ def generar_reporte(base, titulo='Reporte perfilamiento', archivo='perfilamiento
     dataframe_duplic02 = duplic(base, col=True)
     html_dataframe_duplic02 = df_as_html(dataframe_duplic02)
 
+    # Gráficos correlaciones ----------------------------------------------------
+    # https://codepen.io/antoinerg/pen/NLboJw
+
+    # Tab 1 - Pearson -----------------------------------------------------------
+
+    # data: [12, 19, 3, 5, 2, 3]
+    datos_grafica = [1, 2, 3, 4, 5, 6]
+
+    # Tab 2 - Kendall -----------------------------------------------------------
+
+    df_correlacion = correlacion(base, metodo="pearson", variables=['Id', 'UCO alto', 'UCO largo', 'UCO volumen'])
+    html_correlacion = df_as_html(df_correlacion)
+
+
+    # Tab 3 - Pearson -----------------------------------------------------------
     # ----------------------------------------------------------------------------
 
     # Configure Jinja and ready the loader    
@@ -149,6 +165,8 @@ def generar_reporte(base, titulo='Reporte perfilamiento', archivo='perfilamiento
             items_3=items_3,
             html_dataframe_duplic01=html_dataframe_duplic01,
             html_dataframe_duplic02=html_dataframe_duplic02,
+            datos_grafica=datos_grafica,
+            html_correlacion=html_correlacion
         )
         HTML_file.write(output)
     print('-----------------------------------------------------------------------')
