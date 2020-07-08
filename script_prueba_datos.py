@@ -16,6 +16,7 @@ base=pd.read_excel(r"D:\Departamento Nacional de Planeacion\Unidad de Cientifico
 
 ############ RESUMEN DE BASE DE DATOS
 resumen=datos.resumen_base(base)
+print(resumen)
 
 ############ VARIANZA DE DATOS
 var_perc=datos.varianza_percentil(base,float_transform=True)
@@ -95,20 +96,6 @@ categoricas_transformar=datos.categorias(base,limite=0.5,transformar_nums=True,v
 peso_base=datos.memoria(base,col=False)
 # Peso total por columna
 peso_base_cols=datos.memoria(base,col=True)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
