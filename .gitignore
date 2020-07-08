@@ -8,3 +8,6 @@ example_restructuredtext_spamfilter.py
 doc/_guia
 doc/env_doc
 heatmap D3
+*.ipynb
+pruebas funciones libreria.ipynb
+.ipynb_checkpoints
