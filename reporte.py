@@ -13,6 +13,7 @@ from datos import memoria
 from datos import unicos
 from datos import categorias
 from datos import duplic
+from datos import correlacion
 
 import os
 import sys
@@ -120,6 +121,48 @@ def generar_reporte(base, titulo='Reporte perfilamiento', archivo='perfilamiento
     dataframe_duplic02 = duplic(base, col=True)
     html_dataframe_duplic02 = df_as_html(dataframe_duplic02)
 
+    # Gráficos correlaciones ----------------------------------------------------
+    # https://codepen.io/antoinerg/pen/NLboJw
+
+    heatmap_colorscale = [
+        ['0.000000000000', 'rgb(103,  0, 31)'],
+        ['0.111111111111', 'rgb(178, 24, 43)'],
+        ['0.222222222222', 'rgb(214, 96, 77)'],
+        ['0.333333333333', 'rgb(244,165,130)'],
+        ['0.444444444444', 'rgb(253,219,199)'],
+        ['0.555555555556', 'rgb(209,229,240)'],
+        ['0.666666666667', 'rgb(146,197,222)'],
+        ['0.777777777778', 'rgb( 67,147,195)'],
+        ['0.888888888889', 'rgb( 33,102,172)'],
+        ['1.000000000000', 'rgb(  5, 48, 97)']
+    ]
+    # Tab 1 - Pearson -----------------------------------------------------------
+    df_corre_pearson = correlacion(base, metodo="pearson")
+    df_corre_pearson = correlacion(base, metodo="pearson",
+                                   variables=['FechaCreacion', 'Alto', 'Largo', 'CapacidadPeso', 'Valor Total Local'])
+
+    df_corre_pearson = df_corre_pearson.round(3).fillna('null')
+    corre_pearson_headers = list(df_corre_pearson)
+    corre_pearson_values = df_corre_pearson.values.tolist()
+
+    # Tab 2 - Kendall -----------------------------------------------------------
+    df_corre_kendall = correlacion(base, metodo="kendall")
+    df_corre_kendall = correlacion(base, metodo="kendall",
+                                   variables=['FechaCreacion', 'Alto', 'Largo', 'CapacidadPeso', 'Valor Total Local'])
+
+    df_corre_kendall = df_corre_kendall.round(3).fillna('null')
+    corre_kendall_headers = list(df_corre_kendall)
+    corre_kendall_values = df_corre_kendall.values.tolist()
+
+    # Tab 3 - Pearson -----------------------------------------------------------
+    df_corre_spearman = correlacion(base, metodo="spearman")
+    df_corre_spearman = correlacion(base, metodo="spearman",
+                                   variables=['FechaCreacion', 'Alto', 'Largo', 'CapacidadPeso', 'Valor Total Local'])
+
+    df_corre_spearman = df_corre_spearman.round(3).fillna('null')
+    corre_spearman_headers = list(df_corre_spearman)
+    corre_spearman_values = df_corre_spearman.values.tolist()
+
     # ----------------------------------------------------------------------------
 
     # Configure Jinja and ready the loader    
@@ -149,6 +192,13 @@ def generar_reporte(base, titulo='Reporte perfilamiento', archivo='perfilamiento
             items_3=items_3,
             html_dataframe_duplic01=html_dataframe_duplic01,
             html_dataframe_duplic02=html_dataframe_duplic02,
+            heatmap_colorscale=heatmap_colorscale,
+            corre_pearson_headers=corre_pearson_headers,
+            corre_pearson_values=corre_pearson_values,
+            corre_kendall_headers=corre_kendall_headers,
+            corre_kendall_values=corre_kendall_values,
+            corre_spearman_headers=corre_spearman_headers,
+            corre_spearman_values=corre_spearman_values
         )
         HTML_file.write(output)
     print('-----------------------------------------------------------------------')

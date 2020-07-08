@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 import datetime
 from sodapy import Socrata
-from selenium import webdriver
+#from selenium import webdriver
 import webbrowser
 
 direccion_metatabla="https://dl.dropboxusercontent.com/s/84lt7ddrt73vzzu/tabla_final.txt?dl=0"
@@ -28,7 +28,7 @@ def sodapy_base(api_id,token=None,limite_filas=1000000000):
 
 # OBTENER LA TABLA QUE TIENE DATOS ABIERTOS CON INFORMACIÓN DE LAS BASES DE DATOS
 def asset_inventory(token=None,limite_filas=1000000000):
-    """ La función se conecta al API de Socrata y retorna la base de datos *Asset Inventory* descargada del Portal de Datos Abiertos
+    """ Se conecta al API de Socrata y retorna la base de datos *Asset Inventory* descargada del Portal de Datos Abiertos
     como dataframe. Este conjunto de datos es un inventario de los recursos en el sitio.
 
     :param token: (str) *opcional* - token de usuario de la API Socrata.
@@ -40,7 +40,7 @@ def asset_inventory(token=None,limite_filas=1000000000):
     return(asset_inventory)
 
 def asset_inventory_espanol(token=None):
-    """ La función se conecta al API de Socrata y retorna la base de datos *Asset Inventory* descargada del Portal de Datos Abiertos
+    """ Se conecta al API de Socrata y retorna la base de datos *Asset Inventory* descargada del Portal de Datos Abiertos
     como dataframe, selecciona columnas de interés y las renombra con un término en español. Este conjunto de datos es un inventario de los recursos en el sitio.
 
     :param token: (str) *opcional* - token de usuario de la API Socrata.
@@ -105,9 +105,7 @@ def asset_inventory_espanol(token=None):
             "form":"formulario",
             "calendar":"calendario",
             "invalid_datatype":"tipo_invalido"})
-    
-    
-    
+
     return(asset)
 
 
@@ -156,12 +154,18 @@ def mostrar_metadatos(api_id,token=None):
     return(base_info)
 
 def pagina_metadatos(api_id,token=None):
+    """
+
+    :param api_id: (str) Identificación de la base de datos asociado con la API de Socrata.
+    :param token: (str) *opcional* - token de usuario de la API Socrata.
+    :return: Abre en el navegador el link de datos abiertos asociado al api_id ingresado.
+    """
     asset=asset_inventory(token=token)
     url=asset.loc[asset["uid"]==api_id,"url"].iloc[0]
     return webbrowser.open(url)
     
 
-############ METADATOS    
+############ METADATOS
 # COMPARAR LAS FILAS DE LOS METADATOS CON LA BASE DE DATOS MICRO
 def comparar_tamano(api_id,token=None):
     """ Se conecta al API de Socrata y consulta el número de filas y columnas de los metadatos de la base de datos asociada con el *api_id* para construir una tabla, adicionalmente se agregan los datos actuales del número de filas y columnas de la base de datos.
