@@ -8,12 +8,10 @@ Created on Wed Jun 24 08:30:57 2020
 import os
 import pandas as pd
 
-os.chdir(r"D:\Departamento Nacional de Planeacion\Unidad de Cientificos de Datos - Repositorio UCD\Proyectos UCD\2019\Datos abiertos Colombia\2_Codigo\1_Source\calidad_datos")
+#importación libreria calidad de datos
+from leila.calidad_datos import CalidadDatos
 
-import datos
-
-base=pd.read_excel(r"D:\Departamento Nacional de Planeacion\Unidad de Cientificos de Datos - Repositorio UCD\Proyectos UCD\2019\Datos abiertos Colombia\1_Insumos\Bases_de_datos\Reporte DFI 2019 Julio v4 DNP.xlsx")
-
+base = pd.read_excel("./../../1_Insumos/Bases_de_datos/Reporte DFI 2019 Julio v4 DNP.xlsx")
 ############ RESUMEN DE BASE DE DATOS
 resumen=datos.resumen_base(base)
 print(resumen)
