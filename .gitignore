@@ -1,13 +1,11 @@
 .idea
-env
-__temp
 __pycache__
+env
+sphinx/env
+sphinx/__recursos_guia
 *.xlsx
-example_google.py
-example_restructuredtext_spamfilter.py
-doc/_guia
-doc/env_doc
-heatmap D3
 *.ipynb
-pruebas funciones libreria.ipynb
+x_pruebas funciones libreria.ipynb
 .ipynb_checkpoints
+perfilamiento.html
+datos.py

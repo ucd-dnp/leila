@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{{ title }}</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+
+        <!-- Load plotly.js into the DOM -->
+	    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+
+        <style>
+            .aligned-row { display: flex; }
+            .borde{ border-style: solid; border-width: 1px; border-color: #c2c2c2; }
+            .descripcion   { min-height:40px; }
+            .max_size_row  { max-height:450px !important; }
+            .max_size_row2 { height:380px !important; }
+            p { margin-bottom:5px; }
+            table > tbody > tr > :nth-child(1) { font-weight:bold; }
+            table > tbody > tr:hover           { background-color: #ffff99 !important; }
+            table > tbody > tr:nth-child(even) { background: #ededed; }
+            .tabla_sin_bold > table > tbody > tr > :nth-child(1){ font-weight:normal !important; }
+            .tableFixHead { overflow-y: auto; height: 100px; }
+            .tableFixHead thead th { position: sticky; top: 0; background:#ffffff; }
+            tr td { white-space: nowrap;}
+            tr th { white-space: nowrap;}
+            .container {width:100%; text-align: center; overflow:display;}
+            .white_spaces > tbody > tr > td:nth-child(2) { white-space: normal !important;}
+        </style>
+    </head>
+    <body>
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+
+                    <!-- Header -->
+                    <div class="row max_size_row">
+                        <div class="col-md-12">
+                            <h1>{{ title }}</h1>
+                            <em>Reporte generado automáticamente {{ current_time }}</em>
+                            <!--
+                            <h1 class="hidden-xs bg-danger">This text is hidden on an EXTRA SMALL screen.</h1>
+                            <h1 class="hidden-sm bg-info">This text is hidden on a SMALL screen.</h1>
+                            <h1 class="hidden-md bg-warning">This is text hidden on a MEDIUM screen.</h1>
+                            <h1 class="hidden-lg bg-success">This is text hidden on a LARGE screen.</h1>
+                            -->
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!-- Metadatos -->
+                    <div class="row">
+                        <div class="col-md-12 borde">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h3><em>Metadatos - <a href='{{ link_datos_abiertos }}' target="_blank">ver en Datos Abiertos</a></em></h3>
+                                </div>
+                            </div>
+                            <div class="row hidden-md hidden-lg">
+                                <div class="col-md-12">
+                                    <div class="table-responsive">
+                                        {{ html_metadatos_00 }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row hidden-xs hidden-sm">
+                                <div class="col-md-6">
+                                    <div class="table-responsive">
+                                        {{ html_metadatos_01 }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="table-responsive">
+                                        {{ html_metadatos_02 }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <!-- Estadísticas generales -->
+                    <div class="row max_size_row">
+                        <div class="col-md-12 borde">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h3><em>Estadísticas generales</em></h3>
+                                </div>
+                            </div>
+                            <div class="row hidden-md hidden-lg">
+                                <div class="col-md-12">
+                                    <div class="table-responsive">
+                                        {{ html_data_summary_00 }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row hidden-xs hidden-sm">
+                                <div class="col-md-6">
+                                    <div class="table-responsive">
+                                        {{ html_data_summary_01 }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="table-responsive">
+                                        {{ html_data_summary_02 }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <!-- Muestra de datos -->
+                    <div class="row">
+                        <div class="col-md-12 borde">
+
+                            <h3><em>Muestra de datos</em></h3>
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#tab_head">Primeras 10 filas</a></li>
+                                <li><a data-toggle="tab" href="#tab_tail">Últimas 10 filas</a></li>
+                            </ul>
+
+                            <div class="tab-content">
+                                <!-- Primeras filas -->
+                                <div id="tab_head" class="tab-pane fade in active">
+                                    <br>
+                                    <div class="table-responsive tabla_sin_bold">
+                                        {{ html_dataframe_head }}
+                                    </div>
+                                </div>
+
+                                <!-- Últimas filas -->
+                                <div id="tab_tail" class="tab-pane fade">
+                                    <br>
+                                    <div class="table-responsive tabla_sin_bold">
+                                        {{ html_dataframe_tail }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr><em>{{ dataframe_shape }}</em><br><br>
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <!-- Estadísticas específicas -->
+                    <div class="row">
+                        <div class="col-md-12 borde">
+
+                            <h3><em>Estadísticas específicas</em></h3>
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#tab01">Información general</a></li>
+                                <li><a data-toggle="tab" href="#tab02">Estadísticas descriptivas</a></li>
+                                <li><a data-toggle="tab" href="#tab03">Frecuencia de valores únicos</a></li>
+                                <li><a data-toggle="tab" href="#tab04">Datos duplicados</a></li>
+                            </ul>
+
+                            <div class="tab-content" style="text-align: justify; text-justify: inter-word;">
+
+                                <!-- Información general -->
+                                <div id="tab01" class="tab-pane fade in active">
+                                    <br>
+                                    <p class="descripcion">
+                                        Esta función está compuesta por cuatro elementos. La cual contiene, el tipo general (numérica, texto, boolean, fecha y otro) y especifico (str, float, int, numpy.int64, numpy.float64)de cada columna, el tamaño de la base de datos por columnas en megabytes y el número de valores únicos de cada columna sin incluir valores faltantes.
+                                    </p>
+                                    <div class="row max_size_row2 aligned-row">
+                                        <div class="col-md-4 table-responsive">
+                                            <h4><strong><em>Variables</em></strong></h4>
+                                            <p><input type="checkbox" onClick="toggle2(this)" id="select-all_2"> Seleccionar todos</p>
+                                            {% for item in header_list_2 %}
+                                                <p><input type="checkbox" name="ds2_{{ loop.index }}" class="checkbox_tab2"> {{ loop.index }} - {{ item }}</p>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="col-md-8 table-responsive">
+                                            <table class="table table-condensed">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Estadística</th>
+                                                        {% for item in header_list_2 %}
+                                                            <th class="ds2_{{ loop.index }}">{{ item }}</th>
+                                                        {% endfor %}
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for row in items_2%}
+                                                        <tr>
+                                                            {% for column in row %}
+                                                                <td class="ds2_{{ loop.index0 }}">
+                                                                    {{ column }}
+                                                                </td>
+                                                            {% endfor %}
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Estadísticas Descriptivas -->
+                                <div id="tab02" class="tab-pane fade">
+                                    <br>
+                                    <p class="descripcion">
+                                        Contiene información para cada columna de tipo numérico, incluye media, mediana, percentiles, desviación estándar, valores extremos y porcentaje de valores faltantes.
+                                    </p>
+                                    {% if header_list != None %}
+                                        <div class="row max_size_row2 aligned-row">
+                                            <div class="col-md-4 table-responsive">
+                                                <h4><strong><em>Variables</em></strong></h4>
+                                                <p><input type="checkbox" onClick="toggle(this)" id="select-all"> Seleccionar todos</p>
+                                                {% for item in header_list %}
+                                                    <p><input type="checkbox" name="ds_{{ loop.index }}" class="checkbox_tab1"> {{ loop.index }} - {{ item }}</p>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="col-md-8 table-responsive">
+                                                <table class="table table-condensed">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Estadística</th>
+                                                            {% for item in header_list %}
+                                                                <th class="ds_{{ loop.index }}">{{ item }}</th>
+                                                            {% endfor %}
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for row in items%}
+                                                            <tr>
+                                                                {% for column in row %}
+                                                                    <td class="ds_{{ loop.index0 }}">
+                                                                        {% if loop.index0 == 0 %}
+                                                                            {{ column }}
+                                                                        {% else %}
+                                                                            {{ "%.2f"|format(column|float) }}
+                                                                        {% endif %}
+                                                                    </td>
+                                                                {% endfor %}
+                                                            </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        La base de datos no tiene columnas numéricas
+                                    {% endif %}
+                                </div>
+
+                                <!-- Frecuencia de valores únicos -->
+                                <div id="tab03" class="tab-pane fade">
+                                    <br>
+                                    <p class="descripcion">
+                                        Contiene los primeros valores únicos más frecuentes de las columnas tipo texto y presenta el porcentaje dentro del total de observaciones. Esta función incluye valores faltantes.
+                                    </p>
+                                    <div class="row max_size_row2 aligned-row">
+
+                                        <div class="col-md-4 table-responsive">
+                                            <h4><strong><em>Variables</em></strong></h4>
+                                            <p><input type="checkbox" onClick="toggle3(this)" id="select-all_3"> Seleccionar todos</p>
+                                            {% for item in variables_list_3 %}
+                                                <p><input type="checkbox" name="tab3" class="checkbox_tab3" value="{{ item }}"> {{ loop.index }} - {{ item }}</p>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="col-md-8 table-responsive">
+                                            <table class="table table-condensed tableFixHead" id="StatusTable">
+                                                <thead>
+                                                    <tr>
+                                                        {% for item in columnas_list_3 %}
+                                                            <th>{{ item }}</th>
+                                                        {% endfor %}
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for row in items_3%}
+                                                        <tr>
+                                                            {% for column in row %}
+                                                                {% if loop.index0 == 0 %}
+                                                                    <td class="referencia">{{ column }}</td>
+                                                                {% else %}
+                                                                    <td>{{ column }}</td>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Datos duplicados -->
+                                <div id="tab04" class="tab-pane fade">
+                                    <br>
+                                    <p class="descripcion">
+                                        Contiene la relación de columnas y filas duplicadas en la base de datos analizada.
+                                    </p>
+                                    <div class="row max_size_row2 aligned-row">
+                                        <div class="col-md-12 table-responsive">
+                                            <ul class="nav nav-tabs">
+                                                <li class="active"><a data-toggle="tab" href="#duplic_by_row">Filas</a></li>
+                                                <li><a data-toggle="tab" href="#duplic_by_column">Columnas</a></li>
+                                            </ul>
+                                            <div class="tab-content" style="text-align: justify; text-justify: inter-word;">
+
+                                                <!-- Duplicados por filas -->
+                                                <div id="duplic_by_row" class="tab-pane fade in active">
+                                                    <br>
+                                                    {% if html_dataframe_duplic01 != None %}
+                                                        <div class="tabla_sin_bold">
+                                                            {{ html_dataframe_duplic01 }}
+                                                        </div>
+                                                    {% else %}
+                                                        La base de datos no contiene filas duplicadas
+                                                    {% endif %}
+                                                </div>
+
+                                                <!-- Duplicados por columnas -->
+                                                <div id="duplic_by_column" class="tab-pane fade">
+                                                    <br>
+                                                    {% if html_dataframe_duplic02 != None %}
+                                                        <div class="tabla_sin_bold">
+                                                            {{ html_dataframe_duplic02 }}
+                                                        </div>
+                                                    {% else %}
+                                                        La base de datos no contiene columnas duplicadas
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <!-- Correlaciones -->
+                    <div class="row">
+                        <div class="col-md-12 borde">
+
+                            <h3><em>Correlaciones</em></h3>
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#tab01b">Pearson</a></li>
+                                <li><a data-toggle="tab" href="#tab02b">Kendall</a></li>
+                                <li><a data-toggle="tab" href="#tab03b">Spearman</a></li>
+                            </ul>
+
+                            <div class="tab-content" style="text-align: justify; text-justify: inter-word;">
+
+                                <!-- correlación de Pearson -->
+                                <div id="tab01b" class="tab-pane fade in active">
+                                    <br>
+                                    <p class="descripcion">
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquam aperiam, aut consequatur error facere fuga illo iste, non nulla optio repellendus soluta temporibus? Beatae esse facilis ipsa nesciunt quibusdam.
+                                    </p>
+                                    <div class="row max_size_row2 aligned-row">
+                                        <div class="col-md-12">
+                                            <div class="container">
+                                                <div id='corre_pearson' class="max_size_row2"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- correlación de Kendall -->
+                                <div id="tab02b" class="tab-pane fade">
+                                    <br>
+                                    <p class="descripcion">
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium facere nesciunt perspiciatis praesentium qui quisquam soluta vel? Aspernatur, assumenda, earum. Alias aut eligendi placeat praesentium voluptates! Laboriosam porro quia tempora?
+                                    </p>
+                                    <div class="row max_size_row2 aligned-row">
+                                        <div class="col-md-12">
+                                            <div class="container">
+                                                <div id='corre_kendall' class="max_size_row2"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- correlación de Spearman -->
+                                <div id="tab03b" class="tab-pane fade">
+                                    <br>
+                                    <p class="descripcion">
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium consequatur cupiditate deleniti est et fugiat illum iste minus nam necessitatibus nesciunt possimus provident quasi repellendus reprehenderit, repudiandae, sint ut voluptas.
+                                    </p>
+                                    <div class="row max_size_row2 aligned-row">
+                                        <div class="col-md-12">
+                                            <div class="container">
+                                                <div id='corre_spearman' class="max_size_row2"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            * En caso de ver mal los labels del eje x, ajustar el zoom del navegador.
+                            <br>
+                            <br>
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <footer class="text-center">
+                                <hr>
+                                <p>
+                                    Reporte generado con la librería <em><a href="#" target="_blank">calidad_datos</a></em>
+                                    - Versión 1.0
+                                </p>
+                                <br>
+                            </footer>
+                        </div>
+                    </div>
+
+                    <!-- scripts generales -->
+                    <script>
+                        // hace el toggle de cada columna en la tabla
+                        // de acuerdo con el valor de su respectivo checkbox
+                        $("input:checkbox").attr("checked",true).click(function()
+                        {
+                            var shcolumn="."+$(this).attr("name");
+                            $(shcolumn).toggle(display=this.checked);
+                        });
+                    </script>
+
+                    <!-- scripts para tab1 -->
+                    <script>
+                        // cambia el valor de los checkboxs de clase 'checkbox_tab1'
+                        // de acuerdo con el valor del checkbox de 'seleccionar todos'
+                        // y hace el toggle de sus respectivas columnas en la tabla
+                        function toggle(source) {
+                            checkboxes = document.getElementsByClassName('checkbox_tab1');
+                            for(var i=0, n=checkboxes.length;i<n;i++) {
+                                checkboxes[i].checked = source.checked;
+                                var shcolumn="."+$(checkboxes[i]).attr("name");
+                                $(shcolumn).toggle(display=source.checked);
+                            }
+                        }
+                    </script>
+
+                    <script>
+                        // verifica el estado de los checkboxs con clase 'checkbox_tab1',
+                        // si uno es false, cambia el valor del checkbox de 'seleccionar todos' a false
+                        // si todos son true, cambia el valor del checkbox de 'seleccionar todos' a true
+                        $("input:checkbox").change(function(){
+                            checkboxes = document.getElementsByClassName('checkbox_tab1');
+                            var value = true;
+                            for(var i=0, n=checkboxes.length;i<n;i++) {
+                                if (checkboxes[i].checked == false) {
+                                    value = false;
+                                }
+                            }
+                            $('#select-all').prop('checked', value);
+                        });
+                    </script>
+
+                    <!-- scripts para tab2 -->
+                    <script>
+                        // cambia el valor de los checkboxs de clase 'checkbox_tab2'
+                        // de acuerdo con el valor del checkbox de 'seleccionar todos'
+                        // y hace el toggle de sus respectivas columnas en la tabla
+                        function toggle2(source) {
+                            checkboxes = document.getElementsByClassName('checkbox_tab2');
+                            for(var i=0, n=checkboxes.length;i<n;i++) {
+                                checkboxes[i].checked = source.checked;
+                                var shcolumn="."+$(checkboxes[i]).attr("name");
+                                $(shcolumn).toggle(display=source.checked);
+                            }
+                        }
+                    </script>
+
+                    <script>
+                        // verifica el estado de los checkboxs con clase 'checkbox_tab2',
+                        // si uno es false, cambia el valor del checkbox de 'seleccionar todos' a false
+                        // si todos son true, cambia el valor del checkbox de 'seleccionar todos' a true
+                        $("input:checkbox").change(function(){
+                            checkboxes = document.getElementsByClassName('checkbox_tab2');
+                            var value = true;
+                            for(var i=0, n=checkboxes.length;i<n;i++) {
+                                if (checkboxes[i].checked == false) {
+                                    value = false;
+                                }
+                            }
+                            $('#select-all_2').prop('checked', value);
+                        });
+                    </script>
+
+                    <!-- scripts para tab3 -->
+                    <script>
+                        // Filtro de tabla
+                        $("input[name='tab3']").change(function () {
+                            var classes = [];
+
+                            $("input[name='tab3']").each(function () {
+                                if ($(this).is(":checked")) { classes.push($(this).val()); }
+                            });
+
+                            if (classes == "") { // if no filters selected, show all items
+                                $("#StatusTable tbody tr").hide();
+                            } else { // otherwise, hide everything...
+                                $("#StatusTable tbody tr").hide();
+
+                                $("#StatusTable tr").each(function () {
+                                    var show = false;
+                                    var row = $(this);
+                                    classes.forEach(function (className) {
+                                        if (row.find('td' + '.referencia').html() == className) { show = true; }
+                                    });
+                                    if (show) { row.show(); }
+                                });
+                            }
+                        });
+                    </script>
+
+                    <script>
+                        // cambia el valor de los checkboxs de clase 'checkbox_tab3'
+                        // de acuerdo con el valor del checkbox de 'seleccionar todos'
+                        // y hace el toggle de sus respectivas columnas en la tabla
+                        function toggle3(source) {
+                            checkboxes = document.getElementsByClassName('checkbox_tab3');
+                            for(var i=0, n=checkboxes.length;i<n;i++) {
+                                checkboxes[i].checked = source.checked;
+                            }
+
+                            if (source.checked == true) {
+                                $("#StatusTable tbody tr").show();
+                            } else {
+                                $("#StatusTable tbody tr").hide();
+                            }
+                        }
+                    </script>
+
+                    <script>
+                        // verifica el estado de los checkboxs con clase 'checkbox_tab3',
+                        // si uno es false, cambia el valor del checkbox de 'seleccionar todos' a false
+                        // si todos son true, cambia el valor del checkbox de 'seleccionar todos' a true
+                        $("input[name='tab3']").change(function () {
+                            checkboxes = document.getElementsByClassName('checkbox_tab3');
+                            var value = true;
+                            for(var i=0, n=checkboxes.length;i<n;i++) {
+                                if (checkboxes[i].checked == false) {
+                                    value = false;
+                                }
+                            }
+                            $('#select-all_3').prop('checked', value);
+                        });
+                    </script>
+
+                    <!-- Heatmap Pearson - Plotly -->
+                    <script>
+                        var data = [
+                          {
+                            x: {{ corre_pearson_headers }}, y: {{ corre_pearson_headers }},
+                            z: {{ corre_pearson_values }},
+
+                            xgap : 1, ygap : 1,
+                            type: 'heatmap', zmin: -1, zmax: 1,
+
+                            colorscale: {{ heatmap_colorscale }},
+
+                            hoverongaps: false,
+                            hoverinfo: 'all',
+                            hovertemplate: "variable eje x: %{x}<br>variable eje y: %{y}<br>correlación: %{z}<extra></extra>"
+                          }
+                        ];
+                        var layout = {
+                            title: '',
+                            xaxis: {fixedrange: true, automargin: true, side: 'top'},
+                            yaxis: {fixedrange: true, automargin: true},
+
+                            showlegend: true, font: {size: 12},
+                            autosize: true, width:1055,
+                            margin: { l: 50, r: 50, b: 30, t: 50 }
+                        };
+
+                        Plotly.newPlot('corre_pearson', data, layout, {displayModeBar: false, responsive: true});
+                    </script>
+
+                    <!-- Heatmap Kendall - Plotly -->
+                    <script>
+                        var data = [
+                          {
+                            x: {{ corre_kendall_headers }}, y: {{ corre_kendall_headers }},
+                            z: {{ corre_kendall_values }},
+
+                            xgap : 1, ygap : 1,
+                            type: 'heatmap', zmin: -1, zmax: 1,
+
+                            colorscale: {{ heatmap_colorscale }},
+
+                            hoverongaps: false,
+                            hoverinfo: 'all',
+                            hovertemplate: "variable eje x: %{x}<br>variable eje y: %{y}<br>correlación: %{z}<extra></extra>"
+                          }
+                        ];
+                        var layout = {
+                            title: '',
+                            xaxis: {fixedrange: true, automargin: true, side: 'top'},
+                            yaxis: {fixedrange: true, automargin: true},
+
+                            showlegend: true, font: {size: 12},
+                            autosize: true, width:1055,
+                            margin: { l: 50, r: 50, b: 30, t: 50 }
+                        };
+
+                        Plotly.newPlot('corre_kendall', data, layout, {displayModeBar: false, responsive: true});
+                    </script>
+
+                    <!-- Heatmap Spearman - Plotly -->
+                    <script>
+                        var data = [
+                          {
+                            x: {{ corre_spearman_headers }}, y: {{ corre_spearman_headers }},
+                            z: {{ corre_spearman_values }},
+
+                            xgap : 1, ygap : 1,
+                            type: 'heatmap', zmin: -1, zmax: 1,
+
+                            colorscale: {{ heatmap_colorscale }},
+
+                            hoverongaps: false,
+                            hoverinfo: 'all',
+                            hovertemplate: "variable eje x: %{x}<br>variable eje y: %{y}<br>correlación: %{z}<extra></extra>"
+                          }
+                        ];
+                        var layout = {
+                            title: '',
+                            xaxis: {fixedrange: true, automargin: true, side: 'top'},
+                            yaxis: {fixedrange: true, automargin: true},
+
+                            showlegend: true, font: {size: 12},
+                            autosize: true, width:1055,
+                            margin: { l: 50, r: 50, b: 30, t: 50 }
+                        };
+
+                        Plotly.newPlot('corre_spearman', data, layout, {displayModeBar: false, responsive: true});
+                    </script>
+
+                    <script>
+                        // script para el ajuste de tamaño en los heatmaps de correlación
+                        var heatmap_1 = document.getElementById('corre_pearson');
+                        var heatmap_2 = document.getElementById('corre_kendall');
+                        var heatmap_3 = document.getElementById('corre_spearman');
+
+                        window.onresize = function() { Plotly.Plots.resize(heatmap_1); };
+                        window.onresize = function() { Plotly.Plots.resize(heatmap_2); };
+                        window.onresize = function() { Plotly.Plots.resize(heatmap_3); };
+
+                        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                            var heatmap_1 = document.getElementById('corre_pearson');
+                            var heatmap_2 = document.getElementById('corre_kendall');
+                            var heatmap_3 = document.getElementById('corre_spearman');
+
+                            Plotly.Plots.resize(heatmap_1);
+                            Plotly.Plots.resize(heatmap_2);
+                            Plotly.Plots.resize(heatmap_3);
+                        });
+
+                        var scale = 'scale(1)';
+                        document.body.style.webkitTransform = scale;   // Chrome, Opera, Safari
+                        document.body.style.msTransform = scale;       // IE 9
+                        document.body.style.transform = scale;         // General
+                    </script>
+
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,26 @@
+\indexentry{módulo@\spxentry{módulo}!datos@\spxentry{datos}|hyperpage}{5}
+\indexentry{datos@\spxentry{datos}!módulo@\spxentry{módulo}|hyperpage}{5}
+\indexentry{categorias() (en el módulo datos)@\spxentry{categorias()}\spxextra{en el módulo datos}|hyperpage}{5}
+\indexentry{col\_tipo() (en el módulo datos)@\spxentry{col\_tipo()}\spxextra{en el módulo datos}|hyperpage}{5}
+\indexentry{correlacion() (en el módulo datos)@\spxentry{correlacion()}\spxextra{en el módulo datos}|hyperpage}{5}
+\indexentry{descriptivas() (en el módulo datos)@\spxentry{descriptivas()}\spxextra{en el módulo datos}|hyperpage}{6}
+\indexentry{duplic() (en el módulo datos)@\spxentry{duplic()}\spxextra{en el módulo datos}|hyperpage}{6}
+\indexentry{extremos() (en el módulo datos)@\spxentry{extremos()}\spxextra{en el módulo datos}|hyperpage}{6}
+\indexentry{faltantes() (en el módulo datos)@\spxentry{faltantes()}\spxextra{en el módulo datos}|hyperpage}{6}
+\indexentry{memoria() (en el módulo datos)@\spxentry{memoria()}\spxextra{en el módulo datos}|hyperpage}{7}
+\indexentry{nounicos() (en el módulo datos)@\spxentry{nounicos()}\spxextra{en el módulo datos}|hyperpage}{7}
+\indexentry{resumen\_base() (en el módulo datos)@\spxentry{resumen\_base()}\spxextra{en el módulo datos}|hyperpage}{7}
+\indexentry{unicos() (en el módulo datos)@\spxentry{unicos()}\spxextra{en el módulo datos}|hyperpage}{8}
+\indexentry{varianza\_percentil() (en el módulo datos)@\spxentry{varianza\_percentil()}\spxextra{en el módulo datos}|hyperpage}{8}
+\indexentry{módulo@\spxentry{módulo}!metadatos@\spxentry{metadatos}|hyperpage}{9}
+\indexentry{metadatos@\spxentry{metadatos}!módulo@\spxentry{módulo}|hyperpage}{9}
+\indexentry{asset\_inventory() (en el módulo metadatos)@\spxentry{asset\_inventory()}\spxextra{en el módulo metadatos}|hyperpage}{9}
+\indexentry{asset\_inventory\_espanol() (en el módulo metadatos)@\spxentry{asset\_inventory\_espanol()}\spxextra{en el módulo metadatos}|hyperpage}{9}
+\indexentry{comparar\_tamano() (en el módulo metadatos)@\spxentry{comparar\_tamano()}\spxextra{en el módulo metadatos}|hyperpage}{9}
+\indexentry{filtrar\_asset() (en el módulo metadatos)@\spxentry{filtrar\_asset()}\spxextra{en el módulo metadatos}|hyperpage}{9}
+\indexentry{mostrar\_metadatos() (en el módulo metadatos)@\spxentry{mostrar\_metadatos()}\spxextra{en el módulo metadatos}|hyperpage}{10}
+\indexentry{pagina\_metadatos() (en el módulo metadatos)@\spxentry{pagina\_metadatos()}\spxextra{en el módulo metadatos}|hyperpage}{10}
+\indexentry{sodapy\_base() (en el módulo metadatos)@\spxentry{sodapy\_base()}\spxextra{en el módulo metadatos}|hyperpage}{10}
+\indexentry{módulo@\spxentry{módulo}!reporte@\spxentry{reporte}|hyperpage}{11}
+\indexentry{reporte@\spxentry{reporte}!módulo@\spxentry{módulo}|hyperpage}{11}
+\indexentry{generar\_reporte() (en el módulo reporte)@\spxentry{generar\_reporte()}\spxextra{en el módulo reporte}|hyperpage}{11}

@@ -45,9 +45,6 @@ import numpy as np
 # hablar con pablo
 # try > catch | filas_nounicas
 
-
-
-
 def df_as_html(base, id=None, classes=None):
     """ Transforma el dataframe de entrada en una tabla HTML, se asignan al tab table las clases 'table' y
     'table-condensed' utilizadas por `Bootstrap v3.4`_.
@@ -93,15 +90,15 @@ def generar_reporte(my_base=None, api_id=None, token=None, titulo='Reporte perfi
         link_datos_abiertos = serie_metadatos['URL']
 
         df_metadatos = serie_metadatos.to_frame().reset_index()
-        df_metadatos.replace('\n', '@@@', regex=True, inplace=True)
+        df_metadatos.replace('\n', '@#$', regex=True, inplace=True)
         df_metadatos.columns = ['Categoría', 'Valor']
         html_metadatos_00 = df_as_html(df_metadatos, classes=['white_spaces'])
         html_metadatos_01 = df_as_html(df_metadatos[:3], classes=['white_spaces'])
         html_metadatos_02 = df_as_html(df_metadatos[-22:], classes=['white_spaces'])
 
-        html_metadatos_00 = html_metadatos_00.replace('@@@', '<br>')
-        html_metadatos_01 = html_metadatos_01.replace('@@@', '<br>')
-        html_metadatos_02 = html_metadatos_02.replace('@@@', '<br>')
+        html_metadatos_00 = html_metadatos_00.replace('@#$', '<br>')
+        html_metadatos_01 = html_metadatos_01.replace('@#$', '<br>')
+        html_metadatos_02 = html_metadatos_02.replace('@#$', '<br>')
 
     print('------------------------------------------------------------------')
 
@@ -112,7 +109,7 @@ def generar_reporte(my_base=None, api_id=None, token=None, titulo='Reporte perfi
     dataframe_summary = resumen_base(base, filas_nounicas=False).to_frame().reset_index()
     dataframe_summary.columns = ['Categoría', 'Valor']
     html_data_summary_00 = df_as_html(dataframe_summary)
-    html_data_summary_01 = df_as_html(dataframe_summary[:6])
+    html_data_summary_01 = df_as_html(dataframe_summary[:5])
     html_data_summary_02 = df_as_html(dataframe_summary[-5:])
 
     # Muestra de datos ----------------------------------------------------------
@@ -211,10 +208,10 @@ def generar_reporte(my_base=None, api_id=None, token=None, titulo='Reporte perfi
     # ----------------------------------------------------------------------------
 
     # Configure Jinja and ready the loader    
-    env = Environment(loader=FileSystemLoader(searchpath='templates'))
+    env = Environment(loader=FileSystemLoader(searchpath='.'))
 
     # Assemble the templates we'll use
-    base_template = env.get_template('template_base.html')
+    base_template = env.get_template('template_base_reporte.html')
 
     # Produce and write the report to file
     with open(archivo, "w", encoding='utf8') as HTML_file:
