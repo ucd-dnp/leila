@@ -25,7 +25,6 @@ class CalidadDatos:
         """
         self.base = _base
         
-        return(self)
     
     # Tipos de las columnas
     def col_tipo(self, detalle="bajo"):
@@ -56,7 +55,7 @@ class CalidadDatos:
                  
         elif detalle == "alto":
             for s in self.base.columns:
-                tip = str(type(base[s].value_counts(dropna=True).index[0])).replace("<class ", "").replace(">", "").replace("'", "'")
+                tip = str(type(self.base[s].value_counts(dropna=True).index[0])).replace("<class ", "").replace(">", "").replace("'", "'")
                 lista[0].append(s)
                 lista[1].append(tip)
     
@@ -99,11 +98,11 @@ class CalidadDatos:
         :return: serie de pandas con la cantidad/porcentaje de valores \
             faltantes de cada columna.
         """
-    
+        base = self.base.copy()
         if porc:
-            missing_columnas = pd.isnull(self.base).sum()/len(base)
+            missing_columnas = pd.isnull(base).sum()/len(base)
         elif not porc:
-            missing_columnas = pd.isnull(self.base).sum()
+            missing_columnas = pd.isnull(base).sum()
         else:
             return("La opción 'porc' tiene un valor distinto a True o False")
         return(missing_columnas)
@@ -317,9 +316,9 @@ class CalidadDatos:
         
         base_descripcion = base.describe().T
         base_descripcion["missing"] = pd.isnull(base_num).sum() / len(base_num)
-        base_descripcion["outliers_total"] = extremos(base)
-        base_descripcion["outliers_altos"] = extremos(base, extremos="superior")
-        base_descripcion["outliers_bajos"] = extremos(base, extremos="inferior")
+        base_descripcion["outliers_total"] = self.ValoresExtremos()
+        base_descripcion["outliers_altos"] = self.ValoresExtremos(extremos="superior")
+        base_descripcion["outliers_bajos"] = self.ValoresExtremos(extremos="inferior")
     
         return(base_descripcion)
 
@@ -533,7 +532,7 @@ class CalidadDatos:
         lista_resumen = [[], []]
         base = self.base.copy()
         # Calcular tipo de columnas
-        col_tipos = col_tipo()
+        col_tipos = self.col_tipo()
         
         # Agregar a lista, si se escoge que sea así
         
