@@ -56,36 +56,37 @@
                     <hr>
 
                     <!-- Metadatos -->
-                    <div class="row">
-                        <div class="col-md-12 borde">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h3><em>Metadatos - <a href='{{ link_datos_abiertos }}' target="_blank">ver en Datos Abiertos</a></em></h3>
-                                </div>
-                            </div>
-                            <div class="row hidden-md hidden-lg">
-                                <div class="col-md-12">
-                                    <div class="table-responsive">
-                                        {{ html_metadatos_00 }}
+                    {% if html_metadatos_00 != None %}
+                        <div class="row">
+                            <div class="col-md-12 borde">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h3><em>Metadatos - <a href='{{ link_datos_abiertos }}' target="_blank">ver en Datos Abiertos</a></em></h3>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row hidden-xs hidden-sm">
-                                <div class="col-md-6">
-                                    <div class="table-responsive">
-                                        {{ html_metadatos_01 }}
+                                <div class="row hidden-md hidden-lg">
+                                    <div class="col-md-12">
+                                        <div class="table-responsive">
+                                            {{ html_metadatos_00 }}
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="table-responsive">
-                                        {{ html_metadatos_02 }}
+                                <div class="row hidden-xs hidden-sm">
+                                    <div class="col-md-6">
+                                        <div class="table-responsive">
+                                            {{ html_metadatos_01 }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="table-responsive">
+                                            {{ html_metadatos_02 }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
                     <br>
+                    {% endif %}
 
                     <!-- Estadísticas generales -->
                     <div class="row max_size_row">
@@ -251,7 +252,7 @@
                                             </div>
                                         </div>
                                     {% else %}
-                                        La base de datos no tiene columnas numéricas
+                                        <p><strong>* La base de datos no tiene columnas numéricas</strong></p>
                                     {% endif %}
                                 </div>
 
@@ -319,7 +320,7 @@
                                                             {{ html_dataframe_duplic01 }}
                                                         </div>
                                                     {% else %}
-                                                        La base de datos no contiene filas duplicadas
+                                                        <strong>* La base de datos no contiene filas duplicadas</strong>
                                                     {% endif %}
                                                 </div>
 
@@ -331,7 +332,7 @@
                                                             {{ html_dataframe_duplic02 }}
                                                         </div>
                                                     {% else %}
-                                                        La base de datos no contiene columnas duplicadas
+                                                        <strong>* La base de datos no contiene columnas duplicadas</strong>
                                                     {% endif %}
                                                 </div>
                                             </div>
@@ -364,47 +365,60 @@
                                     <p class="descripcion">
                                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquam aperiam, aut consequatur error facere fuga illo iste, non nulla optio repellendus soluta temporibus? Beatae esse facilis ipsa nesciunt quibusdam.
                                     </p>
-                                    <div class="row max_size_row2 aligned-row">
-                                        <div class="col-md-12">
-                                            <div class="container">
-                                                <div id='corre_pearson' class="max_size_row2"></div>
+                                    {% if corre_numericas_headers|length > 0 %}
+                                        <div class="row max_size_row2 aligned-row">
+                                            <div class="col-md-12">
+                                                <div class="container">
+                                                    <div id='corre_pearson' class="max_size_row2"></div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    {% else %}
+                                        <p><strong>* La base de datos no tiene columnas numéricas para el cálculo de correlaciones</strong></p>
+                                    {% endif %}
                                 </div>
 
                                 <!-- correlación de Kendall -->
                                 <div id="tab02b" class="tab-pane fade">
                                     <br>
                                     <p class="descripcion">
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium facere nesciunt perspiciatis praesentium qui quisquam soluta vel? Aspernatur, assumenda, earum. Alias aut eligendi placeat praesentium voluptates! Laboriosam porro quia tempora?
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquam aperiam, aut consequatur error facere fuga illo iste, non nulla optio repellendus soluta temporibus? Beatae esse facilis ipsa nesciunt quibusdam.
                                     </p>
-                                    <div class="row max_size_row2 aligned-row">
-                                        <div class="col-md-12">
-                                            <div class="container">
-                                                <div id='corre_kendall' class="max_size_row2"></div>
+                                    {% if corre_numericas_headers|length > 0 %}
+                                        <div class="row max_size_row2 aligned-row">
+                                            <div class="col-md-12">
+                                                <div class="container">
+                                                    <div id='corre_kendall' class="max_size_row2"></div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    {% else %}
+                                        <p><strong>* La base de datos no tiene columnas numéricas para el cálculo de correlaciones</strong></p>
+                                    {% endif %}
                                 </div>
 
                                 <!-- correlación de Spearman -->
                                 <div id="tab03b" class="tab-pane fade">
                                     <br>
                                     <p class="descripcion">
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium consequatur cupiditate deleniti est et fugiat illum iste minus nam necessitatibus nesciunt possimus provident quasi repellendus reprehenderit, repudiandae, sint ut voluptas.
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquam aperiam, aut consequatur error facere fuga illo iste, non nulla optio repellendus soluta temporibus? Beatae esse facilis ipsa nesciunt quibusdam.
                                     </p>
-                                    <div class="row max_size_row2 aligned-row">
-                                        <div class="col-md-12">
-                                            <div class="container">
-                                                <div id='corre_spearman' class="max_size_row2"></div>
+                                    {% if corre_numericas_headers|length > 0 %}
+                                        <div class="row max_size_row2 aligned-row">
+                                            <div class="col-md-12">
+                                                <div class="container">
+                                                    <div id='corre_spearman' class="max_size_row2"></div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    {% else %}
+                                        <p><strong>* La base de datos no tiene columnas numéricas para el cálculo de correlaciones</strong></p>
+                                    {% endif %}
                                 </div>
                             </div>
-                            * En caso de ver mal los labels del eje x, ajustar el zoom del navegador.
-                            <br>
+                            {% if corre_numericas_headers|length > 0 %}
+                                <p>* En caso de ver mal los labels del eje x, ajustar el zoom del navegador.</p>
+                            {% endif %}
                             <br>
                         </div>
                     </div>
@@ -561,7 +575,7 @@
                     <script>
                         var data = [
                           {
-                            x: {{ corre_pearson_headers }}, y: {{ corre_pearson_headers }},
+                            x: {{ corre_numericas_headers }}, y: {{ corre_numericas_headers }},
                             z: {{ corre_pearson_values }},
 
                             xgap : 1, ygap : 1,
@@ -591,7 +605,7 @@
                     <script>
                         var data = [
                           {
-                            x: {{ corre_kendall_headers }}, y: {{ corre_kendall_headers }},
+                            x: {{ corre_numericas_headers }}, y: {{ corre_numericas_headers }},
                             z: {{ corre_kendall_values }},
 
                             xgap : 1, ygap : 1,
@@ -621,7 +635,7 @@
                     <script>
                         var data = [
                           {
-                            x: {{ corre_spearman_headers }}, y: {{ corre_spearman_headers }},
+                            x: {{ corre_numericas_headers }}, y: {{ corre_numericas_headers }},
                             z: {{ corre_spearman_values }},
 
                             xgap : 1, ygap : 1,
@@ -648,24 +662,19 @@
                     </script>
 
                     <script>
-                        // script para el ajuste de tamaño en los heatmaps de correlación
                         var heatmap_1 = document.getElementById('corre_pearson');
                         var heatmap_2 = document.getElementById('corre_kendall');
                         var heatmap_3 = document.getElementById('corre_spearman');
 
-                        window.onresize = function() { Plotly.Plots.resize(heatmap_1); };
-                        window.onresize = function() { Plotly.Plots.resize(heatmap_2); };
-                        window.onresize = function() { Plotly.Plots.resize(heatmap_3); };
-
-                        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-                            var heatmap_1 = document.getElementById('corre_pearson');
-                            var heatmap_2 = document.getElementById('corre_kendall');
-                            var heatmap_3 = document.getElementById('corre_spearman');
-
+                        function resizeHeatmaps() {
                             Plotly.Plots.resize(heatmap_1);
                             Plotly.Plots.resize(heatmap_2);
                             Plotly.Plots.resize(heatmap_3);
-                        });
+                        }
+
+                        window.onload   = function() { resizeHeatmaps(); };
+                        window.onresize = function() { resizeHeatmaps(); };
+                        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) { resizeHeatmaps(); });
 
                         var scale = 'scale(1)';
                         document.body.style.webkitTransform = scale;   // Chrome, Opera, Safari

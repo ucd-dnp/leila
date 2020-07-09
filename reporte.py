@@ -6,6 +6,8 @@ import pandas as pd
 from jinja2 import FileSystemLoader
 from jinja2 import Environment
 
+# from leila.calidad_datos import CalidadDatos
+
 from datos import resumen_base
 from datos import descriptivas
 from datos import col_tipo
@@ -21,26 +23,6 @@ from metadatos import mostrar_metadatos
 import os
 import sys
 import numpy as np
-
-#pd.set_option('display.max_columns', None)
-#pd.set_option('display.max_rows', None)
-#pd.set_option('max_colwidth', None)
-
-# https://pandas.pydata.org/docs/user_guide/options.html
-
-# pd.set_option('precision', 7)
-# pd.reset_option('max_colwidth')
-# pd.reset_option("display.max_columns")
-# pd.reset_option("^display")
-
-# pd.get_option('max_colwidth')
-# pd.get_option('display.max_columns')
-# pd.get_option('display.max_rows')
-
-# pd.set_option('display.max_columns', None)
-# pd.set_option('display.max_columns', 30)
-# pd.set_option('max_colwidth',150)
-
 
 # hablar con pablo
 # try > catch | filas_nounicas
@@ -65,7 +47,8 @@ def df_as_html(base, id=None, classes=None):
     return html
 
 
-def generar_reporte(my_base=None, api_id=None, token=None, titulo='Reporte perfilamiento', archivo='perfilamiento.html'):
+def generar_reporte(my_base=None, api_id=None, token=None, titulo='Reporte perfilamiento',
+                    archivo='perfilamiento.html'):
     """Genera un reporte de calidad de datos en formato HTML
 
     :param token:
@@ -138,10 +121,12 @@ def generar_reporte(my_base=None, api_id=None, token=None, titulo='Reporte perfi
 
     memoria_df = memoria(base, col=True).to_frame()
     memoria_df = memoria_df.loc[~memoria_df.index.isin(['Index'])]
-    dataframe_descriptive_stats_2 = pd.merge(dataframe_descriptive_stats_2, memoria_df, left_index=True, right_index=True, how='outer')
+    dataframe_descriptive_stats_2 = pd.merge(dataframe_descriptive_stats_2, memoria_df, left_index=True,
+                                             right_index=True, how='outer')
 
     valores_unicos_df = unicos(base).to_frame()
-    dataframe_descriptive_stats_2 = pd.merge(dataframe_descriptive_stats_2, valores_unicos_df, left_index=True, right_index=True, how='outer')
+    dataframe_descriptive_stats_2 = pd.merge(dataframe_descriptive_stats_2, valores_unicos_df, left_index=True,
+                                             right_index=True, how='outer')
 
     dataframe_descriptive_stats_2.columns = ['Tipo', 'Tipo (específico)', 'Memoria', 'Valores únicos']
     dataframe_descriptive_stats_2['Memoria'] = dataframe_descriptive_stats_2['Memoria'].map('{:,.6f}'.format)
@@ -167,7 +152,6 @@ def generar_reporte(my_base=None, api_id=None, token=None, titulo='Reporte perfi
         html_dataframe_duplic02 = df_as_html(dataframe_duplic02)
 
     # Gráficos correlaciones ----------------------------------------------------
-    # https://codepen.io/antoinerg/pen/NLboJw
 
     heatmap_colorscale = [
         ['0.000000000000', 'rgb(103,  0, 31)'],
@@ -183,26 +167,25 @@ def generar_reporte(my_base=None, api_id=None, token=None, titulo='Reporte perfi
     ]
     # Tab 1 - Pearson -----------------------------------------------------------
     df_corre_pearson = correlacion(base, metodo="pearson")
-    #df_corre_pearson = correlacion(base, metodo="pearson", variables=['FechaCreacion', 'Alto', 'Largo', 'CapacidadPeso', 'Valor Total Local'])
+    # df_corre_pearson = correlacion(base, metodo="pearson", variables=['FechaCreacion', 'Alto', 'Largo', 'CapacidadPeso', 'Valor Total Local'])
+
+    corre_numericas_headers = list(df_corre_pearson)
 
     df_corre_pearson = df_corre_pearson.round(3).fillna('null')
-    corre_pearson_headers = list(df_corre_pearson)
     corre_pearson_values = df_corre_pearson.values.tolist()
 
     # Tab 2 - Kendall -----------------------------------------------------------
     df_corre_kendall = correlacion(base, metodo="kendall")
-    #df_corre_kendall = correlacion(base, metodo="kendall", variables=['FechaCreacion', 'Alto', 'Largo', 'CapacidadPeso', 'Valor Total Local'])
+    # df_corre_kendall = correlacion(base, metodo="kendall", variables=['FechaCreacion', 'Alto', 'Largo', 'CapacidadPeso', 'Valor Total Local'])
 
     df_corre_kendall = df_corre_kendall.round(3).fillna('null')
-    corre_kendall_headers = list(df_corre_kendall)
     corre_kendall_values = df_corre_kendall.values.tolist()
 
     # Tab 3 - Pearson -----------------------------------------------------------
     df_corre_spearman = correlacion(base, metodo="spearman")
-    #df_corre_spearman = correlacion(base, metodo="spearman", variables=['FechaCreacion', 'Alto', 'Largo', 'CapacidadPeso', 'Valor Total Local'])
+    # df_corre_spearman = correlacion(base, metodo="spearman", variables=['FechaCreacion', 'Alto', 'Largo', 'CapacidadPeso', 'Valor Total Local'])
 
     df_corre_spearman = df_corre_spearman.round(3).fillna('null')
-    corre_spearman_headers = list(df_corre_spearman)
     corre_spearman_values = df_corre_spearman.values.tolist()
 
     # ----------------------------------------------------------------------------
@@ -239,38 +222,23 @@ def generar_reporte(my_base=None, api_id=None, token=None, titulo='Reporte perfi
             html_dataframe_duplic01=html_dataframe_duplic01,
             html_dataframe_duplic02=html_dataframe_duplic02,
             heatmap_colorscale=heatmap_colorscale,
-            corre_pearson_headers=corre_pearson_headers,
+            corre_numericas_headers=corre_numericas_headers,
             corre_pearson_values=corre_pearson_values,
-            corre_kendall_headers=corre_kendall_headers,
             corre_kendall_values=corre_kendall_values,
-            corre_spearman_headers=corre_spearman_headers,
             corre_spearman_values=corre_spearman_values
         )
         HTML_file.write(output)
-    print('-----------------------------------------------------------------------')
+    print('-------------------------------------------------')
     print('Se ha generado el reporte "perfilamiento.html"')
     print('dataframe shape:' + str(base.shape))
     print(timestamp.strftime("%I:%M:%S %p"))
-    print('-----------------------------------------------------------------------')
+    print('-------------------------------------------------')
 
 
 def main():
-    # PyCharm > File > Settings > Inspections
-    # https://docs.python.org/3/library/argparse.html
-
-    #parser = argparse.ArgumentParser(description='Analiza la calidad del dataframe suministrado '
-    #                                             'y genera un reporte HTML.')
-    #parser.add_argument('dataframe', help='path del dataframe que desea analizar')
-    # parser.add_argument('out', default=os.getcwd(), help='path donde desea guardar el reporte HTML '
-    #                                                      '(default: el path actual)')
-    #args = parser.parse_args()
-
-    # print(args)
-    #df = pd.read_excel(args.dataframe)
-    #api_id = args.dataframe
-
-    #generar_reporte(api_id="38wq-iims", my_base=pd.read_excel('x_test_data.xlsx'))
-    generar_reporte(api_id="gt2j-8ykr", my_base=pd.read_excel('x_test_data.xlsx'))
+    # generar_reporte(api_id="38wq-iims", my_base=pd.read_excel('x_test_data.xlsx'))
+    # generar_reporte(api_id="gt2j-8ykr", my_base=pd.read_excel('x_test_data.xlsx'))
+    generar_reporte(my_base=pd.read_excel('x_test_data.xlsx'))
 
     os.system('perfilamiento.html')
 
