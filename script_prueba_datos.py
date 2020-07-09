@@ -5,111 +5,142 @@ Created on Wed Jun 24 08:30:57 2020
 @author: pabmontenegro
 """
 
-import os
 import pandas as pd
 
-os.chdir(r"D:\Departamento Nacional de Planeacion\Unidad de Cientificos de Datos - Repositorio UCD\Proyectos UCD\2019\Datos abiertos Colombia\2_Codigo\1_Source\calidad_datos")
+#importación libreria calidad de datos
+from leila.calidad_datos import CalidadDatos
 
-import datos
+#Cargando base de datos de prueba
+base = pd.read_excel("./../../1_Insumos/Bases_de_datos/Reporte DFI 2019 Julio v4 DNP.xlsx")
 
-base=pd.read_excel(r"D:\Departamento Nacional de Planeacion\Unidad de Cientificos de Datos - Repositorio UCD\Proyectos UCD\2019\Datos abiertos Colombia\1_Insumos\Bases_de_datos\Reporte DFI 2019 Julio v4 DNP.xlsx")
+#creado objeto de la clase CalidadDatos, similar a pandas DataFrame
+
+datos = CalidadDatos(base)
 
 ############ RESUMEN DE BASE DE DATOS
-resumen=datos.resumen_base(base)
+resumen=datos.resumen()
+print(resumen)
 
 ############ VARIANZA DE DATOS
-var_perc=datos.varianza_percentil(base,float_transform=True)
+var_perc=datos.varianza_percentil(float_transform=True)
 
 ############ Tipos de columnas
 # Detalles bajo
-tipos_bajo=datos.col_tipo(base,detalle="bajo")
+tipos_bajo=datos.col_tipo(detalle="bajo")
+print(tipos_bajo)
+
 # Detalles alto
-tipos_alto=datos.col_tipo(base,detalle="alto")
+tipos_alto=datos.col_tipo(detalle="alto")
+print(tipos_alto)
 
 ############ Valores únicos en cada columna
 # Sin faltantes
-unicos_nofaltantes=datos.unicos(base,faltantes=False)
+unicos_nofaltantes=datos.ValoresUnicos(faltantes=False)
+print(unicos_nofaltantes)
+
 # Con faltantes
-unicos_sifaltantes=datos.unicos(base,faltantes=True)
+unicos_sifaltantes=datos.ValoresUnicos(faltantes=True)
+print(unicos_sifaltantes)
 
 ############ Valores faltantes por columna
 # En porcentaje
-faltantes_porc=datos.faltantes(base,porc=True)
+faltantes_porc=datos.ValoresFaltantes(porc=True)
+print(faltantes_porc)
+
 # En número
-faltantes_num=datos.faltantes(base,porc=False)
+faltantes_num=datos.ValoresFaltantes(porc=False)
+print(faltantes_num)
 
 ############ Número y porcentaje de filas y columnas no únicas
 # Porcentaje de columnas que no son únicas
-nounic_col_porc=datos.nounicos(base,col=True,porc=True)
+nounic_col_porc=datos.nounicos(col=True,porc=True)
+print(nounic_col_porc)
+
 # Número de columnas que no son únicas
-nounic_col_num=datos.nounicos(base,col=True,porc=False)
+nounic_col_num=datos.nounicos(col=True,porc=False)
+print(nounic_col_num)
+
 # Porcentaje de filas que no son únicas
-nounic_fil_porc=datos.nounicos(base,col=False,porc=True)
+nounic_fil_porc=datos.nounicos(col=False,porc=True)
+print(nounic_fil_porc)
+
 # Número de filas que no son únicas
-nounic_fil_num=datos.nounicos(base,col=False,porc=False)
+nounic_fil_num=datos.nounicos(col=False,porc=False)
+print(nounic_fil_num)
 
 ############ Emparejamiento de columnas y filas duplicadas
 # Columnas duplicadas
-duplicados_col=datos.duplic(base,col=True)
+duplicados_col=datos.ValoresDuplicados(col=True)
+print(duplicados_col)
+
 # Filas duplicadas
-duplicados_fil=datos.duplic(base,col=False)
+duplicados_fil=datos.ValoresDuplicados(col=False)
+print(duplicados_fil)
 
 ############ Valores extremos de cada columna
 # Extremos altos y bajos en porcentaje
-extremos_ambos_porc=datos.extremos(base,extremos="ambos",porc=True)
+extremos_ambos_porc=datos.ValoresExtremos(extremos="ambos",porc=True)
+print(extremos_ambos_porc)
+
 # Extremos altos y bajos en número
-extremos_ambos_num=datos.extremos(base,extremos="ambos",porc=False)
+extremos_ambos_num=datos.ValoresExtremos(extremos="ambos",porc=False)
+print(extremos_ambos_num)
 
 # Extremos altos porcentaje
-extremos_sup_porc=datos.extremos(base,extremos="superior",porc=True)
+extremos_sup_porc=datos.ValoresExtremos(extremos="superior",porc=True)
+print(extremos_sup_porc)
+
 # Extremos altos en número
-extremos_sup_num=datos.extremos(base,extremos="superior",porc=False)
+extremos_sup_num=datos.ValoresExtremos(extremos="superior",porc=False)
+print(extremos_sup_num)
 
 # Extremos bajos porcentaje
-extremos_inf_porc=datos.extremos(base,extremos="inferior",porc=True)
+extremos_inf_porc=datos.ValoresExtremos(extremos="inferior",porc=True)
+print(extremos_inf_porc)
+
 # Extremos bajos en número
-extremos_inf_num=datos.extremos(base,extremos="inferior",porc=False)
+extremos_inf_num=datos.ValoresExtremos(extremos="inferior",porc=False)
+print(extremos_inf_num)
 
 ############ Estadísticas descriptivas
 # No convertir las columnas numéricas a float
-est_descrip_nofloat=datos.descriptivas(base,float_transformar=False)
+est_descrip_nofloat=datos.descriptivas(float_transformar=False)
+print(est_descrip_nofloat)
+
 # Convertir las columnas numéricas a float
-est_descrip_float=datos.descriptivas(base,float_transformar=True)
+est_descrip_float=datos.descriptivas(float_transformar=True)
+print(est_descrip_float)
 
 ############ Matrices de correlación para columnas numéricas
 # Correlación Pearson
-corr_pearson=datos.correlacion(base,metodo="pearson")
+corr_pearson=datos.correlacion(metodo="pearson")
+print(corr_pearson)
+
 # Correlación Kendall
-corr_kendall=datos.correlacion(base,metodo="kendall")
+corr_kendall=datos.correlacion(metodo="kendall")
+print(corr_kendall)
+
 # Correlación Spearman
-corr_spearman=datos.correlacion(base,metodo="spearman")
+corr_spearman=datos.correlacion(metodo="spearman")
+print(corr_spearman)
 
 ############ Primeras frecuencias de variables categóricas
 # No transformar números
-categoricas_no_transformar=datos.categorias(base,limite=0.5,transformar_nums=False,variables=None)
+categoricas_no_transformar=datos.categorias(limite=0.5,transformar_nums=False,variables=None)
+print(categoricas_no_transformar)
+
 # No transformar números
-categoricas_transformar=datos.categorias(base,limite=0.5,transformar_nums=True,variables=None)
+categoricas_transformar=datos.categorias(limite=0.5,transformar_nums=True,variables=None)
+print(categoricas_transformar)
 
 ########### Peso en la memoria de la base en mega bytes
 # Peso total
-peso_base=datos.memoria(base,col=False)
+peso_base=datos.memoria(col=False)
+print(peso_base)
+
 # Peso total por columna
-peso_base_cols=datos.memoria(base,col=True)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+peso_base_cols=datos.memoria(col=True)
+print(peso_base_cols)
 
 
 

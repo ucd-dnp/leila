@@ -6,7 +6,6 @@
 import pandas as pd
 import numpy as np
 
-
 # Tipos de las columnas
 def col_tipo(base, detalle="bajo"):
     """ Retorna el tipo de dato de cada columna del dataframe, se clasifican como de tipo numérico, texto, boolean u otro.
@@ -304,7 +303,7 @@ def varianza_percentil(base, percentil_inferior=5, percentil_superior=95, float_
     
     percentiles = pd.concat([percentil_bajo, percentil_alto], axis=1)
     percentiles_true = (percentiles.iloc[:, 0] == percentiles.iloc[:, 1])
-    percentiles_true = percentiles_true[percentiles_true is True]
+    percentiles_true = percentiles_true[percentiles_true  == True]
     
     if len(percentiles_true) == 0:
         return "No hay ninguna columna numérica que tenga el percentil {0} y el percentil {1} igual".format(percentil_inferior,percentil_superior)
@@ -593,6 +592,18 @@ def correlacion(base, metodo="pearson", variables=None):
         return "El parámetro 'metodo' tiene valores diferentes a 'pearson', 'kendall' o 'spearman"
     
     return correlacion_
+
+
+
+
+
+
+
+
+
+
+
+
 
 #from distutils.sysconfig import get_python_lib
 #print(get_python_lib())
