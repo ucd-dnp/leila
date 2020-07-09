@@ -29,6 +29,7 @@
             tr td { white-space: nowrap;}
             tr th { white-space: nowrap;}
             .container {width:100%; text-align: center; overflow:display;}
+            .white_spaces > tbody > tr > td:nth-child(2) { white-space: normal !important;}
         </style>
     </head>
     <body>
@@ -53,6 +54,38 @@
                     </div>
 
                     <hr>
+
+                    <!-- Metadatos -->
+                    <div class="row">
+                        <div class="col-md-12 borde">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h3><em>Metadatos - <a href='{{ link_datos_abiertos }}' target="_blank">ver en datos abiertos</a></em></h3>
+                                </div>
+                            </div>
+                            <div class="row hidden-md hidden-lg">
+                                <div class="col-md-12">
+                                    <div class="table-responsive">
+                                        {{ html_metadatos_00 }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row hidden-xs hidden-sm">
+                                <div class="col-md-6">
+                                    <div class="table-responsive">
+                                        {{ html_metadatos_01 }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="table-responsive">
+                                        {{ html_metadatos_02 }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br>
 
                     <!-- Estadísticas generales -->
                     <div class="row max_size_row">
@@ -115,7 +148,6 @@
                             </div>
 
                             <hr><em>{{ dataframe_shape }}</em><br><br>
-
                         </div>
                     </div>
 
@@ -181,42 +213,46 @@
                                     <p class="descripcion">
                                         Contiene información para cada columna de tipo numérico, incluye media, mediana, percentiles, desviación estándar, valores extremos y porcentaje de valores faltantes.
                                     </p>
-                                    <div class="row max_size_row2 aligned-row">
-                                        <div class="col-md-4 table-responsive">
-                                            <h4><strong><em>Variables</em></strong></h4>
-                                            <p><input type="checkbox" onClick="toggle(this)" id="select-all"> Seleccionar todos</p>
-                                            {% for item in header_list %}
-                                                <p><input type="checkbox" name="ds_{{ loop.index }}" class="checkbox_tab1"> {{ loop.index }} - {{ item }}</p>
-                                            {% endfor %}
-                                        </div>
-                                        <div class="col-md-8 table-responsive">
-                                            <table class="table table-condensed">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Estadística</th>
-                                                        {% for item in header_list %}
-                                                            <th class="ds_{{ loop.index }}">{{ item }}</th>
-                                                        {% endfor %}
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {% for row in items%}
+                                    {% if header_list != None %}
+                                        <div class="row max_size_row2 aligned-row">
+                                            <div class="col-md-4 table-responsive">
+                                                <h4><strong><em>Variables</em></strong></h4>
+                                                <p><input type="checkbox" onClick="toggle(this)" id="select-all"> Seleccionar todos</p>
+                                                {% for item in header_list %}
+                                                    <p><input type="checkbox" name="ds_{{ loop.index }}" class="checkbox_tab1"> {{ loop.index }} - {{ item }}</p>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="col-md-8 table-responsive">
+                                                <table class="table table-condensed">
+                                                    <thead>
                                                         <tr>
-                                                            {% for column in row %}
-                                                                <td class="ds_{{ loop.index0 }}">
-                                                                    {% if loop.index0 == 0 %}
-                                                                        {{ column }}
-                                                                    {% else %}
-                                                                        {{ "%.2f"|format(column|float) }}
-                                                                    {% endif %}
-                                                                </td>
+                                                            <th>Estadística</th>
+                                                            {% for item in header_list %}
+                                                                <th class="ds_{{ loop.index }}">{{ item }}</th>
                                                             {% endfor %}
                                                         </tr>
-                                                    {% endfor %}
-                                                </tbody>
-                                            </table>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for row in items%}
+                                                            <tr>
+                                                                {% for column in row %}
+                                                                    <td class="ds_{{ loop.index0 }}">
+                                                                        {% if loop.index0 == 0 %}
+                                                                            {{ column }}
+                                                                        {% else %}
+                                                                            {{ "%.2f"|format(column|float) }}
+                                                                        {% endif %}
+                                                                    </td>
+                                                                {% endfor %}
+                                                            </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
-                                    </div>
+                                    {% else %}
+                                        La base de datos no tiene columnas numéricas
+                                    {% endif %}
                                 </div>
 
                                 <!-- Frecuencia de valores únicos -->
@@ -278,17 +314,25 @@
                                                 <!-- Duplicados por filas -->
                                                 <div id="duplic_by_row" class="tab-pane fade in active">
                                                     <br>
-                                                    <div class="tabla_sin_bold">
-                                                        {{ html_dataframe_duplic01 }}
-                                                    </div>
+                                                    {% if html_dataframe_duplic01 != None %}
+                                                        <div class="tabla_sin_bold">
+                                                            {{ html_dataframe_duplic01 }}
+                                                        </div>
+                                                    {% else %}
+                                                        La base de datos no contiene filas duplicadas
+                                                    {% endif %}
                                                 </div>
 
                                                 <!-- Duplicados por columnas -->
                                                 <div id="duplic_by_column" class="tab-pane fade">
                                                     <br>
-                                                    <div class="tabla_sin_bold">
-                                                        {{ html_dataframe_duplic02 }}
-                                                    </div>
+                                                    {% if html_dataframe_duplic02 != None %}
+                                                        <div class="tabla_sin_bold">
+                                                            {{ html_dataframe_duplic02 }}
+                                                        </div>
+                                                    {% else %}
+                                                        La base de datos no contiene columnas duplicadas
+                                                    {% endif %}
                                                 </div>
                                             </div>
                                         </div>
