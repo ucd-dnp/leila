@@ -56,7 +56,7 @@
                     <hr>
 
                     <!-- Metadatos -->
-                    {% if html_metadatos_00 != None %}
+                    {% if html_metadatos_full != None %}
                         <div class="row">
                             <div class="col-md-12 borde">
                                 <div class="row">
@@ -67,19 +67,19 @@
                                 <div class="row hidden-md hidden-lg">
                                     <div class="col-md-12">
                                         <div class="table-responsive">
-                                            {{ html_metadatos_00 }}
+                                            {{ html_metadatos_full }}
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row hidden-xs hidden-sm">
                                     <div class="col-md-6">
                                         <div class="table-responsive">
-                                            {{ html_metadatos_01 }}
+                                            {{ html_metadatos_head }}
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="table-responsive">
-                                            {{ html_metadatos_02 }}
+                                            {{ html_metadatos_tail }}
                                         </div>
                                     </div>
                                 </div>
@@ -99,19 +99,19 @@
                             <div class="row hidden-md hidden-lg">
                                 <div class="col-md-12">
                                     <div class="table-responsive">
-                                        {{ html_data_summary_00 }}
+                                        {{ html_data_summary_full }}
                                     </div>
                                 </div>
                             </div>
                             <div class="row hidden-xs hidden-sm">
                                 <div class="col-md-6">
                                     <div class="table-responsive">
-                                        {{ html_data_summary_01 }}
+                                        {{ html_data_summary_head }}
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="table-responsive">
-                                        {{ html_data_summary_02 }}
+                                        {{ html_data_summary_tail }}
                                     </div>
                                 </div>
                             </div>
@@ -260,7 +260,7 @@
                                 <div id="tab03" class="tab-pane fade">
                                     <br>
                                     <p class="descripcion">
-                                        Contiene los primeros valores únicos más frecuentes de las columnas tipo texto y presenta el porcentaje dentro del total de observaciones. Esta función incluye valores faltantes.
+                                        Contiene los primeros 10 valores únicos más frecuentes de las columnas tipo texto y presenta el porcentaje dentro del total de observaciones. Esta función incluye valores faltantes.
                                     </p>
                                     <div class="row max_size_row2 aligned-row">
 
@@ -315,9 +315,9 @@
                                                 <!-- Duplicados por filas -->
                                                 <div id="duplic_by_row" class="tab-pane fade in active">
                                                     <br>
-                                                    {% if html_dataframe_duplic01 != None %}
+                                                    {% if html_dataframe_duplic_filas != None %}
                                                         <div class="tabla_sin_bold">
-                                                            {{ html_dataframe_duplic01 }}
+                                                            {{ html_dataframe_duplic_filas }}
                                                         </div>
                                                     {% else %}
                                                         <strong>* La base de datos no contiene filas duplicadas</strong>
@@ -327,9 +327,9 @@
                                                 <!-- Duplicados por columnas -->
                                                 <div id="duplic_by_column" class="tab-pane fade">
                                                     <br>
-                                                    {% if html_dataframe_duplic02 != None %}
+                                                    {% if html_dataframe_duplic_colum != None %}
                                                         <div class="tabla_sin_bold">
-                                                            {{ html_dataframe_duplic02 }}
+                                                            {{ html_dataframe_duplic_colum }}
                                                         </div>
                                                     {% else %}
                                                         <strong>* La base de datos no contiene columnas duplicadas</strong>
@@ -355,17 +355,19 @@
                                 <li class="active"><a data-toggle="tab" href="#tab01b">Pearson</a></li>
                                 <li><a data-toggle="tab" href="#tab02b">Kendall</a></li>
                                 <li><a data-toggle="tab" href="#tab03b">Spearman</a></li>
+                                <li><a data-toggle="tab" href="#tab04b">Cramer</a></li>
+                                <li><a data-toggle="tab" href="#tab05b">Phik</a></li>
                             </ul>
 
                             <div class="tab-content" style="text-align: justify; text-justify: inter-word;">
 
-                                <!-- correlación de Pearson -->
+                                <!-- correlación numérica - Pearson -->
                                 <div id="tab01b" class="tab-pane fade in active">
                                     <br>
                                     <p class="descripcion">
                                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquam aperiam, aut consequatur error facere fuga illo iste, non nulla optio repellendus soluta temporibus? Beatae esse facilis ipsa nesciunt quibusdam.
                                     </p>
-                                    {% if corre_numericas_headers|length > 0 %}
+                                    {% if corre_numericas_headers|length > 1 %}
                                         <div class="row max_size_row2 aligned-row">
                                             <div class="col-md-12">
                                                 <div class="container">
@@ -378,13 +380,13 @@
                                     {% endif %}
                                 </div>
 
-                                <!-- correlación de Kendall -->
+                                <!-- correlación numérica - Kendall -->
                                 <div id="tab02b" class="tab-pane fade">
                                     <br>
                                     <p class="descripcion">
                                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquam aperiam, aut consequatur error facere fuga illo iste, non nulla optio repellendus soluta temporibus? Beatae esse facilis ipsa nesciunt quibusdam.
                                     </p>
-                                    {% if corre_numericas_headers|length > 0 %}
+                                    {% if corre_numericas_headers|length > 1 %}
                                         <div class="row max_size_row2 aligned-row">
                                             <div class="col-md-12">
                                                 <div class="container">
@@ -397,13 +399,13 @@
                                     {% endif %}
                                 </div>
 
-                                <!-- correlación de Spearman -->
+                                <!-- correlación numérica - Spearman -->
                                 <div id="tab03b" class="tab-pane fade">
                                     <br>
                                     <p class="descripcion">
                                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquam aperiam, aut consequatur error facere fuga illo iste, non nulla optio repellendus soluta temporibus? Beatae esse facilis ipsa nesciunt quibusdam.
                                     </p>
-                                    {% if corre_numericas_headers|length > 0 %}
+                                    {% if corre_numericas_headers|length > 1 %}
                                         <div class="row max_size_row2 aligned-row">
                                             <div class="col-md-12">
                                                 <div class="container">
@@ -415,8 +417,46 @@
                                         <p><strong>* La base de datos no tiene columnas numéricas para el cálculo de correlaciones</strong></p>
                                     {% endif %}
                                 </div>
+
+                                <!-- correlación categórica - Cramer -->
+                                <div id="tab04b" class="tab-pane fade">
+                                    <br>
+                                    <p class="descripcion">
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquam aperiam, aut consequatur error facere fuga illo iste, non nulla optio repellendus soluta temporibus? Beatae esse facilis ipsa nesciunt quibusdam.
+                                    </p>
+                                    {% if corre_categoricas_headers|length > 1 %}
+                                        <div class="row max_size_row2 aligned-row">
+                                            <div class="col-md-12">
+                                                <div class="container">
+                                                    <div id='corre_cramer' class="max_size_row2"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <p><strong>* La base de datos no tiene columnas categóricas para el cálculo de correlaciones</strong></p>
+                                    {% endif %}
+                                </div>
+
+                                <!-- correlación categórica - Phik -->
+                                <div id="tab05b" class="tab-pane fade">
+                                    <br>
+                                    <p class="descripcion">
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquam aperiam, aut consequatur error facere fuga illo iste, non nulla optio repellendus soluta temporibus? Beatae esse facilis ipsa nesciunt quibusdam.
+                                    </p>
+                                    {% if corre_categoricas_headers|length > 1 %}
+                                        <div class="row max_size_row2 aligned-row">
+                                            <div class="col-md-12">
+                                                <div class="container">
+                                                    <div id='corre_phix' class="max_size_row2"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <p><strong>* La base de datos no tiene columnas categóricas para el cálculo de correlaciones</strong></p>
+                                    {% endif %}
+                                </div>
                             </div>
-                            {% if corre_numericas_headers|length > 0 %}
+                            {% if corre_numericas_headers|length > 1 %}
                                 <p>* En caso de ver mal los labels del eje x, ajustar el zoom del navegador.</p>
                             {% endif %}
                             <br>
@@ -661,15 +701,79 @@
                         Plotly.newPlot('corre_spearman', data, layout, {displayModeBar: false, responsive: true});
                     </script>
 
+                    <!-- Heatmap Cramer - Plotly -->
+                    <script>
+                        var data = [
+                          {
+                            x: {{ corre_categoricas_headers }}, y: {{ corre_categoricas_headers }},
+                            z: {{ corre_cramer_values }},
+
+                            xgap : 1, ygap : 1,
+                            type: 'heatmap', zmin: -1, zmax: 1,
+
+                            colorscale: {{ heatmap_colorscale }},
+
+                            hoverongaps: false,
+                            hoverinfo: 'all',
+                            hovertemplate: "variable eje x: %{x}<br>variable eje y: %{y}<br>correlación: %{z}<extra></extra>"
+                          }
+                        ];
+                        var layout = {
+                            title: '',
+                            xaxis: {fixedrange: true, automargin: true, side: 'top'},
+                            yaxis: {fixedrange: true, automargin: true},
+
+                            showlegend: true, font: {size: 12},
+                            autosize: true, width:1055,
+                            margin: { l: 50, r: 50, b: 30, t: 50 }
+                        };
+
+                        Plotly.newPlot('corre_cramer', data, layout, {displayModeBar: false, responsive: true});
+                    </script>
+
+                    <!-- Heatmap Phik - Plotly -->
+                    <script>
+                        var data = [
+                          {
+                            x: {{ corre_categoricas_headers }}, y: {{ corre_categoricas_headers }},
+                            z: {{ corre_phik_values }},
+
+                            xgap : 1, ygap : 1,
+                            type: 'heatmap', zmin: -1, zmax: 1,
+
+                            colorscale: {{ heatmap_colorscale }},
+
+                            hoverongaps: false,
+                            hoverinfo: 'all',
+                            hovertemplate: "variable eje x: %{x}<br>variable eje y: %{y}<br>correlación: %{z}<extra></extra>"
+                          }
+                        ];
+                        var layout = {
+                            title: '',
+                            xaxis: {fixedrange: true, automargin: true, side: 'top'},
+                            yaxis: {fixedrange: true, automargin: true},
+
+                            showlegend: true, font: {size: 12},
+                            autosize: true, width:1055,
+                            margin: { l: 50, r: 50, b: 30, t: 50 }
+                        };
+
+                        Plotly.newPlot('corre_phik', data, layout, {displayModeBar: false, responsive: true});
+                    </script>
+
                     <script>
                         var heatmap_1 = document.getElementById('corre_pearson');
                         var heatmap_2 = document.getElementById('corre_kendall');
                         var heatmap_3 = document.getElementById('corre_spearman');
+                        var heatmap_4 = document.getElementById('corre_cramer');
+                        var heatmap_5 = document.getElementById('corre_phik');
 
                         function resizeHeatmaps() {
                             Plotly.Plots.resize(heatmap_1);
                             Plotly.Plots.resize(heatmap_2);
                             Plotly.Plots.resize(heatmap_3);
+                            Plotly.Plots.resize(heatmap_4);
+                            Plotly.Plots.resize(heatmap_5);
                         }
 
                         window.onload   = function() { resizeHeatmaps(); };

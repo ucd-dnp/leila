@@ -6,16 +6,8 @@ import pandas as pd
 from jinja2 import FileSystemLoader
 from jinja2 import Environment
 
-# from leila.calidad_datos import CalidadDatos
-
-from datos import resumen_base
-from datos import descriptivas
-from datos import col_tipo
-from datos import memoria
-from datos import unicos
-from datos import categorias
-from datos import duplic
-from datos import correlacion
+from leila.calidad_datos import CalidadDatos
+# from datos import *
 
 from metadatos import sodapy_base
 from metadatos import mostrar_metadatos
@@ -24,8 +16,6 @@ import os
 import sys
 import numpy as np
 
-# hablar con pablo
-# try > catch | filas_nounicas
 
 def df_as_html(base, id=None, classes=None):
     """ Transforma el dataframe de entrada en una tabla HTML, se asignan al tab table las clases 'table' y
@@ -33,6 +23,8 @@ def df_as_html(base, id=None, classes=None):
 
     .. _Bootstrap v3.4: https://getbootstrap.com/docs/3.4/
 
+    :param id:
+    :param classes:
     :param base: (dataframe) dataframe de interés a ser transformado en tabla.
     :return: código de tabla HTML con los datos del dataframe.
     """
@@ -47,27 +39,27 @@ def df_as_html(base, id=None, classes=None):
     return html
 
 
-def generar_reporte(my_base=None, api_id=None, token=None, titulo='Reporte perfilamiento',
+def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamiento',
                     archivo='perfilamiento.html'):
     """Genera un reporte de calidad de datos en formato HTML
 
     :param token:
     :param api_id:
-    :param my_base: (dataframe) base de datos de insumo para la generación del reporte de calidad de datos.
+    :param df: (dataframe) base de datos de insumo para la generación del reporte de calidad de datos.
     :param titulo: (str) valor por defecto: 'Reporte perfilamiento'. Título del reporte a generar.
     :param archivo: (str) valor por defecto: 'perfilamiento.html'. Ruta donde guardar el reporte.
     :return: archivo de reporte en formato HTML.
     """
 
-    base = my_base
+    base = CalidadDatos(df)
     link_datos_abiertos = None
-    html_metadatos_00 = None
-    html_metadatos_01 = None
-    html_metadatos_02 = None
+    html_metadatos_full = None
+    html_metadatos_head = None
+    html_metadatos_tail = None
 
     if api_id is not None:
         metadatos_base = sodapy_base(api_id=api_id, token=token)
-        base = metadatos_base
+        base = CalidadDatos(metadatos_base)
 
         serie_metadatos = mostrar_metadatos(api_id=api_id, token=token)
         link_datos_abiertos = serie_metadatos['URL']
@@ -75,37 +67,37 @@ def generar_reporte(my_base=None, api_id=None, token=None, titulo='Reporte perfi
         df_metadatos = serie_metadatos.to_frame().reset_index()
         df_metadatos.replace('\n', '@#$', regex=True, inplace=True)
         df_metadatos.columns = ['Categoría', 'Valor']
-        html_metadatos_00 = df_as_html(df_metadatos, classes=['white_spaces'])
-        html_metadatos_01 = df_as_html(df_metadatos[:3], classes=['white_spaces'])
-        html_metadatos_02 = df_as_html(df_metadatos[-22:], classes=['white_spaces'])
+        html_metadatos_full = df_as_html(df_metadatos, classes=['white_spaces'])
+        html_metadatos_head = df_as_html(df_metadatos[:3], classes=['white_spaces'])
+        html_metadatos_tail = df_as_html(df_metadatos[-22:], classes=['white_spaces'])
 
-        html_metadatos_00 = html_metadatos_00.replace('@#$', '<br>')
-        html_metadatos_01 = html_metadatos_01.replace('@#$', '<br>')
-        html_metadatos_02 = html_metadatos_02.replace('@#$', '<br>')
-
-    print('------------------------------------------------------------------')
+        html_metadatos_full = html_metadatos_full.replace('@#$', '<br>')
+        html_metadatos_head = html_metadatos_head.replace('@#$', '<br>')
+        html_metadatos_tail = html_metadatos_tail.replace('@#$', '<br>')
+        print('--------------------------------------------------------------------------------------------')
 
     timestamp = datetime.datetime.now()
     current_time = timestamp.strftime("%d-%m-%Y %I:%M:%S %p")
 
     # Estadísticas generales ----------------------------------------------------
-    dataframe_summary = resumen_base(base, filas_nounicas=False).to_frame().reset_index()
+    dataframe_summary = base.resumen(filas_nounicas=False).to_frame().reset_index()
     dataframe_summary.columns = ['Categoría', 'Valor']
-    html_data_summary_00 = df_as_html(dataframe_summary)
-    html_data_summary_01 = df_as_html(dataframe_summary[:5])
-    html_data_summary_02 = df_as_html(dataframe_summary[-5:])
+    html_data_summary_full = df_as_html(dataframe_summary)
+    html_data_summary_head = df_as_html(dataframe_summary[:5])
+    html_data_summary_tail = df_as_html(dataframe_summary[-5:])
 
     # Muestra de datos ----------------------------------------------------------
     # Head
-    html_dataframe_head = df_as_html(base.head(10))
+    html_dataframe_head = df_as_html(base.base.head(10))
     # Tail
-    html_dataframe_tail = df_as_html(base.tail(10))
+    html_dataframe_tail = df_as_html(base.base.tail(10))
     # Shape
-    df_shape = base.shape
+    df_shape = base.base.shape
     dataframe_shape = str(df_shape[0]) + ' filas x ' + str(df_shape[1]) + ' columnas'
 
-    # Tab 1 ---------------------------------------------------------------------
-    dataframe_descriptive_stats = descriptivas(base)
+    # Tab 1 - Información general -----------------------------------------------
+    dataframe_descriptive_stats = base.descriptivas()
+
     header_list = None
     items = None
     if type(dataframe_descriptive_stats) != str:
@@ -114,17 +106,17 @@ def generar_reporte(my_base=None, api_id=None, token=None, titulo='Reporte perfi
         dataframe_descriptive_stats = dataframe_descriptive_stats.reset_index()
         items = dataframe_descriptive_stats.values.tolist()
 
-    # Tab 2 ---------------------------------------------------------------------
-    tipo_df_low = col_tipo(base, detalle="bajo").to_frame()
-    tipo_df_high = col_tipo(base, detalle="alto").to_frame()
+    # Tab 2 - Estadísticas descriptivas -----------------------------------------
+    tipo_df_low = base.col_tipo(detalle="bajo").to_frame()
+    tipo_df_high = base.col_tipo(detalle="alto").to_frame()
     dataframe_descriptive_stats_2 = pd.merge(tipo_df_low, tipo_df_high, left_index=True, right_index=True, how='outer')
 
-    memoria_df = memoria(base, col=True).to_frame()
+    memoria_df = base.memoria(col=True).to_frame()
     memoria_df = memoria_df.loc[~memoria_df.index.isin(['Index'])]
     dataframe_descriptive_stats_2 = pd.merge(dataframe_descriptive_stats_2, memoria_df, left_index=True,
                                              right_index=True, how='outer')
 
-    valores_unicos_df = unicos(base).to_frame()
+    valores_unicos_df = base.ValoresUnicos().to_frame()
     dataframe_descriptive_stats_2 = pd.merge(dataframe_descriptive_stats_2, valores_unicos_df, left_index=True,
                                              right_index=True, how='outer')
 
@@ -135,21 +127,24 @@ def generar_reporte(my_base=None, api_id=None, token=None, titulo='Reporte perfi
     dataframe_descriptive_stats_2 = dataframe_descriptive_stats_2.reset_index()
     items_2 = dataframe_descriptive_stats_2.values.tolist()
 
-    # Tab 3 ---------------------------------------------------------------------
-    dataframe_unique_text = categorias(base)
+    # Tab 3 - Frecuencia de valores únicos --------------------------------------
+    dataframe_unique_text = base.categorias()
     html_dataframe_unique_text = df_as_html(dataframe_unique_text)
     variables_list_3 = dataframe_unique_text.Columna.unique()
     columnas_list_3 = list(dataframe_unique_text)
     items_3 = dataframe_unique_text.values.tolist()
 
-    # Tab 4 ---------------------------------------------------------------------
-    dataframe_duplic01 = duplic(base, col=False)
-    html_dataframe_duplic01 = None
-    html_dataframe_duplic02 = None
-    if type(dataframe_duplic01) != str:
-        html_dataframe_duplic01 = df_as_html(dataframe_duplic01)
-        dataframe_duplic02 = duplic(base, col=True)
-        html_dataframe_duplic02 = df_as_html(dataframe_duplic02)
+    # Tab 4 - Datos duplicados --------------------------------------------------
+    html_dataframe_duplic_filas = None
+    html_dataframe_duplic_colum = None
+
+    dataframe_duplic_filas = base.ValoresDuplicados(col=False)
+    if type(dataframe_duplic_filas) != str:
+        html_dataframe_duplic_filas = df_as_html(dataframe_duplic_filas)
+
+    dataframe_duplic_colum = base.ValoresDuplicados(col=True)
+    if type(dataframe_duplic_colum) != str:
+        html_dataframe_duplic_colum = df_as_html(dataframe_duplic_colum)
 
     # Gráficos correlaciones ----------------------------------------------------
 
@@ -165,30 +160,35 @@ def generar_reporte(my_base=None, api_id=None, token=None, titulo='Reporte perfi
         ['0.888888888889', 'rgb( 33,102,172)'],
         ['1.000000000000', 'rgb(  5, 48, 97)']
     ]
-    # Tab 1 - Pearson -----------------------------------------------------------
-    df_corre_pearson = correlacion(base, metodo="pearson")
-    # df_corre_pearson = correlacion(base, metodo="pearson", variables=['FechaCreacion', 'Alto', 'Largo', 'CapacidadPeso', 'Valor Total Local'])
-
+    # Tab 1 - numérica - Pearson -----------------------------------------------------------
+    df_corre_pearson = base.correlacion(metodo="pearson")
     corre_numericas_headers = list(df_corre_pearson)
 
     df_corre_pearson = df_corre_pearson.round(3).fillna('null')
     corre_pearson_values = df_corre_pearson.values.tolist()
 
-    # Tab 2 - Kendall -----------------------------------------------------------
-    df_corre_kendall = correlacion(base, metodo="kendall")
-    # df_corre_kendall = correlacion(base, metodo="kendall", variables=['FechaCreacion', 'Alto', 'Largo', 'CapacidadPeso', 'Valor Total Local'])
-
+    # Tab 2 - numérica - Kendall -----------------------------------------------------------
+    df_corre_kendall = base.correlacion(metodo="kendall")
     df_corre_kendall = df_corre_kendall.round(3).fillna('null')
     corre_kendall_values = df_corre_kendall.values.tolist()
 
-    # Tab 3 - Pearson -----------------------------------------------------------
-    df_corre_spearman = correlacion(base, metodo="spearman")
-    # df_corre_spearman = correlacion(base, metodo="spearman", variables=['FechaCreacion', 'Alto', 'Largo', 'CapacidadPeso', 'Valor Total Local'])
-
+    # Tab 3 - numérica - Pearson -----------------------------------------------------------
+    df_corre_spearman = base.correlacion(metodo="spearman")
     df_corre_spearman = df_corre_spearman.round(3).fillna('null')
     corre_spearman_values = df_corre_spearman.values.tolist()
 
-    # ----------------------------------------------------------------------------
+    # Tab 4 - categórica - Cramer ----------------------------------------------------------
+    df_corre_cramer = base.correlacion_categoricas(tipo="cramer")
+    corre_categoricas_headers = list(df_corre_cramer)
+
+    df_corre_cramer = df_corre_cramer.round(3).fillna('null')
+    corre_cramer_values = df_corre_cramer.values.tolist()
+
+    # Tab 5 - categórica - Phik ------------------------------------------------------------
+    df_corre_phik = base.correlacion_categoricas(tipo="phik")
+    df_corre_phik = df_corre_phik.round(3).fillna('null')
+    corre_phik_values = df_corre_phik.values.tolist()
+    # -----------------------------------------------__________-----------------------------
 
     # Configure Jinja and ready the loader    
     env = Environment(loader=FileSystemLoader(searchpath='.'))
@@ -202,12 +202,12 @@ def generar_reporte(my_base=None, api_id=None, token=None, titulo='Reporte perfi
             title=titulo,
             current_time=current_time,
             link_datos_abiertos=link_datos_abiertos,
-            html_metadatos_00=html_metadatos_00,
-            html_metadatos_01=html_metadatos_01,
-            html_metadatos_02=html_metadatos_02,
-            html_data_summary_00=html_data_summary_00,
-            html_data_summary_01=html_data_summary_01,
-            html_data_summary_02=html_data_summary_02,
+            html_metadatos_full=html_metadatos_full,
+            html_metadatos_head=html_metadatos_head,
+            html_metadatos_tail=html_metadatos_tail,
+            html_data_summary_full=html_data_summary_full,
+            html_data_summary_head=html_data_summary_head,
+            html_data_summary_tail=html_data_summary_tail,
             header_list=header_list,
             items=items,
             header_list_2=header_list_2,
@@ -219,26 +219,32 @@ def generar_reporte(my_base=None, api_id=None, token=None, titulo='Reporte perfi
             variables_list_3=variables_list_3,
             columnas_list_3=columnas_list_3,
             items_3=items_3,
-            html_dataframe_duplic01=html_dataframe_duplic01,
-            html_dataframe_duplic02=html_dataframe_duplic02,
+            html_dataframe_duplic_filas=html_dataframe_duplic_filas,
+            html_dataframe_duplic_colum=html_dataframe_duplic_colum,
             heatmap_colorscale=heatmap_colorscale,
             corre_numericas_headers=corre_numericas_headers,
+            corre_categoricas_headers=corre_categoricas_headers,
             corre_pearson_values=corre_pearson_values,
             corre_kendall_values=corre_kendall_values,
-            corre_spearman_values=corre_spearman_values
+            corre_spearman_values=corre_spearman_values,
+            corre_cramer_values=corre_cramer_values,
+            corre_phik_values=corre_phik_values
         )
         HTML_file.write(output)
-    print('-------------------------------------------------')
+    print('--------------------------------------------------------------------------------------------')
     print('Se ha generado el reporte "perfilamiento.html"')
-    print('dataframe shape:' + str(base.shape))
     print(timestamp.strftime("%I:%M:%S %p"))
-    print('-------------------------------------------------')
+    print('--------------------------------------------------------------------------------------------')
 
 
 def main():
-    # generar_reporte(api_id="38wq-iims", my_base=pd.read_excel('x_test_data.xlsx'))
-    # generar_reporte(api_id="gt2j-8ykr", my_base=pd.read_excel('x_test_data.xlsx'))
-    generar_reporte(my_base=pd.read_excel('x_test_data.xlsx'))
+
+    # generar_reporte(api_id="38wq-iims", df=pd.read_excel('x_test_data.xlsx'))
+    generar_reporte(api_id="gt2j-8ykr", df=pd.read_excel('x_test_data.xlsx'))      # covid-19
+    # generar_reporte(df=pd.read_excel('x_test_data.xlsx'))
+
+    # generar_reporte(my_base=pd.read_excel('error_test_1.xlsx'))
+    # generar_reporte(my_base=pd.read_excel('error_test_2.xlsx'))
 
     os.system('perfilamiento.html')
 
