@@ -11,7 +11,7 @@ import pandas as pd
 from leila.calidad_datos import CalidadDatos
 
 #Cargando base de datos de prueba
-base = pd.read_excel("./../../1_Insumos/Bases_de_datos/Reporte DFI 2019 Julio v4 DNP.xlsx")
+base = pd.read_excel("../../../1_Insumos/Bases_de_datos/Reporte DFI 2019 Julio v4 DNP.xlsx")
 
 #creado objeto de la clase CalidadDatos, similar a pandas DataFrame
 
@@ -141,6 +141,12 @@ print(peso_base)
 # Peso total por columna
 peso_base_cols=datos.memoria(col=True)
 print(peso_base_cols)
+
+########### Matrices de correlación para columnas categóricas
+# Cramer V
+matriz_cramer = datos.correlacion_categoricas(categorias_maximas=30, limite=0.5, variables=None,tipo='cramer',columnas_intervalo=None)
+# Phik
+matriz_phik = datos.correlacion_categoricas(categorias_maximas=30, limite=0.5, variables=None,tipo='phik')
 
 
 

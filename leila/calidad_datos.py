@@ -5,6 +5,9 @@
 
 import pandas as pd
 import numpy as np
+import phik
+import scipy.stats as sstats
+
 
 class CalidadDatos:
 
@@ -474,7 +477,7 @@ class CalidadDatos:
             memoria en megabytes por cada columna del dataframe. (si el \
             parámetro col es True).
         """
-        base = self.base
+        base = self.base.copy()
         if not col:
             memoria_ = base.memory_usage(index=True).sum()
         elif col:
@@ -667,7 +670,7 @@ class CalidadDatos:
         :return: dataframe con las correlaciones de las columnas de tipo \
             numérico analizadas.
         """
-        base = self.base
+        base = self.base.copy()
         # Filtrar la base por las variables escogidas en la opción 'variables'
         if type(variables) == list:
             base = base[variables]
@@ -690,3 +693,71 @@ class CalidadDatos:
             return("El parámetro 'metodo' tiene valores diferentes a 'pearson', 'kendall' o 'spearman")
         
         return correlacion_
+    
+
+    # Matrices de correlación para variables categóricas
+    def correlacion_categoricas(self, categorias_maximas=30, limite=0.5, variables=None,tipo='cramer',columnas_intervalo=None):
+        
+        base=self.base.copy()
+        
+        # Filtrar la base por las variables escogidas en la opción 'variables'
+        if type(variables) == list:
+            base = base[variables]
+        else:
+            pass
+        
+        # Filtrar por el número de categorías únicas en cada variable
+        if categorias_maximas>0:
+            categorias_unicas=base.nunique()
+            categorias_unicas=categorias_unicas.loc[categorias_unicas<=categorias_maximas].index
+            base=base[categorias_unicas]
+        else:
+            pass
+                
+        # Calcular qué variables tipo object tienen valores únicos menores al 50% (o valor de 'limite') del total de filas de la base original
+        col_tipos = base.dtypes
+        lista_tipos_unicos = []
+        for s in col_tipos.index:
+            unico = len(pd.unique(base[s]))
+            if unico < base.shape[0]*limite:
+                lista_tipos_unicos.append(s)
+        
+        # Filtrar la base con la lista de columnas categóricas deseadas
+        lista_tipos_unicos=lista_tipos_unicos
+        base=base[lista_tipos_unicos]
+        
+        # Hacer doble loop para crear matriz de correlation tipo Cramer V
+        if tipo=='cramer':
+            lista_matriz=[]
+            for c in lista_tipos_unicos:
+                lista_fila=[]
+                for cc in lista_tipos_unicos:
+                    cramer=correlacion_cramerv(base[c],base[cc])
+                    lista_fila.append(cramer)
+                    
+                lista_matriz.append(lista_fila)
+                
+            lista_matriz=pd.DataFrame(lista_matriz)
+            lista_matriz.columns=lista_tipos_unicos
+            lista_matriz.index=lista_tipos_unicos
+            
+            correlacion_final=lista_matriz
+        
+        elif tipo=='phik':
+            correlacion_final=base.phik_matrix(interval_cols=columnas_intervalo)
+        
+        return correlacion_final
+        
+# Función de soporte para calcular coeficiente de correlación Cramer V (para usar en la función de las matrices de correlación entre variables categóricas)
+def correlacion_cramerv(x, y):
+    confusion_matrix = pd.crosstab(x,y)
+    chi2 = sstats.chi2_contingency(confusion_matrix)[0]
+    n = confusion_matrix.sum().sum()
+    phi2 = chi2/n
+    r,k = confusion_matrix.shape
+    phi2corr = max(0, phi2-((k-1)*(r-1))/(n-1))
+    rcorr = r-((r-1)**2)/(n-1)
+    kcorr = k-((k-1)**2)/(n-1)
+    return np.sqrt(phi2corr/min((kcorr-1),(rcorr-1)))    
+
+    
