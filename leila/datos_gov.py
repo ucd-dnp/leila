@@ -8,7 +8,37 @@ import datetime
 from sodapy import Socrata
 import webbrowser
 
+#Variables globales
 direccion_metatabla="https://dl.dropboxusercontent.com/s/84lt7ddrt73vzzu/tabla_final.txt?dl=0"
+# Diccionario para renombrar los encabezados de la tabla
+DIC_RENAME = {
+     "uid": "numero_api",
+     "name": "nombre",
+     "description": "descripcion",
+     "owner": "dueno",
+     "type":"tipo",
+     "category":"categoria",
+     "tags":"terminos_clave",
+     "url":"url",
+     "creation_date":"fecha_creacion",
+     "last_data_updated_date":"fecha_actualizacion",
+     "informacindedatos_frecuenciadeactualizacin":"actualizacion_frecuencia",
+     "row_count":"filas",
+     "column_count":"columnas",
+     "contact_email":"correo_contacto",
+     "license":"licencia",
+     "attribution":"entidad",
+     "attribution_link":"entidad_url",
+     "informacindelaentidad_sector":"entidad_sector",
+     "informacindelaentidad_departamento":"entidad_departamento",
+     "informacindelaentidad_orden":"entidad_orden",
+     "informacindelaentidad_reaodependencia":"entidad_dependencia",
+     "informacindelaentidad_municipio":"entidad_municipio",
+     "informacindedatos_idioma":"idioma",
+     "informacindedatos_coberturageogrfica":"cobertura",
+     "publication_stage":"base_publica"
+     }
+
 
 def sodapy_base(api_id,token=None,limite_filas=1000000000):
     """ Se conecta al API de Socrata y retorna la base de datos descargada del Portal de Datos Abiertos
@@ -36,47 +66,20 @@ def asset_inventory(token=None,limite_filas=1000000000):
     client = Socrata("www.datos.gov.co",app_token=token)
     results = client.get("uzcf-b9dh",limit=limite_filas)
     asset_inventory = pd.DataFrame.from_records(results)
+    asset_inventory = asset_inventory_espanol(asset_inventory)
     return(asset_inventory)
 
-def asset_inventory_espanol(token=None):
-    """ Se conecta al API de Socrata y retorna la base de datos *Asset Inventory* descargada del Portal de Datos Abiertos
-    como dataframe, selecciona columnas de interés y las renombra con un término en español. Este conjunto de datos es un inventario de los recursos en el sitio.
+def asset_inventory_espanol(asset):
+    """ Renombra los encabezados del inventario de bases de datos de Datos \
+        Abiertos Colombia a términos en español. 
 
-    :param token: (str) *opcional* - token de usuario de la API Socrata.
+    :param asset: (pandas.DataFrame) - Tabla de inventario del portal de datos\
+        abiertos Colombia (https://www.datos.gov.co).
     :return: base de datos en formato dataframe.
     """
-    asset=asset_inventory(token=token)
-    
-    dic_rename = {
-         "uid": "numero_api",
-         "name": "nombre",
-         "description": "descripcion",
-         "owner": "dueno",
-         "type":"tipo",
-         "category":"categoria",
-         "tags":"terminos_clave",
-         "url":"url",
-         "creation_date":"fecha_creacion",
-         "last_data_updated_date":"fecha_actualizacion",
-         "informacindedatos_frecuenciadeactualizacin":"actualizacion_frecuencia",
-         "row_count":"filas",
-         "column_count":"columnas",
-         "contact_email":"correo_contacto",
-         "license":"licencia",
-         "attribution":"entidad",
-         "attribution_link":"entidad_url",
-         "informacindelaentidad_sector":"entidad_sector",
-         "informacindelaentidad_departamento":"entidad_departamento",
-         "informacindelaentidad_orden":"entidad_orden",
-         "informacindelaentidad_reaodependencia":"entidad_dependencia",
-         "informacindelaentidad_municipio":"entidad_municipio",
-         "informacindedatos_idioma":"idioma",
-         "informacindedatos_coberturageogrfica":"cobertura",
-         "publication_stage":"base_publica"
-         }
-    
-    lista_columnas = list(dic_rename.keys())
-    asset = asset[lista_columnas].rename(columns=dic_rename)
+   
+    lista_columnas = list(DIC_RENAME.keys())
+    asset = asset[lista_columnas].rename(columns=DIC_RENAME)
     
     # Cambiar las fechas
     asset["fecha_creacion"] = asset["fecha_creacion"].apply(lambda x: x[0:10])

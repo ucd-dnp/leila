@@ -11,7 +11,7 @@ import pandas as pd
 from leila.calidad_datos import CalidadDatos
 
 #Cargando base de datos de prueba
-base = pd.read_excel("../../../1_Insumos/Bases_de_datos/Reporte DFI 2019 Julio v4 DNP.xlsx")
+base = pd.read_excel("./../../1_Insumos/Bases_de_datos/Reporte DFI 2019 Julio v4 DNP.xlsx")
 
 #creado objeto de la clase CalidadDatos, similar a pandas DataFrame
 
