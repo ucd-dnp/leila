@@ -696,7 +696,9 @@ class CalidadDatos:
     
 
     # Matrices de correlación para variables categóricas
-    def correlacion_categoricas(self, categorias_maximas=30, limite=0.5, variables=None,tipo='cramer',columnas_intervalo=None):
+    def correlacion_categoricas(self, categorias_maximas=30, limite=0.5, 
+                                variables=None,tipo='cramer',
+                                columnas_intervalo=None):
         
         base=self.base.copy()
         
@@ -732,7 +734,7 @@ class CalidadDatos:
             for c in lista_tipos_unicos:
                 lista_fila=[]
                 for cc in lista_tipos_unicos:
-                    cramer=correlacion_cramerv(base[c],base[cc])
+                    cramer=self.correlacion_cramerv(base[c],base[cc])
                     lista_fila.append(cramer)
                     
                 lista_matriz.append(lista_fila)
@@ -748,16 +750,17 @@ class CalidadDatos:
         
         return correlacion_final
         
-# Función de soporte para calcular coeficiente de correlación Cramer V (para usar en la función de las matrices de correlación entre variables categóricas)
-def correlacion_cramerv(x, y):
-    confusion_matrix = pd.crosstab(x,y)
-    chi2 = sstats.chi2_contingency(confusion_matrix)[0]
-    n = confusion_matrix.sum().sum()
-    phi2 = chi2/n
-    r,k = confusion_matrix.shape
-    phi2corr = max(0, phi2-((k-1)*(r-1))/(n-1))
-    rcorr = r-((r-1)**2)/(n-1)
-    kcorr = k-((k-1)**2)/(n-1)
-    return np.sqrt(phi2corr/min((kcorr-1),(rcorr-1)))    
+    # Función de soporte para calcular coeficiente de correlación Cramer V 
+    #(para usar en la función de las matrices de correlación entre variables categóricas)
+    def correlacion_cramerv(self, x, y):
+        confusion_matrix = pd.crosstab(x,y)
+        chi2 = sstats.chi2_contingency(confusion_matrix)[0]
+        n = confusion_matrix.sum().sum()
+        phi2 = chi2/n
+        r,k = confusion_matrix.shape
+        phi2corr = max(0, phi2-((k-1)*(r-1))/(n-1))
+        rcorr = r-((r-1)**2)/(n-1)
+        kcorr = k-((k-1)**2)/(n-1)
+        return np.sqrt(phi2corr/min((kcorr-1),(rcorr-1)))    
 
     
