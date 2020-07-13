@@ -56,7 +56,7 @@ def sodapy_base(api_id,token=None,limite_filas=1000000000):
     return(base_original)
 
 # OBTENER LA TABLA QUE TIENE DATOS ABIERTOS CON INFORMACIÓN DE LAS BASES DE DATOS
-def asset_inventory(token=None,limite_filas=1000000000):
+def tabla_inventario(token=None,limite_filas=1000000000):
     """ Se conecta al API de Socrata y retorna la base de datos *Asset Inventory* descargada del Portal de Datos Abiertos
     como dataframe. Este conjunto de datos es un inventario de los recursos en el sitio.
 
