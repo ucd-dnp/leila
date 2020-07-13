@@ -156,18 +156,6 @@ def mostrar_metadatos(api_id, token=None):
     return base_info
 
 
-def pagina_metadatos(api_id, token=None):
-    """ Se conecta al API de Socrata y consulta el link de la página web de datos abiertos asociado al api_id ingresado, para abrir el link en el navegador.
-
-    :param api_id: (str) Identificación de la base de datos asociado con la API de Socrata.
-    :param token: (str) *opcional* - token de usuario de la API Socrata.
-    :return: Abre en el navegador el link de datos abiertos asociado al api_id ingresado.
-    """
-    asset = asset_inventory(token=token)
-    url = asset.loc[asset["uid"] == api_id, "url"].iloc[0]
-    return webbrowser.open(url)
-    
-
 ############ METADATOS
 # COMPARAR LAS FILAS DE LOS METADATOS CON LA BASE DE DATOS MICRO
 def comparar_tamano(api_id, token=None):
