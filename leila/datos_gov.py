@@ -39,7 +39,7 @@ DIC_RENAME = {
      }
 
 
-def sodapy_base(api_id,token=None,limite_filas=1000000000):
+def cargar_base(api_id,token=None,limite_filas=1000000000):
     """ Se conecta al API de Socrata y retorna la base de datos descargada del Portal de Datos Abiertos
     como dataframe.
 
@@ -47,9 +47,7 @@ def sodapy_base(api_id,token=None,limite_filas=1000000000):
     :param token: (str) *opcional* - token de usuario de la API Socrata.
     :return: base de datos en formato dataframe.
     """
-    client = Socrata("www.datos.gov.co",
-                     app_token=token)
-
+    client = Socrata("www.datos.gov.co", app_token=token)
     results = client.get(api_id,limit=limite_filas)
     base_original = pd.DataFrame.from_records(results)
     return(base_original)
@@ -62,9 +60,8 @@ def tabla_inventario(token=None,limite_filas=1000000000):
     :param token: (str) *opcional* - token de usuario de la API Socrata.
     :return: base de datos en formato dataframe.
     """
-    client = Socrata("www.datos.gov.co",app_token=token)
-    results = client.get("uzcf-b9dh",limit=limite_filas)
-    asset_inventory = pd.DataFrame.from_records(results)
+    asset_inventory = cargar_base(api_id = "uzcf-b9dh", token = token,
+                                  limite_filas=limite_filas)
     asset_inventory = asset_inventory_espanol(asset_inventory)
     return(asset_inventory)
 
