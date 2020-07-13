@@ -6,10 +6,9 @@ import pandas as pd
 import numpy as np
 import datetime
 from sodapy import Socrata
-import webbrowser
+
 
 #Variables globales
-direccion_metatabla="https://dl.dropboxusercontent.com/s/84lt7ddrt73vzzu/tabla_final.txt?dl=0"
 # Diccionario para renombrar los encabezados de la tabla
 DIC_RENAME = {
      "uid": "numero_api",
@@ -40,7 +39,7 @@ DIC_RENAME = {
      }
 
 
-def sodapy_base(api_id,token=None,limite_filas=1000000000):
+def cargar_base(api_id,token=None,limite_filas=1000000000):
     """ Se conecta al API de Socrata y retorna la base de datos descargada del Portal de Datos Abiertos
     como dataframe.
 
@@ -48,9 +47,7 @@ def sodapy_base(api_id,token=None,limite_filas=1000000000):
     :param token: (str) *opcional* - token de usuario de la API Socrata.
     :return: base de datos en formato dataframe.
     """
-    client = Socrata("www.datos.gov.co",
-                     app_token=token)
-
+    client = Socrata("www.datos.gov.co", app_token=token)
     results = client.get(api_id,limit=limite_filas)
     base_original = pd.DataFrame.from_records(results)
     return(base_original)
@@ -63,9 +60,8 @@ def tabla_inventario(token=None,limite_filas=1000000000):
     :param token: (str) *opcional* - token de usuario de la API Socrata.
     :return: base de datos en formato dataframe.
     """
-    client = Socrata("www.datos.gov.co",app_token=token)
-    results = client.get("uzcf-b9dh",limit=limite_filas)
-    asset_inventory = pd.DataFrame.from_records(results)
+    asset_inventory = cargar_base(api_id = "uzcf-b9dh", token = token,
+                                  limite_filas=limite_filas)
     asset_inventory = asset_inventory_espanol(asset_inventory)
     return(asset_inventory)
 
@@ -109,105 +105,20 @@ def asset_inventory_espanol(asset):
             "invalid_datatype": "tipo_invalido"})
 
     return asset
-
-
-def mostrar_metadatos(api_id, token=None):
-    """ Se conecta al API de Socrata y retorna los metadatos asociados a la base del api_id.
-
-    :param api_id: (str) Identificación de la base de datos asociado con la API de Socrata.
-    :param token: (str) *opcional* - token de usuario de la API Socrata.
-    :return: serie de pandas con los metadatos.
-    """
-    
-    dic_rename = {
-     "numero_api": "No. identificación API",
-     "nombre": "Nombre",
-     "descripcion": "Descripción",
-     "dueno": "Dueño",
-     "tipo": "Tipo de datos",
-     "categoria": "Categoría",
-     "terminos_clave": "Términos clave",
-     "url": "URL",
-     "fecha_creacion": "Fecha de creación",
-     "fecha_actualizacion": "Fecha de última actualización",
-     "actualizacion_frecuencia": "Frecuencia de actualización",
-     "filas": "Número de filas",
-     "columnas": "Número de columnas",
-     "correo_contacto": "Correo electrónico del contacto",
-     "licencia": "Licencia",
-     "entidad": "Entidad creadora de la base de datos",
-     "entidad_url": "URL de entidad",
-     "entidad_sector": "Sector de la entidad",
-     "entidad_departamento": "Departamento de la entidad",
-     "entidad_orden": "Orden de la entidad",
-     "entidad_dependencia": "Dependencia de la entidad",
-     "entidad_municipio": "Municipio de la entidad",
-     "idioma": "Idioma",
-     "cobertura": "Cobertura",
-     "base_publica": "Base pública"
-     }
-
-    asset = asset_inventory_espanol(token=token).rename(columns=dic_rename)
-    lista_nombres = dic_rename.values()
-    asset = asset[lista_nombres]
-    base_info = asset[asset["No. identificación API"] == api_id]
-    base_info = pd.Series(base_info.iloc[0])
-    base_info = base_info.replace("", "CAMPO NO DILIGENCIADO").replace(np.nan, "CAMPO NO DILIGENCIADO")
-    return base_info
-
-
-def pagina_metadatos(api_id, token=None):
-    """ Se conecta al API de Socrata y consulta el link de la página web de datos abiertos asociado al api_id ingresado, para abrir el link en el navegador.
-
-    :param api_id: (str) Identificación de la base de datos asociado con la API de Socrata.
-    :param token: (str) *opcional* - token de usuario de la API Socrata.
-    :return: Abre en el navegador el link de datos abiertos asociado al api_id ingresado.
-    """
-    asset = asset_inventory(token=token)
-    url = asset.loc[asset["uid"] == api_id, "url"].iloc[0]
-    return webbrowser.open(url)
     
 
 ############ METADATOS
-# COMPARAR LAS FILAS DE LOS METADATOS CON LA BASE DE DATOS MICRO
-def comparar_tamano(api_id, token=None):
-    """ Se conecta al API de Socrata y consulta el número de filas y columnas de los metadatos de la base de datos asociada con el *api_id* para construir una tabla, adicionalmente se agregan los datos actuales del número de filas y columnas de la base de datos.
 
-    :param api_id: (str) Identificación de la base de datos asociado con la API de Socrata.
-    :param token: (str) *opcional* - token de usuario de la API Socrata.
-    :return: serie de pandas con el número de columnas y filas según los datos y metadatos.
-    """
-    
-    client = Socrata("www.datos.gov.co", app_token=token)
-    results = client.get(api_id, limit=1000000000)
-    base_original = pd.DataFrame.from_records(results)
-    
-    tabla_conj = pd.read_csv(direccion_metatabla)
-    tabla_conj = tabla_conj.loc[tabla_conj.loc[:, "tipo"] == "Conjunto de Datos"]
-
-    meta_fila = tabla_conj.loc[tabla_conj.loc[:, "api_id"] == api_id].loc[:, "meta_filas"].iloc[0]
-    micro_fila = base_original.shape[0]
-
-    meta_col = tabla_conj.loc[tabla_conj.loc[:, "api_id"] == api_id].loc[:, "meta_columnas"].iloc[0]
-    micro_col = base_original.shape[1]
-
-    comparacion = pd.Series(
-        data=[meta_fila, micro_fila, meta_col, micro_col],
-        index=["filas_metadatos", "filas_datos", "columnas_metadatos", "columnas_datos"]
-        )
-    
-    return comparacion
-
-
-def filtrar_asset(columnas_valor, token=None):
-    """ Permite filtrar la base de datos de *Asset Inventory* de acuerdo a diferentes términos de búsqueda. Como son fechas, textos y otros.
+def filtrar_tabla(columnas_valor, token=None):
+    """ Permite filtrar la base de datos de *tabla de inventario* de acuerdo a\
+        diferentes términos de búsqueda. Como son fechas, textos y otros.
 
     :param columnas_valor: (diccinario) {'nombre de columna':'valor a buscar o rangos'}. Corresponde al nombre de la columna a consultar y el valor a buscar.
     :param token: (str) *opcional* - token de usuario de la API Socrata.
     :return: dataframe *Asset Inventory* filtrado con los términos de búsqueda).
     """
     # base_filtro=tabla.copy()
-    asset = asset_inventory_espanol(token)
+    asset = tabla_inventario(token)
     
     base_filtro = asset.copy()
 
