@@ -699,6 +699,15 @@ class CalidadDatos:
     def correlacion_categoricas(self, categorias_maximas=30, limite=0.5, 
                                 variables=None,tipo='cramer',
                                 columnas_intervalo=None):
+        """ Genera una matriz de correlación entre las variables de tipo categórico
+
+        :param categorias_maximas:
+        :param limite:
+        :param variables:
+        :param tipo:
+        :param columnas_intervalo:
+        :return:
+        """
         
         base=self.base.copy()
         

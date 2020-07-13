@@ -1,20 +1,16 @@
 # -*- coding: utf-8 -*-
+import os
+import sys
 import argparse
 import datetime
+import numpy as np
 import pandas as pd
 
 from jinja2 import FileSystemLoader
 from jinja2 import Environment
 
 from leila.calidad_datos import CalidadDatos
-# from datos import *
-
-from metadatos import sodapy_base
-from metadatos import mostrar_metadatos
-
-import os
-import sys
-import numpy as np
+from leila.datos_gov import *
 
 
 def df_as_html(base, id=None, classes=None):
@@ -40,7 +36,7 @@ def df_as_html(base, id=None, classes=None):
 
 
 def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamiento',
-                    archivo='perfilamiento.html'):
+                    archivo='perfilamiento_leila.html'):
     """Genera un reporte de calidad de datos en formato HTML
 
     :param token:
@@ -178,6 +174,9 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
     corre_spearman_values = df_corre_spearman.values.tolist()
 
     # Tab 4 - categórica - Cramer ----------------------------------------------------------
+    # corre_categoricas_headers = None
+    # corre_cramer_values = None
+
     df_corre_cramer = base.correlacion_categoricas(tipo="cramer")
     corre_categoricas_headers = list(df_corre_cramer)
 
@@ -231,22 +230,23 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
             corre_phik_values=corre_phik_values
         )
         HTML_file.write(output)
+
     print('--------------------------------------------------------------------------------------------')
-    print('Se ha generado el reporte "perfilamiento.html"')
+    print(f'Se ha generado el reporte "{ archivo }"')
     print(timestamp.strftime("%I:%M:%S %p"))
     print('--------------------------------------------------------------------------------------------')
+    os.system(f'{ archivo }')
 
 
 def main():
+    # covid-19
+    # generar_reporte(api_id="gt2j-8ykr", df=pd.read_excel('x_test_data.xlsx'))
 
-    # generar_reporte(api_id="38wq-iims", df=pd.read_excel('x_test_data.xlsx'))
-    generar_reporte(api_id="gt2j-8ykr", df=pd.read_excel('x_test_data.xlsx'))      # covid-19
     # generar_reporte(df=pd.read_excel('x_test_data.xlsx'))
 
-    # generar_reporte(my_base=pd.read_excel('error_test_1.xlsx'))
-    # generar_reporte(my_base=pd.read_excel('error_test_2.xlsx'))
-
-    os.system('perfilamiento.html')
+    # generar_reporte(api_id="38wq-iims", df=pd.read_excel('x_test_data.xlsx'))
+    # generar_reporte(df=pd.read_excel('error_test_1.xlsx'))
+    generar_reporte(df=pd.read_excel('error_test_2.xlsx'))
 
 
 if __name__ == "__main__":
