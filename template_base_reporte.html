@@ -424,7 +424,7 @@
                                     <p class="descripcion">
                                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquam aperiam, aut consequatur error facere fuga illo iste, non nulla optio repellendus soluta temporibus? Beatae esse facilis ipsa nesciunt quibusdam.
                                     </p>
-                                    {% if corre_categoricas_headers|length > 1 %}
+                                    {% if corre_cramer_headers|length > 1 %}
                                         <div class="row max_size_row2 aligned-row">
                                             <div class="col-md-12">
                                                 <div class="container">
@@ -443,11 +443,11 @@
                                     <p class="descripcion">
                                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquam aperiam, aut consequatur error facere fuga illo iste, non nulla optio repellendus soluta temporibus? Beatae esse facilis ipsa nesciunt quibusdam.
                                     </p>
-                                    {% if corre_categoricas_headers|length > 1 %}
+                                    {% if corre_phik_headers|length > 1 %}
                                         <div class="row max_size_row2 aligned-row">
                                             <div class="col-md-12">
                                                 <div class="container">
-                                                    <div id='corre_phix' class="max_size_row2"></div>
+                                                    <div id='corre_phik' class="max_size_row2"></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -638,7 +638,7 @@
                             margin: { l: 50, r: 50, b: 30, t: 50 }
                         };
 
-                        Plotly.newPlot('corre_pearson', data, layout, {displayModeBar: false, responsive: true});
+                        try { Plotly.newPlot('corre_pearson', data, layout, {displayModeBar: false, responsive: true}); } catch (error) { }
                     </script>
 
                     <!-- Heatmap Kendall - Plotly -->
@@ -668,7 +668,7 @@
                             margin: { l: 50, r: 50, b: 30, t: 50 }
                         };
 
-                        Plotly.newPlot('corre_kendall', data, layout, {displayModeBar: false, responsive: true});
+                        try { Plotly.newPlot('corre_kendall', data, layout, {displayModeBar: false, responsive: true}); } catch (error) { }
                     </script>
 
                     <!-- Heatmap Spearman - Plotly -->
@@ -698,14 +698,14 @@
                             margin: { l: 50, r: 50, b: 30, t: 50 }
                         };
 
-                        Plotly.newPlot('corre_spearman', data, layout, {displayModeBar: false, responsive: true});
+                        try { Plotly.newPlot('corre_spearman', data, layout, {displayModeBar: false, responsive: true}); } catch (error) { }
                     </script>
 
                     <!-- Heatmap Cramer - Plotly -->
                     <script>
                         var data = [
                           {
-                            x: {{ corre_categoricas_headers }}, y: {{ corre_categoricas_headers }},
+                            x: {{ corre_cramer_headers }}, y: {{ corre_cramer_headers }},
                             z: {{ corre_cramer_values }},
 
                             xgap : 1, ygap : 1,
@@ -728,14 +728,14 @@
                             margin: { l: 50, r: 50, b: 30, t: 50 }
                         };
 
-                        Plotly.newPlot('corre_cramer', data, layout, {displayModeBar: false, responsive: true});
+                        try { Plotly.newPlot('corre_cramer', data, layout, {displayModeBar: false, responsive: true}); } catch (error) { }
                     </script>
 
                     <!-- Heatmap Phik - Plotly -->
                     <script>
                         var data = [
                           {
-                            x: {{ corre_categoricas_headers }}, y: {{ corre_categoricas_headers }},
+                            x: {{ corre_phik_headers }}, y: {{ corre_phik_headers }},
                             z: {{ corre_phik_values }},
 
                             xgap : 1, ygap : 1,
@@ -758,7 +758,7 @@
                             margin: { l: 50, r: 50, b: 30, t: 50 }
                         };
 
-                        Plotly.newPlot('corre_phik', data, layout, {displayModeBar: false, responsive: true});
+                        try { Plotly.newPlot('corre_phik', data, layout, {displayModeBar: false, responsive: true}); } catch (error) { }
                     </script>
 
                     <script>
@@ -769,11 +769,11 @@
                         var heatmap_5 = document.getElementById('corre_phik');
 
                         function resizeHeatmaps() {
-                            Plotly.Plots.resize(heatmap_1);
-                            Plotly.Plots.resize(heatmap_2);
-                            Plotly.Plots.resize(heatmap_3);
-                            Plotly.Plots.resize(heatmap_4);
-                            Plotly.Plots.resize(heatmap_5);
+                            try { Plotly.Plots.resize(heatmap_1); } catch (error) { }
+                            try { Plotly.Plots.resize(heatmap_2); } catch (error) { }
+                            try { Plotly.Plots.resize(heatmap_3); } catch (error) { }
+                            try { Plotly.Plots.resize(heatmap_4); } catch (error) { }
+                            try { Plotly.Plots.resize(heatmap_5); } catch (error) { }
                         }
 
                         window.onload   = function() { resizeHeatmaps(); };

@@ -178,13 +178,15 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
     # corre_cramer_values = None
 
     df_corre_cramer = base.correlacion_categoricas(tipo="cramer")
-    corre_categoricas_headers = list(df_corre_cramer)
+    corre_cramer_headers = list(df_corre_cramer)
 
     df_corre_cramer = df_corre_cramer.round(3).fillna('null')
     corre_cramer_values = df_corre_cramer.values.tolist()
 
     # Tab 5 - categórica - Phik ------------------------------------------------------------
     df_corre_phik = base.correlacion_categoricas(tipo="phik")
+    corre_phik_headers = list(df_corre_phik)
+
     df_corre_phik = df_corre_phik.round(3).fillna('null')
     corre_phik_values = df_corre_phik.values.tolist()
     # -----------------------------------------------__________-----------------------------
@@ -222,11 +224,12 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
             html_dataframe_duplic_colum=html_dataframe_duplic_colum,
             heatmap_colorscale=heatmap_colorscale,
             corre_numericas_headers=corre_numericas_headers,
-            corre_categoricas_headers=corre_categoricas_headers,
             corre_pearson_values=corre_pearson_values,
             corre_kendall_values=corre_kendall_values,
             corre_spearman_values=corre_spearman_values,
+            corre_cramer_headers=corre_cramer_headers,
             corre_cramer_values=corre_cramer_values,
+            corre_phik_headers=corre_phik_headers,
             corre_phik_values=corre_phik_values
         )
         HTML_file.write(output)
