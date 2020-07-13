@@ -761,6 +761,7 @@ class CalidadDatos:
         
     # Función de soporte para calcular coeficiente de correlación Cramer V 
     #(para usar en la función de las matrices de correlación entre variables categóricas)
+    #poner privada.
     def correlacion_cramerv(self, x, y):
         confusion_matrix = pd.crosstab(x,y)
         chi2 = sstats.chi2_contingency(confusion_matrix)[0]
