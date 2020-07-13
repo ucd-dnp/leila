@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 import datetime
 from sodapy import Socrata
-import webbrowser
+
 
 #Variables globales
 direccion_metatabla="https://dl.dropboxusercontent.com/s/84lt7ddrt73vzzu/tabla_final.txt?dl=0"
@@ -109,52 +109,7 @@ def asset_inventory_espanol(asset):
             "invalid_datatype": "tipo_invalido"})
 
     return asset
-
-
-def mostrar_metadatos(api_id, token=None):
-    """ Se conecta al API de Socrata y retorna los metadatos asociados a la base del api_id.
-
-    :param api_id: (str) Identificación de la base de datos asociado con la API de Socrata.
-    :param token: (str) *opcional* - token de usuario de la API Socrata.
-    :return: serie de pandas con los metadatos.
-    """
     
-    dic_rename = {
-     "numero_api": "No. identificación API",
-     "nombre": "Nombre",
-     "descripcion": "Descripción",
-     "dueno": "Dueño",
-     "tipo": "Tipo de datos",
-     "categoria": "Categoría",
-     "terminos_clave": "Términos clave",
-     "url": "URL",
-     "fecha_creacion": "Fecha de creación",
-     "fecha_actualizacion": "Fecha de última actualización",
-     "actualizacion_frecuencia": "Frecuencia de actualización",
-     "filas": "Número de filas",
-     "columnas": "Número de columnas",
-     "correo_contacto": "Correo electrónico del contacto",
-     "licencia": "Licencia",
-     "entidad": "Entidad creadora de la base de datos",
-     "entidad_url": "URL de entidad",
-     "entidad_sector": "Sector de la entidad",
-     "entidad_departamento": "Departamento de la entidad",
-     "entidad_orden": "Orden de la entidad",
-     "entidad_dependencia": "Dependencia de la entidad",
-     "entidad_municipio": "Municipio de la entidad",
-     "idioma": "Idioma",
-     "cobertura": "Cobertura",
-     "base_publica": "Base pública"
-     }
-
-    asset = asset_inventory_espanol(token=token).rename(columns=dic_rename)
-    lista_nombres = dic_rename.values()
-    asset = asset[lista_nombres]
-    base_info = asset[asset["No. identificación API"] == api_id]
-    base_info = pd.Series(base_info.iloc[0])
-    base_info = base_info.replace("", "CAMPO NO DILIGENCIADO").replace(np.nan, "CAMPO NO DILIGENCIADO")
-    return base_info
-
 
 ############ METADATOS
 # COMPARAR LAS FILAS DE LOS METADATOS CON LA BASE DE DATOS MICRO
