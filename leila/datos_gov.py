@@ -9,7 +9,6 @@ from sodapy import Socrata
 
 
 #Variables globales
-direccion_metatabla="https://dl.dropboxusercontent.com/s/84lt7ddrt73vzzu/tabla_final.txt?dl=0"
 # Diccionario para renombrar los encabezados de la tabla
 DIC_RENAME = {
      "uid": "numero_api",
@@ -112,45 +111,17 @@ def asset_inventory_espanol(asset):
     
 
 ############ METADATOS
-# COMPARAR LAS FILAS DE LOS METADATOS CON LA BASE DE DATOS MICRO
-def comparar_tamano(api_id, token=None):
-    """ Se conecta al API de Socrata y consulta el número de filas y columnas de los metadatos de la base de datos asociada con el *api_id* para construir una tabla, adicionalmente se agregan los datos actuales del número de filas y columnas de la base de datos.
 
-    :param api_id: (str) Identificación de la base de datos asociado con la API de Socrata.
-    :param token: (str) *opcional* - token de usuario de la API Socrata.
-    :return: serie de pandas con el número de columnas y filas según los datos y metadatos.
-    """
-    
-    client = Socrata("www.datos.gov.co", app_token=token)
-    results = client.get(api_id, limit=1000000000)
-    base_original = pd.DataFrame.from_records(results)
-    
-    tabla_conj = pd.read_csv(direccion_metatabla)
-    tabla_conj = tabla_conj.loc[tabla_conj.loc[:, "tipo"] == "Conjunto de Datos"]
-
-    meta_fila = tabla_conj.loc[tabla_conj.loc[:, "api_id"] == api_id].loc[:, "meta_filas"].iloc[0]
-    micro_fila = base_original.shape[0]
-
-    meta_col = tabla_conj.loc[tabla_conj.loc[:, "api_id"] == api_id].loc[:, "meta_columnas"].iloc[0]
-    micro_col = base_original.shape[1]
-
-    comparacion = pd.Series(
-        data=[meta_fila, micro_fila, meta_col, micro_col],
-        index=["filas_metadatos", "filas_datos", "columnas_metadatos", "columnas_datos"]
-        )
-    
-    return comparacion
-
-
-def filtrar_asset(columnas_valor, token=None):
-    """ Permite filtrar la base de datos de *Asset Inventory* de acuerdo a diferentes términos de búsqueda. Como son fechas, textos y otros.
+def filtrar_tabla(columnas_valor, token=None):
+    """ Permite filtrar la base de datos de *tabla de inventario* de acuerdo a\
+        diferentes términos de búsqueda. Como son fechas, textos y otros.
 
     :param columnas_valor: (diccinario) {'nombre de columna':'valor a buscar o rangos'}. Corresponde al nombre de la columna a consultar y el valor a buscar.
     :param token: (str) *opcional* - token de usuario de la API Socrata.
     :return: dataframe *Asset Inventory* filtrado con los términos de búsqueda).
     """
     # base_filtro=tabla.copy()
-    asset = asset_inventory_espanol(token)
+    asset = tabla_inventario(token)
     
     base_filtro = asset.copy()
 
