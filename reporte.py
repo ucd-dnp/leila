@@ -10,7 +10,7 @@ from jinja2 import FileSystemLoader
 from jinja2 import Environment
 
 from leila.calidad_datos import CalidadDatos
-from leila.datos_gov import *
+from leila import datos_gov
 
 
 def df_as_html(base, id=None, classes=None):
@@ -54,15 +54,17 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
     html_metadatos_tail = None
 
     if api_id is not None:
-        metadatos_base = sodapy_base(api_id=api_id, token=token)
-        base = CalidadDatos(metadatos_base)
+        datos = datos_gov.cargar_base(api_id=api_id)
+        base = CalidadDatos(datos)
 
-        serie_metadatos = mostrar_metadatos(api_id=api_id, token=token)
-        link_datos_abiertos = serie_metadatos['URL']
+        inventario = datos_gov.tabla_inventario()
+        df_metadatos = inventario[inventario['numero_api'] == api_id]
+        df_metadatos = df_metadatos.T.reset_index()
+        df_metadatos.columns = ['Atributo', 'Valor']
 
-        df_metadatos = serie_metadatos.to_frame().reset_index()
+        link_datos_abiertos = df_metadatos[df_metadatos['Atributo'] == 'url']['Valor'].item()
+
         df_metadatos.replace('\n', '@#$', regex=True, inplace=True)
-        df_metadatos.columns = ['Categoría', 'Valor']
         html_metadatos_full = df_as_html(df_metadatos, classes=['white_spaces'])
         html_metadatos_head = df_as_html(df_metadatos[:3], classes=['white_spaces'])
         html_metadatos_tail = df_as_html(df_metadatos[-22:], classes=['white_spaces'])
@@ -242,15 +244,16 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
 
 
 def main():
+    # si se ingresan los parámetros api_id y df, el df correspondiente al api_id es utilizado y se ignora el df ingresado al invocar la función
+
     # covid-19
-    # generar_reporte(api_id="gt2j-8ykr", df=pd.read_excel('x_test_data.xlsx'))
+    generar_reporte(api_id="gt2j-8ykr", df=pd.read_excel('x_test_data.xlsx'))
 
     # generar_reporte(df=pd.read_excel('x_test_data.xlsx'))
 
     # generar_reporte(api_id="38wq-iims", df=pd.read_excel('x_test_data.xlsx'))
     # generar_reporte(df=pd.read_excel('error_test_1.xlsx'))
-    generar_reporte(df=pd.read_excel('error_test_2.xlsx'))
-
+    # generar_reporte(df=pd.read_excel('error_test_2.xlsx'))
 
 if __name__ == "__main__":
     main()
