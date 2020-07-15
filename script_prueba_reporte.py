@@ -19,7 +19,7 @@ tabla_filtrada = datos_gov.filtrar_tabla(columnas_valor)
 # Cargar una base de datos de interes
 #cargando la prmera base de datos que aparece en la tabla filtrada por
 #la palabra "SECOP"
-tabla_id = tabla_filtrada.iloc[10].numero_api
+tabla_id = tabla_filtrada.iloc[1].numero_api
 datos = datos_gov.cargar_base(tabla_id)
 
 # Generar reporte con el modulo reporte

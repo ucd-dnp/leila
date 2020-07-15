@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
-import sys
-import argparse
 import datetime
-import numpy as np
 import pandas as pd
 
 from jinja2 import FileSystemLoader
@@ -197,7 +194,7 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
     env = Environment(loader=FileSystemLoader(searchpath='.'))
 
     # Assemble the templates we'll use
-    base_template = env.get_template('template_base_reporte.html')
+    base_template = env.get_template('/leila/template_base_reporte.html')
 
     # Produce and write the report to file
     with open(archivo, "w", encoding='utf8') as HTML_file:
