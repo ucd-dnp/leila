@@ -5,7 +5,8 @@ Created on Tue Jul 14 21:18:14 2020
 @author: hinsuasti
 """
 
-from leila import datos_gov, reporte
+from leila import datos_gov
+from leila.reporte import generar_reporte
 
 
 # Abrir la base de datos original con los metadatos (asset inventory)
@@ -23,4 +24,4 @@ tabla_id = tabla_filtrada.iloc[1].numero_api
 datos = datos_gov.cargar_base(tabla_id)
 
 # Generar reporte con el modulo reporte
-reporte.generar_reporte(df = datos)
+generar_reporte(df = datos)
