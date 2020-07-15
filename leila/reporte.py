@@ -247,7 +247,7 @@ def main():
     # si se ingresan los parámetros api_id y df, el df correspondiente al api_id es utilizado y se ignora el df ingresado al invocar la función
 
     # covid-19
-    generar_reporte(api_id="gt2j-8ykr", df=pd.read_excel('x_test_data.xlsx'))
+    generar_reporte(api_id="gt2j-8ykr", df=None)
 
     # generar_reporte(df=pd.read_excel('x_test_data.xlsx'))
 
