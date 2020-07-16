@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+# Created on Tue Jul 10
+# @author: jairo ruiz saenz
+
 import os
 import datetime
 import pandas as pd
@@ -36,25 +39,24 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
                     archivo='perfilamiento_leila.html'):
     """Genera un reporte de calidad de datos en formato HTML
 
-    :param token:
-    :param api_id:
     :param df: (dataframe) base de datos de insumo para la generación del reporte de calidad de datos.
+    :param api_id: (str) Identificación de la base de datos asociado con la API de Socrata (de Datos Abiertos).
+    :param token: (str) *opcional* - token de usuario de la API de Socrata (de Datos Abiertos).
     :param titulo: (str) valor por defecto: 'Reporte perfilamiento'. Título del reporte a generar.
     :param archivo: (str) valor por defecto: 'perfilamiento.html'. Ruta donde guardar el reporte.
     :return: archivo de reporte en formato HTML.
     """
 
-    base = CalidadDatos(df)
     link_datos_abiertos = None
     html_metadatos_full = None
     html_metadatos_head = None
     html_metadatos_tail = None
 
     if api_id is not None:
-        datos = datos_gov.cargar_base(api_id=api_id)
+        datos = datos_gov.cargar_base(api_id=api_id, token=token)
         base = CalidadDatos(datos)
 
-        inventario = datos_gov.tabla_inventario()
+        inventario = datos_gov.tabla_inventario(token=token)
         df_metadatos = inventario[inventario['numero_api'] == api_id]
         df_metadatos = df_metadatos.T.reset_index()
         df_metadatos.columns = ['Atributo', 'Valor']
@@ -70,6 +72,8 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
         html_metadatos_head = html_metadatos_head.replace('@#$', '<br>')
         html_metadatos_tail = html_metadatos_tail.replace('@#$', '<br>')
         print('--------------------------------------------------------------------------------------------')
+    else:
+        base = CalidadDatos(df)
 
     timestamp = datetime.datetime.now()
     current_time = timestamp.strftime("%d-%m-%Y %I:%M:%S %p")
