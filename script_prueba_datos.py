@@ -11,26 +11,26 @@ import pandas as pd
 from leila.calidad_datos import CalidadDatos
 
 #Cargando base de datos de prueba
-base = pd.read_excel("./../../1_Insumos/Bases_de_datos/Reporte DFI 2019 Julio v4 DNP.xlsx")
+base = pd.read_excel("../../../1_Insumos/Bases_de_datos/Reporte DFI 2019 Julio v4 DNP.xlsx")
 
 #creado objeto de la clase CalidadDatos, similar a pandas DataFrame
 
-datos = CalidadDatos(base)
+datos = CalidadDatos(base,castFloat=False)
 
 ############ RESUMEN DE BASE DE DATOS
-resumen=datos.resumen()
+resumen=datos.Resumen()
 print(resumen)
 
 ############ VARIANZA DE DATOS
-var_perc=datos.varianza_percentil(float_transform=True)
+varianza_perc=datos.VarianzaEnPercentil()
 
 ############ Tipos de columnas
 # Detalles bajo
-tipos_bajo=datos.col_tipo(detalle="bajo")
+tipos_bajo=datos.TipoColumnas(detalle="bajo")
 print(tipos_bajo)
 
 # Detalles alto
-tipos_alto=datos.col_tipo(detalle="alto")
+tipos_alto=datos.TipoColumnas(detalle="alto")
 print(tipos_alto)
 
 ############ Valores únicos en cada columna
@@ -53,28 +53,28 @@ print(faltantes_num)
 
 ############ Número y porcentaje de filas y columnas no únicas
 # Porcentaje de columnas que no son únicas
-nounic_col_porc=datos.nounicos(col=True,porc=True)
-print(nounic_col_porc)
+repetidos_col_porc=datos.CantidadDuplicados(eje=1,porc=True)
+print(repetidos_col_porc)
 
 # Número de columnas que no son únicas
-nounic_col_num=datos.nounicos(col=True,porc=False)
-print(nounic_col_num)
+repetidos_col_num=datos.CantidadDuplicados(eje=1,porc=False)
+print(repetidos_col_num)
 
 # Porcentaje de filas que no son únicas
-nounic_fil_porc=datos.nounicos(col=False,porc=True)
-print(nounic_fil_porc)
+repetidos_fil_porc=datos.CantidadDuplicados(eje=0,porc=True)
+print(repetidos_fil_porc)
 
 # Número de filas que no son únicas
-nounic_fil_num=datos.nounicos(col=False,porc=False)
-print(nounic_fil_num)
+repetidos_fil_num=datos.CantidadDuplicados(eje=0,porc=False)
+print(repetidos_fil_num)
 
 ############ Emparejamiento de columnas y filas duplicadas
 # Columnas duplicadas
-duplicados_col=datos.ValoresDuplicados(col=True)
+duplicados_col=datos.EmparejamientoDuplicados(col=True)
 print(duplicados_col)
 
 # Filas duplicadas
-duplicados_fil=datos.ValoresDuplicados(col=False)
+duplicados_fil=datos.EmparejamientoDuplicados(col=False)
 print(duplicados_fil)
 
 ############ Valores extremos de cada columna
@@ -103,51 +103,47 @@ extremos_inf_num=datos.ValoresExtremos(extremos="inferior",porc=False)
 print(extremos_inf_num)
 
 ############ Estadísticas descriptivas
-# No convertir las columnas numéricas a float
-est_descrip_nofloat=datos.descriptivas(float_transformar=False)
-print(est_descrip_nofloat)
-
-# Convertir las columnas numéricas a float
-est_descrip_float=datos.descriptivas(float_transformar=True)
-print(est_descrip_float)
+estadisticas_descriptivas=datos.DescripcionNumericas()
+print(estadisticas_descriptivas)
 
 ############ Matrices de correlación para columnas numéricas
 # Correlación Pearson
-corr_pearson=datos.correlacion(metodo="pearson")
+corr_pearson=datos.CorrelacionNumericas(metodo="pearson")
 print(corr_pearson)
 
 # Correlación Kendall
-corr_kendall=datos.correlacion(metodo="kendall")
+corr_kendall=datos.CorrelacionNumericas(metodo="kendall")
 print(corr_kendall)
 
 # Correlación Spearman
-corr_spearman=datos.correlacion(metodo="spearman")
+corr_spearman=datos.CorrelacionNumericas(metodo="spearman")
 print(corr_spearman)
 
 ############ Primeras frecuencias de variables categóricas
 # No transformar números
-categoricas_no_transformar=datos.categorias(limite=0.5,transformar_nums=False,variables=None)
+categoricas_no_transformar=datos.DescripcionCategoricas(limite=0.5,incluirNumericos=False,variables=None)
 print(categoricas_no_transformar)
 
 # No transformar números
-categoricas_transformar=datos.categorias(limite=0.5,transformar_nums=True,variables=None)
+categoricas_transformar=datos.DescripcionCategoricas(limite=0.5,incluirNumericos=True,variables=None)
 print(categoricas_transformar)
 
 ########### Peso en la memoria de la base en mega bytes
 # Peso total
-peso_base=datos.memoria(col=False)
+peso_base=datos.Memoria(col=False)
 print(peso_base)
 
 # Peso total por columna
-peso_base_cols=datos.memoria(col=True)
+peso_base_cols=datos.Memoria(col=True)
 print(peso_base_cols)
 
 ########### Matrices de correlación para columnas categóricas
 # Cramer V
-matriz_cramer = datos.correlacion_categoricas(categorias_maximas=30, limite=0.5, variables=None,tipo='cramer',columnas_intervalo=None)
+matriz_cramer = datos.CorrelacionCategoricas(metodo='cramer',categoriasMaximas=30, limite=0.5, variables=None)
+print(matriz_cramer)
 # Phik
-matriz_phik = datos.correlacion_categoricas(categorias_maximas=30, limite=0.5, variables=None,tipo='phik')
-
+matriz_phik = datos.CorrelacionCategoricas(metodo='phik',categoriasMaximas=30, limite=0.5, variables=None)
+print(matriz_phik)
 
 
 
