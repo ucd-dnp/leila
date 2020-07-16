@@ -19,9 +19,9 @@ def df_as_html(base, id=None, classes=None):
 
     .. _Bootstrap v3.4: https://getbootstrap.com/docs/3.4/
 
+    :param base: (dataframe) dataframe de interés a ser transformado en tabla.
     :param id: (str) id que se le desea asignar a la tabla.
     :param classes: (list) lista de strings de las clases que se desean agregar a la tabla.
-    :param base: (dataframe) dataframe de interés a ser transformado en tabla.
     :return: código de la tabla en formato HTML con los datos del dataframe.
     """
     # html = base.to_html(table_id='mi_tabla', index=False, classes=['table', 'table-condensed', 'table-hover']) \

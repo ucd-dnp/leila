@@ -22,7 +22,8 @@
             .borde{ border-style: solid; border-width: 1px; border-color: #c2c2c2; }
             .descripcion   { min-height:40px; }
             .max_size_row  { max-height:450px !important; }
-            .max_size_row2 { height:380px !important; }
+            .max_size_row2 { height:380px !important;}
+            .max_size_row3 { /* height:380px !important; */ height:450px !important; border: 1px solid red;}
             p { margin-bottom:5px; }
             table > tbody > tr > :nth-child(1) { font-weight:bold; }
             table > tbody > tr:hover           { background-color: #ffff99 !important; }
@@ -372,14 +373,14 @@
                                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquam aperiam, aut consequatur error facere fuga illo iste, non nulla optio repellendus soluta temporibus? Beatae esse facilis ipsa nesciunt quibusdam.
                                     </p>
                                     {% if corre_pearson_headers|length > 1 %}
-                                        <div class="row max_size_row2 aligned-row">
+                                        <div class="row max_size_row3 aligned-row">
                                             <div class="col-md-12">
                                                 <div class="container">
-                                                    <div id='corre_pearson' class="max_size_row2"></div>
+                                                    <div id='corre_pearson' class="max_size_row3"></div>
                                                 </div>
                                             </div>
                                         </div>
-                                    <p>* En caso de ver mal los labels del eje x, ajustar el zoom del navegador.</p>
+                                    <p>* En caso de ver mal los labels del eje x, ajustar el zoom del navegador.</p><br>
                                     {% else %}
                                         <p><strong>* La base de datos no tiene columnas numéricas para el cálculo de correlaciones</strong></p>
                                     {% endif %}
@@ -392,14 +393,14 @@
                                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquam aperiam, aut consequatur error facere fuga illo iste, non nulla optio repellendus soluta temporibus? Beatae esse facilis ipsa nesciunt quibusdam.
                                     </p>
                                     {% if corre_kendall_headers|length > 1 %}
-                                        <div class="row max_size_row2 aligned-row">
+                                        <div class="row max_size_row3 aligned-row">
                                             <div class="col-md-12">
                                                 <div class="container">
-                                                    <div id='corre_kendall' class="max_size_row2"></div>
+                                                    <div id='corre_kendall' class="max_size_row3"></div>
                                                 </div>
                                             </div>
                                         </div>
-                                    <p>* En caso de ver mal los labels del eje x, ajustar el zoom del navegador.</p>
+                                    <p>* En caso de ver mal los labels del eje x, ajustar el zoom del navegador.</p><br>
                                     {% else %}
                                         <p><strong>* La base de datos no tiene columnas numéricas para el cálculo de correlaciones</strong></p>
                                     {% endif %}
@@ -412,14 +413,14 @@
                                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquam aperiam, aut consequatur error facere fuga illo iste, non nulla optio repellendus soluta temporibus? Beatae esse facilis ipsa nesciunt quibusdam.
                                     </p>
                                     {% if corre_spearman_headers|length > 1 %}
-                                        <div class="row max_size_row2 aligned-row">
+                                        <div class="row max_size_row3 aligned-row">
                                             <div class="col-md-12">
                                                 <div class="container">
-                                                    <div id='corre_spearman' class="max_size_row2"></div>
+                                                    <div id='corre_spearman' class="max_size_row3"></div>
                                                 </div>
                                             </div>
                                         </div>
-                                    <p>* En caso de ver mal los labels del eje x, ajustar el zoom del navegador.</p>
+                                    <p>* En caso de ver mal los labels del eje x, ajustar el zoom del navegador.</p><br>
                                     {% else %}
                                         <p><strong>* La base de datos no tiene columnas numéricas para el cálculo de correlaciones</strong></p>
                                     {% endif %}
@@ -432,14 +433,14 @@
                                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquam aperiam, aut consequatur error facere fuga illo iste, non nulla optio repellendus soluta temporibus? Beatae esse facilis ipsa nesciunt quibusdam.
                                     </p>
                                     {% if corre_cramer_headers|length > 1 %}
-                                        <div class="row max_size_row2 aligned-row">
+                                        <div class="row max_size_row3 aligned-row">
                                             <div class="col-md-12">
                                                 <div class="container">
-                                                    <div id='corre_cramer' class="max_size_row2"></div>
+                                                    <div id='corre_cramer' class="max_size_row3"></div>
                                                 </div>
                                             </div>
                                         </div>
-                                    <p>* En caso de ver mal los labels del eje x, ajustar el zoom del navegador.</p>
+                                    <p>* En caso de ver mal los labels del eje x, ajustar el zoom del navegador.</p><br>
                                     {% else %}
                                         <p><strong>* La base de datos no tiene columnas categóricas para el cálculo de correlaciones</strong></p>
                                     {% endif %}
@@ -452,14 +453,14 @@
                                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquam aperiam, aut consequatur error facere fuga illo iste, non nulla optio repellendus soluta temporibus? Beatae esse facilis ipsa nesciunt quibusdam.
                                     </p>
                                     {% if corre_phik_headers|length > 1 %}
-                                        <div class="row max_size_row2 aligned-row">
+                                        <div class="row max_size_row3 aligned-row">
                                             <div class="col-md-12">
                                                 <div class="container">
-                                                    <div id='corre_phik' class="max_size_row2"></div>
+                                                    <div id='corre_phik' class="max_size_row3"></div>
                                                 </div>
                                             </div>
                                         </div>
-                                    <p>* En caso de ver mal los labels del eje x, ajustar el zoom del navegador.</p>
+                                    <p>* En caso de ver mal los labels del eje x, ajustar el zoom del navegador.</p><br>
                                     {% else %}
                                         <p><strong>* La base de datos no tiene columnas categóricas para el cálculo de correlaciones</strong></p>
                                     {% endif %}
@@ -616,154 +617,41 @@
                         });
                     </script>
 
-                    <!-- Heatmap Pearson - Plotly -->
                     <script>
-                        var data = [
-                          {
-                            x: {{ corre_pearson_headers }}, y: {{ corre_pearson_headers }},
-                            z: {{ corre_pearson_values }},
+                        // Función para la generación de heat maps de correlación usando plotly
+                        function heatMap(graph_id, headers, values) {
+                            var data = [
+                              {
+                                x: headers, y: headers, z: values,
 
-                            xgap : 1, ygap : 1,
-                            type: 'heatmap', zmin: -1, zmax: 1,
+                                xgap : 1, ygap : 1,
+                                type: 'heatmap', zmin: -1, zmax: 1,
 
-                            colorscale: {{ heatmap_colorscale }},
+                                colorscale: {{ heatmap_colorscale }},
 
-                            hoverongaps: false,
-                            hoverinfo: 'all',
-                            hovertemplate: "variable eje x: %{x}<br>variable eje y: %{y}<br>correlación: %{z}<extra></extra>"
-                          }
-                        ];
-                        var layout = {
-                            title: '',
-                            xaxis: {fixedrange: true, automargin: true, side: 'top'},
-                            yaxis: {fixedrange: true, automargin: true},
+                                hoverongaps: false,
+                                hoverinfo: 'all',
+                                hovertemplate: "variable eje x: %{x}<br>variable eje y: %{y}<br>correlación: %{z}<extra></extra>"
+                              }
+                            ];
+                            var layout = {
+                                title: '',
+                                xaxis: {fixedrange: true, automargin: true, side: 'top'},
+                                yaxis: {fixedrange: true, automargin: true},
 
-                            showlegend: true, font: {size: 12},
-                            autosize: true, width:1055,
-                            margin: { l: 50, r: 50, b: 30, t: 50 }
-                        };
+                                showlegend: true, font: {size: 12},
+                                autosize: true, width:1055,
+                                margin: { l: 50, r: 50, b: 30, t: 50 }
+                            };
 
-                        try { Plotly.newPlot('corre_pearson', data, layout, {displayModeBar: false, responsive: true}); } catch (error) { }
-                    </script>
+                            try { Plotly.newPlot(graph_id, data, layout, {displayModeBar: false, responsive: true}); } catch (error) { }
+                        }
 
-                    <!-- Heatmap Kendall - Plotly -->
-                    <script>
-                        var data = [
-                          {
-                            x: {{ corre_kendall_headers }}, y: {{ corre_kendall_headers }},
-                            z: {{ corre_kendall_values }},
-
-                            xgap : 1, ygap : 1,
-                            type: 'heatmap', zmin: -1, zmax: 1,
-
-                            colorscale: {{ heatmap_colorscale }},
-
-                            hoverongaps: false,
-                            hoverinfo: 'all',
-                            hovertemplate: "variable eje x: %{x}<br>variable eje y: %{y}<br>correlación: %{z}<extra></extra>"
-                          }
-                        ];
-                        var layout = {
-                            title: '',
-                            xaxis: {fixedrange: true, automargin: true, side: 'top'},
-                            yaxis: {fixedrange: true, automargin: true},
-
-                            showlegend: true, font: {size: 12},
-                            autosize: true, width:1055,
-                            margin: { l: 50, r: 50, b: 30, t: 50 }
-                        };
-
-                        try { Plotly.newPlot('corre_kendall', data, layout, {displayModeBar: false, responsive: true}); } catch (error) { }
-                    </script>
-
-                    <!-- Heatmap Spearman - Plotly -->
-                    <script>
-                        var data = [
-                          {
-                            x: {{ corre_spearman_headers }}, y: {{ corre_spearman_headers }},
-                            z: {{ corre_spearman_values }},
-
-                            xgap : 1, ygap : 1,
-                            type: 'heatmap', zmin: -1, zmax: 1,
-
-                            colorscale: {{ heatmap_colorscale }},
-
-                            hoverongaps: false,
-                            hoverinfo: 'all',
-                            hovertemplate: "variable eje x: %{x}<br>variable eje y: %{y}<br>correlación: %{z}<extra></extra>"
-                          }
-                        ];
-                        var layout = {
-                            title: '',
-                            xaxis: {fixedrange: true, automargin: true, side: 'top'},
-                            yaxis: {fixedrange: true, automargin: true},
-
-                            showlegend: true, font: {size: 12},
-                            autosize: true, width:1055,
-                            margin: { l: 50, r: 50, b: 30, t: 50 }
-                        };
-
-                        try { Plotly.newPlot('corre_spearman', data, layout, {displayModeBar: false, responsive: true}); } catch (error) { }
-                    </script>
-
-                    <!-- Heatmap Cramer - Plotly -->
-                    <script>
-                        var data = [
-                          {
-                            x: {{ corre_cramer_headers }}, y: {{ corre_cramer_headers }},
-                            z: {{ corre_cramer_values }},
-
-                            xgap : 1, ygap : 1,
-                            type: 'heatmap', zmin: -1, zmax: 1,
-
-                            colorscale: {{ heatmap_colorscale }},
-
-                            hoverongaps: false,
-                            hoverinfo: 'all',
-                            hovertemplate: "variable eje x: %{x}<br>variable eje y: %{y}<br>correlación: %{z}<extra></extra>"
-                          }
-                        ];
-                        var layout = {
-                            title: '',
-                            xaxis: {fixedrange: true, automargin: true, side: 'top'},
-                            yaxis: {fixedrange: true, automargin: true},
-
-                            showlegend: true, font: {size: 12},
-                            autosize: true, width:1055,
-                            margin: { l: 50, r: 50, b: 30, t: 50 }
-                        };
-
-                        try { Plotly.newPlot('corre_cramer', data, layout, {displayModeBar: false, responsive: true}); } catch (error) { }
-                    </script>
-
-                    <!-- Heatmap Phik - Plotly -->
-                    <script>
-                        var data = [
-                          {
-                            x: {{ corre_phik_headers }}, y: {{ corre_phik_headers }},
-                            z: {{ corre_phik_values }},
-
-                            xgap : 1, ygap : 1,
-                            type: 'heatmap', zmin: -1, zmax: 1,
-
-                            colorscale: {{ heatmap_colorscale }},
-
-                            hoverongaps: false,
-                            hoverinfo: 'all',
-                            hovertemplate: "variable eje x: %{x}<br>variable eje y: %{y}<br>correlación: %{z}<extra></extra>"
-                          }
-                        ];
-                        var layout = {
-                            title: '',
-                            xaxis: {fixedrange: true, automargin: true, side: 'top'},
-                            yaxis: {fixedrange: true, automargin: true},
-
-                            showlegend: true, font: {size: 12},
-                            autosize: true, width:1055,
-                            margin: { l: 50, r: 50, b: 30, t: 50 }
-                        };
-
-                        try { Plotly.newPlot('corre_phik', data, layout, {displayModeBar: false, responsive: true}); } catch (error) { }
+                        heatMap('corre_pearson', {{ corre_pearson_headers }}, {{ corre_pearson_values }});
+                        heatMap('corre_kendall', {{ corre_kendall_headers }}, {{ corre_kendall_values }});
+                        heatMap('corre_spearman', {{ corre_spearman_headers }}, {{ corre_spearman_values }});
+                        heatMap('corre_cramer', {{ corre_cramer_headers }}, {{ corre_cramer_values }});
+                        heatMap('corre_phik', {{ corre_phik_headers }}, {{ corre_phik_values }});
                     </script>
 
                     <script>
