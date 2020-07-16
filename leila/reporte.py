@@ -36,7 +36,7 @@ def df_as_html(base, id=None, classes=None):
 
 
 def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamiento',
-                    archivo='perfilamiento_leila.html'):
+                    archivo='perfilamiento_leila.html', castFloat=False):
     """Genera un reporte de calidad de datos en formato HTML
 
     :param df: (dataframe) base de datos de insumo para la generación del reporte de calidad de datos.
@@ -54,7 +54,7 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
 
     if api_id is not None:
         datos = datos_gov.cargar_base(api_id=api_id, token=token)
-        base = CalidadDatos(datos)
+        base = CalidadDatos(datos, castFloat=castFloat)
 
         inventario = datos_gov.tabla_inventario(token=token)
         df_metadatos = inventario[inventario['numero_api'] == api_id]
@@ -73,13 +73,13 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
         html_metadatos_tail = html_metadatos_tail.replace('@#$', '<br>')
         print('--------------------------------------------------------------------------------------------')
     else:
-        base = CalidadDatos(df)
+        base = CalidadDatos(df, castFloat=castFloat)
 
     timestamp = datetime.datetime.now()
     current_time = timestamp.strftime("%d-%m-%Y %I:%M:%S %p")
 
     # Estadísticas generales ----------------------------------------------------
-    dataframe_summary = base.resumen(filas_nounicas=False).to_frame().reset_index()
+    dataframe_summary = base.Resumen().to_frame().reset_index()
     dataframe_summary.columns = ['Categoría', 'Valor']
     html_data_summary_full = df_as_html(dataframe_summary)
     html_data_summary_head = df_as_html(dataframe_summary[:5])
@@ -95,7 +95,7 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
     dataframe_shape = str(df_shape[0]) + ' filas x ' + str(df_shape[1]) + ' columnas'
 
     # Tab 1 - Información general -----------------------------------------------
-    dataframe_descriptive_stats = base.descriptivas()
+    dataframe_descriptive_stats = base.DescripcionNumericas()
 
     header_list = None
     items = None
@@ -106,11 +106,11 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
         items = dataframe_descriptive_stats.values.tolist()
 
     # Tab 2 - Estadísticas descriptivas -----------------------------------------
-    tipo_df_low = base.col_tipo(detalle="bajo").to_frame()
-    tipo_df_high = base.col_tipo(detalle="alto").to_frame()
+    tipo_df_low = base.TipoColumnas(detalle="bajo").to_frame()
+    tipo_df_high = base.TipoColumnas(detalle="alto").to_frame()
     dataframe_descriptive_stats_2 = pd.merge(tipo_df_low, tipo_df_high, left_index=True, right_index=True, how='outer')
 
-    memoria_df = base.memoria(col=True).to_frame()
+    memoria_df = base.Memoria(col=True).to_frame()
     memoria_df = memoria_df.loc[~memoria_df.index.isin(['Index'])]
     dataframe_descriptive_stats_2 = pd.merge(dataframe_descriptive_stats_2, memoria_df, left_index=True,
                                              right_index=True, how='outer')
@@ -127,7 +127,7 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
     items_2 = dataframe_descriptive_stats_2.values.tolist()
 
     # Tab 3 - Frecuencia de valores únicos --------------------------------------
-    dataframe_unique_text = base.categorias()
+    dataframe_unique_text = base.DescripcionCategoricas()
     html_dataframe_unique_text = df_as_html(dataframe_unique_text)
     variables_list_3 = dataframe_unique_text.Columna.unique()
     columnas_list_3 = list(dataframe_unique_text)
@@ -137,12 +137,12 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
     html_dataframe_duplic_filas = None
     html_dataframe_duplic_colum = None
 
-    dataframe_duplic_filas = base.ValoresDuplicados(col=False)
-    if type(dataframe_duplic_filas) != str:
+    dataframe_duplic_filas = base.EmparejamientoDuplicados(col=False)
+    if dataframe_duplic_filas is not None:
         html_dataframe_duplic_filas = df_as_html(dataframe_duplic_filas)
 
-    dataframe_duplic_colum = base.ValoresDuplicados(col=True)
-    if type(dataframe_duplic_colum) != str:
+    dataframe_duplic_colum = base.EmparejamientoDuplicados(col=True)
+    if dataframe_duplic_colum is not None:
         html_dataframe_duplic_colum = df_as_html(dataframe_duplic_colum)
 
     # Gráficos correlaciones ----------------------------------------------------
@@ -160,35 +160,35 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
         ['1.000000000000', 'rgb(  5, 48, 97)']
     ]
     # Tab 1 - numérica - Pearson -----------------------------------------------------------
-    df_corre_pearson = base.correlacion(metodo="pearson")
+    df_corre_pearson = base.CorrelacionNumericas(metodo="pearson")
     corre_pearson_headers = list(df_corre_pearson)
 
     df_corre_pearson = df_corre_pearson.round(3).fillna('null')
     corre_pearson_values = df_corre_pearson.values.tolist()
 
     # Tab 2 - numérica - Kendall -----------------------------------------------------------
-    df_corre_kendall = base.correlacion(metodo="kendall")
+    df_corre_kendall = base.CorrelacionNumericas(metodo="kendall")
     corre_kendall_headers = list(df_corre_kendall)
 
     df_corre_kendall = df_corre_kendall.round(3).fillna('null')
     corre_kendall_values = df_corre_kendall.values.tolist()
 
     # Tab 3 - numérica - Pearson -----------------------------------------------------------
-    df_corre_spearman = base.correlacion(metodo="spearman")
+    df_corre_spearman = base.CorrelacionNumericas(metodo="spearman")
     corre_spearman_headers = list(df_corre_spearman)
 
     df_corre_spearman = df_corre_spearman.round(3).fillna('null')
     corre_spearman_values = df_corre_spearman.values.tolist()
 
     # Tab 4 - categórica - Cramer ----------------------------------------------------------
-    df_corre_cramer = base.correlacion_categoricas(tipo="cramer")
+    df_corre_cramer = base.CorrelacionCategoricas(metodo="cramer")
     corre_cramer_headers = list(df_corre_cramer)
 
     df_corre_cramer = df_corre_cramer.round(3).fillna('null')
     corre_cramer_values = df_corre_cramer.values.tolist()
 
     # Tab 5 - categórica - Phik ------------------------------------------------------------
-    df_corre_phik = base.correlacion_categoricas(tipo="phik")
+    df_corre_phik = base.CorrelacionCategoricas(metodo="phik")
     corre_phik_headers = list(df_corre_phik)
 
     df_corre_phik = df_corre_phik.round(3).fillna('null')
