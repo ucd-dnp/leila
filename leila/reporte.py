@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+# Created on Tue Jul 10
+# @author: jairo ruiz saenz
+
 import os
 import datetime
 import pandas as pd
@@ -44,7 +47,6 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
     :return: archivo de reporte en formato HTML.
     """
 
-    base = CalidadDatos(df)
     link_datos_abiertos = None
     html_metadatos_full = None
     html_metadatos_head = None
@@ -70,6 +72,8 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
         html_metadatos_head = html_metadatos_head.replace('@#$', '<br>')
         html_metadatos_tail = html_metadatos_tail.replace('@#$', '<br>')
         print('--------------------------------------------------------------------------------------------')
+    else:
+        base = CalidadDatos(df)
 
     timestamp = datetime.datetime.now()
     current_time = timestamp.strftime("%d-%m-%Y %I:%M:%S %p")
