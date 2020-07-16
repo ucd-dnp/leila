@@ -19,10 +19,10 @@ def df_as_html(base, id=None, classes=None):
 
     .. _Bootstrap v3.4: https://getbootstrap.com/docs/3.4/
 
-    :param id:
-    :param classes:
+    :param id: (str) id que se le desea asignar a la tabla.
+    :param classes: (list) lista de strings de las clases que se desean agregar a la tabla.
     :param base: (dataframe) dataframe de interés a ser transformado en tabla.
-    :return: código de tabla HTML con los datos del dataframe.
+    :return: código de la tabla en formato HTML con los datos del dataframe.
     """
     # html = base.to_html(table_id='mi_tabla', index=False, classes=['table', 'table-condensed', 'table-hover']) \
 
@@ -161,25 +161,26 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
     ]
     # Tab 1 - numérica - Pearson -----------------------------------------------------------
     df_corre_pearson = base.correlacion(metodo="pearson")
-    corre_numericas_headers = list(df_corre_pearson)
+    corre_pearson_headers = list(df_corre_pearson)
 
     df_corre_pearson = df_corre_pearson.round(3).fillna('null')
     corre_pearson_values = df_corre_pearson.values.tolist()
 
     # Tab 2 - numérica - Kendall -----------------------------------------------------------
     df_corre_kendall = base.correlacion(metodo="kendall")
+    corre_kendall_headers = list(df_corre_kendall)
+
     df_corre_kendall = df_corre_kendall.round(3).fillna('null')
     corre_kendall_values = df_corre_kendall.values.tolist()
 
     # Tab 3 - numérica - Pearson -----------------------------------------------------------
     df_corre_spearman = base.correlacion(metodo="spearman")
+    corre_spearman_headers = list(df_corre_spearman)
+
     df_corre_spearman = df_corre_spearman.round(3).fillna('null')
     corre_spearman_values = df_corre_spearman.values.tolist()
 
     # Tab 4 - categórica - Cramer ----------------------------------------------------------
-    # corre_categoricas_headers = None
-    # corre_cramer_values = None
-
     df_corre_cramer = base.correlacion_categoricas(tipo="cramer")
     corre_cramer_headers = list(df_corre_cramer)
 
@@ -192,7 +193,7 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
 
     df_corre_phik = df_corre_phik.round(3).fillna('null')
     corre_phik_values = df_corre_phik.values.tolist()
-    # -----------------------------------------------__________-----------------------------
+    # --------------------------------------------------------------------------------------
 
     # Configure Jinja and ready the loader    
     env = Environment(loader=FileSystemLoader(searchpath='.'))
@@ -226,9 +227,11 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
             html_dataframe_duplic_filas=html_dataframe_duplic_filas,
             html_dataframe_duplic_colum=html_dataframe_duplic_colum,
             heatmap_colorscale=heatmap_colorscale,
-            corre_numericas_headers=corre_numericas_headers,
+            corre_pearson_headers=corre_pearson_headers,
             corre_pearson_values=corre_pearson_values,
+            corre_kendall_headers=corre_kendall_headers,
             corre_kendall_values=corre_kendall_values,
+            corre_spearman_headers=corre_spearman_headers,
             corre_spearman_values=corre_spearman_values,
             corre_cramer_headers=corre_cramer_headers,
             corre_cramer_values=corre_cramer_values,
@@ -239,22 +242,10 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
 
     print('--------------------------------------------------------------------------------------------')
     print(f'Se ha generado el reporte "{ archivo }"')
-    print(timestamp.strftime("%I:%M:%S %p"))
+    t1 = timestamp.strftime("%I:%M:%S %p")
+    t2 = datetime.datetime.now()
+    tiempo = str(t2 - timestamp).split(":")
+    print(f"{t1} ({tiempo[1]} min {int(float(tiempo[2]))} seg)")
+
     print('--------------------------------------------------------------------------------------------')
     os.system(f'{ archivo }')
-
-
-def main():
-    # si se ingresan los parámetros api_id y df, el df correspondiente al api_id es utilizado y se ignora el df ingresado al invocar la función
-
-    # covid-19
-    generar_reporte(api_id="gt2j-8ykr", df=None)
-
-    # generar_reporte(df=pd.read_excel('x_test_data.xlsx'))
-
-    # generar_reporte(api_id="38wq-iims", df=pd.read_excel('x_test_data.xlsx'))
-    # generar_reporte(df=pd.read_excel('error_test_1.xlsx'))
-    # generar_reporte(df=pd.read_excel('error_test_2.xlsx'))
-
-if __name__ == "__main__":
-    main()

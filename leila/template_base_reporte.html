@@ -371,7 +371,7 @@
                                     <p class="descripcion">
                                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquam aperiam, aut consequatur error facere fuga illo iste, non nulla optio repellendus soluta temporibus? Beatae esse facilis ipsa nesciunt quibusdam.
                                     </p>
-                                    {% if corre_numericas_headers|length > 1 %}
+                                    {% if corre_pearson_headers|length > 1 %}
                                         <div class="row max_size_row2 aligned-row">
                                             <div class="col-md-12">
                                                 <div class="container">
@@ -379,6 +379,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    <p>* En caso de ver mal los labels del eje x, ajustar el zoom del navegador.</p>
                                     {% else %}
                                         <p><strong>* La base de datos no tiene columnas numéricas para el cálculo de correlaciones</strong></p>
                                     {% endif %}
@@ -390,7 +391,7 @@
                                     <p class="descripcion">
                                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquam aperiam, aut consequatur error facere fuga illo iste, non nulla optio repellendus soluta temporibus? Beatae esse facilis ipsa nesciunt quibusdam.
                                     </p>
-                                    {% if corre_numericas_headers|length > 1 %}
+                                    {% if corre_kendall_headers|length > 1 %}
                                         <div class="row max_size_row2 aligned-row">
                                             <div class="col-md-12">
                                                 <div class="container">
@@ -398,6 +399,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    <p>* En caso de ver mal los labels del eje x, ajustar el zoom del navegador.</p>
                                     {% else %}
                                         <p><strong>* La base de datos no tiene columnas numéricas para el cálculo de correlaciones</strong></p>
                                     {% endif %}
@@ -409,7 +411,7 @@
                                     <p class="descripcion">
                                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquam aperiam, aut consequatur error facere fuga illo iste, non nulla optio repellendus soluta temporibus? Beatae esse facilis ipsa nesciunt quibusdam.
                                     </p>
-                                    {% if corre_numericas_headers|length > 1 %}
+                                    {% if corre_spearman_headers|length > 1 %}
                                         <div class="row max_size_row2 aligned-row">
                                             <div class="col-md-12">
                                                 <div class="container">
@@ -417,6 +419,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    <p>* En caso de ver mal los labels del eje x, ajustar el zoom del navegador.</p>
                                     {% else %}
                                         <p><strong>* La base de datos no tiene columnas numéricas para el cálculo de correlaciones</strong></p>
                                     {% endif %}
@@ -436,6 +439,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    <p>* En caso de ver mal los labels del eje x, ajustar el zoom del navegador.</p>
                                     {% else %}
                                         <p><strong>* La base de datos no tiene columnas categóricas para el cálculo de correlaciones</strong></p>
                                     {% endif %}
@@ -455,15 +459,12 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    <p>* En caso de ver mal los labels del eje x, ajustar el zoom del navegador.</p>
                                     {% else %}
                                         <p><strong>* La base de datos no tiene columnas categóricas para el cálculo de correlaciones</strong></p>
                                     {% endif %}
                                 </div>
                             </div>
-                            {% if corre_numericas_headers|length > 1 %}
-                                <p>* En caso de ver mal los labels del eje x, ajustar el zoom del navegador.</p>
-                            {% endif %}
-                            <br>
                         </div>
                     </div>
 
@@ -619,7 +620,7 @@
                     <script>
                         var data = [
                           {
-                            x: {{ corre_numericas_headers }}, y: {{ corre_numericas_headers }},
+                            x: {{ corre_pearson_headers }}, y: {{ corre_pearson_headers }},
                             z: {{ corre_pearson_values }},
 
                             xgap : 1, ygap : 1,
@@ -649,7 +650,7 @@
                     <script>
                         var data = [
                           {
-                            x: {{ corre_numericas_headers }}, y: {{ corre_numericas_headers }},
+                            x: {{ corre_kendall_headers }}, y: {{ corre_kendall_headers }},
                             z: {{ corre_kendall_values }},
 
                             xgap : 1, ygap : 1,
@@ -679,7 +680,7 @@
                     <script>
                         var data = [
                           {
-                            x: {{ corre_numericas_headers }}, y: {{ corre_numericas_headers }},
+                            x: {{ corre_spearman_headers }}, y: {{ corre_spearman_headers }},
                             z: {{ corre_spearman_values }},
 
                             xgap : 1, ygap : 1,
