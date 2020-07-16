@@ -24,15 +24,15 @@ class CalidadDatos:
             analizada por la clase CalidadDatos.
         param castFloat: (bool) {True, False}. Valor por defecto: False \
             Indica si se desea convertir las columnas de tipos object y \
-                bool a float, de ser posible
+            bool a float, de ser posible
         param diccionarioCast: (dict) { {nombre_columna : tipo_columna} } \
             Diccionario donde se especifican los tipos a que se desean \
-                convertir las columnas (string, numerico, booleano, fecha, \
-                                        categorico)
+            convertir las columnas (string, numerico, booleano, fecha, \
+            categorico)
         param errores: (string) {'ignore', 'coerce', 'raise'}\
             Valor por defecto: 'ignore'. Indica qué hacer con las columnas \
-                cuyo tipo no se puede cambiar al solicitado en \
-                    'diccionarioCast'
+            cuyo tipo no se puede cambiar al solicitado en \
+            'diccionarioCast'
         
         Returns
         -------
@@ -482,7 +482,7 @@ class CalidadDatos:
         # Filtrar por el número de categorías únicas en cada variable
         if categoriasMaximas>0:
             categorias_unicas=base.nunique()
-            categorias_unicas=categorias_unicas.loc[categorias_unicas<=categorias_maximas].index
+            categorias_unicas=categorias_unicas.loc[categorias_unicas<=categoriasMaximas].index
             base=base[categorias_unicas]
         else:
             raise ValueError('"categoriasMaximas" tiene que un ´numero mayor a 0"')
