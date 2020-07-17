@@ -9,7 +9,7 @@ import pandas as pd
 from jinja2 import FileSystemLoader
 from jinja2 import Environment
 
-# sphinx
+# Se deben usar estos imports para que funcione correctamente Sphinx
 # from calidad_datos import CalidadDatos
 # from datos_gov import *
 
