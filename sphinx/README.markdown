@@ -81,7 +81,7 @@ make html
 make latex
 cd build
 cd latex
-pdflatex calidaddedatos.tex
+pdflatex leila.tex
 
 
 ## A Collection of Issues about the LaTeX Output in Sphinx and the Solutions

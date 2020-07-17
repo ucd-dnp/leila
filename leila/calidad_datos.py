@@ -832,7 +832,7 @@ class CalidadDatos:
             por comas. Permite escoger las columnas de interés de análisis \
             del dataframe
         :return: dataframe con las correlaciones de las columnas de tipo \
-            numérico analizadas.
+            categórica analizadas.
         """
         base=self.base.copy()
         
@@ -908,8 +908,8 @@ class CalidadDatos:
         return correlacion_final
       
     # Función de soporte para calcular coeficiente de correlación Cramer V 
-    #(para usar en la función de las matrices de correlación entre variables categóricas)
-    #poner privada.
+    # (para usar en la función de las matrices de correlación entre variables categóricas)
+    # poner privada.
     def correlacion_cramerv(self, x, y):
         confusion_matrix = pd.crosstab(x,y)
         chi2 = sstats.chi2_contingency(confusion_matrix)[0]
@@ -921,4 +921,3 @@ class CalidadDatos:
         kcorr = k-((k-1)**2)/(n-1)
         return np.sqrt(phi2corr/min((kcorr-1),(rcorr-1)))    
 
-    

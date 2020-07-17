@@ -99,8 +99,8 @@
 </ul>
 <p class="caption"><span class="caption-text">Módulos y funciones:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="datos.html">Datos</a></li>
-<li class="toctree-l1"><a class="reference internal" href="metadatos.html">Metadatos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="calidad_datos.html">Calidad datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datos_gov.html">Datos gov</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reporte.html">Reporte</a></li>
 </ul>
 
@@ -176,22 +176,15 @@
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#M"><strong>M</strong></a>
- | <a href="#N"><strong>N</strong></a>
- | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
- | <a href="#S"><strong>S</strong></a>
- | <a href="#U"><strong>U</strong></a>
+ | <a href="#T"><strong>T</strong></a>
  | <a href="#V"><strong>V</strong></a>
  
 </div>
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="metadatos.html#metadatos.asset_inventory">asset_inventory() (en el módulo metadatos)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="metadatos.html#metadatos.asset_inventory_espanol">asset_inventory_espanol() (en el módulo metadatos)</a>
+      <li><a href="datos_gov.html#datos_gov.asset_inventory_espanol">asset_inventory_espanol() (en el módulo datos_gov)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -199,15 +192,26 @@
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="datos.html#datos.categorias">categorias() (en el módulo datos)</a>
+      <li>
+    calidad_datos
+
+      <ul>
+        <li><a href="calidad_datos.html#module-calidad_datos">módulo</a>
 </li>
-      <li><a href="datos.html#datos.col_tipo">col_tipo() (en el módulo datos)</a>
+      </ul></li>
+      <li><a href="calidad_datos.html#calidad_datos.CalidadDatos">CalidadDatos (clase en calidad_datos)</a>
+</li>
+      <li><a href="calidad_datos.html#calidad_datos.CalidadDatos.CantidadDuplicados">CantidadDuplicados() (método de calidad_datos.CalidadDatos)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="metadatos.html#metadatos.comparar_tamano">comparar_tamano() (en el módulo metadatos)</a>
+      <li><a href="datos_gov.html#datos_gov.cargar_base">cargar_base() (en el módulo datos_gov)</a>
 </li>
-      <li><a href="datos.html#datos.correlacion">correlacion() (en el módulo datos)</a>
+      <li><a href="calidad_datos.html#calidad_datos.CalidadDatos.correlacion_cramerv">correlacion_cramerv() (método de calidad_datos.CalidadDatos)</a>
+</li>
+      <li><a href="calidad_datos.html#calidad_datos.CalidadDatos.CorrelacionCategoricas">CorrelacionCategoricas() (método de calidad_datos.CalidadDatos)</a>
+</li>
+      <li><a href="calidad_datos.html#calidad_datos.CalidadDatos.CorrelacionNumericas">CorrelacionNumericas() (método de calidad_datos.CalidadDatos)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -216,17 +220,17 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li>
-    datos
+    datos_gov
 
       <ul>
-        <li><a href="datos.html#module-datos">módulo</a>
+        <li><a href="datos_gov.html#module-datos_gov">módulo</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="datos.html#datos.descriptivas">descriptivas() (en el módulo datos)</a>
+      <li><a href="calidad_datos.html#calidad_datos.CalidadDatos.DescripcionCategoricas">DescripcionCategoricas() (método de calidad_datos.CalidadDatos)</a>
 </li>
-      <li><a href="datos.html#datos.duplic">duplic() (en el módulo datos)</a>
+      <li><a href="calidad_datos.html#calidad_datos.CalidadDatos.DescripcionNumericas">DescripcionNumericas() (método de calidad_datos.CalidadDatos)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -234,7 +238,7 @@
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="datos.html#datos.extremos">extremos() (en el módulo datos)</a>
+      <li><a href="calidad_datos.html#calidad_datos.CalidadDatos.EmparejamientoDuplicados">EmparejamientoDuplicados() (método de calidad_datos.CalidadDatos)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -242,11 +246,7 @@
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="datos.html#datos.faltantes">faltantes() (en el módulo datos)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="metadatos.html#metadatos.filtrar_asset">filtrar_asset() (en el módulo metadatos)</a>
+      <li><a href="datos_gov.html#datos_gov.filtrar_tabla">filtrar_tabla() (en el módulo datos_gov)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -262,46 +262,19 @@
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="datos.html#datos.memoria">memoria() (en el módulo datos)</a>
+      <li><a href="calidad_datos.html#calidad_datos.CalidadDatos.Memoria">Memoria() (método de calidad_datos.CalidadDatos)</a>
 </li>
-      <li>
-    metadatos
-
-      <ul>
-        <li><a href="metadatos.html#module-metadatos">módulo</a>
-</li>
-      </ul></li>
-      <li><a href="metadatos.html#metadatos.mostrar_metadatos">mostrar_metadatos() (en el módulo metadatos)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     módulo
 
       <ul>
-        <li><a href="datos.html#module-datos">datos</a>
+        <li><a href="calidad_datos.html#module-calidad_datos">calidad_datos</a>
 </li>
-        <li><a href="metadatos.html#module-metadatos">metadatos</a>
+        <li><a href="datos_gov.html#module-datos_gov">datos_gov</a>
 </li>
         <li><a href="reporte.html#module-reporte">reporte</a>
 </li>
       </ul></li>
-  </ul></td>
-</tr></table>
-
-<h2 id="N">N</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="datos.html#datos.nounicos">nounicos() (en el módulo datos)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="P">P</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="metadatos.html#metadatos.pagina_metadatos">pagina_metadatos() (en el módulo metadatos)</a>
-</li>
   </ul></td>
 </tr></table>
 
@@ -317,23 +290,19 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="datos.html#datos.resumen_base">resumen_base() (en el módulo datos)</a>
+      <li><a href="calidad_datos.html#calidad_datos.CalidadDatos.Resumen">Resumen() (método de calidad_datos.CalidadDatos)</a>
 </li>
   </ul></td>
 </tr></table>
 
-<h2 id="S">S</h2>
+<h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="metadatos.html#metadatos.sodapy_base">sodapy_base() (en el módulo metadatos)</a>
+      <li><a href="datos_gov.html#datos_gov.tabla_inventario">tabla_inventario() (en el módulo datos_gov)</a>
 </li>
   </ul></td>
-</tr></table>
-
-<h2 id="U">U</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="datos.html#datos.unicos">unicos() (en el módulo datos)</a>
+      <li><a href="calidad_datos.html#calidad_datos.CalidadDatos.TipoColumnas">TipoColumnas() (método de calidad_datos.CalidadDatos)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -341,7 +310,15 @@
 <h2 id="V">V</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="datos.html#datos.varianza_percentil">varianza_percentil() (en el módulo datos)</a>
+      <li><a href="calidad_datos.html#calidad_datos.CalidadDatos.ValoresExtremos">ValoresExtremos() (método de calidad_datos.CalidadDatos)</a>
+</li>
+      <li><a href="calidad_datos.html#calidad_datos.CalidadDatos.ValoresFaltantes">ValoresFaltantes() (método de calidad_datos.CalidadDatos)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="calidad_datos.html#calidad_datos.CalidadDatos.ValoresUnicos">ValoresUnicos() (método de calidad_datos.CalidadDatos)</a>
+</li>
+      <li><a href="calidad_datos.html#calidad_datos.CalidadDatos.VarianzaEnPercentil">VarianzaEnPercentil() (método de calidad_datos.CalidadDatos)</a>
 </li>
   </ul></td>
 </tr></table>

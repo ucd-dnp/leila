@@ -76,7 +76,7 @@
 
 
 \title{LEILA}
-\date{09 de julio de 2020}
+\date{16 de julio de 2020}
 \release{1.0}
 \author{UCD \sphinxhyphen{} DNP}
 \newcommand{\sphinxlogo}{\vbox{}}
@@ -103,7 +103,7 @@
 
 \chapter{Introducción}
 \label{\detokenize{introduccion:introduccion}}\label{\detokenize{introduccion::doc}}
-La librería de calidad de datos tiene como objetivo principal ser una herramienta que facilite la verificación de contenido de bases de datos y dé métricas de calidad para que usuarios puedan decidir si sus bases de datos necesitan modificarse para ser utilizadas en los proyectos. La librería fue escrita en el lenguaje de programación de \sphinxstyleemphasis{Python} y puede analizar bases de datos estructurados que se conviertan en objetos \sphinxstyleemphasis{dataframe}. Contiene tres módulos principales, el módulo {\hyperref[\detokenize{datos:datos}]{\sphinxcrossref{\DUrole{std,std-ref}{Datos}}}} para analizar cualquier base de datos, el módulo {\hyperref[\detokenize{metadatos:metadatos}]{\sphinxcrossref{\DUrole{std,std-ref}{Metadatos}}}} para conectarse con los metadatos del Portal de \sphinxhref{https://www.datos.gov.co/}{Datos Abiertos de Colombia} y utilizar sus bases de datos, y por último el módulo de {\hyperref[\detokenize{reporte:reporte}]{\sphinxcrossref{\DUrole{std,std-ref}{Reporte}}}} para exportar los resultados obtenidos en los dos anteriores.
+La librería de calidad de datos tiene como objetivo principal ser una herramienta que facilite la verificación de contenido de bases de datos y dé métricas de calidad para que usuarios puedan decidir si sus bases de datos necesitan modificarse para ser utilizadas en los proyectos. La librería fue escrita en el lenguaje de programación de \sphinxstyleemphasis{Python} y puede analizar bases de datos estructurados que se conviertan en objetos \sphinxstyleemphasis{dataframe}. Contiene tres módulos principales, el módulo {\hyperref[\detokenize{calidad_datos:calidad-datos}]{\sphinxcrossref{\DUrole{std,std-ref}{Calidad datos}}}} para analizar cualquier base de datos, el módulo {\hyperref[\detokenize{datos_gov:datos-gov}]{\sphinxcrossref{\DUrole{std,std-ref}{Datos gov}}}} para conectarse con los metadatos del Portal de \sphinxhref{https://www.datos.gov.co/}{Datos Abiertos de Colombia} y utilizar sus bases de datos, y por último el módulo de {\hyperref[\detokenize{reporte:reporte}]{\sphinxcrossref{\DUrole{std,std-ref}{Reporte}}}} para exportar los resultados obtenidos en los dos anteriores.
 
 La librería surge como resultado de un proyecto realizado entre la UCD (Unidad de Científicos de Datos \sphinxhyphen{} DNP) y el Ministerio de Tecnologías de la Información y las Comunicaciones (\sphinxhref{https://www.mintic.gov.co/portal/inicio/}{MinTIC}) relacionado con realizar análisis descriptivos de la calidad de la información cargada al portal de Datos Abiertos de Colombia, durante el desarrollo del proyecto se identifica el interés por parte de diferentes actores en el proyecto al igual que el beneficio potencial de tener a la mano una librería que facilite describir la calidad de una base de datos, lo cual motivó a realizar la implementación de la librería.
 
@@ -141,7 +141,8 @@ En linux:
 En Windows:
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{g+go}{source env/Scripts/activate}
+\PYG{g+go}{cd env/Scripts}
+\PYG{g+go}{activate}
 \end{sphinxVerbatim}
 \end{quote}
 
@@ -175,213 +176,27 @@ Para desactivar el entorno virtual usar el comando deactivate
 \end{enumerate}
 
 
-\chapter{Datos}
-\label{\detokenize{datos:datos}}\label{\detokenize{datos:id1}}\label{\detokenize{datos::doc}}
+\chapter{Calidad datos}
+\label{\detokenize{calidad_datos:calidad-datos}}\label{\detokenize{calidad_datos:id1}}\label{\detokenize{calidad_datos::doc}}
 Este módulo se enfoca en analizar cualquier base de datos (dataframe) de interes para el usuario. Se tiene acceso a funciones de estadísticas descriptivas, cálculo de memoria, registros duplicados, faltantes y otras.
 
-\phantomsection\label{\detokenize{datos:module-datos}}\index{módulo@\spxentry{módulo}!datos@\spxentry{datos}}\index{datos@\spxentry{datos}!módulo@\spxentry{módulo}}\index{categorias() (en el módulo datos)@\spxentry{categorias()}\spxextra{en el módulo datos}}
+\phantomsection\label{\detokenize{calidad_datos:module-calidad_datos}}\index{módulo@\spxentry{módulo}!calidad\_datos@\spxentry{calidad\_datos}}\index{calidad\_datos@\spxentry{calidad\_datos}!módulo@\spxentry{módulo}}\index{CalidadDatos (clase en calidad\_datos)@\spxentry{CalidadDatos}\spxextra{clase en calidad\_datos}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{datos:datos.categorias}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{datos.}}\sphinxbfcode{\sphinxupquote{categorias}}}{\emph{\DUrole{n}{base}}, \emph{\DUrole{n}{limite}\DUrole{o}{=}\DUrole{default_value}{0.5}}, \emph{\DUrole{n}{transformar\_nums}\DUrole{o}{=}\DUrole{default_value}{False}}, \emph{\DUrole{n}{variables}\DUrole{o}{=}\DUrole{default_value}{None}}}{}
-Genera una tabla con los primeros 10 valores más frecuentes de las columnas de tipo texto del dataframe, además calcula su frecuencia y porcentaje dentro del total de observaciones. Incluye los valores faltantes.
+\phantomsection\label{\detokenize{calidad_datos:calidad_datos.CalidadDatos}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{calidad\_datos.}}\sphinxbfcode{\sphinxupquote{CalidadDatos}}}{\emph{\DUrole{n}{\_base}}, \emph{\DUrole{n}{castFloat}\DUrole{o}{=}\DUrole{default_value}{False}}, \emph{\DUrole{n}{diccionarioCast}\DUrole{o}{=}\DUrole{default_value}{None}}, \emph{\DUrole{n}{errores}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}ignore\textquotesingle{}}}, \emph{\DUrole{n}{formato\_fecha}\DUrole{o}{=}\DUrole{default_value}{None}}}{}
+Bases: \sphinxcode{\sphinxupquote{object}}
+\index{CantidadDuplicados() (método de calidad\_datos.CalidadDatos)@\spxentry{CantidadDuplicados()}\spxextra{método de calidad\_datos.CalidadDatos}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{calidad_datos:calidad_datos.CalidadDatos.CantidadDuplicados}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{CantidadDuplicados}}}{\emph{\DUrole{n}{eje}\DUrole{o}{=}\DUrole{default_value}{0}}, \emph{\DUrole{n}{porc}\DUrole{o}{=}\DUrole{default_value}{True}}}{}
+Retorna el porcentaje/número de             filas o columnas duplicadas (repetidas) en el dataframe.
 \begin{quote}\begin{description}
 \item[{Parámetros}] \leavevmode\begin{itemize}
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{base}} \textendash{} (dataframe) base de datos de interés a ser analizada.
+\sphinxstyleliteralstrong{\sphinxupquote{eje}} \textendash{} (int) \{1, 0\}, valor por defecto: 0. Si el valor             es 1 la validación se realiza por columnas, si el valor es                 0 la validación se realiza por filas.
 
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{limite}} \textendash{} (float) (valor de 0 a 1) límite de referencia, se utiliza para determinar si las variables posiblemente son de tipo categóricas y ser incluidas en el análisis. Si el número de valores únicos por columna es mayor al número de registros * limit, se considera que la variable no es categórica.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{transformar\_nums}} \textendash{} (bool) \{True, False\}, determina si se desea considerar las variables como categóricas e incluirlas en el análisis. Si el valor es True se incluyen las variables numéricas en el análisis, si el valor es False no se incluyen las variables numéricas en el análisis.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{variables}} \textendash{} (list) lista de nombres de las columnas separados por comas. Permite escoger las columnas de interés de análisis del dataframe
-
-\end{itemize}
-
-\item[{Devuelve}] \leavevmode
-dataframe con las estadísticas descriptivas de las columnas de tipo texto.
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-\index{col\_tipo() (en el módulo datos)@\spxentry{col\_tipo()}\spxextra{en el módulo datos}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{datos:datos.col_tipo}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{datos.}}\sphinxbfcode{\sphinxupquote{col\_tipo}}}{\emph{\DUrole{n}{base}}, \emph{\DUrole{n}{detalle}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}bajo\textquotesingle{}}}}{}
-Retorna el tipo de dato de cada columna del dataframe, se clasifican como de tipo numérico, texto, boolean u otro.
-\begin{quote}\begin{description}
-\item[{Parámetros}] \leavevmode\begin{itemize}
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{base}} \textendash{} (dataframe) base de datos de interés a ser analizada.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{detalle}} \textendash{} (str) \{“bajo”, “alto”\}, valor por defecto: “bajo”. Indica el nivel de detalle en la descripción del tipo.
-
-\end{itemize}
-
-\item[{Devuelve}] \leavevmode
-serie de pandas con el tipo de dato de cada columna.
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-\index{correlacion() (en el módulo datos)@\spxentry{correlacion()}\spxextra{en el módulo datos}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{datos:datos.correlacion}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{datos.}}\sphinxbfcode{\sphinxupquote{correlacion}}}{\emph{\DUrole{n}{base}}, \emph{\DUrole{n}{metodo}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}pearson\textquotesingle{}}}, \emph{\DUrole{n}{variables}\DUrole{o}{=}\DUrole{default_value}{None}}}{}
-Genera una matriz de correlación entre las variables de tipo numérico
-\begin{quote}\begin{description}
-\item[{Parámetros}] \leavevmode\begin{itemize}
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{base}} \textendash{} (dataframe) base de datos de interés a ser analizada.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{metodo}} \textendash{} (str) \{“pearson”, “kendall”, “spearman”\}, valor por defecto: “pearson”. Medida de correlación a utilizar.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{variables}} \textendash{} (list) lista de nombres de las columnas separados por comas. Permite escoger las columnas de interés de análisis del dataframe
-
-\end{itemize}
-
-\item[{Devuelve}] \leavevmode
-dataframe con las correlaciones de las columnas de tipo numérico analizadas.
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-\index{descriptivas() (en el módulo datos)@\spxentry{descriptivas()}\spxextra{en el módulo datos}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{datos:datos.descriptivas}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{datos.}}\sphinxbfcode{\sphinxupquote{descriptivas}}}{\emph{\DUrole{n}{base}}, \emph{\DUrole{n}{float\_transformar}\DUrole{o}{=}\DUrole{default_value}{False}}}{}
-Calcula estadísticas descriptivas de cada columna numérica. Incluyen media, mediana, valores en distintos percentiles, desviación estándar, valores extremos y porcentaje de valores faltantes.
-\begin{quote}\begin{description}
-\item[{Parámetros}] \leavevmode\begin{itemize}
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{base}} \textendash{} (dataframe) base de datos de interés a ser analizada.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{float\_transformar}} \textendash{} (bool) \{True, False\}, valor por defecto: True. Si el valor es True se intenta realizar una transformación de valores de texto a numérico (float) para ser incluidas en el análisis, si el valor es False no se intenta realizar la transformación.
-
-\end{itemize}
-
-\item[{Devuelve}] \leavevmode
-dataframe con las estadísticas descriptivas.
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-\index{duplic() (en el módulo datos)@\spxentry{duplic()}\spxextra{en el módulo datos}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{datos:datos.duplic}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{datos.}}\sphinxbfcode{\sphinxupquote{duplic}}}{\emph{\DUrole{n}{base}}, \emph{\DUrole{n}{col}\DUrole{o}{=}\DUrole{default_value}{True}}}{}
-Retorna las columnas o filas que presenten valores duplicados del dataframe.
-\begin{quote}\begin{description}
-\item[{Parámetros}] \leavevmode\begin{itemize}
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{base}} \textendash{} (dataframe) base de datos de interés a ser analizada.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{col}} \textendash{} (bool) \{True, False\}, valor por defecto: True. Si el valor es True la validación se realiza por columnas, si el valor es False la validación se realiza por filas.
-
-\end{itemize}
-
-\item[{Devuelve}] \leavevmode
-matriz (dataframe) que relaciona las indices de filas/nombre de columnas que presentan valores duplicados.
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-\index{extremos() (en el módulo datos)@\spxentry{extremos()}\spxextra{en el módulo datos}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{datos:datos.extremos}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{datos.}}\sphinxbfcode{\sphinxupquote{extremos}}}{\emph{\DUrole{n}{base}}, \emph{\DUrole{n}{extremos}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}ambos\textquotesingle{}}}, \emph{\DUrole{n}{porc}\DUrole{o}{=}\DUrole{default_value}{True}}}{}
-Calcula el porcentaje o cantidad de outliers de cada columna numérica (las columnas con números en formato string se intentarán transformar a columnas numéricas)
-\begin{quote}\begin{description}
-\item[{Parámetros}] \leavevmode\begin{itemize}
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{base}} \textendash{} (dataframe) base de datos de interés a ser analizada.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{extremos}} \textendash{} (str) \{“superior”, “inferior”, “ambos”\}, valor por defecto: “ambos”. Si el valor es “\sphinxstylestrong{inferior}” se tienen en cuenta los registros con valor menor al límite inferior calculado por la metodología de valor atípico por rango intercuartílico. Si el valor es “\sphinxstylestrong{superior}” se tienen en cuenta los registros con valor mayor al límite superior calculado por la metodología de valor atípico por rango intercuartílico. Si el valor es “\sphinxstylestrong{ambos}” se tienen en cuenta los registros con valor menor al límite inferior calculado por la metodología de valor atípico por rango intercuartílico, y también aquellos con valor mayor al límite superior calculado por la metodología de valor atípico por rango intercuartílico.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{porc}} \textendash{} (bool) \{True, False\}, valor por defecto: True. Si el valor es True el resultado se expresa como un porcentaje, si el valor es False el valor se expresa como una cantidad de registros (número entero).
-
-\end{itemize}
-
-\item[{Devuelve}] \leavevmode
-serie de pandas con la cantidad/porcentaje de valores outliers de cada columna.
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-\index{faltantes() (en el módulo datos)@\spxentry{faltantes()}\spxextra{en el módulo datos}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{datos:datos.faltantes}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{datos.}}\sphinxbfcode{\sphinxupquote{faltantes}}}{\emph{\DUrole{n}{base}}, \emph{\DUrole{n}{porc}\DUrole{o}{=}\DUrole{default_value}{True}}}{}
-Calcula el porcentaje/número de valores faltantes de cada columna del dataframe.
-\begin{quote}\begin{description}
-\item[{Parámetros}] \leavevmode\begin{itemize}
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{base}} \textendash{} (dataframe) base de datos de interés a ser analizada.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{porc}} \textendash{} (bool) \{True, False\}, valor por defecto: True. Si el valor es True el resultado se expresa como un porcentaje, si el valor es False el valor se expresa como una cantidad de registros (número entero).
-
-\end{itemize}
-
-\item[{Devuelve}] \leavevmode
-serie de pandas con la cantidad/porcentaje de valores faltantes de cada columna.
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-\index{memoria() (en el módulo datos)@\spxentry{memoria()}\spxextra{en el módulo datos}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{datos:datos.memoria}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{datos.}}\sphinxbfcode{\sphinxupquote{memoria}}}{\emph{\DUrole{n}{base}}, \emph{\DUrole{n}{col}\DUrole{o}{=}\DUrole{default_value}{False}}}{}
-Calcula el tamaño de la base de datos en memoria (megabytes)
-\begin{quote}\begin{description}
-\item[{Parámetros}] \leavevmode\begin{itemize}
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{base}} \textendash{} (dataframe) base de datos de interés a ser analizada.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{col}} \textendash{} (bool) \{True, False\}, valor por defecto: False. Si el valor es False realiza el cálculo de memoria del dataframe completo, si el valor es True realiza el cálculo de memoria por cada columna del dataframe.
-
-\end{itemize}
-
-\item[{Devuelve}] \leavevmode
-valor (float) del tamaño de la base de datos en megabytes (si el parámetro col es False). Serie de pandas con el cálculo de memoria en megabytes por cada columna del dataframe. (si el parámetro col es True).
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-\index{nounicos() (en el módulo datos)@\spxentry{nounicos()}\spxextra{en el módulo datos}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{datos:datos.nounicos}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{datos.}}\sphinxbfcode{\sphinxupquote{nounicos}}}{\emph{\DUrole{n}{base}}, \emph{\DUrole{n}{col}\DUrole{o}{=}\DUrole{default_value}{True}}, \emph{\DUrole{n}{porc}\DUrole{o}{=}\DUrole{default_value}{True}}}{}
-Valida la unicidad del dataframe, retorna el porcentaje/número de filas o columnas no únicas en el dataframe.
-\begin{quote}\begin{description}
-\item[{Parámetros}] \leavevmode\begin{itemize}
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{base}} \textendash{} (dataframe) base de datos de interés a ser analizada.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{col}} \textendash{} (bool) \{True, False\}, valor por defecto: True. Si el valor es True la validación se realiza por columnas, si el valor es False la validación se realiza por filas.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{porc}} \textendash{} (bool) \{True, False\}, valor por defecto: True. Si el valor es True el resultado se expresa como un porcentaje, si el valor es False el valor se expresa como una cantidad de registros (número entero).
+\sphinxstyleliteralstrong{\sphinxupquote{porc}} \textendash{} (bool) \{True, False\}, valor por defecto: True. Si el             valor es True el resultado se expresa como un cociente, si el                 valor es False el valor se expresa como una cantidad de                     registros (número entero).
 
 \end{itemize}
 
@@ -392,54 +207,172 @@ Valida la unicidad del dataframe, retorna el porcentaje/número de filas o colum
 
 \end{fulllineitems}
 
-\index{resumen\_base() (en el módulo datos)@\spxentry{resumen\_base()}\spxextra{en el módulo datos}}
+\index{CorrelacionCategoricas() (método de calidad\_datos.CalidadDatos)@\spxentry{CorrelacionCategoricas()}\spxextra{método de calidad\_datos.CalidadDatos}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{datos:datos.resumen_base}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{datos.}}\sphinxbfcode{\sphinxupquote{resumen\_base}}}{\emph{\DUrole{n}{base}}, \emph{\DUrole{n}{filas}\DUrole{o}{=}\DUrole{default_value}{True}}, \emph{\DUrole{n}{columnas}\DUrole{o}{=}\DUrole{default_value}{True}}, \emph{\DUrole{n}{col\_numericas}\DUrole{o}{=}\DUrole{default_value}{True}}, \emph{\DUrole{n}{col\_texto}\DUrole{o}{=}\DUrole{default_value}{True}}, \emph{\DUrole{n}{col\_booleanas}\DUrole{o}{=}\DUrole{default_value}{True}}, \emph{\DUrole{n}{col\_fecha}\DUrole{o}{=}\DUrole{default_value}{True}}, \emph{\DUrole{n}{col\_otro}\DUrole{o}{=}\DUrole{default_value}{True}}, \emph{\DUrole{n}{filas\_nounicas}\DUrole{o}{=}\DUrole{default_value}{True}}, \emph{\DUrole{n}{columnas\_nounicas}\DUrole{o}{=}\DUrole{default_value}{False}}, \emph{\DUrole{n}{col\_faltantes}\DUrole{o}{=}\DUrole{default_value}{True}}, \emph{\DUrole{n}{col\_extremos}\DUrole{o}{=}\DUrole{default_value}{True}}, \emph{\DUrole{n}{memoria\_total}\DUrole{o}{=}\DUrole{default_value}{True}}}{}
-Retorna una tabla con información general de la base de datos.
-Incluye número de filas y columnas, número de columnas de tipo numéricas, de texto, booleanas, fecha y otros,
-número de filas y columnas no únicas, número de columnas con más de la mitad de las observaciones con datos faltantes,
-número de columnas con más del 10\% de observaciones con datos extremos y el tamaño de la base de datos en memoria.
+\phantomsection\label{\detokenize{calidad_datos:calidad_datos.CalidadDatos.CorrelacionCategoricas}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{CorrelacionCategoricas}}}{\emph{\DUrole{n}{metodo}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}phik\textquotesingle{}}}, \emph{\DUrole{n}{limite}\DUrole{o}{=}\DUrole{default_value}{0.5}}, \emph{\DUrole{n}{categoriasMaximas}\DUrole{o}{=}\DUrole{default_value}{30}}, \emph{\DUrole{n}{variables}\DUrole{o}{=}\DUrole{default_value}{None}}}{}
+Genera una matriz de correlación entre las variables de tipo categóricas
 \begin{quote}\begin{description}
 \item[{Parámetros}] \leavevmode\begin{itemize}
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{base}} \textendash{} (dataframe) base de datos de interés a ser analizada.
+\sphinxstyleliteralstrong{\sphinxupquote{metodo}} \textendash{} (str) \{“phik”, “cramer”\}, valor por             defecto: “phik”. Medida de correlación a utilizar.
 
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{filas}} \textendash{} (bool) \{True, False\}, valor por defecto: True. Indica si se incluye el cálculo de número de filas del dataframe.
+\sphinxstyleliteralstrong{\sphinxupquote{limite}} \textendash{} (float) (valor de 0 a 1) límite de referencia, se             utiliza para determinar si las variables posiblemente son de tipo             categóricas y ser incluidas en el análisis. Si el número de             valores únicos por columna es mayor al número de registros             * limite*, se considera que la variable no es categórica.
 
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{columnas}} \textendash{} (bool) \{True, False\}, valor por defecto: True. Indica si se incluye el cálculo de número de filas del dataframe.
+\sphinxstyleliteralstrong{\sphinxupquote{categoriasMaximas}} \textendash{} (int) (valor mayor a 0), indica el máximo             número de categorías de una variable para que sea incluida en el             análisis
 
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{col\_numericas}} \textendash{} (bool) \{True, False\}, valor por defecto: True. Indica si se incluye el número de columnas de tipo numéricas.
+\sphinxstyleliteralstrong{\sphinxupquote{variables}} \textendash{} (list) lista de nombres de las columnas separados             por comas. Permite escoger las columnas de interés de análisis             del dataframe
+
+\end{itemize}
+
+\item[{Devuelve}] \leavevmode
+dataframe con las correlaciones de las columnas de tipo             categórica analizadas.
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{CorrelacionNumericas() (método de calidad\_datos.CalidadDatos)@\spxentry{CorrelacionNumericas()}\spxextra{método de calidad\_datos.CalidadDatos}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{calidad_datos:calidad_datos.CalidadDatos.CorrelacionNumericas}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{CorrelacionNumericas}}}{\emph{\DUrole{n}{metodo}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}pearson\textquotesingle{}}}, \emph{\DUrole{n}{variables}\DUrole{o}{=}\DUrole{default_value}{None}}}{}
+Genera una matriz de correlación entre las variables de tipo numérico
+\begin{quote}\begin{description}
+\item[{Parámetros}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{metodo}} \textendash{} (str) \{“pearson”, “kendall”, “spearman”\}, valor por             defecto: “pearson”. Medida de correlación a utilizar.
 
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{col\_texto}} \textendash{} (bool) \{True, False\}, valor por defecto: True. Indica si se incluye el número de columnas de tipo texto.
+\sphinxstyleliteralstrong{\sphinxupquote{variables}} \textendash{} (list) lista de nombres de las columnas separados             por comas. Permite escoger las columnas de interés de análisis             del dataframe
+
+\end{itemize}
+
+\item[{Devuelve}] \leavevmode
+dataframe con las correlaciones de las columnas de tipo             numérico analizadas.
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{DescripcionCategoricas() (método de calidad\_datos.CalidadDatos)@\spxentry{DescripcionCategoricas()}\spxextra{método de calidad\_datos.CalidadDatos}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{calidad_datos:calidad_datos.CalidadDatos.DescripcionCategoricas}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{DescripcionCategoricas}}}{\emph{\DUrole{n}{limite}\DUrole{o}{=}\DUrole{default_value}{0.5}}, \emph{\DUrole{n}{categoriasMaximas}\DUrole{o}{=}\DUrole{default_value}{30}}, \emph{\DUrole{n}{incluirNumericos}\DUrole{o}{=}\DUrole{default_value}{True}}, \emph{\DUrole{n}{variables}\DUrole{o}{=}\DUrole{default_value}{None}}}{}
+Genera una tabla con los primeros 10 valores más frecuentes de las             columnas categóricas dataframe , además calcula su frecuencia             y porcentaje dentro del total de observaciones. Incluye los             valores faltantes.
+\begin{quote}\begin{description}
+\item[{Parámetros}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{limite}} \textendash{} (float) (valor de 0 a 1) límite de referencia, se             utiliza para determinar si las variables posiblemente son de tipo             categóricas y ser incluidas en el análisis. Si el número de             valores únicos por columna es mayor al número de registros             * limite*, se considera que la variable no es categórica.
 
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{col\_booleanas}} \textendash{} (bool) \{True, False\}, valor por defecto: True. Indica si se incluye el número de columnas de tipo boolean.
+\sphinxstyleliteralstrong{\sphinxupquote{categoriasMaximas}} \textendash{} (int) (valor mayor a 0), indica el máximo             número de categorías de una variable para que sea incluida en el             análisis
 
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{col\_fecha}} \textendash{} (bool) \{True, False\}, valor por defecto: True. Indica si se incluye el número de columnas de tipo fecha.
+\sphinxstyleliteralstrong{\sphinxupquote{incluirNumericos}} \textendash{} (bool) \{True, False\}, determina si se desea             considerar las variables como categóricas e incluirlas en el             análisis. Si el valor es True se incluyen las variables numéricas             en el análisis, si el valor es False no se incluyen las variables             numéricas en el análisis.
 
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{col\_otro}} \textendash{} (bool) \{True, False\}, valor por defecto: True. Indica si se incluye el número de columnas de otro tipo deferente a los anteriores.
+\sphinxstyleliteralstrong{\sphinxupquote{variables}} \textendash{} (list) lista de nombres de las columnas separados             por comas. Permite escoger las columnas de interés de análisis             del dataframe
+
+\end{itemize}
+
+\item[{Devuelve}] \leavevmode
+dataframe con las estadísticas descriptivas de las columnas             de tipo texto.
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{DescripcionNumericas() (método de calidad\_datos.CalidadDatos)@\spxentry{DescripcionNumericas()}\spxextra{método de calidad\_datos.CalidadDatos}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{calidad_datos:calidad_datos.CalidadDatos.DescripcionNumericas}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{DescripcionNumericas}}}{\emph{\DUrole{n}{variables}\DUrole{o}{=}\DUrole{default_value}{None}}}{}
+Calcula estadísticas descriptivas de cada columna numérica.             Incluyen media, mediana, valores en distintos percentiles,            desviación estándar, valores extremos y porcentaje de valores             faltantes.
+:param variables: (list) lista de nombres de las columnas separados             por comas. Permite escoger las columnas de interés de análisis             del dataframe
+\begin{quote}\begin{description}
+\item[{Devuelve}] \leavevmode
+dataframe con las estadísticas descriptivas.
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{EmparejamientoDuplicados() (método de calidad\_datos.CalidadDatos)@\spxentry{EmparejamientoDuplicados()}\spxextra{método de calidad\_datos.CalidadDatos}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{calidad_datos:calidad_datos.CalidadDatos.EmparejamientoDuplicados}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{EmparejamientoDuplicados}}}{\emph{\DUrole{n}{col}\DUrole{o}{=}\DUrole{default_value}{False}}}{}
+Retorna las columnas o filas que presenten valores duplicados del             dataframe.
+\begin{quote}\begin{description}
+\item[{Parámetros}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{col}} \textendash{} (bool) \{True, False\}, valor por defecto: False. Si el valor             es True la validación se realiza por columnas, si el valor es                 False la validación se realiza por filas.
+
+\item[{Devuelve}] \leavevmode
+matriz (dataframe) que relaciona las indices de filas/nombre             de columnas que presentan valores duplicados.
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{Memoria() (método de calidad\_datos.CalidadDatos)@\spxentry{Memoria()}\spxextra{método de calidad\_datos.CalidadDatos}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{calidad_datos:calidad_datos.CalidadDatos.Memoria}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{Memoria}}}{\emph{\DUrole{n}{col}\DUrole{o}{=}\DUrole{default_value}{False}}}{}
+Calcula el tamaño de la base de datos en memoria (megabytes)
+\begin{quote}\begin{description}
+\item[{Parámetros}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{col}} \textendash{} (bool) \{True, False\}, valor por defecto: False. Si el             valor es False realiza el cálculo de memoria del dataframe             completo, si el valor es True realiza el cálculo de memoria por             cada columna del dataframe.
+
+\item[{Devuelve}] \leavevmode
+valor (float) del tamaño de la base de datos en megabytes             (si el parámetro col es False). Serie de pandas con el cálculo de             memoria en megabytes por cada columna del dataframe. (si el             parámetro col es True).
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{Resumen() (método de calidad\_datos.CalidadDatos)@\spxentry{Resumen()}\spxextra{método de calidad\_datos.CalidadDatos}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{calidad_datos:calidad_datos.CalidadDatos.Resumen}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{Resumen}}}{\emph{\DUrole{n}{filas}\DUrole{o}{=}\DUrole{default_value}{True}}, \emph{\DUrole{n}{columnas}\DUrole{o}{=}\DUrole{default_value}{True}}, \emph{\DUrole{n}{colNumericas}\DUrole{o}{=}\DUrole{default_value}{True}}, \emph{\DUrole{n}{colTexto}\DUrole{o}{=}\DUrole{default_value}{True}}, \emph{\DUrole{n}{colBooleanas}\DUrole{o}{=}\DUrole{default_value}{True}}, \emph{\DUrole{n}{colFecha}\DUrole{o}{=}\DUrole{default_value}{True}}, \emph{\DUrole{n}{colOtro}\DUrole{o}{=}\DUrole{default_value}{True}}, \emph{\DUrole{n}{filasRepetidas}\DUrole{o}{=}\DUrole{default_value}{True}}, \emph{\DUrole{n}{columnasRepetidas}\DUrole{o}{=}\DUrole{default_value}{False}}, \emph{\DUrole{n}{colFaltantes}\DUrole{o}{=}\DUrole{default_value}{True}}, \emph{\DUrole{n}{colExtremos}\DUrole{o}{=}\DUrole{default_value}{True}}, \emph{\DUrole{n}{memoriaTotal}\DUrole{o}{=}\DUrole{default_value}{True}}}{}
+Retorna una tabla con información general de la base de datos.        Incluye número de filas y columnas, número de columnas de tipo         numéricas, de texto, booleanas, fecha y otros, número de filas y         columnas no únicas, número de columnas con más de la mitad de las         observaciones con datos faltantes, número de columnas con más del         10\% de observaciones con datos extremos y el tamaño de la base de         datos en memoria.
+\begin{quote}\begin{description}
+\item[{Parámetros}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{filas}} \textendash{} (bool) \{True, False\}, valor por defecto: True. Indica             si se incluye el cálculo de número de filas del dataframe.
 
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{filas\_nounicas}} \textendash{} (bool) \{True, False\}, valor por defecto: True. Indica si se incluye el número de filas no únicas.
+\sphinxstyleliteralstrong{\sphinxupquote{columnas}} \textendash{} (bool) \{True, False\}, valor por defecto: True.             Indica si se incluye el cálculo de número de filas del dataframe.
 
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{columnas\_nounicas}} \textendash{} (bool) \{True, False\}, valor por defecto: False. Indica si se incluye el número de columnas no únicas.
+\sphinxstyleliteralstrong{\sphinxupquote{colNumericas}} \textendash{} (bool) \{True, False\}, valor por defecto: True.             Indica si se incluye el número de columnas de tipo numéricas.
 
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{col\_faltantes}} \textendash{} (bool) \{True, False\}, valor por defecto: True. Indica si se incluye el número de columnas con más de la mitad de las observaciones con datos faltantes.
+\sphinxstyleliteralstrong{\sphinxupquote{colTexto}} \textendash{} (bool) \{True, False\}, valor por defecto: True.             Indica si se incluye el número de columnas de tipo texto.
 
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{col\_extremos}} \textendash{} (bool) \{True, False\}, valor por defecto: True. Indica si se incluye el número de columnas con más del 10\% de observaciones con datos extremos.
+\sphinxstyleliteralstrong{\sphinxupquote{colBooleanas}} \textendash{} (bool) \{True, False\}, valor por defecto: True.             Indica si se incluye el número de columnas de tipo boolean.
 
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{memoria\_total}} \textendash{} (bool) \{True, False\}, valor por defecto: True. Indica si se incluye el cálculo del tamaño de la base de datos en memoria.
+\sphinxstyleliteralstrong{\sphinxupquote{colFecha}} \textendash{} (bool) \{True, False\}, valor por defecto: True.             Indica si se incluye el número de columnas de tipo fecha.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{colOtro}} \textendash{} (bool) \{True, False\}, valor por defecto: True.             Indica si se incluye el número de columnas de otro tipo deferente             a los anteriores.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{filasRepetidas}} \textendash{} (bool) \{True, False\}, valor por defecto: True.             Indica si se incluye el número de filas repetidas.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{columnasRepetidas}} \textendash{} (bool) \{True, False\}, valor por defecto:             False. Indica si se incluye el número de columnas repetidas.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{colFaltantes}} \textendash{} (bool) \{True, False\}, valor por defecto: True.             Indica si se incluye el número de columnas con más de la mitad de             las observaciones con datos faltantes.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{colExtremos}} \textendash{} (bool) \{True, False\}, valor por defecto: True.             Indica si se incluye el número de columnas con más del 10\% de                 observaciones con datos extremos.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{memoriaTotal}} \textendash{} (bool) \{True, False\}, valor por defecto: True.             Indica si se incluye el cálculo del tamaño de la base de datos en memoria.
 
 \end{itemize}
 
@@ -450,20 +383,70 @@ serie de pandas con las estadísticas descriptivas del dataframe.
 
 \end{fulllineitems}
 
-\index{unicos() (en el módulo datos)@\spxentry{unicos()}\spxextra{en el módulo datos}}
+\index{TipoColumnas() (método de calidad\_datos.CalidadDatos)@\spxentry{TipoColumnas()}\spxextra{método de calidad\_datos.CalidadDatos}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{datos:datos.unicos}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{datos.}}\sphinxbfcode{\sphinxupquote{unicos}}}{\emph{\DUrole{n}{base}}, \emph{\DUrole{n}{faltantes}\DUrole{o}{=}\DUrole{default_value}{False}}}{}
-Calcula la cantidad de valores únicos de cada columna del dataframe.
+\phantomsection\label{\detokenize{calidad_datos:calidad_datos.CalidadDatos.TipoColumnas}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{TipoColumnas}}}{\emph{\DUrole{n}{detalle}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}bajo\textquotesingle{}}}}{}
+Retorna el tipo de dato de cada columna del dataframe, se             clasifican como de tipo numérico, texto, boolean u otro.
+\begin{quote}\begin{description}
+\item[{Parámetros}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{detalle}} \textendash{} (str) \{“bajo”, “alto”\}, valor por defecto: “bajo”.             Indica el nivel de detalle en la descripción del tipo.
+
+\item[{Devuelve}] \leavevmode
+Serie de pandas con el tipo de dato de cada columna.
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{ValoresExtremos() (método de calidad\_datos.CalidadDatos)@\spxentry{ValoresExtremos()}\spxextra{método de calidad\_datos.CalidadDatos}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{calidad_datos:calidad_datos.CalidadDatos.ValoresExtremos}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{ValoresExtremos}}}{\emph{\DUrole{n}{extremos}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}ambos\textquotesingle{}}}, \emph{\DUrole{n}{porc}\DUrole{o}{=}\DUrole{default_value}{True}}}{}
+Calcula el porcentaje o cantidad de outliers de cada columna numérica             (las columnas con números en formato string se intentarán transformar             a columnas numéricas)
 \begin{quote}\begin{description}
 \item[{Parámetros}] \leavevmode\begin{itemize}
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{base}} \textendash{} (dataframe) base de datos de interés a ser analizada.
+\sphinxstyleliteralstrong{\sphinxupquote{extremos}} \textendash{} (str) \{“superior”, “inferior”, “ambos”\}, valor por             defecto: “ambos”. Si el valor es “\sphinxstylestrong{inferior}” se tienen en cuenta los             registros con valor menor al límite inferior calculado por la             metodología de valor atípico por rango intercuartílico. Si el valor es             “\sphinxstylestrong{superior}” se tienen en cuenta los registros con valor mayor al            límite superior calculado por la metodología de valor atípico por rango             intercuartílico. Si el valor es “\sphinxstylestrong{ambos}” se tienen en cuenta los 
+registros con valor menor al límite inferior calculado por la              metodología de valor atípico por rango intercuartílico, y también             aquellos con valor mayor al límite superior calculado por la             metodología de valor atípico por rango intercuartílico.
 
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{faltantes}} \textendash{} (bool) \{True, False\}, valor por defecto: False. Indica si desea tener en cuenta los valores faltantes en el conteo de valores únicos.
+\sphinxstyleliteralstrong{\sphinxupquote{porc}} \textendash{} (bool) \{True, False\}, valor por defecto: True. Si el valor es             True el resultado se expresa como un porcentaje, si el valor es False el 
+valor se expresa como una cantidad de registros (número entero).
 
 \end{itemize}
+
+\item[{Devuelve}] \leavevmode
+serie de pandas con la cantidad/porcentaje de valores outliers             de cada columna.
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{ValoresFaltantes() (método de calidad\_datos.CalidadDatos)@\spxentry{ValoresFaltantes()}\spxextra{método de calidad\_datos.CalidadDatos}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{calidad_datos:calidad_datos.CalidadDatos.ValoresFaltantes}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{ValoresFaltantes}}}{\emph{\DUrole{n}{porc}\DUrole{o}{=}\DUrole{default_value}{True}}}{}
+Calcula el porcentaje/número de valores faltantes de cada columna             del dataframe.
+\begin{quote}\begin{description}
+\item[{Parámetros}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{cociente}} \textendash{} (bool) \{True, False\}, valor por defecto: True. Si el             valor es True el resultado se expresa como un cociente, si el                 valor es False el valor se expresa como una cantidad de                     registros (número entero).
+
+\item[{Devuelve}] \leavevmode
+serie de pandas con la cantidad/cociente de valores             faltantes de cada columna.
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{ValoresUnicos() (método de calidad\_datos.CalidadDatos)@\spxentry{ValoresUnicos()}\spxextra{método de calidad\_datos.CalidadDatos}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{calidad_datos:calidad_datos.CalidadDatos.ValoresUnicos}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{ValoresUnicos}}}{\emph{\DUrole{n}{faltantes}\DUrole{o}{=}\DUrole{default_value}{False}}}{}
+Calcula la cantidad de valores únicos de cada columna del dataframe.
+\begin{quote}\begin{description}
+\item[{Parámetros}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{faltantes}} \textendash{} (bool) \{True, False\}, valor por defecto: False.             Indica si desea tener en cuenta los valores faltantes en el                 conteo de valores únicos.
 
 \item[{Devuelve}] \leavevmode
 serie de pandas con la cantidad de valores únicos de cada columna.
@@ -472,46 +455,54 @@ serie de pandas con la cantidad de valores únicos de cada columna.
 
 \end{fulllineitems}
 
-\index{varianza\_percentil() (en el módulo datos)@\spxentry{varianza\_percentil()}\spxextra{en el módulo datos}}
+\index{VarianzaEnPercentil() (método de calidad\_datos.CalidadDatos)@\spxentry{VarianzaEnPercentil()}\spxextra{método de calidad\_datos.CalidadDatos}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{datos:datos.varianza_percentil}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{datos.}}\sphinxbfcode{\sphinxupquote{varianza\_percentil}}}{\emph{\DUrole{n}{base}}, \emph{\DUrole{n}{percentil\_inferior}\DUrole{o}{=}\DUrole{default_value}{5}}, \emph{\DUrole{n}{percentil\_superior}\DUrole{o}{=}\DUrole{default_value}{95}}, \emph{\DUrole{n}{float\_transform}\DUrole{o}{=}\DUrole{default_value}{False}}}{}
-Retorna las columnas numéricas cuyo percentil inferior percent\_low sea igual a su percentil superior percent\_high.
+\phantomsection\label{\detokenize{calidad_datos:calidad_datos.CalidadDatos.VarianzaEnPercentil}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{VarianzaEnPercentil}}}{\emph{\DUrole{n}{percentil\_inferior}\DUrole{o}{=}\DUrole{default_value}{5}}, \emph{\DUrole{n}{percentil\_superior}\DUrole{o}{=}\DUrole{default_value}{95}}}{}
+Retorna las columnas numéricas cuyo percentil\_inferior sea igual             a su percentil\_superior.
 \begin{quote}\begin{description}
 \item[{Parámetros}] \leavevmode\begin{itemize}
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{base}} \textendash{} (dataframe) base de datos de interés a ser analizada.
 
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{percentil\_inferior}} \textendash{} (float), valor por defecto: 5. Percentil inferior de referencia en la comparación.
+\sphinxstyleliteralstrong{\sphinxupquote{percentil\_inferior}} \textendash{} (float), valor por defecto: 5. Percentil             inferior de referencia en la comparación.
 
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{percentil\_superior}} \textendash{} (float), valor por defecto: 95. Percentil superior de referencia en la comparación.
+\sphinxstyleliteralstrong{\sphinxupquote{percentil\_superior}} \textendash{} (float), valor por defecto: 95. Percentil             superior de referencia en la comparación.
 
 \end{itemize}
 
 \item[{Devuelve}] \leavevmode
-indices de columnas cuyo percentil inferior es igual al percentil superior.
+indices de columnas cuyo percentil inferior es igual al             percentil superior.
 
 \end{description}\end{quote}
 
 \end{fulllineitems}
 
+\index{correlacion\_cramerv() (método de calidad\_datos.CalidadDatos)@\spxentry{correlacion\_cramerv()}\spxextra{método de calidad\_datos.CalidadDatos}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{calidad_datos:calidad_datos.CalidadDatos.correlacion_cramerv}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{correlacion\_cramerv}}}{\emph{\DUrole{n}{x}}, \emph{\DUrole{n}{y}}}{}
+\end{fulllineitems}
 
 
-\chapter{Metadatos}
-\label{\detokenize{metadatos:metadatos}}\label{\detokenize{metadatos:id1}}\label{\detokenize{metadatos::doc}}
+\end{fulllineitems}
+
+
+
+\chapter{Datos gov}
+\label{\detokenize{datos_gov:datos-gov}}\label{\detokenize{datos_gov:id1}}\label{\detokenize{datos_gov::doc}}
 Este módulo permite conectar y evaluar desde el código los metadatos del Portal de Datos Abiertos y descargar las bases de datos a dataframes.
 
-\phantomsection\label{\detokenize{metadatos:module-metadatos}}\index{módulo@\spxentry{módulo}!metadatos@\spxentry{metadatos}}\index{metadatos@\spxentry{metadatos}!módulo@\spxentry{módulo}}\index{asset\_inventory() (en el módulo metadatos)@\spxentry{asset\_inventory()}\spxextra{en el módulo metadatos}}
+\phantomsection\label{\detokenize{datos_gov:module-datos_gov}}\index{módulo@\spxentry{módulo}!datos\_gov@\spxentry{datos\_gov}}\index{datos\_gov@\spxentry{datos\_gov}!módulo@\spxentry{módulo}}\index{asset\_inventory\_espanol() (en el módulo datos\_gov)@\spxentry{asset\_inventory\_espanol()}\spxextra{en el módulo datos\_gov}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{metadatos:metadatos.asset_inventory}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{metadatos.}}\sphinxbfcode{\sphinxupquote{asset\_inventory}}}{\emph{\DUrole{n}{token}\DUrole{o}{=}\DUrole{default_value}{None}}, \emph{\DUrole{n}{limite\_filas}\DUrole{o}{=}\DUrole{default_value}{1000000000}}}{}
-Se conecta al API de Socrata y retorna la base de datos \sphinxstyleemphasis{Asset Inventory} descargada del Portal de Datos Abiertos
-como dataframe. Este conjunto de datos es un inventario de los recursos en el sitio.
+\phantomsection\label{\detokenize{datos_gov:datos_gov.asset_inventory_espanol}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{datos\_gov.}}\sphinxbfcode{\sphinxupquote{asset\_inventory\_espanol}}}{\emph{\DUrole{n}{asset}}}{}
+Renombra los encabezados del inventario de bases de datos de Datos         Abiertos Colombia a términos en español.
 \begin{quote}\begin{description}
 \item[{Parámetros}] \leavevmode
-\sphinxstyleliteralstrong{\sphinxupquote{token}} \textendash{} (str) \sphinxstyleemphasis{opcional} \sphinxhyphen{} token de usuario de la API Socrata.
+\sphinxstyleliteralstrong{\sphinxupquote{asset}} \textendash{} (pandas.DataFrame) \sphinxhyphen{} Tabla de inventario del portal de datos        abiertos Colombia (\sphinxurl{https://www.datos.gov.co}).
 
 \item[{Devuelve}] \leavevmode
 base de datos en formato dataframe.
@@ -520,115 +511,10 @@ base de datos en formato dataframe.
 
 \end{fulllineitems}
 
-\index{asset\_inventory\_espanol() (en el módulo metadatos)@\spxentry{asset\_inventory\_espanol()}\spxextra{en el módulo metadatos}}
+\index{cargar\_base() (en el módulo datos\_gov)@\spxentry{cargar\_base()}\spxextra{en el módulo datos\_gov}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{metadatos:metadatos.asset_inventory_espanol}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{metadatos.}}\sphinxbfcode{\sphinxupquote{asset\_inventory\_espanol}}}{\emph{\DUrole{n}{token}\DUrole{o}{=}\DUrole{default_value}{None}}}{}
-Se conecta al API de Socrata y retorna la base de datos \sphinxstyleemphasis{Asset Inventory} descargada del Portal de Datos Abiertos
-como dataframe, selecciona columnas de interés y las renombra con un término en español. Este conjunto de datos es un inventario de los recursos en el sitio.
-\begin{quote}\begin{description}
-\item[{Parámetros}] \leavevmode
-\sphinxstyleliteralstrong{\sphinxupquote{token}} \textendash{} (str) \sphinxstyleemphasis{opcional} \sphinxhyphen{} token de usuario de la API Socrata.
-
-\item[{Devuelve}] \leavevmode
-base de datos en formato dataframe.
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-\index{comparar\_tamano() (en el módulo metadatos)@\spxentry{comparar\_tamano()}\spxextra{en el módulo metadatos}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{metadatos:metadatos.comparar_tamano}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{metadatos.}}\sphinxbfcode{\sphinxupquote{comparar\_tamano}}}{\emph{\DUrole{n}{api\_id}}, \emph{\DUrole{n}{token}\DUrole{o}{=}\DUrole{default_value}{None}}}{}
-Se conecta al API de Socrata y consulta el número de filas y columnas de los metadatos de la base de datos asociada con el \sphinxstyleemphasis{api\_id} para construir una tabla, adicionalmente se agregan los datos actuales del número de filas y columnas de la base de datos.
-\begin{quote}\begin{description}
-\item[{Parámetros}] \leavevmode\begin{itemize}
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{api\_id}} \textendash{} (str) Identificación de la base de datos asociado con la API de Socrata.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{token}} \textendash{} (str) \sphinxstyleemphasis{opcional} \sphinxhyphen{} token de usuario de la API Socrata.
-
-\end{itemize}
-
-\item[{Devuelve}] \leavevmode
-serie de pandas con el número de columnas y filas según los datos y metadatos.
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-\index{filtrar\_asset() (en el módulo metadatos)@\spxentry{filtrar\_asset()}\spxextra{en el módulo metadatos}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{metadatos:metadatos.filtrar_asset}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{metadatos.}}\sphinxbfcode{\sphinxupquote{filtrar\_asset}}}{\emph{\DUrole{n}{columnas\_valor}}, \emph{\DUrole{n}{token}\DUrole{o}{=}\DUrole{default_value}{None}}}{}
-Permite filtrar la base de datos de \sphinxstyleemphasis{Asset Inventory} de acuerdo a diferentes términos de búsqueda. Como son fechas, textos y otros.
-\begin{quote}\begin{description}
-\item[{Parámetros}] \leavevmode\begin{itemize}
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{columnas\_valor}} \textendash{} (diccinario) \{“nombre de columna”:”valor a buscar o rangos”\}. Corresponde al nombre de la columna a consultar y el valor a buscar.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{token}} \textendash{} (str) \sphinxstyleemphasis{opcional} \sphinxhyphen{} token de usuario de la API Socrata.
-
-\end{itemize}
-
-\item[{Devuelve}] \leavevmode
-dataframe \sphinxstyleemphasis{Asset Inventory} filtrado con los términos de búsqueda).
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-\index{mostrar\_metadatos() (en el módulo metadatos)@\spxentry{mostrar\_metadatos()}\spxextra{en el módulo metadatos}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{metadatos:metadatos.mostrar_metadatos}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{metadatos.}}\sphinxbfcode{\sphinxupquote{mostrar\_metadatos}}}{\emph{\DUrole{n}{api\_id}}, \emph{\DUrole{n}{token}\DUrole{o}{=}\DUrole{default_value}{None}}}{}
-Se conecta al API de Socrata y retorna los metadatos asociados a la base del api\_id.
-\begin{quote}\begin{description}
-\item[{Parámetros}] \leavevmode\begin{itemize}
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{api\_id}} \textendash{} (str) Identificación de la base de datos asociado con la API de Socrata.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{token}} \textendash{} (str) \sphinxstyleemphasis{opcional} \sphinxhyphen{} token de usuario de la API Socrata.
-
-\end{itemize}
-
-\item[{Devuelve}] \leavevmode
-serie de pandas con los metadatos.
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-\index{pagina\_metadatos() (en el módulo metadatos)@\spxentry{pagina\_metadatos()}\spxextra{en el módulo metadatos}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{metadatos:metadatos.pagina_metadatos}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{metadatos.}}\sphinxbfcode{\sphinxupquote{pagina\_metadatos}}}{\emph{\DUrole{n}{api\_id}}, \emph{\DUrole{n}{token}\DUrole{o}{=}\DUrole{default_value}{None}}}{}
-Se conecta al API de Socrata y consulta el link de la página web de datos abiertos asociado al api\_id ingresado, para abrir el link en el navegador.
-\begin{quote}\begin{description}
-\item[{Parámetros}] \leavevmode\begin{itemize}
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{api\_id}} \textendash{} (str) Identificación de la base de datos asociado con la API de Socrata.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{token}} \textendash{} (str) \sphinxstyleemphasis{opcional} \sphinxhyphen{} token de usuario de la API Socrata.
-
-\end{itemize}
-
-\item[{Devuelve}] \leavevmode
-Abre en el navegador el link de datos abiertos asociado al api\_id ingresado.
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-\index{sodapy\_base() (en el módulo metadatos)@\spxentry{sodapy\_base()}\spxextra{en el módulo metadatos}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{metadatos:metadatos.sodapy_base}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{metadatos.}}\sphinxbfcode{\sphinxupquote{sodapy\_base}}}{\emph{\DUrole{n}{api\_id}}, \emph{\DUrole{n}{token}\DUrole{o}{=}\DUrole{default_value}{None}}, \emph{\DUrole{n}{limite\_filas}\DUrole{o}{=}\DUrole{default_value}{1000000000}}}{}
+\phantomsection\label{\detokenize{datos_gov:datos_gov.cargar_base}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{datos\_gov.}}\sphinxbfcode{\sphinxupquote{cargar\_base}}}{\emph{\DUrole{n}{api\_id}}, \emph{\DUrole{n}{token}\DUrole{o}{=}\DUrole{default_value}{None}}, \emph{\DUrole{n}{limite\_filas}\DUrole{o}{=}\DUrole{default_value}{1000000000}}}{}
 Se conecta al API de Socrata y retorna la base de datos descargada del Portal de Datos Abiertos
 como dataframe.
 \begin{quote}\begin{description}
@@ -648,6 +534,45 @@ base de datos en formato dataframe.
 
 \end{fulllineitems}
 
+\index{filtrar\_tabla() (en el módulo datos\_gov)@\spxentry{filtrar\_tabla()}\spxextra{en el módulo datos\_gov}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{datos_gov:datos_gov.filtrar_tabla}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{datos\_gov.}}\sphinxbfcode{\sphinxupquote{filtrar\_tabla}}}{\emph{\DUrole{n}{columnas\_valor}}, \emph{\DUrole{n}{token}\DUrole{o}{=}\DUrole{default_value}{None}}}{}
+Permite filtrar la base de datos de \sphinxstyleemphasis{tabla de inventario} de acuerdo a        diferentes términos de búsqueda. Como son fechas, textos y otros.
+\begin{quote}\begin{description}
+\item[{Parámetros}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{columnas\_valor}} \textendash{} (diccinario) \{“nombre de columna”:”valor a buscar o rangos”\}. Corresponde al nombre de la columna a consultar y el valor a buscar.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{token}} \textendash{} (str) \sphinxstyleemphasis{opcional} \sphinxhyphen{} token de usuario de la API Socrata.
+
+\end{itemize}
+
+\item[{Devuelve}] \leavevmode
+dataframe \sphinxstyleemphasis{Asset Inventory} filtrado con los términos de búsqueda).
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{tabla\_inventario() (en el módulo datos\_gov)@\spxentry{tabla\_inventario()}\spxextra{en el módulo datos\_gov}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{datos_gov:datos_gov.tabla_inventario}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{datos\_gov.}}\sphinxbfcode{\sphinxupquote{tabla\_inventario}}}{\emph{\DUrole{n}{token}\DUrole{o}{=}\DUrole{default_value}{None}}, \emph{\DUrole{n}{limite\_filas}\DUrole{o}{=}\DUrole{default_value}{1000000000}}}{}
+Se conecta al API de Socrata y retorna la base de datos \sphinxstyleemphasis{Asset Inventory} descargada del Portal de Datos Abiertos
+como dataframe. Este conjunto de datos es un inventario de los recursos en el sitio.
+\begin{quote}\begin{description}
+\item[{Parámetros}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{token}} \textendash{} (str) \sphinxstyleemphasis{opcional} \sphinxhyphen{} token de usuario de la API Socrata.
+
+\item[{Devuelve}] \leavevmode
+base de datos en formato dataframe.
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
 
 
 \chapter{Reporte}
@@ -659,23 +584,23 @@ base de datos en formato dataframe.
 \noindent\sphinxincludegraphics{{vista_reporte}.jpg}
 \caption{Ejemplo de reporte}\label{\detokenize{reporte:id2}}\end{figure}
 
-La función \sphinxcode{\sphinxupquote{generar\_reporte(base)}} del módulo \sphinxstylestrong{reporte} busca facilitar el proceso de entendimiento de la calidad de datos de una base de datos de interés, para esto genera un reporte en formato HTML el cual consolida las funciones de calidad de datos implementadas en el módulo {\hyperref[\detokenize{datos:datos}]{\sphinxcrossref{\DUrole{std,std-ref}{Datos}}}} y {\hyperref[\detokenize{metadatos:metadatos}]{\sphinxcrossref{\DUrole{std,std-ref}{Metadatos}}}}, facilitando la consulta de los resultados obtenidos del análisis exploratorio en un archivo independiente.
+La función \sphinxcode{\sphinxupquote{generar\_reporte(base)}} del módulo \sphinxstylestrong{reporte} busca facilitar el proceso de entendimiento de la calidad de datos de una base de datos de interés, para esto genera un reporte en formato HTML el cual consolida las funciones de calidad de datos implementadas en el módulo {\hyperref[\detokenize{calidad_datos:calidad-datos}]{\sphinxcrossref{\DUrole{std,std-ref}{Calidad datos}}}} y {\hyperref[\detokenize{datos_gov:datos-gov}]{\sphinxcrossref{\DUrole{std,std-ref}{Datos gov}}}}, facilitando la consulta de los resultados obtenidos del análisis exploratorio en un archivo independiente.
 
 \phantomsection\label{\detokenize{reporte:module-reporte}}\index{módulo@\spxentry{módulo}!reporte@\spxentry{reporte}}\index{reporte@\spxentry{reporte}!módulo@\spxentry{módulo}}\index{generar\_reporte() (en el módulo reporte)@\spxentry{generar\_reporte()}\spxextra{en el módulo reporte}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{reporte:reporte.generar_reporte}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{reporte.}}\sphinxbfcode{\sphinxupquote{generar\_reporte}}}{\emph{\DUrole{n}{my\_base}\DUrole{o}{=}\DUrole{default_value}{None}}, \emph{\DUrole{n}{api\_id}\DUrole{o}{=}\DUrole{default_value}{None}}, \emph{\DUrole{n}{token}\DUrole{o}{=}\DUrole{default_value}{None}}, \emph{\DUrole{n}{titulo}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}Reporte perfilamiento\textquotesingle{}}}, \emph{\DUrole{n}{archivo}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}perfilamiento.html\textquotesingle{}}}}{}
+\phantomsection\label{\detokenize{reporte:reporte.generar_reporte}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{reporte.}}\sphinxbfcode{\sphinxupquote{generar\_reporte}}}{\emph{\DUrole{n}{df}\DUrole{o}{=}\DUrole{default_value}{None}}, \emph{\DUrole{n}{api\_id}\DUrole{o}{=}\DUrole{default_value}{None}}, \emph{\DUrole{n}{token}\DUrole{o}{=}\DUrole{default_value}{None}}, \emph{\DUrole{n}{titulo}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}Reporte perfilamiento\textquotesingle{}}}, \emph{\DUrole{n}{archivo}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}perfilamiento\_leila.html\textquotesingle{}}}, \emph{\DUrole{n}{castFloat}\DUrole{o}{=}\DUrole{default_value}{False}}}{}
 Genera un reporte de calidad de datos en formato HTML
 \begin{quote}\begin{description}
 \item[{Parámetros}] \leavevmode\begin{itemize}
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{token}} \textendash{} 
+\sphinxstyleliteralstrong{\sphinxupquote{df}} \textendash{} (dataframe) base de datos de insumo para la generación del reporte de calidad de datos.
 
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{api\_id}} \textendash{} 
+\sphinxstyleliteralstrong{\sphinxupquote{api\_id}} \textendash{} (str) Identificación de la base de datos asociado con la API de Socrata (de Datos Abiertos).
 
 \item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{my\_base}} \textendash{} (dataframe) base de datos de insumo para la generación del reporte de calidad de datos.
+\sphinxstyleliteralstrong{\sphinxupquote{token}} \textendash{} (str) \sphinxstyleemphasis{opcional} \sphinxhyphen{} token de usuario de la API de Socrata (de Datos Abiertos).
 
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{titulo}} \textendash{} (str) valor por defecto: “Reporte perfilamiento”. Título del reporte a generar.
@@ -693,10 +618,16 @@ archivo de reporte en formato HTML.
 \end{fulllineitems}
 
 
+\begin{figure}[htbp]
+\centering
+
+\noindent\sphinxincludegraphics{{LEILA}.jpg}
+\end{figure}
+
 
 \chapter{Introducción}
 \label{\detokenize{index:introduccion}}
-La librería de calidad de datos tiene como objetivo principal ser una herramienta que facilite la verificación de contenido de bases de datos y dé métricas de calidad para que usuarios puedan decidir si sus bases de datos necesitan modificarse para ser utilizadas en los proyectos. La librería fue escrita en el lenguaje de programación de \sphinxstyleemphasis{Python} y puede analizar bases de datos estructurados que se conviertan en objetos \sphinxstyleemphasis{dataframe}. Contiene tres módulos principales, el módulo {\hyperref[\detokenize{datos:datos}]{\sphinxcrossref{\DUrole{std,std-ref}{Datos}}}} para analizar cualquier base de datos, el módulo {\hyperref[\detokenize{metadatos:metadatos}]{\sphinxcrossref{\DUrole{std,std-ref}{Metadatos}}}} para conectarse con los metadatos del Portal de \sphinxhref{https://www.datos.gov.co/}{Datos Abiertos de Colombia} y utilizar sus bases de datos, y por último el módulo de {\hyperref[\detokenize{reporte:reporte}]{\sphinxcrossref{\DUrole{std,std-ref}{Reporte}}}} para exportar los resultados obtenidos en los dos anteriores.
+La librería de calidad de datos tiene como objetivo principal ser una herramienta que facilite la verificación de contenido de bases de datos y dé métricas de calidad para que usuarios puedan decidir si sus bases de datos necesitan modificarse para ser utilizadas en los proyectos. La librería fue escrita en el lenguaje de programación de \sphinxstyleemphasis{Python} y puede analizar bases de datos estructurados que se conviertan en objetos \sphinxstyleemphasis{dataframe}. Contiene tres módulos principales, el módulo {\hyperref[\detokenize{calidad_datos:calidad-datos}]{\sphinxcrossref{\DUrole{std,std-ref}{Calidad datos}}}} para analizar cualquier base de datos, el módulo {\hyperref[\detokenize{datos_gov:datos-gov}]{\sphinxcrossref{\DUrole{std,std-ref}{Datos gov}}}} para conectarse con los metadatos del Portal de \sphinxhref{https://www.datos.gov.co/}{Datos Abiertos de Colombia} y utilizar sus bases de datos, y por último el módulo de {\hyperref[\detokenize{reporte:reporte}]{\sphinxcrossref{\DUrole{std,std-ref}{Reporte}}}} para exportar los resultados obtenidos en los dos anteriores.
 
 La librería surge como resultado de un proyecto realizado entre la UCD (Unidad de Científicos de Datos \sphinxhyphen{} DNP) y el Ministerio de Tecnologías de la Información y las Comunicaciones (\sphinxhref{https://www.mintic.gov.co/portal/inicio/}{MinTIC}) relacionado con realizar análisis descriptivos de la calidad de la información cargada al portal de Datos Abiertos de Colombia, durante el desarrollo del proyecto se identifica el interés por parte de diferentes actores en el proyecto al igual que el beneficio potencial de tener a la mano una librería que facilite describir la calidad de una base de datos, lo cual motivó a realizar la implementación de la librería.
 
@@ -706,11 +637,11 @@ Esta página contiene toda la información relacionada con la librería, en el p
 \renewcommand{\indexname}{Índice de Módulos Python}
 \begin{sphinxtheindex}
 \let\bigletter\sphinxstyleindexlettergroup
-\bigletter{d}
-\item\relax\sphinxstyleindexentry{datos}\sphinxstyleindexpageref{datos:\detokenize{module-datos}}
+\bigletter{c}
+\item\relax\sphinxstyleindexentry{calidad\_datos}\sphinxstyleindexpageref{calidad_datos:\detokenize{module-calidad_datos}}
 \indexspace
-\bigletter{m}
-\item\relax\sphinxstyleindexentry{metadatos}\sphinxstyleindexpageref{metadatos:\detokenize{module-metadatos}}
+\bigletter{d}
+\item\relax\sphinxstyleindexentry{datos\_gov}\sphinxstyleindexpageref{datos_gov:\detokenize{module-datos_gov}}
 \indexspace
 \bigletter{r}
 \item\relax\sphinxstyleindexentry{reporte}\sphinxstyleindexpageref{reporte:\detokenize{module-reporte}}

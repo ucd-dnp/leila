@@ -15,8 +15,14 @@ LEILA - Libreria de calidad de datos
    :caption: Módulos y funciones:
    :hidden:
 
-   datos
-   metadatos
+   calidad_datos
+   datos_gov
    reporte
+
+.. figure:: _static/image/LEILA.jpg
+    :align: center
+    :alt: 
+    :figclass: align-center
+
 
 .. include:: introduccion.rst
