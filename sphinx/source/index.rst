@@ -19,4 +19,10 @@ LEILA - Libreria de calidad de datos
    datos_gov
    reporte
 
+.. figure:: _static/image/LEILA.jpg
+    :align: center
+    :alt: 
+    :figclass: align-center
+
+
 .. include:: introduccion.rst
