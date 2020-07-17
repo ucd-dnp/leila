@@ -40,7 +40,7 @@
     
     <link rel="index" title="Índice" href="genindex.html" />
     <link rel="search" title="Búsqueda" href="search.html" />
-    <link rel="prev" title="Metadatos" href="metadatos.html" /> 
+    <link rel="prev" title="Datos gov" href="datos_gov.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -100,8 +100,8 @@
 </ul>
 <p class="caption"><span class="caption-text">Módulos y funciones:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="datos.html">Datos</a></li>
-<li class="toctree-l1"><a class="reference internal" href="metadatos.html">Metadatos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="calidad_datos.html">Calidad datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datos_gov.html">Datos gov</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Reporte</a></li>
 </ul>
 
@@ -172,19 +172,19 @@
 <img alt="Ejemplo de reporte" src="_images/vista_reporte.jpg" />
 <p class="caption"><span class="caption-text">Ejemplo de reporte</span><a class="headerlink" href="#id2" title="Enlace permanente a esta imagen">¶</a></p>
 </div>
-<p>La función <code class="docutils literal notranslate"><span class="pre">generar_reporte(base)</span></code> del módulo <strong>reporte</strong> busca facilitar el proceso de entendimiento de la calidad de datos de una base de datos de interés, para esto genera un reporte en formato HTML el cual consolida las funciones de calidad de datos implementadas en el módulo <a class="reference internal" href="datos.html#datos"><span class="std std-ref">Datos</span></a> y <a class="reference internal" href="metadatos.html#metadatos"><span class="std std-ref">Metadatos</span></a>, facilitando la consulta de los resultados obtenidos del análisis exploratorio en un archivo independiente.</p>
+<p>La función <code class="docutils literal notranslate"><span class="pre">generar_reporte(base)</span></code> del módulo <strong>reporte</strong> busca facilitar el proceso de entendimiento de la calidad de datos de una base de datos de interés, para esto genera un reporte en formato HTML el cual consolida las funciones de calidad de datos implementadas en el módulo <a class="reference internal" href="calidad_datos.html#calidad-datos"><span class="std std-ref">Calidad datos</span></a> y <a class="reference internal" href="datos_gov.html#datos-gov"><span class="std std-ref">Datos gov</span></a>, facilitando la consulta de los resultados obtenidos del análisis exploratorio en un archivo independiente.</p>
 <span class="target" id="module-reporte"></span><dl class="py function">
 <dt id="reporte.generar_reporte">
-<code class="descclassname">reporte.</code><code class="descname">generar_reporte</code><span class="sig-paren">(</span><em><span class="n">my_base</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">api_id</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">token</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">titulo</span><span class="o">=</span><span class="default_value">'Reporte perfilamiento'</span></em>, <em><span class="n">archivo</span><span class="o">=</span><span class="default_value">'perfilamiento.html'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#reporte.generar_reporte" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<code class="descclassname">reporte.</code><code class="descname">generar_reporte</code><span class="sig-paren">(</span><em><span class="n">df</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">api_id</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">token</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">titulo</span><span class="o">=</span><span class="default_value">'Reporte perfilamiento'</span></em>, <em><span class="n">archivo</span><span class="o">=</span><span class="default_value">'perfilamiento_leila.html'</span></em>, <em><span class="n">castFloat</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#reporte.generar_reporte" title="Enlazar permanentemente con esta definición">¶</a></dt>
 <dd><p>Genera un reporte de calidad de datos en formato HTML</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
-<li><strong>token</strong> – </li>
-<li><strong>api_id</strong> – </li>
-<li><strong>my_base</strong> – (dataframe) base de datos de insumo para la generación del reporte de calidad de datos.</li>
+<li><strong>df</strong> – (dataframe) base de datos de insumo para la generación del reporte de calidad de datos.</li>
+<li><strong>api_id</strong> – (str) Identificación de la base de datos asociado con la API de Socrata (de Datos Abiertos).</li>
+<li><strong>token</strong> – (str) <em>opcional</em> - token de usuario de la API de Socrata (de Datos Abiertos).</li>
 <li><strong>titulo</strong> – (str) valor por defecto: “Reporte perfilamiento”. Título del reporte a generar.</li>
 <li><strong>archivo</strong> – (str) valor por defecto: “perfilamiento.html”. Ruta donde guardar el reporte.</li>
 </ul>
@@ -208,7 +208,7 @@
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="metadatos.html" class="btn btn-neutral float-left" title="Metadatos" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="datos_gov.html" class="btn btn-neutral float-left" title="Datos gov" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

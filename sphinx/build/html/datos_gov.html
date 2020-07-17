@@ -1,0 +1,307 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Datos gov &mdash; documentación de LEILA - 1.0</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script src="_static/translations.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Reporte" href="reporte.html" />
+    <link rel="prev" title="Calidad datos" href="calidad_datos.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> LEILA
+          
+
+          
+            
+            <img src="_static/logo_200.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                Versión 1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">CALIDAD DE DATOS:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="genindex.html">Índice</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduccion.html">Introducción</a></li>
+<li class="toctree-l1"><a class="reference internal" href="instalacion.html">Instalación</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Módulos y funciones:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="calidad_datos.html">Calidad datos</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Datos gov</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reporte.html">Reporte</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">LEILA</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content style-external-links">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Datos gov</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="datos-gov">
+<span id="id1"></span><h1>Datos gov<a class="headerlink" href="#datos-gov" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>Este módulo permite conectar y evaluar desde el código los metadatos del Portal de Datos Abiertos y descargar las bases de datos a dataframes.</p>
+<span class="target" id="module-datos_gov"></span><dl class="py function">
+<dt id="datos_gov.asset_inventory_espanol">
+<code class="descclassname">datos_gov.</code><code class="descname">asset_inventory_espanol</code><span class="sig-paren">(</span><em><span class="n">asset</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos_gov.asset_inventory_espanol" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Renombra los encabezados del inventario de bases de datos de Datos         Abiertos Colombia a términos en español.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>asset</strong> – (pandas.DataFrame) - Tabla de inventario del portal de datos        abiertos Colombia (<a class="reference external" href="https://www.datos.gov.co" target="_blank">https://www.datos.gov.co</a>).</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body">base de datos en formato dataframe.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py function">
+<dt id="datos_gov.cargar_base">
+<code class="descclassname">datos_gov.</code><code class="descname">cargar_base</code><span class="sig-paren">(</span><em><span class="n">api_id</span></em>, <em><span class="n">token</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">limite_filas</span><span class="o">=</span><span class="default_value">1000000000</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos_gov.cargar_base" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Se conecta al API de Socrata y retorna la base de datos descargada del Portal de Datos Abiertos
+como dataframe.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>api_id</strong> – (str) Identificación de la base de datos asociado con la API de Socrata.</li>
+<li><strong>token</strong> – (str) <em>opcional</em> - token de usuario de la API Socrata.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">base de datos en formato dataframe.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py function">
+<dt id="datos_gov.filtrar_tabla">
+<code class="descclassname">datos_gov.</code><code class="descname">filtrar_tabla</code><span class="sig-paren">(</span><em><span class="n">columnas_valor</span></em>, <em><span class="n">token</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos_gov.filtrar_tabla" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Permite filtrar la base de datos de <em>tabla de inventario</em> de acuerdo a        diferentes términos de búsqueda. Como son fechas, textos y otros.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>columnas_valor</strong> – (diccinario) {“nombre de columna”:”valor a buscar o rangos”}. Corresponde al nombre de la columna a consultar y el valor a buscar.</li>
+<li><strong>token</strong> – (str) <em>opcional</em> - token de usuario de la API Socrata.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">dataframe <em>Asset Inventory</em> filtrado con los términos de búsqueda).</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py function">
+<dt id="datos_gov.tabla_inventario">
+<code class="descclassname">datos_gov.</code><code class="descname">tabla_inventario</code><span class="sig-paren">(</span><em><span class="n">token</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">limite_filas</span><span class="o">=</span><span class="default_value">1000000000</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos_gov.tabla_inventario" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Se conecta al API de Socrata y retorna la base de datos <em>Asset Inventory</em> descargada del Portal de Datos Abiertos
+como dataframe. Este conjunto de datos es un inventario de los recursos en el sitio.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>token</strong> – (str) <em>opcional</em> - token de usuario de la API Socrata.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body">base de datos en formato dataframe.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="reporte.html" class="btn btn-neutral float-right" title="Reporte" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="calidad_datos.html" class="btn btn-neutral float-left" title="Calidad datos" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, UCD - DNP
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

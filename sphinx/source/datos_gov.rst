@@ -1,12 +1,12 @@
-.. _metadatos:
+.. _datos_gov:
 
-Metadatos
+Datos gov
 =========
 
 Este módulo permite conectar y evaluar desde el código los metadatos del Portal de Datos Abiertos y descargar las bases de datos a dataframes.
 
-.. automodule:: metadatos
+.. automodule:: datos_gov
    :members:
    :undoc-members:
    :show-inheritance:
-   :exclude-members: rows_vs_meta, cols_vs_meta, table_meta
+   :exclude-members:

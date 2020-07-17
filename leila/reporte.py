@@ -9,9 +9,12 @@ import pandas as pd
 from jinja2 import FileSystemLoader
 from jinja2 import Environment
 
+# sphinx
+# from calidad_datos import CalidadDatos
+# from datos_gov import *
+
 from leila.calidad_datos import CalidadDatos
 from leila import datos_gov
-
 
 def df_as_html(base, id=None, classes=None):
     """ Transforma el dataframe de entrada en una tabla HTML, se asignan al tab table las clases 'table' y

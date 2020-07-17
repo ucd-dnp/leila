@@ -27,7 +27,8 @@ A continuación se presentan los pasos a seguir para la creación del entorno vi
 
     .. code-block:: console
 
-        source env/Scripts/activate
+        cd env/Scripts
+        activate
 
 #. Una vez se active el entorno virtual se pueden instalar los requerimientos utilizando el archivo de requirements.txt, este archivo contiene un listado de las librerias o dependencias necesarias para el correcto funcionamiento de la libreria de calidad de datos.
 
