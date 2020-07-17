@@ -242,8 +242,15 @@ class CalidadDatos:
         
         dupli = dupli[dupli]
         if dupli.sum() == 0:
-            print("No hay columnas duplicadas")
-            return
+            if col==True:
+                print("No hay columnas duplicadas")
+                return
+            elif col==False:
+                print("No hay filas duplicadas")
+                return
+            else:
+                raise ValueError('"col" tiene que ser True o False')
+            
         lista_duplicados = []
         for s in dupli.index:
             for ss in dupli.index:
