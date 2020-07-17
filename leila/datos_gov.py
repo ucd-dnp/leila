@@ -39,7 +39,7 @@ DIC_RENAME = {
      }
 
 
-def cargar_base(api_id,token=None,limite_filas=1000000000):
+def cargar_base(api_id,token=None, limite_filas=1000000000):
     """ Se conecta al API de Socrata y retorna la base de datos descargada del Portal de Datos Abiertos
     como dataframe.
 
@@ -47,10 +47,12 @@ def cargar_base(api_id,token=None,limite_filas=1000000000):
     :param token: (str) *opcional* - token de usuario de la API Socrata.
     :return: base de datos en formato dataframe.
     """
+    
     client = Socrata("www.datos.gov.co", app_token=token)
     results = client.get(api_id,limit=limite_filas)
-    base_original = pd.DataFrame.from_records(results)
-    return(base_original)
+    _base = pd.DataFrame.from_records(results)
+          
+    return(_base)
 
 # OBTENER LA TABLA QUE TIENE DATOS ABIERTOS CON INFORMACIÓN DE LAS BASES DE DATOS
 def tabla_inventario(token=None,limite_filas=1000000000):

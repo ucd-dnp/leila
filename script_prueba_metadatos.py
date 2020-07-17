@@ -19,7 +19,7 @@ columnas_valor = {"nombre":["SECOP"]}
 tabla_filtrada = datos_gov.filtrar_tabla(columnas_valor)
 
 # Cargar una base de datos de interes
-#cargando la prmera base de datos que aparece en la tabla filtrada por
+#cargando la pirmera base de datos que aparece en la tabla filtrada por
 #la palabra "SECOP"
 tabla_id = tabla_filtrada.iloc[0].numero_api
 datos = datos_gov.cargar_base(tabla_id)
@@ -43,6 +43,7 @@ columnas_valor = {"fecha_creacion":["2018-12-31","-"]}
 tabla_filtrada = datos_gov.filtrar_tabla(columnas_valor)
 
 
-
+#
+base = datos_gov.cargar_base("iwpe-6gqp")
 
 

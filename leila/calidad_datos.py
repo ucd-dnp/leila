@@ -327,7 +327,7 @@ class CalidadDatos:
         base_num = self.base[col_num]
         
         if base_num.shape[1] == 0:
-            print("La base de datos no contiene columnas numéricas")
+            print("La base de datos no tiene columnas numéricas")
             return
         else:
             pass
@@ -419,6 +419,14 @@ class CalidadDatos:
         """
         base =self.base.copy()
     
+        # Revisar si hay columnas numéricas
+        columnas_tipo = self.TipoColumnas()
+        if len(columnas_tipo[columnas_tipo=="Numérico"])==0:
+            print("La base de datos no tiene columnas numéricas")
+            return
+        else:
+            pass
+    
         cols_tipos = base.dtypes
         lista_nums = []
         for i in range(len(cols_tipos)):
@@ -479,6 +487,14 @@ class CalidadDatos:
         else:
             pass
         
+        # Revisar si hay columnas con tipos diccionario o lista para convertirlas a string
+        tipo_columnas=self.TipoColumnas(detalle="alto")
+        for s in tipo_columnas.index:
+            if tipo_columnas[s]=="'dict'" or tipo_columnas[s]=="'list'":
+                base[s]=base[s].apply(lambda x:str(x))
+            else:
+                pass        
+
         # Filtrar por el número de categorías únicas en cada variable
         if categoriasMaximas>0:
             categorias_unicas=base.nunique()
@@ -547,15 +563,17 @@ class CalidadDatos:
         df_counts = pd.concat(lista_counts, axis=0)
         return(df_counts)
 
-
     # Tamaño de la base de datos en la memoria
-    def Memoria(self, col=False):
+    def Memoria(self, col=False,unidad="megabyte"):
         """ Calcula el tamaño de la base de datos en memoria (megabytes)
     
         :param col: (bool) {True, False}, valor por defecto: False. Si el \
             valor es False realiza el cálculo de memoria del dataframe \
             completo, si el valor es True realiza el cálculo de memoria por \
             cada columna del dataframe.
+        :param unidad: (str) {byte, kylobyte, megabyte, gygabyte, terabyte}, \
+            valor por defecto: 'megabyte'. Es la unidad con la que se desea \
+            ver la memoria de la base de datos
         :return: valor (float) del tamaño de la base de datos en megabytes \
             (si el parámetro col es False). Serie de pandas con el cálculo de \
             memoria en megabytes por cada columna del dataframe. (si el \
@@ -568,8 +586,20 @@ class CalidadDatos:
             memoria_ = base.memory_usage(index=True)
         else:
             raise ValueError('"col" tiene que ser True o False')
-        memoria_mb = memoria_/(1024**2)
-        return(memoria_mb)
+        
+        if unidad=="byte":
+            pass
+        elif unidad=="kylobyte":
+            memoria_ = memoria_/(1024)
+        elif unidad=="megabyte":
+            memoria_ = memoria_/(1024**2)
+        elif unidad=="gygabyte":
+            memoria_ = memoria_/(1024**3)
+        elif unidad=="terabyte":
+            memoria_ = memoria_/(1024**4)
+        else:
+            raise ValueError('"unidad" tiene que ser "byte", "kylobyte", "megabyte", "gygabyte" o "terabyte"')
+        return(memoria_)
 
 
     # tabla de resumen pequeña
@@ -717,10 +747,13 @@ class CalidadDatos:
         # Columnas con más del 10% de datos como extremos
         if colExtremos:
             col_porc = self.ValoresExtremos(extremos="ambos", porc=True)
-            calculo = len(col_porc[col_porc > 0.1])
-            nombre = "Columnas con más del 10% de datos como extremos"
-            lista_resumen[0].append(nombre)
-            lista_resumen[1].append(calculo)
+            try:
+                calculo = len(col_porc[col_porc > 0.1])
+                nombre = "Columnas con más del 10% de datos como extremos"
+                lista_resumen[0].append(nombre)
+                lista_resumen[1].append(calculo)
+            except:
+                pass
         else:
             pass         
         

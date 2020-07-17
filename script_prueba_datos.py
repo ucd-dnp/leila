@@ -11,18 +11,21 @@ import pandas as pd
 from leila.calidad_datos import CalidadDatos
 
 #Cargando base de datos de prueba
-base = pd.read_excel("../../../1_Insumos/Bases_de_datos/Reporte DFI 2019 Julio v4 DNP.xlsx")
+# base = pd.read_excel("../../../1_Insumos/Bases_de_datos/Reporte DFI 2019 Julio v4 DNP.xlsx")
+
+base = pd.read_csv("../../../1_Insumos/Bases_de_datos/Microestablecimientos_2016.csv",sep=";")
 
 #creado objeto de la clase CalidadDatos, similar a pandas DataFrame
 
-datos = CalidadDatos(base,castFloat=False)
+datos = CalidadDatos(base, castFloat=False)
 
 ############ RESUMEN DE BASE DE DATOS
-resumen=datos.Resumen()
+resumen=datos.Resumen(columnasRepetidas=False)
 print(resumen)
 
 ############ VARIANZA DE DATOS
 varianza_perc=datos.VarianzaEnPercentil()
+print(varianza_perc)
 
 ############ Tipos de columnas
 # Detalles bajo
