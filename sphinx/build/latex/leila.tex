@@ -76,8 +76,8 @@
 
 
 \title{LEILA}
-\date{16 de julio de 2020}
-\release{1.0}
+\date{20 de julio de 2020}
+\release{0.1}
 \author{UCD \sphinxhyphen{} DNP}
 \newcommand{\sphinxlogo}{\vbox{}}
 \renewcommand{\releasename}{Versión}
@@ -105,7 +105,7 @@
 \label{\detokenize{introduccion:introduccion}}\label{\detokenize{introduccion::doc}}
 La librería de calidad de datos tiene como objetivo principal ser una herramienta que facilite la verificación de contenido de bases de datos y dé métricas de calidad para que usuarios puedan decidir si sus bases de datos necesitan modificarse para ser utilizadas en los proyectos. La librería fue escrita en el lenguaje de programación de \sphinxstyleemphasis{Python} y puede analizar bases de datos estructurados que se conviertan en objetos \sphinxstyleemphasis{dataframe}. Contiene tres módulos principales, el módulo {\hyperref[\detokenize{calidad_datos:calidad-datos}]{\sphinxcrossref{\DUrole{std,std-ref}{Calidad datos}}}} para analizar cualquier base de datos, el módulo {\hyperref[\detokenize{datos_gov:datos-gov}]{\sphinxcrossref{\DUrole{std,std-ref}{Datos gov}}}} para conectarse con los metadatos del Portal de \sphinxhref{https://www.datos.gov.co/}{Datos Abiertos de Colombia} y utilizar sus bases de datos, y por último el módulo de {\hyperref[\detokenize{reporte:reporte}]{\sphinxcrossref{\DUrole{std,std-ref}{Reporte}}}} para exportar los resultados obtenidos en los dos anteriores.
 
-La librería surge como resultado de un proyecto realizado entre la UCD (Unidad de Científicos de Datos \sphinxhyphen{} DNP) y el Ministerio de Tecnologías de la Información y las Comunicaciones (\sphinxhref{https://www.mintic.gov.co/portal/inicio/}{MinTIC}) relacionado con realizar análisis descriptivos de la calidad de la información cargada al portal de Datos Abiertos de Colombia, durante el desarrollo del proyecto se identifica el interés por parte de diferentes actores en el proyecto al igual que el beneficio potencial de tener a la mano una librería que facilite describir la calidad de una base de datos, lo cual motivó a realizar la implementación de la librería.
+La librería surge como resultado de un proyecto relacionado con realizar análisis descriptivos de la calidad de la información cargada al portal de Datos Abiertos de Colombia, durante el desarrollo del proyecto se identifica el interés por parte de diferentes actores en el proyecto al igual que el beneficio potencial de tener a la mano una librería que facilite describir la calidad de una base de datos, lo cual motivó a realizar la implementación de la librería.
 
 Esta página contiene toda la información relacionada con la librería, en el panel de navegación se tiene acceso a las diferentes secciones, las cuales cubren la instalación de la librería, la documentación de los módulos y funciones, ejemplos y demás información de interés.
 
@@ -114,40 +114,9 @@ Esta página contiene toda la información relacionada con la librería, en el p
 \label{\detokenize{instalacion:instalacion}}\label{\detokenize{instalacion:id1}}\label{\detokenize{instalacion::doc}}
 En esta etapa de desarrollo de la librería aún no se cuenta con un procedimiento de instalación automática de las dependencias necesarias, dado lo anterior, se requiere que el usuario tenga acceso a los scripts de la librería y previamente tenga instalado las librerías de \sphinxcode{\sphinxupquote{pandas}}, \sphinxcode{\sphinxupquote{numpy}}, \sphinxcode{\sphinxupquote{sodapy}}, \sphinxcode{\sphinxupquote{jinja2}}.
 
-Para la instalación de las librerías se recomienda utilizar un gestor de paquetes como \sphinxcode{\sphinxupquote{pip}}, al igual que por buenas prácticas se sugiere crear un entorno virtual que permita aislar las librerías y evitar conflictos de versiones con el entorno de desarrollo base del computador.
+Para la instalación de los prerrequisitos de la librería se recomienda utilizar un gestor de paquetes como \sphinxcode{\sphinxupquote{pip}}, al igual que por buenas prácticas se sugiere crear un entorno virtual que permita aislar las librerías y evitar conflictos de versiones con el entorno de desarrollo base del computador.
 
-A continuación se presentan los pasos a seguir para la creación del entorno virtual e instalación de librerías requeridas.
-\begin{enumerate}
-\sphinxsetlistlabels{\arabic}{enumi}{enumii}{}{.}%
-\item {} 
-Creación del entorno virtual. Para esto se puede utilizar la librería \sphinxcode{\sphinxupquote{virtualenv}}.
-\begin{quote}
-
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{g+go}{virtualenv env}
-\end{sphinxVerbatim}
-\end{quote}
-
-\item {} 
-Activación del entorno virtual
-\begin{quote}
-
-En linux:
-
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{g+go}{source env/bin/activate}
-\end{sphinxVerbatim}
-
-En Windows:
-
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{g+go}{cd env/Scripts}
-\PYG{g+go}{activate}
-\end{sphinxVerbatim}
-\end{quote}
-
-\item {} 
-Una vez se active el entorno virtual se pueden instalar los requerimientos utilizando el archivo de requirements.txt, este archivo contiene un listado de las librerias o dependencias necesarias para el correcto funcionamiento de la libreria de calidad de datos.
+Para instalar los requerimientos se recomienda utilizar el archivo requirements.txt, este archivo contiene un listado de las librerias o dependencias necesarias para el correcto funcionamiento de la libreria de calidad de datos.
 \begin{quote}
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
@@ -155,7 +124,6 @@ Una vez se active el entorno virtual se pueden instalar los requerimientos utili
 \end{sphinxVerbatim}
 \end{quote}
 
-\item {} 
 De manera alterna se pueden instalar las diferentes librerías de manera independiente, a manera de ejemplo se muestra como instalar la librería \sphinxcode{\sphinxupquote{jinja2}}.
 \begin{quote}
 
@@ -163,17 +131,6 @@ De manera alterna se pueden instalar las diferentes librerías de manera indepen
 \PYG{g+go}{pip install Jinja2}
 \end{sphinxVerbatim}
 \end{quote}
-
-\item {} 
-Para desactivar el entorno virtual usar el comando deactivate
-\begin{quote}
-
-\begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{g+go}{deactivate}
-\end{sphinxVerbatim}
-\end{quote}
-
-\end{enumerate}
 
 
 \chapter{Calidad datos}
@@ -318,11 +275,17 @@ matriz (dataframe) que relaciona las indices de filas/nombre             de colu
 \index{Memoria() (método de calidad\_datos.CalidadDatos)@\spxentry{Memoria()}\spxextra{método de calidad\_datos.CalidadDatos}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{calidad_datos:calidad_datos.CalidadDatos.Memoria}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{Memoria}}}{\emph{\DUrole{n}{col}\DUrole{o}{=}\DUrole{default_value}{False}}}{}
+\phantomsection\label{\detokenize{calidad_datos:calidad_datos.CalidadDatos.Memoria}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{Memoria}}}{\emph{\DUrole{n}{col}\DUrole{o}{=}\DUrole{default_value}{False}}, \emph{\DUrole{n}{unidad}\DUrole{o}{=}\DUrole{default_value}{\textquotesingle{}megabyte\textquotesingle{}}}}{}
 Calcula el tamaño de la base de datos en memoria (megabytes)
 \begin{quote}\begin{description}
-\item[{Parámetros}] \leavevmode
+\item[{Parámetros}] \leavevmode\begin{itemize}
+\item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{col}} \textendash{} (bool) \{True, False\}, valor por defecto: False. Si el             valor es False realiza el cálculo de memoria del dataframe             completo, si el valor es True realiza el cálculo de memoria por             cada columna del dataframe.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{unidad}} \textendash{} (str) \{byte, kylobyte, megabyte, gygabyte, terabyte\},             valor por defecto: “megabyte”. Es la unidad con la que se desea             ver la memoria de la base de datos
+
+\end{itemize}
 
 \item[{Devuelve}] \leavevmode
 valor (float) del tamaño de la base de datos en megabytes             (si el parámetro col es False). Serie de pandas con el cálculo de             memoria en megabytes por cada columna del dataframe. (si el             parámetro col es True).
@@ -629,7 +592,7 @@ archivo de reporte en formato HTML.
 \label{\detokenize{index:introduccion}}
 La librería de calidad de datos tiene como objetivo principal ser una herramienta que facilite la verificación de contenido de bases de datos y dé métricas de calidad para que usuarios puedan decidir si sus bases de datos necesitan modificarse para ser utilizadas en los proyectos. La librería fue escrita en el lenguaje de programación de \sphinxstyleemphasis{Python} y puede analizar bases de datos estructurados que se conviertan en objetos \sphinxstyleemphasis{dataframe}. Contiene tres módulos principales, el módulo {\hyperref[\detokenize{calidad_datos:calidad-datos}]{\sphinxcrossref{\DUrole{std,std-ref}{Calidad datos}}}} para analizar cualquier base de datos, el módulo {\hyperref[\detokenize{datos_gov:datos-gov}]{\sphinxcrossref{\DUrole{std,std-ref}{Datos gov}}}} para conectarse con los metadatos del Portal de \sphinxhref{https://www.datos.gov.co/}{Datos Abiertos de Colombia} y utilizar sus bases de datos, y por último el módulo de {\hyperref[\detokenize{reporte:reporte}]{\sphinxcrossref{\DUrole{std,std-ref}{Reporte}}}} para exportar los resultados obtenidos en los dos anteriores.
 
-La librería surge como resultado de un proyecto realizado entre la UCD (Unidad de Científicos de Datos \sphinxhyphen{} DNP) y el Ministerio de Tecnologías de la Información y las Comunicaciones (\sphinxhref{https://www.mintic.gov.co/portal/inicio/}{MinTIC}) relacionado con realizar análisis descriptivos de la calidad de la información cargada al portal de Datos Abiertos de Colombia, durante el desarrollo del proyecto se identifica el interés por parte de diferentes actores en el proyecto al igual que el beneficio potencial de tener a la mano una librería que facilite describir la calidad de una base de datos, lo cual motivó a realizar la implementación de la librería.
+La librería surge como resultado de un proyecto relacionado con realizar análisis descriptivos de la calidad de la información cargada al portal de Datos Abiertos de Colombia, durante el desarrollo del proyecto se identifica el interés por parte de diferentes actores en el proyecto al igual que el beneficio potencial de tener a la mano una librería que facilite describir la calidad de una base de datos, lo cual motivó a realizar la implementación de la librería.
 
 Esta página contiene toda la información relacionada con la librería, en el panel de navegación se tiene acceso a las diferentes secciones, las cuales cubren la instalación de la librería, la documentación de los módulos y funciones, ejemplos y demás información de interés.
 

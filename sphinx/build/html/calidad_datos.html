@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Calidad datos &mdash; documentación de LEILA - 1.0</title>
+  <title>Calidad datos &mdash; documentación de LEILA - 0.1</title>
   
 
   
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                Versión 1.0
+                Versión 0.1
               </div>
             
           
@@ -295,15 +295,20 @@
 
 <dl class="py method">
 <dt id="calidad_datos.CalidadDatos.Memoria">
-<code class="descname">Memoria</code><span class="sig-paren">(</span><em><span class="n">col</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#calidad_datos.CalidadDatos.Memoria" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<code class="descname">Memoria</code><span class="sig-paren">(</span><em><span class="n">col</span><span class="o">=</span><span class="default_value">False</span></em>, <em><span class="n">unidad</span><span class="o">=</span><span class="default_value">'megabyte'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#calidad_datos.CalidadDatos.Memoria" title="Enlazar permanentemente con esta definición">¶</a></dt>
 <dd><p>Calcula el tamaño de la base de datos en memoria (megabytes)</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>col</strong> – (bool) {True, False}, valor por defecto: False. Si el             valor es False realiza el cálculo de memoria del dataframe             completo, si el valor es True realiza el cálculo de memoria por             cada columna del dataframe.</td>
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>col</strong> – (bool) {True, False}, valor por defecto: False. Si el             valor es False realiza el cálculo de memoria del dataframe             completo, si el valor es True realiza el cálculo de memoria por             cada columna del dataframe.</li>
+<li><strong>unidad</strong> – (str) {byte, kylobyte, megabyte, gygabyte, terabyte},             valor por defecto: “megabyte”. Es la unidad con la que se desea             ver la memoria de la base de datos</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body">valor (float) del tamaño de la base de datos en megabytes             (si el parámetro col es False). Serie de pandas con el cálculo de             memoria en megabytes por cada columna del dataframe. (si el             parámetro col es True).</td>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">valor (float) del tamaño de la base de datos en megabytes             (si el parámetro col es False). Serie de pandas con el cálculo de             memoria en megabytes por cada columna del dataframe. (si el             parámetro col es True).</p>
+</td>
 </tr>
 </tbody>
 </table>

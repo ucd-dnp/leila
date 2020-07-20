@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7440 64-bit) (preloaded format=pdflatex 2020.6.18)  16 JUL 2020 20:43
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7440 64-bit) (preloaded format=pdflatex 2020.6.18)  20 JUL 2020 17:59
 entering extended mode
 **./leila.tex
 (leila.tex
@@ -782,98 +782,98 @@ d"
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 ) [3
 
-] [4]
+]
 Chapter 4.
 LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 1
-86.
+43.
 
 ("C:\Users\jairoruiz\AppData\Local\Programs\MiKTeX 2.9\tex/latex/psnfss\ts1ptm.
 fd"
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
-Underfull \hbox (badness 10000) in paragraph at lines 186--186
+Underfull \hbox (badness 10000) in paragraph at lines 143--143
 []\T1/ptm/m/it/10 _base\T1/ptm/m/n/10 , \T1/ptm/m/it/10 cast-Float=False\T1/ptm
 /m/n/10 , \T1/ptm/m/it/10 dic-cionar-i-o-Cast=None\T1/ptm/m/n/10 , \T1/ptm/m/it
 /10 er-
  []
 
-[5
+[4
 
-] [6]
-Underfull \hbox (badness 5475) in paragraph at lines 337--337
+] [5]
+Underfull \hbox (badness 5475) in paragraph at lines 300--300
 []\T1/ptm/m/it/10 filas=True\T1/ptm/m/n/10 , \T1/ptm/m/it/10 colum-nas=True\T1/
 ptm/m/n/10 , \T1/ptm/m/it/10 col-Nu-mer-i-cas=True\T1/ptm/m/n/10 , \T1/ptm/m/it
 /10 col-Texto=True\T1/ptm/m/n/10 , \T1/ptm/m/it/10 col-Booleanas=True\T1/ptm/m/
 n/10 ,
  []
 
-[7] [8]
+[6] [7]
 Chapter 5.
-[9
+[8
 
-] [10]
+] [9]
 Chapter 6.
-<vista_reporte.jpg, id=101, 903.375pt x 451.6875pt>
+<vista_reporte.jpg, id=91, 903.375pt x 451.6875pt>
 File: vista_reporte.jpg Graphic file (type jpg)
 <use vista_reporte.jpg>
-Package pdftex.def Info: vista_reporte.jpg  used on input line 584.
+Package pdftex.def Info: vista_reporte.jpg  used on input line 547.
 (pdftex.def)             Requested size: 469.7577pt x 234.87885pt.
 
-LaTeX Warning: Hyper reference `calidad_datos:calidad-datos' on page 11 undefin
-ed on input line 587.
+LaTeX Warning: Hyper reference `calidad_datos:calidad-datos' on page 10 undefin
+ed on input line 550.
 
 
-LaTeX Warning: Hyper reference `datos_gov:datos-gov' on page 11 undefined on in
-put line 587.
+LaTeX Warning: Hyper reference `datos_gov:datos-gov' on page 10 undefined on in
+put line 550.
 
-[11
+[10
 
  <./vista_reporte.jpg>]
-<LEILA.jpg, id=111, 963.6pt x 352.31625pt>
+<LEILA.jpg, id=100, 963.6pt x 352.31625pt>
 File: LEILA.jpg Graphic file (type jpg)
 <use LEILA.jpg>
-Package pdftex.def Info: LEILA.jpg  used on input line 624.
+Package pdftex.def Info: LEILA.jpg  used on input line 587.
 (pdftex.def)             Requested size: 469.75679pt x 171.75482pt.
- [12 <./LEILA.jpg>]
+ [11 <./LEILA.jpg>]
 Chapter 7.
 
-LaTeX Warning: Hyper reference `calidad_datos:calidad-datos' on page 13 undefin
-ed on input line 630.
+LaTeX Warning: Hyper reference `calidad_datos:calidad-datos' on page 12 undefin
+ed on input line 593.
 
 
-LaTeX Warning: Hyper reference `datos_gov:datos-gov' on page 13 undefined on in
-put line 630.
+LaTeX Warning: Hyper reference `datos_gov:datos-gov' on page 12 undefined on in
+put line 593.
 
 
-LaTeX Warning: Hyper reference `reporte:reporte' on page 13 undefined on input 
-line 630.
+LaTeX Warning: Hyper reference `reporte:reporte' on page 12 undefined on input 
+line 593.
 
-[13
+[12
 
 ]
 
-LaTeX Warning: Reference `calidad_datos:module-calidad_datos' on page 14 undefi
-ned on input line 641.
+LaTeX Warning: Reference `calidad_datos:module-calidad_datos' on page 13 undefi
+ned on input line 604.
 
 
-LaTeX Warning: Reference `datos_gov:module-datos_gov' on page 14 undefined on i
-nput line 644.
+LaTeX Warning: Reference `datos_gov:module-datos_gov' on page 13 undefined on i
+nput line 607.
 
 
-LaTeX Warning: Reference `reporte:module-reporte' on page 14 undefined on input
- line 647.
+LaTeX Warning: Reference `reporte:module-reporte' on page 13 undefined on input
+ line 610.
 
-[14
+[13
 
 
 
 ]
 No file leila.ind.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 652.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 652.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 615.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 615.
 (leila.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 652.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 652.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 615.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 615.
 
 
 Package rerunfilecheck Warning: File `leila.out' has changed.
@@ -889,16 +889,16 @@ LaTeX Warning: There were undefined references.
 
 LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 652.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 615.
  ) 
 Here is how much of TeX's memory you used:
- 13945 strings out of 480799
- 203260 string characters out of 2893916
+ 13939 strings out of 480799
+ 203223 string characters out of 2893916
  479366 words of memory out of 3000000
  29570 multiletter control sequences out of 15000+200000
  575372 words of font info for 78 fonts, out of 3000000 for 9000
  1142 hyphenation exceptions out of 8191
- 38i,11n,49p,1174b,669s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 38i,11n,49p,1174b,671s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Users/jairoruiz/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/base/8r
 .enc}<C:/Users/jairoruiz/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/cour
 ier/ucrb8a.pfb><C:/Users/jairoruiz/AppData/Local/Programs/MiKTeX 2.9/fonts/type
@@ -910,9 +910,9 @@ AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Users/ja
 iroruiz/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/
 Users/jairoruiz/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmri8a
 .pfb>
-Output written on leila.pdf (16 pages, 335358 bytes).
+Output written on leila.pdf (15 pages, 331014 bytes).
 PDF statistics:
- 169 PDF objects out of 1000 (max. 8388607)
- 55 named destinations out of 1000 (max. 500000)
+ 157 PDF objects out of 1000 (max. 8388607)
+ 49 named destinations out of 1000 (max. 500000)
  31 words of extra memory for PDF output out of 10000 (max. 10000000)
 
