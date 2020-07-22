@@ -102,7 +102,7 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
 
     header_list = None
     items = None
-    if type(dataframe_descriptive_stats) != str:
+    if dataframe_descriptive_stats is not None:
         dataframe_descriptive_stats = dataframe_descriptive_stats.T
         header_list = list(dataframe_descriptive_stats)
         dataframe_descriptive_stats = dataframe_descriptive_stats.reset_index()
