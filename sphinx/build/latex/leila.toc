@@ -1,9 +1,0 @@
-\babel@toc {english}{}
-\contentsline {chapter}{\numberline {1}Índice}{1}{chapter.1}%
-\contentsline {chapter}{\numberline {2}Introducción}{2}{chapter.2}%
-\contentsline {chapter}{\numberline {3}Instalación}{3}{chapter.3}%
-\contentsline {chapter}{\numberline {4}Calidad datos}{4}{chapter.4}%
-\contentsline {chapter}{\numberline {5}Datos gov}{8}{chapter.5}%
-\contentsline {chapter}{\numberline {6}Reporte}{10}{chapter.6}%
-\contentsline {chapter}{\numberline {7}Introducción}{12}{chapter.7}%
-\contentsline {chapter}{Índice de Módulos Python}{13}{section*.26}%

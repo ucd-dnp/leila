@@ -17,3 +17,8 @@ La función ``generar_reporte(base)`` del módulo **reporte** busca facilitar el
    :undoc-members:
    :show-inheritance:
    :exclude-members: df_as_html
+
+
+
+
+A link :ref:`Internal Headline`

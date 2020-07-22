@@ -18,6 +18,7 @@ LEILA - Libreria de calidad de datos
    calidad_datos
    datos_gov
    reporte
+   ejemplos
 
 .. figure:: _static/image/LEILA.jpg
     :align: center

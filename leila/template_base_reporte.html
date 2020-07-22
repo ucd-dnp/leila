@@ -10,6 +10,7 @@
         <title>{{ title }}</title>
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
@@ -35,6 +36,57 @@
             tr th { white-space: nowrap;}
             .container {width:100%; text-align: center; overflow:display;}
             .white_spaces > tbody > tr > td:nth-child(2) { white-space: normal !important;}
+
+            .table-scroll {
+	position:relative;
+	max-width:600px;
+	margin:auto;
+	overflow:hidden;
+	border:1px solid #000;
+}
+.table-wrap {
+	width:100%;
+	overflow:auto;
+}
+.table-scroll table {
+	width:100%;
+	margin:auto;
+	border-collapse:separate;
+	border-spacing:0;
+}
+.table-scroll th, .table-scroll td {
+	padding:5px 10px;
+	border:1px solid #000;
+	background:#fff;
+	white-space:nowrap;
+	vertical-align:top;
+}
+.table-scroll thead, .table-scroll tfoot {
+	background:#f9f9f9;
+}
+.clone {
+	position:absolute;
+	top:0;
+	left:0;
+	pointer-events:none;
+}
+.clone th, .clone td {
+	visibility:hidden
+}
+.clone td, .clone th {
+	border-color:transparent
+}
+.clone tbody th {
+	visibility:visible;
+	color:red;
+}
+.clone .fixed-side {
+	border:1px solid #000;
+	background:#eee;
+	visibility:visible;
+}
+.clone thead, .clone tfoot{background:transparent;}
+}
         </style>
     </head>
     <body>
@@ -167,7 +219,7 @@
                             <ul class="nav nav-tabs">
                                 <li class="active"><a data-toggle="tab" href="#tab01">Información general</a></li>
                                 <li><a data-toggle="tab" href="#tab02">Estadísticas descriptivas</a></li>
-                                <li><a data-toggle="tab" href="#tab03">Frecuencia de valores únicos</a></li>
+                                <li><a data-toggle="tab" href="#tab03">Frecuencia de categorías</a></li>
                                 <li><a data-toggle="tab" href="#tab04">Datos duplicados</a></li>
                             </ul>
 
@@ -265,7 +317,7 @@
                                 <div id="tab03" class="tab-pane fade">
                                     <br>
                                     <p class="descripcion">
-                                        Contiene los primeros 10 valores únicos más frecuentes de las columnas tipo texto y presenta el porcentaje dentro del total de observaciones. Esta función incluye valores faltantes.
+                                        Contiene los primeros 10 categorías más frecuentes de las columnas categóricas y presenta el porcentaje dentro del total de observaciones. Esta función incluye valores faltantes y la frecuencia de las demás categorías, si las hay.
                                     </p>
                                     <div class="row max_size_row2 aligned-row">
 
