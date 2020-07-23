@@ -11,7 +11,7 @@ setuptools.setup(
     description="calidad de datos",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/ucd-dnp/calidad_datos",
+    url="https://github.com/ucd-dnp/leila",
     packages=setuptools.find_packages(),
     include_package_data = True,
     install_requires = ['numpy==1.18.4',
