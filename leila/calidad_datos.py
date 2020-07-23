@@ -12,7 +12,7 @@ import warnings
 
 class CalidadDatos:
 
-    def __init__(self, _base,castFloat=False,diccionarioCast=None,errores="ignore",formato_fecha=None):
+    def __init__(self, _base,castNumero=False,diccionarioCast=None,errores="ignore",formato_fecha=None):
         """ Constructor por defecto de la clase CalidadDatos. Esta clase se \
         encarga de manejar todas las funciones asociadas a la medición de la \
         calidad de los datos en una base de datos 
@@ -43,7 +43,7 @@ class CalidadDatos:
         _base = _base.copy()
         
         # Pasar los 'objects' a float, si posible
-        if castFloat==True:
+        if castNumero==True:
             tipos_columnas=_base.dtypes
             tipos_object=tipos_columnas[(tipos_columnas=="object")|(tipos_columnas=="bool")].index.to_list()
             # Pasar las columnas que se puedan a integer
@@ -53,7 +53,7 @@ class CalidadDatos:
             tipos_object=tipos_columnas[(tipos_columnas=="object")|(tipos_columnas=="bool")].index.to_list()
             _base[tipos_object]=_base[tipos_object].apply(lambda x:x.astype(float,errors="ignore"),axis=0)
 
-        elif castFloat==False:
+        elif castNumero==False:
             pass
         else:
             raise ValueError('"castFloat" tiene que ser True o False')

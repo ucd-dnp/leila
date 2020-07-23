@@ -17,7 +17,7 @@ base = pd.read_csv("../../../1_Insumos/Bases_de_datos/Microestablecimientos_2016
 
 #creado objeto de la clase CalidadDatos, similar a pandas DataFrame
 
-datos = CalidadDatos(base, castFloat=False)
+datos = CalidadDatos(base, castNumero=False)
 
 ############ RESUMEN DE BASE DE DATOS
 resumen=datos.Resumen(columnasRepetidas=False)
@@ -29,8 +29,6 @@ print(varianza_perc)
 
 ############ Tipos de columnas
 tipos_columnas = datos.TipoColumnas(tipoGeneral=True, tipoGeneralPython = True, tipoEspecifico = True)
-
-tipos_columnas = datos.TipoColumnas(tipoGeneral=True, tipoGeneralPython = False, tipoEspecifico = False).iloc[:,0]
 
 ############ Valores únicos en cada columna
 # Sin faltantes
