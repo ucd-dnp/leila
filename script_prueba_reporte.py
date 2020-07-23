@@ -24,4 +24,4 @@ tabla_id = tabla_filtrada.iloc[1].numero_api
 datos = datos_gov.cargar_base(tabla_id)
 
 # Generar reporte con el modulo reporte
-generar_reporte(df = datos)
+generar_reporte(df = datos, castFloat=True)

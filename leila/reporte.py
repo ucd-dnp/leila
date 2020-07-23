@@ -113,19 +113,9 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
     tipo_df_high = base.TipoColumnas(detalle="alto").to_frame()
     dataframe_descriptive_stats_2 = pd.merge(tipo_df_low, tipo_df_high, left_index=True, right_index=True, how='outer')
 
-    memoria_df = base.Memoria(col=True).to_frame()
-    memoria_df = memoria_df.loc[~memoria_df.index.isin(['Index'])]
-    dataframe_descriptive_stats_2 = pd.merge(dataframe_descriptive_stats_2, memoria_df, left_index=True,
-                                             right_index=True, how='outer')
-
-    valores_unicos_df = base.ValoresUnicos().to_frame()
-    dataframe_descriptive_stats_2 = pd.merge(dataframe_descriptive_stats_2, valores_unicos_df, left_index=True,
-                                             right_index=True, how='outer')
-
-    dataframe_descriptive_stats_2.columns = ['Tipo', 'Tipo (específico)', 'Memoria', 'Valores únicos']
-    dataframe_descriptive_stats_2['Memoria'] = dataframe_descriptive_stats_2['Memoria'].map('{:,.6f}'.format)
-    dataframe_descriptive_stats_2 = dataframe_descriptive_stats_2.T
-    header_list_2 = list(dataframe_descriptive_stats_2)
+    dataframe_descriptive_stats_2.columns = ['Tipo', 'Tipo (específico)']
+    header_list_2 = list(dataframe_descriptive_stats_2.T)
+    header_list_2b = list(dataframe_descriptive_stats_2)
     dataframe_descriptive_stats_2 = dataframe_descriptive_stats_2.reset_index()
     items_2 = dataframe_descriptive_stats_2.values.tolist()
 
@@ -149,7 +139,7 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
         html_dataframe_duplic_colum = df_as_html(dataframe_duplic_colum)
 
     # Gráficos correlaciones ----------------------------------------------------
-
+    # Escala de colores del heatmap
     heatmap_colorscale = [
         ['0.000000000000', 'rgb(103,  0, 31)'],
         ['0.111111111111', 'rgb(178, 24, 43)'],
@@ -219,6 +209,7 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
             header_list=header_list,
             items=items,
             header_list_2=header_list_2,
+            header_list_2b=header_list_2b,
             items_2=items_2,
             html_dataframe_unique_text=html_dataframe_unique_text,
             html_dataframe_head=html_dataframe_head,
