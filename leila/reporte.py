@@ -5,9 +5,7 @@
 import os
 import datetime
 import pandas as pd
-
-from jinja2 import FileSystemLoader
-from jinja2 import Environment
+from jinja2 import Environment, PackageLoader
 
 # Se deben usar estos imports para que funcione correctamente Sphinx
 # from calidad_datos import CalidadDatos
@@ -197,12 +195,10 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
     df_corre_phik = df_corre_phik.round(3).fillna('null')
     corre_phik_values = df_corre_phik.values.tolist()
     # --------------------------------------------------------------------------------------
-
-    # Configure Jinja and ready the loader    
-    env = Environment(loader=FileSystemLoader(searchpath='.'))
-
+    # Configure Jinja and ready the loader  
+    env = Environment(loader=PackageLoader('leila'))
     # Assemble the templates we'll use
-    base_template = env.get_template('/leila/template_base_reporte.html')
+    base_template = env.get_template('template.html')
 
     # Produce and write the report to file
     with open(archivo, "w", encoding='utf8') as HTML_file:
