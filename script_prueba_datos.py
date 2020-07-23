@@ -28,13 +28,9 @@ varianza_perc=datos.VarianzaEnPercentil()
 print(varianza_perc)
 
 ############ Tipos de columnas
-# Detalles bajo
-tipos_bajo=datos.TipoColumnas(detalle="bajo")
-print(tipos_bajo)
+tipos_columnas = datos.TipoColumnas(tipoGeneral=True, tipoGeneralPython = True, tipoEspecifico = True)
 
-# Detalles alto
-tipos_alto=datos.TipoColumnas(detalle="alto")
-print(tipos_alto)
+tipos_columnas = datos.TipoColumnas(tipoGeneral=True, tipoGeneralPython = False, tipoEspecifico = False).iloc[:,0]
 
 ############ Valores únicos en cada columna
 # Sin faltantes
@@ -47,28 +43,28 @@ print(unicos_sifaltantes)
 
 ############ Valores faltantes por columna
 # En porcentaje
-faltantes_porc=datos.ValoresFaltantes(porc=True)
-print(faltantes_porc)
+faltantes_prop=datos.ValoresFaltantes(numero=False)
+print(faltantes_prop)
 
 # En número
-faltantes_num=datos.ValoresFaltantes(porc=False)
+faltantes_num=datos.ValoresFaltantes(numero=True)
 print(faltantes_num)
 
-############ Número y porcentaje de filas y columnas no únicas
-# Porcentaje de columnas que no son únicas
-repetidos_col_porc=datos.CantidadDuplicados(eje=1,porc=True)
-print(repetidos_col_porc)
+############ Número y proporción de filas y columnas no únicas
+# Proporción de columnas que no son únicas
+repetidos_col_prop=datos.CantidadDuplicados(eje=1,numero=False)
+print(repetidos_col_prop)
 
 # Número de columnas que no son únicas
-repetidos_col_num=datos.CantidadDuplicados(eje=1,porc=False)
+repetidos_col_num=datos.CantidadDuplicados(eje=1,numero=True)
 print(repetidos_col_num)
 
-# Porcentaje de filas que no son únicas
-repetidos_fil_porc=datos.CantidadDuplicados(eje=0,porc=True)
-print(repetidos_fil_porc)
+# Proporción de filas que no son únicas
+repetidos_fil_prop=datos.CantidadDuplicados(eje=0,numero=False)
+print(repetidos_fil_prop)
 
 # Número de filas que no son únicas
-repetidos_fil_num=datos.CantidadDuplicados(eje=0,porc=False)
+repetidos_fil_num=datos.CantidadDuplicados(eje=0,numero=True)
 print(repetidos_fil_num)
 
 ############ Emparejamiento de columnas y filas duplicadas
@@ -81,28 +77,28 @@ duplicados_fil=datos.EmparejamientoDuplicados(col=False)
 print(duplicados_fil)
 
 ############ Valores extremos de cada columna
-# Extremos altos y bajos en porcentaje
-extremos_ambos_porc=datos.ValoresExtremos(extremos="ambos",porc=True)
-print(extremos_ambos_porc)
+# Proporción de extremos totales
+extremos_ambos_prop=datos.ValoresExtremos(extremos="ambos",numero=False)
+print(extremos_ambos_prop)
 
-# Extremos altos y bajos en número
-extremos_ambos_num=datos.ValoresExtremos(extremos="ambos",porc=False)
+# Número de extremos totales
+extremos_ambos_num=datos.ValoresExtremos(extremos="ambos",numero=True)
 print(extremos_ambos_num)
 
-# Extremos altos porcentaje
-extremos_sup_porc=datos.ValoresExtremos(extremos="superior",porc=True)
-print(extremos_sup_porc)
+# Extremos altos proporción
+extremos_sup_prop=datos.ValoresExtremos(extremos="superior",numero=False)
+print(extremos_sup_prop)
 
 # Extremos altos en número
-extremos_sup_num=datos.ValoresExtremos(extremos="superior",porc=False)
+extremos_sup_num=datos.ValoresExtremos(extremos="superior",numero=True)
 print(extremos_sup_num)
 
-# Extremos bajos porcentaje
-extremos_inf_porc=datos.ValoresExtremos(extremos="inferior",porc=True)
-print(extremos_inf_porc)
+# Extremos bajos proporción
+extremos_inf_prop=datos.ValoresExtremos(extremos="inferior",numero=False)
+print(extremos_inf_prop)
 
 # Extremos bajos en número
-extremos_inf_num=datos.ValoresExtremos(extremos="inferior",porc=False)
+extremos_inf_num=datos.ValoresExtremos(extremos="inferior",numero=True)
 print(extremos_inf_num)
 
 ############ Estadísticas descriptivas
