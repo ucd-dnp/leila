@@ -5,9 +5,7 @@
 import os
 import datetime
 import pandas as pd
-
-from jinja2 import FileSystemLoader
-from jinja2 import Environment
+from jinja2 import Environment, PackageLoader
 
 # Se deben usar estos imports para que funcione correctamente Sphinx
 # from calidad_datos import CalidadDatos
@@ -85,7 +83,7 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
     dataframe_summary = base.Resumen().to_frame().reset_index()
     dataframe_summary.columns = ['Categoría', 'Valor']
     html_data_summary_full = df_as_html(dataframe_summary)
-    html_data_summary_head = df_as_html(dataframe_summary[:5])
+    html_data_summary_head = df_as_html(dataframe_summary[:6])
     html_data_summary_tail = df_as_html(dataframe_summary[-5:])
 
     # Muestra de datos ----------------------------------------------------------
@@ -102,7 +100,7 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
 
     header_list = None
     items = None
-    if type(dataframe_descriptive_stats) != str:
+    if dataframe_descriptive_stats is not None:
         dataframe_descriptive_stats = dataframe_descriptive_stats.T
         header_list = list(dataframe_descriptive_stats)
         dataframe_descriptive_stats = dataframe_descriptive_stats.reset_index()
@@ -197,12 +195,10 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
     df_corre_phik = df_corre_phik.round(3).fillna('null')
     corre_phik_values = df_corre_phik.values.tolist()
     # --------------------------------------------------------------------------------------
-
-    # Configure Jinja and ready the loader    
-    env = Environment(loader=FileSystemLoader(searchpath='.'))
-
+    # Configure Jinja and ready the loader  
+    env = Environment(loader=PackageLoader('leila'))
     # Assemble the templates we'll use
-    base_template = env.get_template('/leila/template_base_reporte.html')
+    base_template = env.get_template('template.html')
 
     # Produce and write the report to file
     with open(archivo, "w", encoding='utf8') as HTML_file:
