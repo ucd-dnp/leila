@@ -171,7 +171,7 @@
                                 <div id="tab05" class="tab-pane fade in active">
                                     <br>
                                     <p class="descripcion">
-                                        Aquí se muestran los tipos de las columnas de la base de datos con tres metodologías diferentes. La primera muestra si las variables son numéricas, de texto, booleanas; la segunda muestra el tipo de la variable según la función "dtypes" de Python; la tercera muestra los tipos de las observaciones de cada columna, incluidos datos faltantes ("nan"), como porcentaje del total.
+                                        Aquí se muestran los tipos de las columnas de la base de datos con tres metodologías diferentes. La columna 'Tipo general' muestra si las variables son numéricas, de texto, booleanas; la columna 'Tipo general (Python)' muestra el tipo de la variable según la función "dtypes" de Python; las columnas 'Tipo especifico' muestran los tipos de las observaciones de cada columna, incluidos datos faltantes ("nan"), como porcentaje del total.
                                     </p>
                                     <div class="row max_size_row2 aligned-row">
 
@@ -214,7 +214,7 @@
                                 <div id="tab03" class="tab-pane fade">
                                     <br>
                                     <p class="descripcion">
-                                        Contiene las 10 categorías más frecuentes de las columnas tipo texto y presenta el porcentaje dentro del total de observaciones. Esta función incluye valores faltantes.
+                                        Contiene las 10 categorías más frecuentes de las columnas tipo texto y presenta el porcentaje dentro del total de observaciones. Incluye valores faltantes.
                                     </p>
                                     <div class="row max_size_row2 aligned-row">
 
@@ -256,7 +256,7 @@
                                 <div id="tab04" class="tab-pane fade">
                                     <br>
                                     <p class="descripcion">
-                                        Contiene la relación de columnas y filas duplicadas en la base de datos analizada.
+                                        Cada columna muestra los nombres de las filas y columnas que están duplicadas en la base de datos
                                     </p>
                                     <div class="row max_size_row2 aligned-row">
                                         <div class="col-md-12 table-responsive">
@@ -423,7 +423,7 @@
                                 <div id="tab04b" class="tab-pane fade">
                                     <br>
                                     <p class="descripcion">
-                                        La correlación Cramer V se usas para medir la relación entre dos variables nominales. Varía entre 0 y 1, donde 0 significa que no hay correlación y 1 que la correlación es positiva y total. Se calcula como la raíz cuadrada de la división de estadístico Chi Cuadrado con el mímo entre el número de filas o columnas y el número total de observaciones.
+                                        La correlación Cramer V se usas para medir la relación entre dos variables nominales. Varía entre 0 y 1, donde 0 significa que no hay correlación y 1 que la correlación es positiva y total. Se calcula como la raíz cuadrada de la división de estadístico Chi Cuadrado con el mínimo entre el número de filas o columnas y el número total de observaciones.
                                     </p>
                                     {% if corre_cramer_headers|length > 1 %}
                                         <div class="row max_size_row3 aligned-row">
