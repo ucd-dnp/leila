@@ -660,7 +660,10 @@ class CalidadDatos:
     
             lista["Demás categorías"] = resto
             lista["Datos faltantes"] = miss
-            # lista["Total de categorías (con NA)"]=len(pd.unique(base[s]))
+            
+          
+            
+            lista["Total categorías (incluye NA): {0}".format(len(pd.unique(base[s])))]=np.nan
     
             lista = lista.to_frame()
             lista["Columna"] = s
@@ -880,10 +883,17 @@ class CalidadDatos:
         if memoriaTotal:
             memoria_tot = self.Memoria()
             if memoria_tot > 1024:
-                memoria_tot = memoria_tot/1024
-                nombre = "Tamaño de la base en gygabytes (redondeado)"
+                memoria_tot = memoria_tot / 1024
+                nombre = "Tamaño de la base en gygabytes (aproximado)"
+            elif memoria_tot < (1 / 1024):
+                memoria_tot = memoria_tot * 1024 * 1024
+                nombre = "Tamaño de la base en bytes (aproximado)"                  
+            elif memoria_tot < 1:
+                memoria_tot = memoria_tot * 1024
+                nombre = "Tamaño de la base en kylobytes (aproximado)"  
             else:
-                nombre = "Tamaño de la base en megabytes (redondeado)"
+                nombre = "Tamaño de la base en megabytes (aproximado)"
+                
             calculo = memoria_tot
             lista_resumen[0].append(nombre)
             lista_resumen[1].append(calculo)
@@ -892,7 +902,6 @@ class CalidadDatos:
         
         tabla_resumen = pd.Series(data=lista_resumen[1],index=lista_resumen[0]).astype(int)
         return(tabla_resumen)
-
 
 
     # Matrices de correlación para las variables numéricas
