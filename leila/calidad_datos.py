@@ -47,7 +47,7 @@ class CalidadDatos:
             tipos_columnas=_base.dtypes
             tipos_object=tipos_columnas[(tipos_columnas=="object")|(tipos_columnas=="bool")].index.to_list()
             # Pasar las columnas que se puedan a integer
-            _base[tipos_object]=_base[tipos_object].apply(lambda x:x.astype(int,errors="ignore"),axis=0)
+            _base[tipos_object]=_base[tipos_object].apply(lambda x:x.astype("int64",errors="ignore"),axis=0)
             # Pasar las columnas qeu se puedan a float
             tipos_columnas=_base.dtypes
             tipos_object=tipos_columnas[(tipos_columnas=="object")|(tipos_columnas=="bool")].index.to_list()
@@ -283,13 +283,14 @@ class CalidadDatos:
         base=self.base.copy()
         
         # Revisar si hay columnas con tipos diccionario o lista para convertirlas a string
-        tipo_columnas=pd.Series(self.TipoColumnas(tipoGeneral = False,tipoGeneralPython = False, tipoEspecifico = True).iloc[:,0])
-        for s in tipo_columnas.index:
-            if tipo_columnas[s]=="'dict'" or tipo_columnas[s]=="'list'":
-                base[s]=base[s].apply(lambda x:str(x))
+        for s in base.columns:    
+            tip = str(type(self.base[s].value_counts(dropna=True).index[0])).replace("<class ", "").replace(">", "").replace("'", "")
+            
+            if tip=="dict" or tip=="list":
+                base[s] = base[s].apply(str)
             else:
                 pass
-            
+                        
         # Proporcion (decimal) de columnas repetidas
         if eje==1 and numero==False:
             no_unic_columnas = base.T.duplicated(keep="first")
@@ -329,11 +330,12 @@ class CalidadDatos:
         """
         base=self.base.copy()
     
-        # Revisar si hay columnas con tipos diccionario para convertirlas a string
-        tipo_columnas=pd.Series(self.TipoColumnas(tipoGeneral = False,tipoGeneralPython = False, tipoEspecifico = True).iloc[:,0])
-        for s in tipo_columnas.index:
-            if tipo_columnas[s]=="'dict'" or tipo_columnas[s]=="'list'":
-                base[s]=base[s].apply(lambda x:str(x))
+        # Revisar si hay columnas con tipos diccionario o lista para convertirlas a string
+        for s in base.columns:    
+            tip = str(type(self.base[s].value_counts(dropna=True).index[0])).replace("<class ", "").replace(">", "").replace("'", "")
+            
+            if tip=="dict" or tip=="list":
+                base[s] = base[s].apply(str)
             else:
                 pass
         
@@ -604,12 +606,13 @@ class CalidadDatos:
             pass
         
         # Revisar si hay columnas con tipos diccionario o lista para convertirlas a string
-        tipo_columnas=pd.Series(self.TipoColumnas(tipoGeneral = False,tipoGeneralPython = False, tipoEspecifico = True).iloc[:,0])
-        for s in tipo_columnas.index:
-            if tipo_columnas[s]=="'dict'" or tipo_columnas[s]=="'list'":
-                base[s]=base[s].apply(lambda x:str(x))
+        for s in base.columns:    
+            tip = str(type(self.base[s].value_counts(dropna=True).index[0])).replace("<class ", "").replace(">", "").replace("'", "")
+            
+            if tip=="dict" or tip=="list":
+                base[s] = base[s].apply(str)
             else:
-                pass        
+                pass     
 
         # Filtrar por el número de categorías únicas en cada variable
         if categoriasMaximas>0:
@@ -959,12 +962,13 @@ class CalidadDatos:
             pass
         
         # Revisar si hay columnas con tipos diccionario o lista para convertirlas a string
-        tipo_columnas=pd.Series(self.TipoColumnas(tipoGeneral = False,tipoGeneralPython = False, tipoEspecifico = True).iloc[:,0])
-        for s in tipo_columnas.index:
-            if tipo_columnas[s]=="'dict'" or tipo_columnas[s]=="'list'":
-                base[s]=base[s].apply(lambda x:str(x))
+        for s in base.columns:    
+            tip = str(type(self.base[s].value_counts(dropna=True).index[0])).replace("<class ", "").replace(">", "").replace("'", "")
+            
+            if tip=="dict" or tip=="list":
+                base[s] = base[s].apply(str)
             else:
-                pass        
+                pass      
         
         # Filtrar por el número de categorías únicas en cada variable
         if categoriasMaximas>0:

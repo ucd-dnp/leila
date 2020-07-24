@@ -17,7 +17,7 @@ base = pd.read_excel("../../../1_Insumos/Bases_de_datos/Reporte DFI 2019 Julio v
 
 #creado objeto de la clase CalidadDatos, similar a pandas DataFrame
 
-datos = CalidadDatos(base, castNumero=False)
+datos = CalidadDatos(base, castNumero=True)
 
 ############ RESUMEN DE BASE DE DATOS
 resumen=datos.Resumen(columnasRepetidas=False)
