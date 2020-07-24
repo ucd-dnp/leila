@@ -214,7 +214,7 @@
                                 <div id="tab03" class="tab-pane fade">
                                     <br>
                                     <p class="descripcion">
-                                        Contiene los primeros 10 valores únicos más frecuentes de las columnas tipo texto y presenta el porcentaje dentro del total de observaciones. Esta función incluye valores faltantes.
+                                        Contiene las 10 categorías más frecuentes de las columnas tipo texto y presenta el porcentaje dentro del total de observaciones. Esta función incluye valores faltantes.
                                     </p>
                                     <div class="row max_size_row2 aligned-row">
 
@@ -443,7 +443,7 @@
                                 <div id="tab05b" class="tab-pane fade">
                                     <br>
                                     <p class="descripcion">
-                                        Se calcula la correlación de Phik entre variables categóricas.
+                                        Esta correlación se calcula con el módulo Phik de Python. <a href="https://pypi.org/project/phik/" target="_blank">ver más detalles</a>
                                     </p>
                                     {% if corre_phik_headers|length > 1 %}
                                         <div class="row max_size_row3 aligned-row">
@@ -660,7 +660,7 @@
                             var layout = {
                                 title: '',
                                 xaxis: {fixedrange: true, automargin: true, side: 'top'},
-                                yaxis: {fixedrange: true, automargin: true},
+                                yaxis: {fixedrange: true, automargin: true, autorange:"reversed"},
 
                                 showlegend: true, font: {size: 12},
                                 autosize: true, width:1055,
