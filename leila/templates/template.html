@@ -10,7 +10,6 @@
         <title>{{ title }}</title>
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
@@ -20,15 +19,15 @@
 
         <style>
             .aligned-row { display: flex; }
-            .borde{ border-style: solid; border-width: 1px; border-color: #c2c2c2; }
+            .borde { border-style: solid; border-width: 1px; border-color: #c2c2c2; }
             .descripcion   { min-height:40px; }
             .max_size_row  { max-height:450px !important; }
-            .max_size_row2 { height:380px !important;}
-            .max_size_row3 { /* height:380px !important; */ height:450px !important;}
+            .max_size_row2 { height:450px !important;}
+            .max_size_row3 { height:450px !important;}
             p { margin-bottom:5px; }
             table > tbody > tr > :nth-child(1) { font-weight:bold; }
             table > tbody > tr:hover           { background-color: #ffff99 !important; }
-            table > tbody > tr:nth-child(even) { background: #ededed; }
+            table > tbody > tr:nth-child(even) { background: #ededed;}
             .tabla_sin_bold > table > tbody > tr > :nth-child(1){ font-weight:normal !important; }
             .tableFixHead { overflow-y: auto; height: 100px; }
             .tableFixHead thead th { position: sticky; top: 0; background:#ffffff; }
@@ -36,57 +35,7 @@
             tr th { white-space: nowrap;}
             .container {width:100%; text-align: center; overflow:display;}
             .white_spaces > tbody > tr > td:nth-child(2) { white-space: normal !important;}
-
-            .table-scroll {
-	position:relative;
-	max-width:600px;
-	margin:auto;
-	overflow:hidden;
-	border:1px solid #000;
-}
-.table-wrap {
-	width:100%;
-	overflow:auto;
-}
-.table-scroll table {
-	width:100%;
-	margin:auto;
-	border-collapse:separate;
-	border-spacing:0;
-}
-.table-scroll th, .table-scroll td {
-	padding:5px 10px;
-	border:1px solid #000;
-	background:#fff;
-	white-space:nowrap;
-	vertical-align:top;
-}
-.table-scroll thead, .table-scroll tfoot {
-	background:#f9f9f9;
-}
-.clone {
-	position:absolute;
-	top:0;
-	left:0;
-	pointer-events:none;
-}
-.clone th, .clone td {
-	visibility:hidden
-}
-.clone td, .clone th {
-	border-color:transparent
-}
-.clone tbody th {
-	visibility:visible;
-	color:red;
-}
-.clone .fixed-side {
-	border:1px solid #000;
-	background:#eee;
-	visibility:visible;
-}
-.clone thead, .clone tfoot{background:transparent;}
-}
+            table#StatusTable tr.matching { background: #ffffdb; }
         </style>
     </head>
     <body>
@@ -101,12 +50,6 @@
                         <div class="col-md-12">
                             <h1>{{ title }}</h1>
                             <em>Reporte generado automáticamente {{ current_time }}</em>
-                            <!--
-                            <h1 class="hidden-xs bg-danger">This text is hidden on an EXTRA SMALL screen.</h1>
-                            <h1 class="hidden-sm bg-info">This text is hidden on a SMALL screen.</h1>
-                            <h1 class="hidden-md bg-warning">This is text hidden on a MEDIUM screen.</h1>
-                            <h1 class="hidden-lg bg-success">This is text hidden on a LARGE screen.</h1>
-                            -->
                         </div>
                     </div>
 
@@ -204,7 +147,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <hr><em>{{ dataframe_shape }}</em><br><br>
                         </div>
                     </div>
@@ -217,35 +159,36 @@
 
                             <h3><em>Estadísticas específicas</em></h3>
                             <ul class="nav nav-tabs">
-                                <li class="active"><a data-toggle="tab" href="#tab01">Información general</a></li>
-                                <li><a data-toggle="tab" href="#tab02">Estadísticas descriptivas</a></li>
+                                <li class="active"><a data-toggle="tab" href="#tab05">Tipo de las columnas</a></li>
                                 <li><a data-toggle="tab" href="#tab03">Frecuencia de categorías</a></li>
                                 <li><a data-toggle="tab" href="#tab04">Datos duplicados</a></li>
+                                <li><a data-toggle="tab" href="#tab02">Estadísticas descriptivas</a></li>
                             </ul>
 
                             <div class="tab-content" style="text-align: justify; text-justify: inter-word;">
 
-                                <!-- Información general -->
-                                <div id="tab01" class="tab-pane fade in active">
+                                <!-- Tipo de las columnas -->
+                                <div id="tab05" class="tab-pane fade in active">
                                     <br>
                                     <p class="descripcion">
                                         Esta función está compuesta por cuatro elementos. La cual contiene, el tipo general (numérica, texto, boolean, fecha y otro) y especifico (str, float, int, numpy.int64, numpy.float64)de cada columna, el tamaño de la base de datos por columnas en megabytes y el número de valores únicos de cada columna sin incluir valores faltantes.
                                     </p>
                                     <div class="row max_size_row2 aligned-row">
-                                        <div class="col-md-4 table-responsive">
+
+                                        <div class="col-md-3 table-responsive">
                                             <h4><strong><em>Variables</em></strong></h4>
-                                            <p><input type="checkbox" onClick="toggle2(this)" id="select-all_2"> Seleccionar todos</p>
-                                            {% for item in header_list_2 %}
-                                                <p><input type="checkbox" name="ds2_{{ loop.index }}" class="checkbox_tab2"> {{ loop.index }} - {{ item }}</p>
+                                            <p><input type="checkbox" onClick="toggle5(this)" id="select-all_5"> Seleccionar todos</p>
+                                                {% for item in variables_list_2 %}
+                                                <p><input type="checkbox" name="tab5" class="checkbox_tab5" value="{{ item }}"> {{ loop.index }} - {{ item }}</p>
                                             {% endfor %}
                                         </div>
-                                        <div class="col-md-8 table-responsive">
-                                            <table class="table table-condensed">
+                                        <div class="col-md-9 table-responsive">
+                                            <table class="table table-condensed tableFixHead" id="OtrosTable">
                                                 <thead>
                                                     <tr>
-                                                        <th>Estadística</th>
+                                                        <th>Variable</th>
                                                         {% for item in header_list_2 %}
-                                                            <th class="ds2_{{ loop.index }}">{{ item }}</th>
+                                                            <th>{{ item }}</th>
                                                         {% endfor %}
                                                     </tr>
                                                 </thead>
@@ -253,9 +196,11 @@
                                                     {% for row in items_2%}
                                                         <tr>
                                                             {% for column in row %}
-                                                                <td class="ds2_{{ loop.index0 }}">
-                                                                    {{ column }}
-                                                                </td>
+                                                                {% if loop.index0 == 0 %}
+                                                                    <td class="referencia">{{ column }}</td>
+                                                                {% else %}
+                                                                    <td>{{ column }}</td>
+                                                                {% endif %}
                                                             {% endfor %}
                                                         </tr>
                                                     {% endfor %}
@@ -265,70 +210,22 @@
                                     </div>
                                 </div>
 
-                                <!-- Estadísticas Descriptivas -->
-                                <div id="tab02" class="tab-pane fade">
-                                    <br>
-                                    <p class="descripcion">
-                                        Contiene información para cada columna de tipo numérico, incluye media, mediana, percentiles, desviación estándar, valores extremos y porcentaje de valores faltantes.
-                                    </p>
-                                    {% if header_list != None %}
-                                        <div class="row max_size_row2 aligned-row">
-                                            <div class="col-md-4 table-responsive">
-                                                <h4><strong><em>Variables</em></strong></h4>
-                                                <p><input type="checkbox" onClick="toggle(this)" id="select-all"> Seleccionar todos</p>
-                                                {% for item in header_list %}
-                                                    <p><input type="checkbox" name="ds_{{ loop.index }}" class="checkbox_tab1"> {{ loop.index }} - {{ item }}</p>
-                                                {% endfor %}
-                                            </div>
-                                            <div class="col-md-8 table-responsive">
-                                                <table class="table table-condensed">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Estadística</th>
-                                                            {% for item in header_list %}
-                                                                <th class="ds_{{ loop.index }}">{{ item }}</th>
-                                                            {% endfor %}
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {% for row in items%}
-                                                            <tr>
-                                                                {% for column in row %}
-                                                                    <td class="ds_{{ loop.index0 }}">
-                                                                        {% if loop.index0 == 0 %}
-                                                                            {{ column }}
-                                                                        {% else %}
-                                                                            {{ "%.2f"|format(column|float) }}
-                                                                        {% endif %}
-                                                                    </td>
-                                                                {% endfor %}
-                                                            </tr>
-                                                        {% endfor %}
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    {% else %}
-                                        <p><strong>* La base de datos no tiene columnas numéricas</strong></p>
-                                    {% endif %}
-                                </div>
-
-                                <!-- Frecuencia de valores únicos -->
+                                <!-- Frecuencia de categorías -->
                                 <div id="tab03" class="tab-pane fade">
                                     <br>
                                     <p class="descripcion">
-                                        Contiene los primeros 10 categorías más frecuentes de las columnas categóricas y presenta el porcentaje dentro del total de observaciones. Esta función incluye valores faltantes y la frecuencia de las demás categorías, si las hay.
+                                        Contiene los primeros 10 valores únicos más frecuentes de las columnas tipo texto y presenta el porcentaje dentro del total de observaciones. Esta función incluye valores faltantes.
                                     </p>
                                     <div class="row max_size_row2 aligned-row">
 
-                                        <div class="col-md-4 table-responsive">
+                                        <div class="col-md-3 table-responsive">
                                             <h4><strong><em>Variables</em></strong></h4>
                                             <p><input type="checkbox" onClick="toggle3(this)" id="select-all_3"> Seleccionar todos</p>
                                             {% for item in variables_list_3 %}
                                                 <p><input type="checkbox" name="tab3" class="checkbox_tab3" value="{{ item }}"> {{ loop.index }} - {{ item }}</p>
                                             {% endfor %}
                                         </div>
-                                        <div class="col-md-8 table-responsive">
+                                        <div class="col-md-9 table-responsive">
                                             <table class="table table-condensed tableFixHead" id="StatusTable">
                                                 <thead>
                                                     <tr>
@@ -396,6 +293,50 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <!-- Estadísticas Descriptivas -->
+                                <div id="tab02" class="tab-pane fade">
+                                    <br>
+                                    <p class="descripcion">
+                                        Contiene información para cada columna de tipo numérico, incluye media, mediana, percentiles, desviación estándar, valores extremos y porcentaje de valores faltantes.
+                                    </p>
+                                    {% if header_list != None %}
+                                        <div class="row max_size_row2 aligned-row">
+                                            <div class="col-md-3 table-responsive">
+                                                <h4><strong><em>Variables</em></strong></h4>
+                                                <p><input type="checkbox" onClick="toggle2(this)" id="select-all_2"> Seleccionar todos</p>
+                                                {% for item in header_list %}
+                                                    <p><input type="checkbox" name="ds_{{ loop.index }}" class="checkbox_tab2"> {{ loop.index }} - {{ item }}</p>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="col-md-9 table-responsive">
+                                                <table class="table table-condensed">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Estadística</th>
+                                                            {% for item in header_list %}
+                                                                <th class="ds_{{ loop.index }}">{{ item }}</th>
+                                                            {% endfor %}
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for row in items%}
+                                                            <tr>
+                                                                {% for column in row %}
+                                                                    <td class="ds_{{ loop.index0 }}">
+                                                                        {{ column }}
+                                                                    </td>
+                                                                {% endfor %}
+                                                            </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <p><strong>* La base de datos no tiene columnas numéricas</strong></p>
+                                    {% endif %}
+                                </div>
                             </div>
                             <br>
                         </div>
@@ -422,7 +363,7 @@
                                 <div id="tab01b" class="tab-pane fade in active">
                                     <br>
                                     <p class="descripcion">
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquam aperiam, aut consequatur error facere fuga illo iste, non nulla optio repellendus soluta temporibus? Beatae esse facilis ipsa nesciunt quibusdam.
+                                        La correlación de Pearson es una medida de correlación lineal entre dos variables. Varía entre -1 y 1, donde -1 significa que la correlación entre las variables es negativa y total, 0 que no existe la correlación y 1 que hay correlación positiva total. Se calcula como la división de la covarianza de las dos variables con el producto de las varianzas de cada variable.
                                     </p>
                                     {% if corre_pearson_headers|length > 1 %}
                                         <div class="row max_size_row3 aligned-row">
@@ -442,7 +383,7 @@
                                 <div id="tab02b" class="tab-pane fade">
                                     <br>
                                     <p class="descripcion">
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquam aperiam, aut consequatur error facere fuga illo iste, non nulla optio repellendus soluta temporibus? Beatae esse facilis ipsa nesciunt quibusdam.
+                                        Se calcula la correlación de Kendall entre variables numéricas.
                                     </p>
                                     {% if corre_kendall_headers|length > 1 %}
                                         <div class="row max_size_row3 aligned-row">
@@ -462,7 +403,7 @@
                                 <div id="tab03b" class="tab-pane fade">
                                     <br>
                                     <p class="descripcion">
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquam aperiam, aut consequatur error facere fuga illo iste, non nulla optio repellendus soluta temporibus? Beatae esse facilis ipsa nesciunt quibusdam.
+                                        Se calcula la correlación de Spearman entre variables numéricas.
                                     </p>
                                     {% if corre_spearman_headers|length > 1 %}
                                         <div class="row max_size_row3 aligned-row">
@@ -482,7 +423,7 @@
                                 <div id="tab04b" class="tab-pane fade">
                                     <br>
                                     <p class="descripcion">
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquam aperiam, aut consequatur error facere fuga illo iste, non nulla optio repellendus soluta temporibus? Beatae esse facilis ipsa nesciunt quibusdam.
+                                        Se calcula la correlación de Cramer entre variables categóricas.
                                     </p>
                                     {% if corre_cramer_headers|length > 1 %}
                                         <div class="row max_size_row3 aligned-row">
@@ -502,7 +443,7 @@
                                 <div id="tab05b" class="tab-pane fade">
                                     <br>
                                     <p class="descripcion">
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquam aperiam, aut consequatur error facere fuga illo iste, non nulla optio repellendus soluta temporibus? Beatae esse facilis ipsa nesciunt quibusdam.
+                                        Se calcula la correlación de Phik entre variables categóricas.
                                     </p>
                                     {% if corre_phik_headers|length > 1 %}
                                         <div class="row max_size_row3 aligned-row">
@@ -527,8 +468,7 @@
                             <footer class="text-center">
                                 <hr>
                                 <p>
-                                    Reporte generado con la librería <em><a href="#" target="_blank">calidad_datos</a></em>
-                                    - Versión 1.0
+                                    Reporte generado con <em><a href="https://github.com/ucd-dnp/leila" target="_blank">LEILA - Librería de calidad de datos</a></em> - Versión 0.1
                                 </p>
                                 <br>
                             </footer>
@@ -543,37 +483,6 @@
                         {
                             var shcolumn="."+$(this).attr("name");
                             $(shcolumn).toggle(display=this.checked);
-                        });
-                    </script>
-
-                    <!-- scripts para tab1 -->
-                    <script>
-                        // cambia el valor de los checkboxs de clase 'checkbox_tab1'
-                        // de acuerdo con el valor del checkbox de 'seleccionar todos'
-                        // y hace el toggle de sus respectivas columnas en la tabla
-                        function toggle(source) {
-                            checkboxes = document.getElementsByClassName('checkbox_tab1');
-                            for(var i=0, n=checkboxes.length;i<n;i++) {
-                                checkboxes[i].checked = source.checked;
-                                var shcolumn="."+$(checkboxes[i]).attr("name");
-                                $(shcolumn).toggle(display=source.checked);
-                            }
-                        }
-                    </script>
-
-                    <script>
-                        // verifica el estado de los checkboxs con clase 'checkbox_tab1',
-                        // si uno es false, cambia el valor del checkbox de 'seleccionar todos' a false
-                        // si todos son true, cambia el valor del checkbox de 'seleccionar todos' a true
-                        $("input:checkbox").change(function(){
-                            checkboxes = document.getElementsByClassName('checkbox_tab1');
-                            var value = true;
-                            for(var i=0, n=checkboxes.length;i<n;i++) {
-                                if (checkboxes[i].checked == false) {
-                                    value = false;
-                                }
-                            }
-                            $('#select-all').prop('checked', value);
                         });
                     </script>
 
@@ -669,6 +578,68 @@
                         });
                     </script>
 
+                    <!-- scripts para tab5 -->
+                    <script>
+                        // Filtro de tabla
+                        $("input[name='tab5']").change(function () {
+                            var classes = [];
+
+                            $("input[name='tab5']").each(function () {
+                                if ($(this).is(":checked")) { classes.push($(this).val()); }
+                            });
+
+                            if (classes == "") { // if no filters selected, show all items
+                                $("#OtrosTable tbody tr").hide();
+                            } else { // otherwise, hide everything...
+                                $("#OtrosTable tbody tr").hide();
+
+                                $("#OtrosTable tr").each(function () {
+                                    var show = false;
+                                    var row = $(this);
+                                    classes.forEach(function (className) {
+                                        if (row.find('td' + '.referencia').html() == className) { show = true; }
+                                    });
+                                    if (show) { row.show(); }
+                                });
+                            }
+                        });
+                    </script>
+
+                    <script>
+                        // cambia el valor de los checkboxs de clase 'checkbox_tab5'
+                        // de acuerdo con el valor del checkbox de 'seleccionar todos'
+                        // y hace el toggle de sus respectivas columnas en la tabla
+                        function toggle5(source) {
+                            checkboxes = document.getElementsByClassName('checkbox_tab5');
+                            for(var i=0, n=checkboxes.length;i<n;i++) {
+                                checkboxes[i].checked = source.checked;
+                            }
+
+                            if (source.checked == true) {
+                                $("#OtrosTable tbody tr").show();
+                            } else {
+                                $("#OtrosTable tbody tr").hide();
+                            }
+                        }
+                    </script>
+
+                    <script>
+                        // verifica el estado de los checkboxs con clase 'checkbox_tab5',
+                        // si uno es false, cambia el valor del checkbox de 'seleccionar todos' a false
+                        // si todos son true, cambia el valor del checkbox de 'seleccionar todos' a true
+                        $("input[name='tab5']").change(function () {
+                            checkboxes = document.getElementsByClassName('checkbox_tab5');
+                            var value = true;
+                            for(var i=0, n=checkboxes.length;i<n;i++) {
+                                if (checkboxes[i].checked == false) {
+                                    value = false;
+                                }
+                            }
+                            $('#select-all_5').prop('checked', value);
+                        });
+                    </script>
+
+                    <!-- Heatmaps -->
                     <script>
                         // Función para la generación de heat maps de correlación usando plotly
                         function heatMap(graph_id, headers, values) {
@@ -729,6 +700,24 @@
                         document.body.style.webkitTransform = scale;   // Chrome, Opera, Safari
                         document.body.style.msTransform = scale;       // IE 9
                         document.body.style.transform = scale;         // General
+                    </script>
+
+                    <script>
+                        // Mouse event handler - para el mouse over de la tabla Frecuencia de categorías
+                        $('#StatusTable').on('mouseover', 'tr', function() {
+                            var textToMatch = $(this).children(":first").text();
+
+                            $('tr').each(function() {
+                                var text = $(this).children(":first").text();
+
+                                if (textToMatch === text)
+                                    $(this).addClass('matching');
+                            });
+                        });
+
+                        $('#StatusTable').on('mouseout', 'tr', function() {
+                            $('.matching').removeClass('matching');
+                        });
                     </script>
 
                 </div>
