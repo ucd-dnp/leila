@@ -22,7 +22,7 @@ class CalidadDatos:
         base : pandas.DataFrame 
             Base de datos de tipo pandas.DataFrame que será
             analizada por la clase CalidadDatos.
-        param castFloat: (bool) {True, False}. Valor por defecto: False \
+        param castNumero: (bool) {True, False}. Valor por defecto: False \
             Indica si se desea convertir las columnas de tipos object y \
             bool a float, de ser posible
         param diccionarioCast: (dict) { {nombre_columna : tipo_columna} } \
@@ -56,7 +56,7 @@ class CalidadDatos:
         elif castNumero==False:
             pass
         else:
-            raise ValueError('"castFloat" tiene que ser True o False')
+            raise ValueError('"castNumero" tiene que ser True o False')
         
         # Cambiar los tipos de las variables según el diccionario
         if type(diccionarioCast)==dict:
@@ -146,26 +146,41 @@ class CalidadDatos:
             lista_especifico_1 = []
             lista_especifico_2 = []
             lista_especifico_3 = []
+            lista_especifico_4 = []
+            lista_especifico_5 = []
+            
             
             for s in base.columns:
 
-                tip = base[s].apply(lambda x: type(x)).value_counts(normalize = True)
+                tip = base[s].apply(lambda x: x if pd.isnull(x) else type(x)).value_counts(normalize = True, dropna = False)
                 
-                tip_1 = "{1}: {0}%".format(int(tip.iloc[0]*100), str(tip.index[0]).replace("<class ", "").replace(">",""))
+                tip_1 = "{1}: {0}%".format(round(float(tip.iloc[0]*100), 2), str(tip.index[0]).replace("<class ", "").replace(">",""))
                 lista_especifico_1.append(tip_1)
                 
                 try:
-                    tip_2 = "{1}: {0}%".format(int(tip.iloc[1]*100), str(tip.index[1]).replace("<class ", "").replace(">",""))
+                    tip_2 = "{1}: {0}%".format(round(float(tip.iloc[1]*100), 2), str(tip.index[1]).replace("<class ", "").replace(">",""))
                     lista_especifico_2.append(tip_2)
                 except:
                     lista_especifico_2.append("")
                     
                 try:
-                    tip_3 = "{1}: {0}%".format(int(tip.iloc[2]*100), str(tip.index[2]).replace("<class ", "").replace(">",""))
+                    tip_3 = "{1}: {0}%".format(round(float(tip.iloc[2]*100), 2), str(tip.index[2]).replace("<class ", "").replace(">",""))
                     lista_especifico_3.append(tip_3)
                 except:
                     lista_especifico_3.append("")
+                
+                try:
+                    tip_4 = "{1}: {0}%".format(round(float(tip.iloc[3]*100), 2), str(tip.index[3]).replace("<class ", "").replace(">",""))
+                    lista_especifico_4.append(tip_4)
+                except:
+                    lista_especifico_4.append("")
                     
+                try:
+                    tip_5 = "{1}: {0}%".format(round(float(tip.iloc[4]*100), 2), str(tip.index[4]).replace("<class ", "").replace(">",""))
+                    lista_especifico_5.append(tip_5)
+                except:
+                    lista_especifico_5.append("")
+                                    
             lista_especifico_1.insert(0,"tipo_especifico_1")
             lista_total.append(lista_especifico_1)
             
@@ -180,12 +195,24 @@ class CalidadDatos:
             else:
                 lista_especifico_3.insert(0,"tipo_especifico_3")
                 lista_total.append(lista_especifico_3)
+                
+            if all(q=="" for q in lista_especifico_4):
+                pass
+            else:
+                lista_especifico_4.insert(0,"tipo_especifico_4")
+                lista_total.append(lista_especifico_4)
+                
+            if all(q=="" for q in lista_especifico_5):
+                pass
+            else:
+                lista_especifico_5.insert(0,"tipo_especifico_5")
+                lista_total.append(lista_especifico_5)
 
         elif tipoEspecifico == False:
             pass
         else:
             raise ValueError('"tipoEspecifico" tiene que ser True o False')
-            
+
         tips = pd.DataFrame(lista_total).T.set_index(keys=0, drop=True)
         columnas=list(tips.iloc[0])
         tips.columns = columnas
