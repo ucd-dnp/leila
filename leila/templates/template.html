@@ -171,7 +171,7 @@
                                 <div id="tab05" class="tab-pane fade in active">
                                     <br>
                                     <p class="descripcion">
-                                        Esta función está compuesta por cuatro elementos. La cual contiene, el tipo general (numérica, texto, boolean, fecha y otro) y especifico (str, float, int, numpy.int64, numpy.float64)de cada columna, el tamaño de la base de datos por columnas en megabytes y el número de valores únicos de cada columna sin incluir valores faltantes.
+                                        Aquí se muestran los tipos de las columnas de la base de datos con tres metodologías diferentes. La primera muestra si las variables son numéricas, de texto, booleanas; la segunda muestra el tipo de la variable según la función "dtypes" de Python; la tercera muestra los tipos de las observaciones de cada columna, incluidos datos faltantes ("nan"), como porcentaje del total.
                                     </p>
                                     <div class="row max_size_row2 aligned-row">
 
@@ -363,7 +363,7 @@
                                 <div id="tab01b" class="tab-pane fade in active">
                                     <br>
                                     <p class="descripcion">
-                                        La correlación de Pearson es una medida de correlación lineal entre dos variables. Varía entre -1 y 1, donde -1 significa que la correlación entre las variables es negativa y total, 0 que no existe la correlación y 1 que hay correlación positiva total. Se calcula como la división de la covarianza de las dos variables con el producto de las varianzas de cada variable.
+                                        La correlación de Pearson es una medida de correlación lineal entre dos variables. Varía entre -1 y 1, donde -1 significa que la correlación entre las variables es negativa y total, 0 que no existe la correlación y 1 que hay correlación positiva total. Se calcula como la división de la covarianza de las dos variables con el producto de las desviaciones estándar de cada variable.
                                     </p>
                                     {% if corre_pearson_headers|length > 1 %}
                                         <div class="row max_size_row3 aligned-row">
@@ -383,7 +383,7 @@
                                 <div id="tab02b" class="tab-pane fade">
                                     <br>
                                     <p class="descripcion">
-                                        Se calcula la correlación de Kendall entre variables numéricas.
+                                       La correlación de Kendall mide la relación entre dos variables ordinales. Varía entre -1 y 1, donde -1 significa que la correlación entre las variables es negativa total, 0 que no existe la correlación y 1 que hay correlación positiva total. Se calcula como la división de los números concordantes menos los discordantes de pares entre las variables con el número total de pares.
                                     </p>
                                     {% if corre_kendall_headers|length > 1 %}
                                         <div class="row max_size_row3 aligned-row">
@@ -403,7 +403,7 @@
                                 <div id="tab03b" class="tab-pane fade">
                                     <br>
                                     <p class="descripcion">
-                                        Se calcula la correlación de Spearman entre variables numéricas.
+                                        La correlación de Spearman es una medida de correlación monotónica que  se usa principalmente para medir la relación entre dos variables ordinales. Varía entre -1 y 1, donde -1 significa una correlación monotónica negativa total, 0 que no hay correlación monotónica y 1 que hay una correlación monotónica positiva total. Se calcula como la división de la covarianza de los rangos de cada variable con el producto de las desviaciones estándar de cada variable.
                                     </p>
                                     {% if corre_spearman_headers|length > 1 %}
                                         <div class="row max_size_row3 aligned-row">
@@ -423,7 +423,7 @@
                                 <div id="tab04b" class="tab-pane fade">
                                     <br>
                                     <p class="descripcion">
-                                        Se calcula la correlación de Cramer entre variables categóricas.
+                                        La correlación Cramer V se usas para medir la relación entre dos variables nominales. Varía entre 0 y 1, donde 0 significa que no hay correlación y 1 que la correlación es positiva y total. Se calcula como la raíz cuadrada de la división de estadístico Chi Cuadrado con el mímo entre el número de filas o columnas y el número total de observaciones.
                                     </p>
                                     {% if corre_cramer_headers|length > 1 %}
                                         <div class="row max_size_row3 aligned-row">
