@@ -84,8 +84,7 @@ class CalidadDatos:
     
     # Tipos de las columnas
     def TipoColumnas(self, tipoGeneral=True, tipoGeneralPython = True, tipoEspecifico = True):
-        """ Retorna el tipo de dato de cada columna del dataframe, se \
-            clasifican como de tipo numérico, texto, boolean u otro.
+        """ Retorna el tipo de dato de cada columna del dataframe.
                 
         :param tipoGeneral (bool) {True, False}, valor por defecto: True. \
             Incluye el tipo general de cada columna. Los tipos son: numérico,\
@@ -94,7 +93,7 @@ class CalidadDatos:
             True. Incluye el tipo general de cada columna dado por el método\
             'dtypes' de Python
         :param tipoEspecifico: (bool) {True, False}, valor por defecto: True.\
-            Incluye el el porcentaje de los tres tipos más frecuentes de cada\
+            Incluye el porcentaje de los tres tipos más frecuentes de cada\
             columna. Se aplica la función 'type' de Python para cada \
             observación. 
 

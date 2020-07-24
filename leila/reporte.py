@@ -14,6 +14,7 @@ from jinja2 import Environment, PackageLoader
 from leila.calidad_datos import CalidadDatos
 from leila import datos_gov
 
+
 def df_as_html(base, id=None, classes=None):
     """ Transforma el dataframe de entrada en una tabla HTML, se asignan al tab table las clases 'table' y
     'table-condensed' utilizadas por `Bootstrap v3.4`_.
@@ -37,7 +38,7 @@ def df_as_html(base, id=None, classes=None):
 
 
 def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamiento',
-                    archivo='perfilamiento_leila.html', castFloat=False):
+                    archivo='perfilamiento_leila.html', castNumero=False):
     """Genera un reporte de calidad de datos en formato HTML
 
     :param df: (dataframe) base de datos de insumo para la generación del reporte de calidad de datos.
@@ -55,12 +56,13 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
 
     if api_id is not None:
         datos = datos_gov.cargar_base(api_id=api_id, token=token)
-        base = CalidadDatos(datos, castFloat=castFloat)
+        base = CalidadDatos(datos, castNumero=castNumero)
 
         inventario = datos_gov.tabla_inventario(token=token)
         df_metadatos = inventario[inventario['numero_api'] == api_id]
         df_metadatos = df_metadatos.T.reset_index()
         df_metadatos.columns = ['Atributo', 'Valor']
+        df_metadatos['Valor'] = df_metadatos['Valor'].apply('{:,.0f}'.format)
 
         link_datos_abiertos = df_metadatos[df_metadatos['Atributo'] == 'url']['Valor'].item()
 
@@ -74,7 +76,7 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
         html_metadatos_tail = html_metadatos_tail.replace('@#$', '<br>')
         print('--------------------------------------------------------------------------------------------')
     else:
-        base = CalidadDatos(df, castFloat=castFloat)
+        base = CalidadDatos(df, castNumero=castNumero)
 
     timestamp = datetime.datetime.now()
     current_time = timestamp.strftime("%d-%m-%Y %I:%M:%S %p")
@@ -82,6 +84,7 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
     # Estadísticas generales ----------------------------------------------------
     dataframe_summary = base.Resumen().to_frame().reset_index()
     dataframe_summary.columns = ['Categoría', 'Valor']
+    dataframe_summary['Valor'] = dataframe_summary['Valor'].apply('{:,.0f}'.format)
     html_data_summary_full = df_as_html(dataframe_summary)
     html_data_summary_head = df_as_html(dataframe_summary[:6])
     html_data_summary_tail = df_as_html(dataframe_summary[-5:])
@@ -95,31 +98,26 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
     df_shape = base.base.shape
     dataframe_shape = str(df_shape[0]) + ' filas x ' + str(df_shape[1]) + ' columnas'
 
-    # Tab 1 - Información general -----------------------------------------------
-    dataframe_descriptive_stats = base.DescripcionNumericas()
+    # Tab 5 - Tipo de las columnas ----------------------------------------------
+    tipo_columnas_df = base.TipoColumnas()
 
-    header_list = None
-    items = None
-    if dataframe_descriptive_stats is not None:
-        dataframe_descriptive_stats = dataframe_descriptive_stats.T
-        header_list = list(dataframe_descriptive_stats)
-        dataframe_descriptive_stats = dataframe_descriptive_stats.reset_index()
-        items = dataframe_descriptive_stats.values.tolist()
+    df_headers = list(tipo_columnas_df)
+    df_headers = [w.replace('tipo_general', 'Tipo general') \
+                  .replace('_python', ' (Python)') \
+                  .replace('tipo_especifico_', 'Tipo especifico ') for w in df_headers]
+    tipo_columnas_df.columns = df_headers
 
-    # Tab 2 - Estadísticas descriptivas -----------------------------------------
-    tipo_df_low = base.TipoColumnas(detalle="bajo").to_frame()
-    tipo_df_high = base.TipoColumnas(detalle="alto").to_frame()
-    dataframe_descriptive_stats_2 = pd.merge(tipo_df_low, tipo_df_high, left_index=True, right_index=True, how='outer')
+    header_list_2 = list(tipo_columnas_df)
+    variables_list_2 = list(tipo_columnas_df.T)
 
-    dataframe_descriptive_stats_2.columns = ['Tipo', 'Tipo (específico)']
-    header_list_2 = list(dataframe_descriptive_stats_2.T)
-    header_list_2b = list(dataframe_descriptive_stats_2)
-    dataframe_descriptive_stats_2 = dataframe_descriptive_stats_2.reset_index()
-    items_2 = dataframe_descriptive_stats_2.values.tolist()
+    tipo_columnas_df = tipo_columnas_df.reset_index()
+    items_2 = tipo_columnas_df.values.tolist()
 
-    # Tab 3 - Frecuencia de valores únicos --------------------------------------
+    # Tab 3 - Frecuencia de categorías ------------------------------------------
     dataframe_unique_text = base.DescripcionCategoricas()
-    html_dataframe_unique_text = df_as_html(dataframe_unique_text)
+    dataframe_unique_text['Frecuencia'] = dataframe_unique_text['Frecuencia'].apply('{:,.0f}'.format)
+    dataframe_unique_text['Porcentaje del total de filas'] = dataframe_unique_text['Porcentaje del total de filas'].apply(lambda x: str(format(x * 100, ',.2f')) + '%')
+
     variables_list_3 = dataframe_unique_text.Columna.unique()
     columnas_list_3 = list(dataframe_unique_text)
     items_3 = dataframe_unique_text.values.tolist()
@@ -135,6 +133,25 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
     dataframe_duplic_colum = base.EmparejamientoDuplicados(col=True)
     if dataframe_duplic_colum is not None:
         html_dataframe_duplic_colum = df_as_html(dataframe_duplic_colum)
+
+    # Tab 1 - Estadísticas descriptivas -----------------------------------------
+    dataframe_descriptive_stats = base.DescripcionNumericas()
+
+    header_list = None
+    items = None
+    if dataframe_descriptive_stats is not None:
+        for col in ['mean', 'std', 'min', '25%', '50%', '75%', 'max']:
+            dataframe_descriptive_stats[col] = dataframe_descriptive_stats[
+                col].apply('{:,.2f}'.format)
+
+        for col in ['missing', 'outliers_total', 'outliers_altos', 'outliers_bajos']:
+            dataframe_descriptive_stats[col] = dataframe_descriptive_stats[
+                col].apply(lambda x: str(format(x * 100, ',.2f')) + '%')
+
+        dataframe_descriptive_stats = dataframe_descriptive_stats.T
+        header_list = list(dataframe_descriptive_stats)
+        dataframe_descriptive_stats = dataframe_descriptive_stats.reset_index()
+        items = dataframe_descriptive_stats.values.tolist()
 
     # Gráficos correlaciones ----------------------------------------------------
     # Escala de colores del heatmap
@@ -185,12 +202,15 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
     df_corre_phik = df_corre_phik.round(3).fillna('null')
     corre_phik_values = df_corre_phik.values.tolist()
     # --------------------------------------------------------------------------------------
-    # Configure Jinja and ready the loader  
+
+    # Configuración inicial de Jinja
     env = Environment(loader=PackageLoader('leila'))
-    # Assemble the templates we'll use
+
+    # Carga el template a utilizar
     base_template = env.get_template('template.html')
 
-    # Produce and write the report to file
+    # Generación del reporte
+    reporte_full_path = ''
     with open(archivo, "w", encoding='utf8') as HTML_file:
         output = base_template.render(
             title=titulo,
@@ -205,9 +225,8 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
             header_list=header_list,
             items=items,
             header_list_2=header_list_2,
-            header_list_2b=header_list_2b,
+            variables_list_2=variables_list_2,
             items_2=items_2,
-            html_dataframe_unique_text=html_dataframe_unique_text,
             html_dataframe_head=html_dataframe_head,
             html_dataframe_tail=html_dataframe_tail,
             dataframe_shape=dataframe_shape,
@@ -228,14 +247,31 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
             corre_phik_headers=corre_phik_headers,
             corre_phik_values=corre_phik_values
         )
-        HTML_file.write(output)
+        try:
+            HTML_file.write(output)
+            print('--------------------------------------------------------------------------------------------')
 
-    print('--------------------------------------------------------------------------------------------')
-    print(f'Se ha generado el reporte "{ archivo }"')
-    t1 = timestamp.strftime("%I:%M:%S %p")
-    t2 = datetime.datetime.now()
-    tiempo = str(t2 - timestamp).split(":")
-    print(f"{t1} ({tiempo[1]} min {int(float(tiempo[2]))} seg)")
+            if archivo == 'perfilamiento_leila.html':
+                if os.name == 'nt':
+                    reporte_full_path = os.getcwd() + "\\" + archivo
+                else:
+                    import pathlib
+                    reporte_full_path = pathlib.Path().absolute() + '/' + archivo
+            else:
+                reporte_full_path = archivo
 
-    print('--------------------------------------------------------------------------------------------')
-    os.system(f'{ archivo }')
+            print(f'Se ha generado el reporte "{reporte_full_path}"')
+            t1 = timestamp.strftime("%I:%M:%S %p")
+            t2 = datetime.datetime.now()
+            tiempo = str(t2 - timestamp).split(":")
+            print(f"{t1} ({tiempo[1]} min {int(float(tiempo[2]))} seg)")
+
+        except ValueError:
+            print("Se presentó un error guardando el reporte HTML")
+
+    try:
+        print('--------------------------------------------------------------------------------------------')
+        if os.name == 'nt':
+            os.system(f'{reporte_full_path}')
+    except FileNotFoundError:
+        print("No se encontró el archivo reporte para abrir")
