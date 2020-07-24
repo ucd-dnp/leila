@@ -62,7 +62,10 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
         df_metadatos = inventario[inventario['numero_api'] == api_id]
         df_metadatos = df_metadatos.T.reset_index()
         df_metadatos.columns = ['Atributo', 'Valor']
-        df_metadatos['Valor'] = df_metadatos['Valor'].apply('{:,.0f}'.format)
+        try:
+            df_metadatos['Valor'] = df_metadatos['Valor'].apply('{:,.0f}'.format)
+        except:
+            pass
 
         link_datos_abiertos = df_metadatos[df_metadatos['Atributo'] == 'url']['Valor'].item()
 
@@ -84,7 +87,12 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
     # Estadísticas generales ----------------------------------------------------
     dataframe_summary = base.Resumen().to_frame().reset_index()
     dataframe_summary.columns = ['Categoría', 'Valor']
-    dataframe_summary['Valor'] = dataframe_summary['Valor'].apply('{:,.0f}'.format)
+
+    try:
+        dataframe_summary['Valor'] = dataframe_summary['Valor'].apply('{:,.0f}'.format)
+    except:
+        pass
+
     html_data_summary_full = df_as_html(dataframe_summary)
     html_data_summary_head = df_as_html(dataframe_summary[:6])
     html_data_summary_tail = df_as_html(dataframe_summary[-5:])
@@ -115,8 +123,16 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
 
     # Tab 3 - Frecuencia de categorías ------------------------------------------
     dataframe_unique_text = base.DescripcionCategoricas()
-    dataframe_unique_text['Frecuencia'] = dataframe_unique_text['Frecuencia'].apply('{:,.0f}'.format)
-    dataframe_unique_text['Porcentaje del total de filas'] = dataframe_unique_text['Porcentaje del total de filas'].apply(lambda x: str(format(x * 100, ',.2f')) + '%')
+    try:
+        dataframe_unique_text['Frecuencia'] = dataframe_unique_text['Frecuencia'].apply('{:,.0f}'.format)
+    except:
+        pass
+
+    try:
+        dataframe_unique_text['Porcentaje del total de filas'] = dataframe_unique_text[
+            'Porcentaje del total de filas'].apply(lambda x: str(format(x * 100, ',.2f')) + '%')
+    except:
+        pass
 
     variables_list_3 = dataframe_unique_text.Columna.unique()
     columnas_list_3 = list(dataframe_unique_text)
@@ -141,19 +157,25 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
     items = None
     if dataframe_descriptive_stats is not None:
         for col in ['mean', 'std', 'min', '25%', '50%', '75%', 'max']:
-            dataframe_descriptive_stats[col] = dataframe_descriptive_stats[
-                col].apply('{:,.2f}'.format)
+            try:
+                dataframe_descriptive_stats[col] = dataframe_descriptive_stats[
+                    col].apply('{:,.2f}'.format)
+            except:
+                pass
 
         for col in ['missing', 'outliers_total', 'outliers_altos', 'outliers_bajos']:
-            dataframe_descriptive_stats[col] = dataframe_descriptive_stats[
-                col].apply(lambda x: str(format(x * 100, ',.2f')) + '%')
+            try:
+                dataframe_descriptive_stats[col] = dataframe_descriptive_stats[
+                    col].apply(lambda x: str(format(x * 100, ',.2f')) + '%')
+            except:
+                pass
 
         dataframe_descriptive_stats = dataframe_descriptive_stats.T
         header_list = list(dataframe_descriptive_stats)
         dataframe_descriptive_stats = dataframe_descriptive_stats.reset_index()
         items = dataframe_descriptive_stats.values.tolist()
 
-    # Gráficos correlaciones ----------------------------------------------------
+    # Gráficos correlaciones ---------------------------------------------------------------
     # Escala de colores del heatmap
     heatmap_colorscale = [
         ['0.000000000000', 'rgb(103,  0, 31)'],
