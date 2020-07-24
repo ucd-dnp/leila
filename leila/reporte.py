@@ -184,7 +184,7 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
                 pass
 
         dataframe_descriptive_stats.columns = ['Conteo', 'Media', 'Desviación estándar', 'Valor mín', '25%', '50%', '75%',
-                                               'Valor máx', 'Valores faltantes', 'Outliers Total', 'Outliers Altos',
+                                               'Valor máx', 'Faltantes', 'Outliers Total', 'Outliers Altos',
                                                'Outliers Bajos']
         dataframe_descriptive_stats = dataframe_descriptive_stats.T
         header_list = list(dataframe_descriptive_stats)
