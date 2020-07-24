@@ -60,6 +60,19 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
 
         inventario = datos_gov.tabla_inventario(token=token)
         df_metadatos = inventario[inventario['numero_api'] == api_id]
+
+        df_metadatos.columns = ['Id api', 'Nombre', 'Descripción', 'Propietario', 'Tipo', 'Categoría', 'Términos clave',
+                                'Página web', 'Fecha de creación', 'Fecha de actualización',
+                                'Frecuencia de actualización', 'Número de filas', 'Número de columnas',
+                                'Correo de contacto', 'Licencia', 'Entidad', 'Página web de la entidad',
+                                'Sector entidad', 'Departamento entidad', 'Orden entidad', 'Dependencia entidad',
+                                'Municipio entidad', 'Idioma', 'Cobertura', '¿Es pública la base?']
+        df_metadatos = df_metadatos[['Id api', 'Nombre', 'Descripción', 'Propietario', 'Tipo', 'Categoría', 'Términos clave',
+                                'Página web', 'Fecha de creación', 'Fecha de actualización',
+                                'Frecuencia de actualización', 'Número de filas', 'Número de columnas',
+                                'Entidad', 'Dependencia entidad', 'Sector entidad', 'Página web de la entidad', 'Correo de contacto', 'Licencia',
+                                'Departamento entidad', 'Municipio entidad', 'Orden entidad',
+                                'Idioma', 'Cobertura', '¿Es pública la base?']]
         df_metadatos = df_metadatos.T.reset_index()
         df_metadatos.columns = ['Atributo', 'Valor']
         try:
@@ -67,7 +80,7 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
         except:
             pass
 
-        link_datos_abiertos = df_metadatos[df_metadatos['Atributo'] == 'url']['Valor'].item()
+        link_datos_abiertos = df_metadatos[df_metadatos['Atributo'] == 'Página web']['Valor'].item()
 
         df_metadatos.replace('\n', '@#$', regex=True, inplace=True)
         html_metadatos_full = df_as_html(df_metadatos, classes=['white_spaces'])
@@ -104,7 +117,7 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
     html_dataframe_tail = df_as_html(base.base.tail(10))
     # Shape
     df_shape = base.base.shape
-    dataframe_shape = str(df_shape[0]) + ' filas x ' + str(df_shape[1]) + ' columnas'
+    dataframe_shape = str('{:,.0f}'.format(df_shape[0])) + ' filas x ' + str('{:,.0f}'.format(df_shape[1])) + ' columnas'
 
     # Tab 5 - Tipo de las columnas ----------------------------------------------
     tipo_columnas_df = base.TipoColumnas()
@@ -278,7 +291,7 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
                     reporte_full_path = os.getcwd() + "\\" + archivo
                 else:
                     import pathlib
-                    reporte_full_path = pathlib.Path().absolute() + '/' + archivo
+                    reporte_full_path = str(pathlib.Path().absolute()) + '/' + archivo
             else:
                 reporte_full_path = archivo
 
