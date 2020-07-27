@@ -3,7 +3,7 @@
 Reporte
 =======
 
-.. figure:: _static/image/vista_reporte.jpg
+.. figure:: _static/image/vista_reporte.gif
     :align: center
     :alt: Ejemplo de reporte
     :figclass: align-center
