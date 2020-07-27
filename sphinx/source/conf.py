@@ -84,7 +84,7 @@ html_theme_options = {
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 html_css_files = ['css/custom.css']
-html_logo  = '_static/image/logo_200.png'
+html_logo  = '_static/image/logo_400.png'
 html_favicon = '_static/image/favicon.ico'
 
 from sphinx.writers.html import HTMLTranslator

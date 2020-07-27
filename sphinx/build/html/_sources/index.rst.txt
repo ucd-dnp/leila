@@ -9,6 +9,7 @@ LEILA - Libreria de calidad de datos
    genindex
    introduccion
    instalacion
+   ejemplos
       
 .. toctree::
    :maxdepth: 2
@@ -17,8 +18,7 @@ LEILA - Libreria de calidad de datos
 
    calidad_datos
    datos_gov
-   reporte
-   ejemplos
+   reporte   
 
 .. figure:: _static/image/LEILA.jpg
     :align: center
