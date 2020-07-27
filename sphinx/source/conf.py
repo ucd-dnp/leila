@@ -73,7 +73,16 @@ exclude_patterns = []
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 html_theme = 'sphinx_rtd_theme'
-html_show_sourcelink = False
+html_show_sourcelink = True
+
+html_context = {
+    "display_github": True, # Integrate GitHub
+    "github_user": "ucd-dnp", # Username
+    "github_repo": "leila", # Repo name
+    "github_version": "master", # Version
+    "conf_py_path": "/source/", # Path in the checkout to the docs root
+}
+
 
 html_theme_options = {    
     'display_version': True,
