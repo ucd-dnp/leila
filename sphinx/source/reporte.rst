@@ -3,7 +3,7 @@
 Reporte
 =======
 
-.. figure:: _static/image/vista_reporte.jpg
+.. figure:: _static/image/vista_reporte.gif
     :align: center
     :alt: Ejemplo de reporte
     :figclass: align-center
@@ -17,8 +17,3 @@ La función ``generar_reporte(base)`` del módulo **reporte** busca facilitar el
    :undoc-members:
    :show-inheritance:
    :exclude-members: df_as_html
-
-
-
-
-A link :ref:`Internal Headline`

@@ -8,11 +8,11 @@ import pandas as pd
 from jinja2 import Environment, PackageLoader
 
 # Se deben usar estos imports para que funcione correctamente Sphinx
-# from calidad_datos import CalidadDatos
-# from datos_gov import *
+from calidad_datos import CalidadDatos
+from datos_gov import *
 
-from leila.calidad_datos import CalidadDatos
-from leila import datos_gov
+# from leila.calidad_datos import CalidadDatos
+# from leila import datos_gov
 
 
 def df_as_html(base, id=None, classes=None):
@@ -39,7 +39,7 @@ def df_as_html(base, id=None, classes=None):
 
 def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamiento',
                     archivo='perfilamiento_leila.html', castNumero=False):
-    """Genera un reporte de calidad de datos en formato HTML
+    """Genera un reporte de calidad de datos en formato HTML. :ref:`Ver ejemplo <reporte.generar_reporte>`
 
     :param df: (dataframe) base de datos de insumo para la generación del reporte de calidad de datos.
     :param api_id: (str) Identificación de la base de datos asociado con la API de Socrata (de Datos Abiertos).
@@ -183,6 +183,9 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
             except:
                 pass
 
+        dataframe_descriptive_stats.columns = ['Conteo', 'Media', 'Desviación estándar', 'Valor mín', '25%', '50%', '75%',
+                                               'Valor máx', 'Faltantes', 'Outliers Total', 'Outliers Altos',
+                                               'Outliers Bajos']
         dataframe_descriptive_stats = dataframe_descriptive_stats.T
         header_list = list(dataframe_descriptive_stats)
         dataframe_descriptive_stats = dataframe_descriptive_stats.reset_index()

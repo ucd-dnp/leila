@@ -13,6 +13,7 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
   <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
 
   
@@ -33,6 +34,8 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/language_data.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
         <script src="_static/translations.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
@@ -40,7 +43,8 @@
     
     <link rel="index" title="Índice" href="genindex.html" />
     <link rel="search" title="Búsqueda" href="search.html" />
-    <link rel="prev" title="Reporte" href="reporte.html" /> 
+    <link rel="next" title="Calidad datos" href="calidad_datos.html" />
+    <link rel="prev" title="Instalación" href="instalacion.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -59,7 +63,7 @@
 
           
             
-            <img src="_static/logo_200.png" class="logo" alt="Logo"/>
+            <img src="_static/logo_400.png" class="logo" alt="Logo"/>
           
           </a>
 
@@ -93,18 +97,20 @@
             
             
               <p class="caption"><span class="caption-text">CALIDAD DE DATOS:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="genindex.html">Índice</a></li>
 <li class="toctree-l1"><a class="reference internal" href="introduccion.html">Introducción</a></li>
 <li class="toctree-l1"><a class="reference internal" href="instalacion.html">Instalación</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Ejemplos</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#reporte-generar-reporte">reporte.generar_reporte</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption"><span class="caption-text">Módulos y funciones:</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="calidad_datos.html">Calidad datos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="datos_gov.html">Datos gov</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reporte.html">Reporte</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Ejemplos</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#internal-headline">Internal Headline</a></li>
 </ul>
 
             
@@ -170,17 +176,38 @@
             
   <div class="section" id="ejemplos">
 <span id="id1"></span><h1>Ejemplos<a class="headerlink" href="#ejemplos" title="Enlazar permanentemente con este título">¶</a></h1>
-<p>Sección de ejemplos =)</p>
+<p>En esta sección se presentan ejemplos de uso de las diferentes funciones de la librería, el código usado y el resultado esperado de estas. Los datos utilizados para los ejemplos corresponden a una muestra de los <strong>Casos positivos de COVID-19 en Colombia</strong> disponibles en el portal de <a class="reference external" href="https://www.datos.gov.co/Salud-y-Protecci-n-Social/Casos-positivos-de-COVID-19-en-Colombia/gt2j-8ykr" target="_blank">Datos Abiertos de Colombia</a>, se debe aclarar que los datos fueron modificados con el proposito de presentar el alcance de las diferentes funciones de la librería.</p>
 <blockquote>
-<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">Jinja2</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Hola&#39;</span><span class="p">)</span>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Se importa la librería pandas para la lectura de datos</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dtypes</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ID de caso&#39;</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>          <span class="s1">&#39;Código DIVIPOLA&#39;</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>          <span class="s1">&#39;Codigo departamento&#39;</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>          <span class="s1">&#39;Codigo pais&#39;</span><span class="p">:</span><span class="nb">object</span><span class="p">}</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Lectura de archivo de datos como dataframe</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df_datos</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="s1">&#39;dataset ejemplos.xlsx&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtypes</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>En caso que desee utilizar los datos utilizados en los ejemplos, puede descargarlos utilizando el siguiente link. <a class="reference download internal" download="" href="_downloads/abdd126a1ff8c70ef34da7613342fb24/dataset ejemplos.xlsx"><code class="xref download docutils literal notranslate"><span class="pre">Descargar</span> <span class="pre">datos</span> <span class="pre">(6.2</span> <span class="pre">MB)</span></code></a>.</p>
+<div class="section" id="reporte-generar-reporte">
+<h2>reporte.generar_reporte<a class="headerlink" href="#reporte-generar-reporte" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Ver documentación <a class="reference internal" href="reporte.html#reporte.generar_reporte" title="reporte.generar_reporte"><code class="xref py py-meth docutils literal notranslate"><span class="pre">reporte.generar_reporte()</span></code></a></p>
+<p>La función crea un reporte de calidad de datos en formato HTML utilizando las funciones disponibles en los otros módulos de la librería.</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Se importan las funciones de la librería</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">leila.reporte</span> <span class="kn">import</span> <span class="n">generar_reporte</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Se invoca la función para generar el reporte de calidad de datos</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">generar_reporte</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">df_datos</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                <span class="n">titulo</span><span class="o">=</span><span class="s1">&#39;Perfilamiento datos COVID-19 - Colombia&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                <span class="n">archivo</span><span class="o">=</span><span class="s1">&#39;perfilamiento.html&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div></blockquote>
 </div>
-<div class="section" id="internal-headline">
-<h1>Internal Headline<a class="headerlink" href="#internal-headline" title="Enlazar permanentemente con este título">¶</a></h1>
-<p>prueba 1,2,3</p>
 </div>
 
 
@@ -191,8 +218,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
+        <a href="calidad_datos.html" class="btn btn-neutral float-right" title="Calidad datos" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-        <a href="reporte.html" class="btn btn-neutral float-left" title="Reporte" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+        <a href="instalacion.html" class="btn btn-neutral float-left" title="Instalación" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
