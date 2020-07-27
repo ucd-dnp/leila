@@ -39,7 +39,7 @@ def df_as_html(base, id=None, classes=None):
 
 def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamiento',
                     archivo='perfilamiento_leila.html', castNumero=False):
-    """Genera un reporte de calidad de datos en formato HTML
+    """Genera un reporte de calidad de datos en formato HTML. :ref:`Ver ejemplo <reporte.generar_reporte>`
 
     :param df: (dataframe) base de datos de insumo para la generación del reporte de calidad de datos.
     :param api_id: (str) Identificación de la base de datos asociado con la API de Socrata (de Datos Abiertos).

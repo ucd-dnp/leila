@@ -5,6 +5,7 @@ sphinx/env
 sphinx/__recursos_guia
 *.xlsx
 *.ipynb
+*.tsv
 x_pruebas funciones libreria.ipynb
 .ipynb_checkpoints
 perfilamiento.html

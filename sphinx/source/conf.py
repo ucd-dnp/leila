@@ -31,7 +31,16 @@ version = 'Versión ' + release
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinx.ext.autodoc', 'rinoh.frontend.sphinx','sphinx.ext.autosectionlabel']
+
+extensions = ['sphinx.ext.autodoc', 'rinoh.frontend.sphinx','sphinx.ext.autosectionlabel', 'sphinx_copybutton']
+# extensions = ['sphinx.ext.autodoc', 'rinoh.frontend.sphinx']
+
+copybutton_prompt_text = "myinputprompt"
+copybutton_prompt_text = ">>> "
+
+# copybutton_prompt_text = r">>> |\.\.\. |In \[\d*\]: | {2,5}\.\.\.: | {5,8}: "
+# copybutton_prompt_is_regexp = True
+# copybutton_only_copy_prompt_lines = False
 
 rinoh_documents = [('index',                                      # top-level file (index.rst)
                     'Documentacion',                              # output (target.pdf)

@@ -13,6 +13,7 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
   <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
 
   
@@ -33,6 +34,8 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/language_data.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
         <script src="_static/translations.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
@@ -40,6 +43,7 @@
     
     <link rel="index" title="Índice" href="genindex.html" />
     <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Ejemplos" href="ejemplos.html" />
     <link rel="prev" title="Datos gov" href="datos_gov.html" /> 
 </head>
 
@@ -103,6 +107,7 @@
 <li class="toctree-l1"><a class="reference internal" href="calidad_datos.html">Calidad datos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="datos_gov.html">Datos gov</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Reporte</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ejemplos.html">Ejemplos</a></li>
 </ul>
 
             
@@ -175,8 +180,8 @@
 <p>La función <code class="docutils literal notranslate"><span class="pre">generar_reporte(base)</span></code> del módulo <strong>reporte</strong> busca facilitar el proceso de entendimiento de la calidad de datos de una base de datos de interés, para esto genera un reporte en formato HTML el cual consolida las funciones de calidad de datos implementadas en el módulo <a class="reference internal" href="calidad_datos.html#calidad-datos"><span class="std std-ref">Calidad datos</span></a> y <a class="reference internal" href="datos_gov.html#datos-gov"><span class="std std-ref">Datos gov</span></a>, facilitando la consulta de los resultados obtenidos del análisis exploratorio en un archivo independiente.</p>
 <span class="target" id="module-reporte"></span><dl class="py function">
 <dt id="reporte.generar_reporte">
-<code class="descclassname">reporte.</code><code class="descname">generar_reporte</code><span class="sig-paren">(</span><em><span class="n">df</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">api_id</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">token</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">titulo</span><span class="o">=</span><span class="default_value">'Reporte perfilamiento'</span></em>, <em><span class="n">archivo</span><span class="o">=</span><span class="default_value">'perfilamiento_leila.html'</span></em>, <em><span class="n">castFloat</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#reporte.generar_reporte" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Genera un reporte de calidad de datos en formato HTML</p>
+<code class="descclassname">reporte.</code><code class="descname">generar_reporte</code><span class="sig-paren">(</span><em><span class="n">df</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">api_id</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">token</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">titulo</span><span class="o">=</span><span class="default_value">'Reporte perfilamiento'</span></em>, <em><span class="n">archivo</span><span class="o">=</span><span class="default_value">'perfilamiento_leila.html'</span></em>, <em><span class="n">castNumero</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#reporte.generar_reporte" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Genera un reporte de calidad de datos en formato HTML. <a class="reference internal" href="ejemplos.html#reporte-generar-reporte"><span class="std std-ref">Ver ejemplo</span></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -206,6 +211,8 @@
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ejemplos.html" class="btn btn-neutral float-right" title="Ejemplos" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="datos_gov.html" class="btn btn-neutral float-left" title="Datos gov" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
