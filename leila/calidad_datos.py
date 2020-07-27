@@ -112,18 +112,22 @@ class CalidadDatos:
         if tipoGeneral == True:
             lista_general = []
             for s in base.columns:
-                
-                tipo_para_object = str(type(base[s].value_counts(dropna=True).index[0]))
-                tipo_para_resto = str(base[s].dtype)
-                            
-                if "int" in tipo_para_resto or "float" in tipo_para_resto:
-                    lista_general.append("Numérico")
-                elif "str" in tipo_para_object:
-                    lista_general.append("Texto")
-                elif "bool" in tipo_para_resto:
-                    lista_general.append("Booleano")
-                else:
+                # Si solo hay missing values, poner como 'Otro'
+                if base[s].isnull().sum() == base.shape[0]:
                     lista_general.append("Otro")
+                else:
+                
+                    tipo_para_object = str(type(base[s].value_counts(dropna=True).index[0]))
+                    tipo_para_resto = str(base[s].dtype)
+                                
+                    if "int" in tipo_para_resto or "float" in tipo_para_resto:
+                        lista_general.append("Numérico")
+                    elif "str" in tipo_para_object:
+                        lista_general.append("Texto")
+                    elif "bool" in tipo_para_resto:
+                        lista_general.append("Booleano")
+                    else:
+                        lista_general.append("Otro")
             lista_general.insert(0,"tipo_general")
             lista_total.append(lista_general)
         elif tipoGeneral == False:
@@ -284,7 +288,7 @@ class CalidadDatos:
         
         # Revisar si hay columnas con tipos diccionario o lista para convertirlas a string
         for s in base.columns:    
-            tip = str(type(self.base[s].value_counts(dropna=True).index[0])).replace("<class ", "").replace(">", "").replace("'", "")
+            tip = str(type(self.base[s].value_counts(dropna=False).index[0])).replace("<class ", "").replace(">", "").replace("'", "")
             
             if tip=="dict" or tip=="list":
                 base[s] = base[s].apply(str)
@@ -332,7 +336,7 @@ class CalidadDatos:
     
         # Revisar si hay columnas con tipos diccionario o lista para convertirlas a string
         for s in base.columns:    
-            tip = str(type(self.base[s].value_counts(dropna=True).index[0])).replace("<class ", "").replace(">", "").replace("'", "")
+            tip = str(type(self.base[s].value_counts(dropna=False).index[0])).replace("<class ", "").replace(">", "").replace("'", "")
             
             if tip=="dict" or tip=="list":
                 base[s] = base[s].apply(str)
@@ -605,9 +609,17 @@ class CalidadDatos:
         else:
             pass
         
+        # Si una variable solo tiene missing values, quitar
+        for s in base.columns:
+            if base[s].isnull().sum() == base.shape[0]:
+                del base[s]
+                warnings.warn("La variable '{0}' se eliminó del análisis porque solo tiene valores faltantes".format(s))
+            else:
+                pass
+    
         # Revisar si hay columnas con tipos diccionario o lista para convertirlas a string
         for s in base.columns:    
-            tip = str(type(self.base[s].value_counts(dropna=True).index[0])).replace("<class ", "").replace(">", "").replace("'", "")
+            tip = str(type(self.base[s].value_counts(dropna=False).index[0])).replace("<class ", "").replace(">", "").replace("'", "")
             
             if tip=="dict" or tip=="list":
                 base[s] = base[s].apply(str)
@@ -650,6 +662,7 @@ class CalidadDatos:
         # Crear el dataframe con la información
         lista_counts = []
         for s in lista_object_unicos:
+                        
             counts = base[s].astype(str).value_counts().drop("nan", errors="ignore")
             if type(counts.index[0]) == dict:
                 continue
@@ -972,7 +985,7 @@ class CalidadDatos:
         
         # Revisar si hay columnas con tipos diccionario o lista para convertirlas a string
         for s in base.columns:    
-            tip = str(type(self.base[s].value_counts(dropna=True).index[0])).replace("<class ", "").replace(">", "").replace("'", "")
+            tip = str(type(self.base[s].value_counts(dropna=False).index[0])).replace("<class ", "").replace(">", "").replace("'", "")
             
             if tip=="dict" or tip=="list":
                 base[s] = base[s].apply(str)
