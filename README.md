@@ -35,7 +35,7 @@ generar_reporte(df=pd.read_excel('datosDeInteres.xlsx'))
 
 La librería cuenta con una documentación que detalla las funciones que la conforman, al igual que ejemplos de uso y demás información de interes relacionada con esta, para acceder a la documentación siga el siguiente link:
 
-[Documentación - LEILA - Librería de calidad de datos.](https://jairoruizsaenz.github.io/test_sphinx/)
+[Documentación - LEILA - Librería de calidad de datos.](https://ucd-dnp.github.io/leila/)
 
 ## Prerrequisitos
 
