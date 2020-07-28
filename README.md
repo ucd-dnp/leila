@@ -71,4 +71,4 @@ Para mayor información puede consultar el archivo de [Licencia](https://github.
 
 ## Contacto
 
-En caso de requerir comunicarse con la Unidad de Científicos de Datos (UCD) de la Dirección de Desarrollo Digital (DDD) del DNP, lo puede hacer mediante el correo electróncio ucd@dnp.gov.co
+Para comunicarse con la Unidad de Científicos de Datos (UCD) de la Dirección de Desarrollo Digital (DDD) del DNP, lo puede hacer mediante el correo electróncio ucd@dnp.gov.co
