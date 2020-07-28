@@ -162,7 +162,7 @@
                                 <li class="active"><a data-toggle="tab" href="#tab05">Tipo de las columnas</a></li>
                                 <li><a data-toggle="tab" href="#tab03">Frecuencia de categorías</a></li>
                                 <li><a data-toggle="tab" href="#tab04">Datos duplicados</a></li>
-                                <li><a data-toggle="tab" href="#tab02">Estadísticas descriptivas</a></li>
+                                <li><a data-toggle="tab" href="#tab06">Estadísticas descriptivas</a></li>
                             </ul>
 
                             <div class="tab-content" style="text-align: justify; text-justify: inter-word;">
@@ -295,48 +295,48 @@
                                 </div>
 
                                 <!-- Estadísticas Descriptivas -->
-                                <div id="tab02" class="tab-pane fade">
+                                <div id="tab06" class="tab-pane fade">
                                     <br>
                                     <p class="descripcion">
                                         Contiene información para cada columna de tipo numérico, incluye media, mediana, percentiles, desviación estándar, valores extremos y porcentaje de valores faltantes.
                                     </p>
-                                    {% if header_list != None %}
-                                        <div class="row max_size_row2 aligned-row">
-                                            <div class="col-md-3 table-responsive">
-                                                <h4><strong><em>Variables</em></strong></h4>
-                                                <p><input type="checkbox" onClick="toggle2(this)" id="select-all_2"> Seleccionar todos</p>
-                                                {% for item in header_list %}
-                                                    <p><input type="checkbox" name="ds_{{ loop.index }}" class="checkbox_tab2"> {{ loop.index }} - {{ item }}</p>
-                                                {% endfor %}
-                                            </div>
-                                            <div class="col-md-9 table-responsive">
-                                                <table class="table table-condensed">
-                                                    <thead>
+                                    <div class="row max_size_row2 aligned-row">
+
+                                        <div class="col-md-3 table-responsive">
+                                            <h4><strong><em>Variables</em></strong></h4>
+                                            <p><input type="checkbox" onClick="toggle6(this)" id="select-all_6"> Seleccionar todos</p>
+                                                {% for item in variables_list %}
+                                                <p><input type="checkbox" name="tab6" class="checkbox_tab6" value="{{ item }}"> {{ loop.index }} - {{ item }}</p>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="col-md-9 table-responsive">
+                                            <table class="table table-condensed tableFixHead" id="EstDescriptivas">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Variable</th>
+                                                        {% for item in header_list %}
+                                                            <th>{{ item }}</th>
+                                                        {% endfor %}
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for row in items%}
                                                         <tr>
-                                                            <th>Estadística</th>
-                                                            {% for item in header_list %}
-                                                                <th class="ds_{{ loop.index }}">{{ item }}</th>
+                                                            {% for column in row %}
+                                                                {% if loop.index0 == 0 %}
+                                                                    <td class="referencia">{{ column }}</td>
+                                                                {% else %}
+                                                                    <td>{{ column }}</td>
+                                                                {% endif %}
                                                             {% endfor %}
                                                         </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {% for row in items%}
-                                                            <tr>
-                                                                {% for column in row %}
-                                                                    <td class="ds_{{ loop.index0 }}">
-                                                                        {{ column }}
-                                                                    </td>
-                                                                {% endfor %}
-                                                            </tr>
-                                                        {% endfor %}
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
                                         </div>
-                                    {% else %}
-                                        <p><strong>* La base de datos no tiene columnas numéricas</strong></p>
-                                    {% endif %}
+                                    </div>
                                 </div>
+
                             </div>
                             <br>
                         </div>
@@ -486,37 +486,6 @@
                         });
                     </script>
 
-                    <!-- scripts para tab2 -->
-                    <script>
-                        // cambia el valor de los checkboxs de clase 'checkbox_tab2'
-                        // de acuerdo con el valor del checkbox de 'seleccionar todos'
-                        // y hace el toggle de sus respectivas columnas en la tabla
-                        function toggle2(source) {
-                            checkboxes = document.getElementsByClassName('checkbox_tab2');
-                            for(var i=0, n=checkboxes.length;i<n;i++) {
-                                checkboxes[i].checked = source.checked;
-                                var shcolumn="."+$(checkboxes[i]).attr("name");
-                                $(shcolumn).toggle(display=source.checked);
-                            }
-                        }
-                    </script>
-
-                    <script>
-                        // verifica el estado de los checkboxs con clase 'checkbox_tab2',
-                        // si uno es false, cambia el valor del checkbox de 'seleccionar todos' a false
-                        // si todos son true, cambia el valor del checkbox de 'seleccionar todos' a true
-                        $("input:checkbox").change(function(){
-                            checkboxes = document.getElementsByClassName('checkbox_tab2');
-                            var value = true;
-                            for(var i=0, n=checkboxes.length;i<n;i++) {
-                                if (checkboxes[i].checked == false) {
-                                    value = false;
-                                }
-                            }
-                            $('#select-all_2').prop('checked', value);
-                        });
-                    </script>
-
                     <!-- scripts para tab3 -->
                     <script>
                         // Filtro de tabla
@@ -636,6 +605,67 @@
                                 }
                             }
                             $('#select-all_5').prop('checked', value);
+                        });
+                    </script>
+
+                    <!-- scripts para tab6 -->
+                    <script>
+                        // Filtro de tabla
+                        $("input[name='tab6']").change(function () {
+                            var classes = [];
+
+                            $("input[name='tab6']").each(function () {
+                                if ($(this).is(":checked")) { classes.push($(this).val()); }
+                            });
+
+                            if (classes == "") { // if no filters selected, show all items
+                                $("#EstDescriptivas tbody tr").hide();
+                            } else { // otherwise, hide everything...
+                                $("#EstDescriptivas tbody tr").hide();
+
+                                $("#EstDescriptivas tr").each(function () {
+                                    var show = false;
+                                    var row = $(this);
+                                    classes.forEach(function (className) {
+                                        if (row.find('td' + '.referencia').html() == className) { show = true; }
+                                    });
+                                    if (show) { row.show(); }
+                                });
+                            }
+                        });
+                    </script>
+
+                    <script>
+                        // cambia el valor de los checkboxs de clase 'checkbox_tab6'
+                        // de acuerdo con el valor del checkbox de 'seleccionar todos'
+                        // y hace el toggle de sus respectivas columnas en la tabla
+                        function toggle6(source) {
+                            checkboxes = document.getElementsByClassName('checkbox_tab6');
+                            for(var i=0, n=checkboxes.length;i<n;i++) {
+                                checkboxes[i].checked = source.checked;
+                            }
+
+                            if (source.checked == true) {
+                                $("#EstDescriptivas tbody tr").show();
+                            } else {
+                                $("#EstDescriptivas tbody tr").hide();
+                            }
+                        }
+                    </script>
+
+                    <script>
+                        // verifica el estado de los checkboxs con clase 'checkbox_tab6',
+                        // si uno es false, cambia el valor del checkbox de 'seleccionar todos' a false
+                        // si todos son true, cambia el valor del checkbox de 'seleccionar todos' a true
+                        $("input[name='tab6']").change(function () {
+                            checkboxes = document.getElementsByClassName('checkbox_tab6');
+                            var value = true;
+                            for(var i=0, n=checkboxes.length;i<n;i++) {
+                                if (checkboxes[i].checked == false) {
+                                    value = false;
+                                }
+                            }
+                            $('#select-all_6').prop('checked', value);
                         });
                     </script>
 

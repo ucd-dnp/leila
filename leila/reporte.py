@@ -163,12 +163,19 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
     if dataframe_duplic_colum is not None:
         html_dataframe_duplic_colum = df_as_html(dataframe_duplic_colum)
 
-    # Tab 1 - Estadísticas descriptivas -----------------------------------------
+    # Tab 6 - Estadísticas descriptivas -----------------------------------------
     dataframe_descriptive_stats = base.DescripcionNumericas()
 
     header_list = None
     items = None
     if dataframe_descriptive_stats is not None:
+        for col in ['freq', 'count', 'unique']:
+            try:
+                dataframe_descriptive_stats[col] = dataframe_descriptive_stats[
+                    col].apply('{:,.0f}'.format)
+            except:
+                pass
+
         for col in ['mean', 'std', 'min', '25%', '50%', '75%', 'max']:
             try:
                 dataframe_descriptive_stats[col] = dataframe_descriptive_stats[
@@ -183,11 +190,21 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
             except:
                 pass
 
-        dataframe_descriptive_stats.columns = ['Conteo', 'Media', 'Desviación estándar', 'Valor mín', '25%', '50%', '75%',
-                                               'Valor máx', 'Faltantes', 'Outliers Total', 'Outliers Altos',
-                                               'Outliers Bajos']
-        dataframe_descriptive_stats = dataframe_descriptive_stats.T
+        df_headers = list(dataframe_descriptive_stats)
+        df_headers = [w.replace('count', 'Conteo') \
+                          .replace('unique', 'Valores únicos') \
+                          .replace('mean', 'Media') \
+                          .replace('std', 'Desviación estándar') \
+                          .replace('min', 'Valor mín') \
+                          .replace('max', 'Valor máx') \
+                          .replace('missing', 'Faltantes') \
+                          .replace('outliers_', 'Outliers ') \
+                          .replace('top', 'Valor más común') \
+                          .replace('freq', 'Frecuencia valor más común') for w in df_headers]
+        dataframe_descriptive_stats.columns = df_headers
+
         header_list = list(dataframe_descriptive_stats)
+        variables_list = list(dataframe_descriptive_stats.T)
         dataframe_descriptive_stats = dataframe_descriptive_stats.reset_index()
         items = dataframe_descriptive_stats.values.tolist()
 
@@ -261,6 +278,7 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
             html_data_summary_head=html_data_summary_head,
             html_data_summary_tail=html_data_summary_tail,
             header_list=header_list,
+            variables_list=variables_list,
             items=items,
             header_list_2=header_list_2,
             variables_list_2=variables_list_2,
