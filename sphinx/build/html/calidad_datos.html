@@ -160,10 +160,6 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            
-              <a href="https://github.com/ucd-dnp/leila/blob/master/source/calidad_datos.rst" class="fa fa-github"> Edit on GitHub</a>
-            
-          
         
       </li>
     
@@ -185,7 +181,7 @@
 <dl class="py method">
 <dt id="calidad_datos.CalidadDatos.CantidadDuplicados">
 <code class="descname">CantidadDuplicados</code><span class="sig-paren">(</span><em><span class="n">eje</span><span class="o">=</span><span class="default_value">0</span></em>, <em><span class="n">numero</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#calidad_datos.CalidadDatos.CantidadDuplicados" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Retorna el porcentaje/número de             filas o columnas duplicadas (repetidas) en el dataframe.</p>
+<dd><p>Retorna el porcentaje/número de             filas o columnas duplicadas (repetidas) en el dataframe.             <a class="reference internal" href="ejemplos.html#calidad-datos-cantidadduplicados"><span class="std std-ref">Ver ejemplo</span></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -206,7 +202,7 @@
 <dl class="py method">
 <dt id="calidad_datos.CalidadDatos.CorrelacionCategoricas">
 <code class="descname">CorrelacionCategoricas</code><span class="sig-paren">(</span><em><span class="n">metodo</span><span class="o">=</span><span class="default_value">'phik'</span></em>, <em><span class="n">limite</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em><span class="n">categoriasMaximas</span><span class="o">=</span><span class="default_value">30</span></em>, <em><span class="n">variables</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#calidad_datos.CalidadDatos.CorrelacionCategoricas" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Genera una matriz de correlación entre las variables de tipo categóricas</p>
+<dd><p>Genera una matriz de correlación entre las variables de tipo categóricas.             <a class="reference internal" href="ejemplos.html#calidad-datos-correlacioncategoricas"><span class="std std-ref">Ver ejemplo</span></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -229,7 +225,7 @@
 <dl class="py method">
 <dt id="calidad_datos.CalidadDatos.CorrelacionNumericas">
 <code class="descname">CorrelacionNumericas</code><span class="sig-paren">(</span><em><span class="n">metodo</span><span class="o">=</span><span class="default_value">'pearson'</span></em>, <em><span class="n">variables</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#calidad_datos.CalidadDatos.CorrelacionNumericas" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Genera una matriz de correlación entre las variables de tipo numérico</p>
+<dd><p>Genera una matriz de correlación entre las variables de tipo numérico             <a class="reference internal" href="ejemplos.html#calidad-datos-correlacionnumericas"><span class="std std-ref">Ver ejemplo</span></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -250,7 +246,7 @@
 <dl class="py method">
 <dt id="calidad_datos.CalidadDatos.DescripcionCategoricas">
 <code class="descname">DescripcionCategoricas</code><span class="sig-paren">(</span><em><span class="n">limite</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em><span class="n">categoriasMaximas</span><span class="o">=</span><span class="default_value">30</span></em>, <em><span class="n">incluirNumericos</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">variables</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#calidad_datos.CalidadDatos.DescripcionCategoricas" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Genera una tabla con los primeros 10 valores más frecuentes de las             columnas categóricas dataframe , además calcula su frecuencia             y porcentaje dentro del total de observaciones. Incluye los             valores faltantes.</p>
+<dd><p>Genera una tabla con los primeros 10 valores más frecuentes de las             columnas categóricas dataframe , además calcula su frecuencia             y porcentaje dentro del total de observaciones. Incluye los             valores faltantes. <a class="reference internal" href="ejemplos.html#calidad-datos-descripcioncategoricas"><span class="std std-ref">Ver ejemplo</span></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -273,13 +269,14 @@
 <dl class="py method">
 <dt id="calidad_datos.CalidadDatos.DescripcionNumericas">
 <code class="descname">DescripcionNumericas</code><span class="sig-paren">(</span><em><span class="n">variables</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#calidad_datos.CalidadDatos.DescripcionNumericas" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Calcula estadísticas descriptivas de cada columna numérica.             Incluyen media, mediana, valores en distintos percentiles,            desviación estándar, valores extremos y porcentaje de valores             faltantes.
-:param variables: (list) lista de nombres de las columnas separados             por comas. Permite escoger las columnas de interés de análisis             del dataframe</p>
+<dd><p>Calcula estadísticas descriptivas de cada columna numérica.             Incluyen media, mediana, valores en distintos percentiles,            desviación estándar, valores extremos y porcentaje de valores             faltantes. <a class="reference internal" href="ejemplos.html#calidad-datos-descripcionnumericas"><span class="std std-ref">Ver ejemplo</span></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Devuelve:</th><td class="field-body">dataframe con las estadísticas descriptivas.</td>
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>variables</strong> – (list) lista de nombres de las columnas separados             por comas. Permite escoger las columnas de interés de análisis             del dataframe</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body">dataframe con las estadísticas descriptivas.</td>
 </tr>
 </tbody>
 </table>
@@ -288,7 +285,7 @@
 <dl class="py method">
 <dt id="calidad_datos.CalidadDatos.EmparejamientoDuplicados">
 <code class="descname">EmparejamientoDuplicados</code><span class="sig-paren">(</span><em><span class="n">col</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#calidad_datos.CalidadDatos.EmparejamientoDuplicados" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Retorna las columnas o filas que presenten valores duplicados del             dataframe.</p>
+<dd><p>Retorna las columnas o filas que presenten valores duplicados del             dataframe. <a class="reference internal" href="ejemplos.html#calidad-datos-emparejamientoduplicados"><span class="std std-ref">Ver ejemplo</span></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -304,7 +301,7 @@
 <dl class="py method">
 <dt id="calidad_datos.CalidadDatos.Memoria">
 <code class="descname">Memoria</code><span class="sig-paren">(</span><em><span class="n">col</span><span class="o">=</span><span class="default_value">False</span></em>, <em><span class="n">unidad</span><span class="o">=</span><span class="default_value">'megabyte'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#calidad_datos.CalidadDatos.Memoria" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Calcula el tamaño de la base de datos en memoria (megabytes)</p>
+<dd><p>Calcula el tamaño de la base de datos en memoria (megabytes). <a class="reference internal" href="ejemplos.html#calidad-datos-memoria"><span class="std std-ref">Ver ejemplo</span></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -325,7 +322,7 @@
 <dl class="py method">
 <dt id="calidad_datos.CalidadDatos.Resumen">
 <code class="descname">Resumen</code><span class="sig-paren">(</span><em><span class="n">filas</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">columnas</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">colNumericas</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">colTexto</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">colBooleanas</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">colFecha</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">colOtro</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">filasRepetidas</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">columnasRepetidas</span><span class="o">=</span><span class="default_value">False</span></em>, <em><span class="n">colFaltantes</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">colExtremos</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">memoriaTotal</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#calidad_datos.CalidadDatos.Resumen" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Retorna una tabla con información general de la base de datos.        Incluye número de filas y columnas, número de columnas de tipo         numéricas, de texto, booleanas, fecha y otros, número de filas y         columnas no únicas, número de columnas con más de la mitad de las         observaciones con datos faltantes, número de columnas con más del         10% de observaciones con datos extremos y el tamaño de la base de         datos en memoria.</p>
+<dd><p>Retorna una tabla con información general de la base de datos.        Incluye número de filas y columnas, número de columnas de tipo         numéricas, de texto, booleanas, fecha y otros, número de filas y         columnas no únicas, número de columnas con más de la mitad de las         observaciones con datos faltantes, número de columnas con más del         10% de observaciones con datos extremos y el tamaño de la base de         datos en memoria. <a class="reference internal" href="ejemplos.html#calidad-datos-resumen"><span class="std std-ref">Ver ejemplo</span></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -356,7 +353,7 @@
 <dl class="py method">
 <dt id="calidad_datos.CalidadDatos.TipoColumnas">
 <code class="descname">TipoColumnas</code><span class="sig-paren">(</span><em><span class="n">tipoGeneral</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">tipoGeneralPython</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">tipoEspecifico</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#calidad_datos.CalidadDatos.TipoColumnas" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Retorna el tipo de dato de cada columna del dataframe.</p>
+<dd><p>Retorna el tipo de dato de cada columna del dataframe. <a class="reference internal" href="ejemplos.html#calidad-datos-tipocolumnas"><span class="std std-ref">Ver ejemplo</span></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -378,7 +375,7 @@
 <dl class="py method">
 <dt id="calidad_datos.CalidadDatos.ValoresExtremos">
 <code class="descname">ValoresExtremos</code><span class="sig-paren">(</span><em><span class="n">extremos</span><span class="o">=</span><span class="default_value">'ambos'</span></em>, <em><span class="n">numero</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#calidad_datos.CalidadDatos.ValoresExtremos" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Calcula el porcentaje o cantidad de outliers de cada columna numérica             (las columnas con números en formato string se intentarán transformar             a columnas numéricas)</p>
+<dd><p>Calcula el porcentaje o cantidad de outliers de cada columna numérica             (las columnas con números en formato string se intentarán transformar             a columnas numéricas). <a class="reference internal" href="ejemplos.html#calidad-datos-valoresextremos"><span class="std std-ref">Ver ejemplo</span></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -401,7 +398,7 @@ valor se expresa como una cantidad de registros (número entero).</li>
 <dl class="py method">
 <dt id="calidad_datos.CalidadDatos.ValoresFaltantes">
 <code class="descname">ValoresFaltantes</code><span class="sig-paren">(</span><em><span class="n">numero</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#calidad_datos.CalidadDatos.ValoresFaltantes" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Calcula el porcentaje/número de valores faltantes de cada columna             del dataframe.</p>
+<dd><p>Calcula el porcentaje/número de valores faltantes de cada columna             del dataframe. <a class="reference internal" href="ejemplos.html#calidad-datos-valoresfaltantes"><span class="std std-ref">Ver ejemplo</span></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -417,7 +414,7 @@ valor se expresa como una cantidad de registros (número entero).</li>
 <dl class="py method">
 <dt id="calidad_datos.CalidadDatos.ValoresUnicos">
 <code class="descname">ValoresUnicos</code><span class="sig-paren">(</span><em><span class="n">faltantes</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#calidad_datos.CalidadDatos.ValoresUnicos" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Calcula la cantidad de valores únicos de cada columna del dataframe.</p>
+<dd><p>Calcula la cantidad de valores únicos de cada columna del dataframe.              <a class="reference internal" href="ejemplos.html#calidad-datos-valoresunicos"><span class="std std-ref">Ver ejemplo</span></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -433,7 +430,7 @@ valor se expresa como una cantidad de registros (número entero).</li>
 <dl class="py method">
 <dt id="calidad_datos.CalidadDatos.VarianzaEnPercentil">
 <code class="descname">VarianzaEnPercentil</code><span class="sig-paren">(</span><em><span class="n">percentil_inferior</span><span class="o">=</span><span class="default_value">5</span></em>, <em><span class="n">percentil_superior</span><span class="o">=</span><span class="default_value">95</span></em><span class="sig-paren">)</span><a class="headerlink" href="#calidad_datos.CalidadDatos.VarianzaEnPercentil" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Retorna las columnas numéricas cuyo percentil_inferior sea igual             a su percentil_superior.</p>
+<dd><p>Retorna las columnas numéricas cuyo percentil_inferior sea igual             a su percentil_superior. <a class="reference internal" href="ejemplos.html#calidad-datos-varianzaenpercentil"><span class="std std-ref">Ver ejemplo</span></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -451,11 +448,6 @@ valor se expresa como una cantidad de registros (número entero).</li>
 </tbody>
 </table>
 </dd></dl>
-
-<dl class="py method">
-<dt id="calidad_datos.CalidadDatos.correlacion_cramerv">
-<code class="descname">correlacion_cramerv</code><span class="sig-paren">(</span><em><span class="n">x</span></em>, <em><span class="n">y</span></em><span class="sig-paren">)</span><a class="headerlink" href="#calidad_datos.CalidadDatos.correlacion_cramerv" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd></dd></dl>
 
 </dd></dl>
 

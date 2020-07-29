@@ -84,7 +84,7 @@ class CalidadDatos:
     
     # Tipos de las columnas
     def TipoColumnas(self, tipoGeneral=True, tipoGeneralPython = True, tipoEspecifico = True):
-        """ Retorna el tipo de dato de cada columna del dataframe.
+        """ Retorna el tipo de dato de cada columna del dataframe. :ref:`Ver ejemplo <calidad_datos.TipoColumnas>`
                 
         :param tipoGeneral (bool) {True, False}, valor por defecto: True. \
             Incluye el tipo general de cada columna. Los tipos son: numérico,\
@@ -228,7 +228,8 @@ class CalidadDatos:
     # valores únicos en cada columna
     # sin missing values
     def ValoresUnicos(self, faltantes=False):
-        """ Calcula la cantidad de valores únicos de cada columna del dataframe.
+        """ Calcula la cantidad de valores únicos de cada columna del dataframe.  \
+            :ref:`Ver ejemplo <calidad_datos.ValoresUnicos>`
     
         :param faltantes: (bool) {True, False}, valor por defecto: False. \
             Indica si desea tener en cuenta los valores faltantes en el \
@@ -249,7 +250,7 @@ class CalidadDatos:
     #  Missing values
     def ValoresFaltantes(self, numero=False):
         """ Calcula el porcentaje/número de valores faltantes de cada columna \
-            del dataframe.
+            del dataframe. :ref:`Ver ejemplo <calidad_datos.ValoresFaltantes>`
     
         :param cociente: (bool) {True, False}, valor por defecto: True. Si el \
             valor es True el resultado se expresa como un cociente, si el \
@@ -273,7 +274,8 @@ class CalidadDatos:
     # Porcentaje y número de filas y columnas no únicas
     def CantidadDuplicados(self, eje=0, numero=False):
         """ Retorna el porcentaje/número de \
-            filas o columnas duplicadas (repetidas) en el dataframe.
+            filas o columnas duplicadas (repetidas) en el dataframe. \
+            :ref:`Ver ejemplo <calidad_datos.CantidadDuplicados>`
     
         :param eje: (int) {1, 0}, valor por defecto: 0. Si el valor \
             es 1 la validación se realiza por columnas, si el valor es \
@@ -324,7 +326,7 @@ class CalidadDatos:
     # Matching de columnas y filas no únicas
     def EmparejamientoDuplicados(self, col=False):
         """ Retorna las columnas o filas que presenten valores duplicados del \
-            dataframe.
+            dataframe. :ref:`Ver ejemplo <calidad_datos.EmparejamientoDuplicados>`
     
         :param col: (bool) {True, False}, valor por defecto: False. Si el valor \
             es True la validación se realiza por columnas, si el valor es \
@@ -424,7 +426,7 @@ class CalidadDatos:
     def ValoresExtremos(self, extremos="ambos", numero=False):
         """ Calcula el porcentaje o cantidad de outliers de cada columna numérica \
             (las columnas con números en formato string se intentarán transformar \
-            a columnas numéricas)
+            a columnas numéricas). :ref:`Ver ejemplo <calidad_datos.ValoresExtremos>`
     
         :param extremos: (str) {'superior', 'inferior', 'ambos'}, valor por \
             defecto: 'ambos'. Si el valor es '**inferior**' se tienen en cuenta los \
@@ -492,7 +494,8 @@ class CalidadDatos:
         """ Calcula estadísticas descriptivas de cada columna numérica. \
             Incluyen media, mediana, valores en distintos percentiles,\
             desviación estándar, valores extremos y porcentaje de valores \
-            faltantes.
+            faltantes. :ref:`Ver ejemplo <calidad_datos.DescripcionNumericas>`
+
         :param variables: (list) lista de nombres de las columnas separados \
             por comas. Permite escoger las columnas de interés de análisis \
             del dataframe
@@ -529,7 +532,7 @@ class CalidadDatos:
     ###############
     def VarianzaEnPercentil(self, percentil_inferior=5, percentil_superior=95):
         """ Retorna las columnas numéricas cuyo percentil_inferior sea igual \
-            a su percentil_superior.
+            a su percentil_superior. :ref:`Ver ejemplo <calidad_datos.VarianzaEnPercentil>`
     
         :param base: (dataframe) base de datos de interés a ser analizada.
         :param percentil_inferior: (float), valor por defecto: 5. Percentil \
@@ -580,7 +583,7 @@ class CalidadDatos:
         """ Genera una tabla con los primeros 10 valores más frecuentes de las \
             columnas categóricas dataframe , además calcula su frecuencia \
             y porcentaje dentro del total de observaciones. Incluye los \
-            valores faltantes.
+            valores faltantes. :ref:`Ver ejemplo <calidad_datos.DescripcionCategoricas>`
     
         :param limite: (float) (valor de 0 a 1) límite de referencia, se \
             utiliza para determinar si las variables posiblemente son de tipo \
@@ -700,8 +703,8 @@ class CalidadDatos:
 
     # Tamaño de la base de datos en la memoria
     def Memoria(self, col=False,unidad="megabyte"):
-        """ Calcula el tamaño de la base de datos en memoria (megabytes)
-    
+        """ Calcula el tamaño de la base de datos en memoria (megabytes). :ref:`Ver ejemplo <calidad_datos.Memoria>`
+
         :param col: (bool) {True, False}, valor por defecto: False. Si el \
             valor es False realiza el cálculo de memoria del dataframe \
             completo, si el valor es True realiza el cálculo de memoria por \
@@ -748,7 +751,7 @@ class CalidadDatos:
         columnas no únicas, número de columnas con más de la mitad de las \
         observaciones con datos faltantes, número de columnas con más del \
         10% de observaciones con datos extremos y el tamaño de la base de \
-        datos en memoria.
+        datos en memoria. :ref:`Ver ejemplo <calidad_datos.Resumen>`
     
         :param filas: (bool) {True, False}, valor por defecto: True. Indica \
             si se incluye el cálculo de número de filas del dataframe.
@@ -919,7 +922,8 @@ class CalidadDatos:
 
     # Matrices de correlación para las variables numéricas
     def CorrelacionNumericas(self, metodo="pearson", variables=None):
-        """ Genera una matriz de correlación entre las variables de tipo numérico
+        """ Genera una matriz de correlación entre las variables de tipo numérico \
+            :ref:`Ver ejemplo <calidad_datos.CorrelacionNumericas>`
     
         :param metodo: (str) {'pearson', 'kendall', 'spearman'}, valor por \
             defecto: 'pearson'. Medida de correlación a utilizar.
@@ -957,7 +961,8 @@ class CalidadDatos:
 
     # Matrices de correlación para variables categóricas
     def CorrelacionCategoricas(self,metodo='phik', limite=0.5, categoriasMaximas=30,variables=None):
-        """ Genera una matriz de correlación entre las variables de tipo categóricas
+        """ Genera una matriz de correlación entre las variables de tipo categóricas. \
+            :ref:`Ver ejemplo <calidad_datos.CorrelacionCategoricas>`
     
         :param metodo: (str) {'phik', 'cramer'}, valor por \
             defecto: 'phik'. Medida de correlación a utilizar.   
@@ -1051,11 +1056,16 @@ class CalidadDatos:
             raise ValueError('"metodo" tiene que ser "phik" o "cramer"')
         
         return correlacion_final
-      
-    # Función de soporte para calcular coeficiente de correlación Cramer V 
-    # (para usar en la función de las matrices de correlación entre variables categóricas)
-    # poner privada.
+
+    
     def correlacion_cramerv(self, x, y):
+        """ Función de soporte para calcular coeficiente de correlación Cramer V \
+        (para usar en la función de las matrices de correlación entre variables categóricas)
+
+        :param x:
+        :param y:
+        :return:
+        """
         confusion_matrix = pd.crosstab(x,y)
         chi2 = sstats.chi2_contingency(confusion_matrix)[0]
         n = confusion_matrix.sum().sum()

@@ -67,12 +67,12 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
                                 'Correo de contacto', 'Licencia', 'Entidad', 'Página web de la entidad',
                                 'Sector entidad', 'Departamento entidad', 'Orden entidad', 'Dependencia entidad',
                                 'Municipio entidad', 'Idioma', 'Cobertura', '¿Es pública la base?']
-        df_metadatos = df_metadatos[['Id api', 'Nombre', 'Descripción', 'Propietario', 'Tipo', 'Categoría', 'Términos clave',
-                                'Página web', 'Fecha de creación', 'Fecha de actualización',
-                                'Frecuencia de actualización', 'Número de filas', 'Número de columnas',
-                                'Entidad', 'Dependencia entidad', 'Sector entidad', 'Página web de la entidad', 'Correo de contacto', 'Licencia',
-                                'Departamento entidad', 'Municipio entidad', 'Orden entidad',
-                                'Idioma', 'Cobertura', '¿Es pública la base?']]
+        df_metadatos = df_metadatos[['Id api', 'Nombre', 'Descripción', 'Propietario', 'Tipo', 'Categoría',
+                                     'Términos clave', 'Página web', 'Fecha de creación', 'Fecha de actualización',
+                                     'Frecuencia de actualización', 'Número de filas', 'Número de columnas',
+                                     'Entidad', 'Dependencia entidad', 'Sector entidad', 'Página web de la entidad',
+                                     'Correo de contacto', 'Licencia', 'Departamento entidad', 'Municipio entidad',
+                                     'Orden entidad', 'Idioma', 'Cobertura', '¿Es pública la base?']]
         df_metadatos = df_metadatos.T.reset_index()
         df_metadatos.columns = ['Atributo', 'Valor']
         try:

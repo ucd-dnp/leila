@@ -160,10 +160,6 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            
-              <a href="https://github.com/ucd-dnp/leila/blob/master/source/datos_gov.rst" class="fa fa-github"> Edit on GitHub</a>
-            
-          
         
       </li>
     
@@ -179,26 +175,10 @@
 <span id="id1"></span><h1>Datos gov<a class="headerlink" href="#datos-gov" title="Enlazar permanentemente con este título">¶</a></h1>
 <p>Este módulo permite conectar y evaluar desde el código los metadatos del Portal de Datos Abiertos y descargar las bases de datos a dataframes.</p>
 <span class="target" id="module-datos_gov"></span><dl class="py function">
-<dt id="datos_gov.asset_inventory_espanol">
-<code class="descclassname">datos_gov.</code><code class="descname">asset_inventory_espanol</code><span class="sig-paren">(</span><em><span class="n">asset</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos_gov.asset_inventory_espanol" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Renombra los encabezados del inventario de bases de datos de Datos         Abiertos Colombia a términos en español.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>asset</strong> – (pandas.DataFrame) - Tabla de inventario del portal de datos        abiertos Colombia (<a class="reference external" href="https://www.datos.gov.co" target="_blank">https://www.datos.gov.co</a>).</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body">base de datos en formato dataframe.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="py function">
 <dt id="datos_gov.cargar_base">
 <code class="descclassname">datos_gov.</code><code class="descname">cargar_base</code><span class="sig-paren">(</span><em><span class="n">api_id</span></em>, <em><span class="n">token</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">limite_filas</span><span class="o">=</span><span class="default_value">1000000000</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos_gov.cargar_base" title="Enlazar permanentemente con esta definición">¶</a></dt>
 <dd><p>Se conecta al API de Socrata y retorna la base de datos descargada del Portal de Datos Abiertos
-como dataframe.</p>
+como dataframe. <a class="reference internal" href="ejemplos.html#datos-gov-cargar-base"><span class="std std-ref">Ver ejemplo</span></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -219,13 +199,13 @@ como dataframe.</p>
 <dl class="py function">
 <dt id="datos_gov.filtrar_tabla">
 <code class="descclassname">datos_gov.</code><code class="descname">filtrar_tabla</code><span class="sig-paren">(</span><em><span class="n">columnas_valor</span></em>, <em><span class="n">token</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos_gov.filtrar_tabla" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Permite filtrar la base de datos de <em>tabla de inventario</em> de acuerdo a        diferentes términos de búsqueda. Como son fechas, textos y otros.</p>
+<dd><p>Permite filtrar la base de datos de <em>tabla de inventario</em> de acuerdo a        diferentes términos de búsqueda. Como son fechas, textos y otros. <a class="reference internal" href="ejemplos.html#datos-gov-filtrar-tabla"><span class="std std-ref">Ver ejemplo</span></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
-<li><strong>columnas_valor</strong> – (diccinario) {“nombre de columna”:”valor a buscar o rangos”}. Corresponde al nombre de la columna a consultar y el valor a buscar.</li>
+<li><strong>columnas_valor</strong> – (diccinario) {“nombre de columna”:”valor a buscar o rangos”}.     Corresponde al nombre de la columna a consultar y el valor a buscar.</li>
 <li><strong>token</strong> – (str) <em>opcional</em> - token de usuario de la API Socrata.</li>
 </ul>
 </td>
@@ -241,7 +221,7 @@ como dataframe.</p>
 <dt id="datos_gov.tabla_inventario">
 <code class="descclassname">datos_gov.</code><code class="descname">tabla_inventario</code><span class="sig-paren">(</span><em><span class="n">token</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">limite_filas</span><span class="o">=</span><span class="default_value">1000000000</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos_gov.tabla_inventario" title="Enlazar permanentemente con esta definición">¶</a></dt>
 <dd><p>Se conecta al API de Socrata y retorna la base de datos <em>Asset Inventory</em> descargada del Portal de Datos Abiertos
-como dataframe. Este conjunto de datos es un inventario de los recursos en el sitio.</p>
+como dataframe. Este conjunto de datos es un inventario de los recursos en el sitio.      <a class="reference internal" href="ejemplos.html#datos-gov-tabla-inventario"><span class="std std-ref">Ver ejemplo</span></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />

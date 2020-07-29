@@ -9,4 +9,4 @@ Este módulo se enfoca en analizar cualquier base de datos (dataframe) de intere
    :members:
    :undoc-members:
    :show-inheritance:
-   :exclude-members:
+   :exclude-members: correlacion_cramerv

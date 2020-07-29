@@ -41,7 +41,7 @@ DIC_RENAME = {
 
 def cargar_base(api_id,token=None, limite_filas=1000000000):
     """ Se conecta al API de Socrata y retorna la base de datos descargada del Portal de Datos Abiertos
-    como dataframe.
+    como dataframe. :ref:`Ver ejemplo <datos_gov.cargar_base>`
 
     :param api_id: (str) Identificación de la base de datos asociado con la API de Socrata.
     :param token: (str) *opcional* - token de usuario de la API Socrata.
@@ -57,7 +57,8 @@ def cargar_base(api_id,token=None, limite_filas=1000000000):
 # OBTENER LA TABLA QUE TIENE DATOS ABIERTOS CON INFORMACIÓN DE LAS BASES DE DATOS
 def tabla_inventario(token=None,limite_filas=1000000000):
     """ Se conecta al API de Socrata y retorna la base de datos *Asset Inventory* descargada del Portal de Datos Abiertos
-    como dataframe. Este conjunto de datos es un inventario de los recursos en el sitio.
+    como dataframe. Este conjunto de datos es un inventario de los recursos en el sitio.  \
+    :ref:`Ver ejemplo <datos_gov.tabla_inventario>`
 
     :param token: (str) *opcional* - token de usuario de la API Socrata.
     :return: base de datos en formato dataframe.
@@ -69,7 +70,7 @@ def tabla_inventario(token=None,limite_filas=1000000000):
 
 def asset_inventory_espanol(asset):
     """ Renombra los encabezados del inventario de bases de datos de Datos \
-        Abiertos Colombia a términos en español. 
+        Abiertos Colombia a términos en español.
 
     :param asset: (pandas.DataFrame) - Tabla de inventario del portal de datos\
         abiertos Colombia (https://www.datos.gov.co).
@@ -107,15 +108,17 @@ def asset_inventory_espanol(asset):
             "invalid_datatype": "tipo_invalido"})
 
     return asset
-    
+
 
 ############ METADATOS
 
+
 def filtrar_tabla(columnas_valor, token=None):
     """ Permite filtrar la base de datos de *tabla de inventario* de acuerdo a\
-        diferentes términos de búsqueda. Como son fechas, textos y otros.
+        diferentes términos de búsqueda. Como son fechas, textos y otros. :ref:`Ver ejemplo <datos_gov.filtrar_tabla>`
 
-    :param columnas_valor: (diccinario) {'nombre de columna':'valor a buscar o rangos'}. Corresponde al nombre de la columna a consultar y el valor a buscar.
+    :param columnas_valor: (diccinario) {'nombre de columna':'valor a buscar o rangos'}. \
+    Corresponde al nombre de la columna a consultar y el valor a buscar.
     :param token: (str) *opcional* - token de usuario de la API Socrata.
     :return: dataframe *Asset Inventory* filtrado con los términos de búsqueda).
     """

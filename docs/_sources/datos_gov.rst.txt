@@ -9,4 +9,4 @@ Este módulo permite conectar y evaluar desde el código los metadatos del Porta
    :members:
    :undoc-members:
    :show-inheritance:
-   :exclude-members:
+   :exclude-members: asset_inventory_espanol

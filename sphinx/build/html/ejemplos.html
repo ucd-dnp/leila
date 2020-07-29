@@ -103,6 +103,22 @@
 <li class="toctree-l1"><a class="reference internal" href="instalacion.html">Instalación</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Ejemplos</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#reporte-generar-reporte">reporte.generar_reporte</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#datos-gov-tabla-inventario">datos_gov.tabla_inventario</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#datos-gov-filtrar-tabla">datos_gov.filtrar_tabla</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#datos-gov-cargar-base">datos_gov.cargar_base</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#calidad-datos-cantidadduplicados">calidad_datos.CantidadDuplicados</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#calidad-datos-correlacioncategoricas">calidad_datos.CorrelacionCategoricas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#calidad-datos-correlacionnumericas">calidad_datos.CorrelacionNumericas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#calidad-datos-descripcioncategoricas">calidad_datos.DescripcionCategoricas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#calidad-datos-descripcionnumericas">calidad_datos.DescripcionNumericas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#calidad-datos-emparejamientoduplicados">calidad_datos.EmparejamientoDuplicados</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#calidad-datos-memoria">calidad_datos.Memoria</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#calidad-datos-resumen">calidad_datos.Resumen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#calidad-datos-tipocolumnas">calidad_datos.TipoColumnas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#calidad-datos-valoresextremos">calidad_datos.ValoresExtremos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#calidad-datos-valoresfaltantes">calidad_datos.ValoresFaltantes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#calidad-datos-valoresunicos">calidad_datos.ValoresUnicos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#calidad-datos-varianzaenpercentil">calidad_datos.VarianzaEnPercentil</a></li>
 </ul>
 </li>
 </ul>
@@ -163,10 +179,6 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            
-              <a href="https://github.com/ucd-dnp/leila/blob/master/source/ejemplos.rst" class="fa fa-github"> Edit on GitHub</a>
-            
-          
         
       </li>
     
@@ -199,7 +211,7 @@
 <div class="section" id="reporte-generar-reporte">
 <h2>reporte.generar_reporte<a class="headerlink" href="#reporte-generar-reporte" title="Enlazar permanentemente con este título">¶</a></h2>
 <p>Ver documentación <a class="reference internal" href="reporte.html#reporte.generar_reporte" title="reporte.generar_reporte"><code class="xref py py-meth docutils literal notranslate"><span class="pre">reporte.generar_reporte()</span></code></a></p>
-<p>La función crea un reporte de calidad de datos en formato HTML utilizando las funciones disponibles en los otros módulos de la librería.</p>
+<p>Crea un reporte de calidad de datos en formato HTML utilizando las funciones disponibles en los otros módulos de la librería.</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Se importan las funciones de la librería</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">leila.reporte</span> <span class="kn">import</span> <span class="n">generar_reporte</span>
@@ -211,6 +223,86 @@
 </pre></div>
 </div>
 </div></blockquote>
+</div>
+<div class="section" id="datos-gov-tabla-inventario">
+<h2>datos_gov.tabla_inventario<a class="headerlink" href="#datos-gov-tabla-inventario" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Ver documentación <a class="reference internal" href="datos_gov.html#datos_gov.tabla_inventario" title="datos_gov.tabla_inventario"><code class="xref py py-meth docutils literal notranslate"><span class="pre">datos_gov.tabla_inventario()</span></code></a></p>
+<p>Se conecta al API de Socrata y retorna la base de datos Asset Inventory descargada del Portal de Datos Abiertos como dataframe. Este conjunto de datos es un inventario de los recursos en el sitio.</p>
+</div>
+<div class="section" id="datos-gov-filtrar-tabla">
+<h2>datos_gov.filtrar_tabla<a class="headerlink" href="#datos-gov-filtrar-tabla" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Ver documentación <a class="reference internal" href="datos_gov.html#datos_gov.filtrar_tabla" title="datos_gov.filtrar_tabla"><code class="xref py py-meth docutils literal notranslate"><span class="pre">datos_gov.filtrar_tabla()</span></code></a></p>
+<p>Permite filtrar la base de datos de tabla de inventario de acuerdo a diferentes términos de búsqueda. Como son fechas, textos y otros.</p>
+</div>
+<div class="section" id="datos-gov-cargar-base">
+<h2>datos_gov.cargar_base<a class="headerlink" href="#datos-gov-cargar-base" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Ver documentación <a class="reference internal" href="datos_gov.html#datos_gov.cargar_base" title="datos_gov.cargar_base"><code class="xref py py-meth docutils literal notranslate"><span class="pre">datos_gov.cargar_base()</span></code></a></p>
+<p>Se conecta al API de Socrata y retorna la base de datos descargada del Portal de Datos Abiertos como dataframe.</p>
+</div>
+<div class="section" id="calidad-datos-cantidadduplicados">
+<h2>calidad_datos.CantidadDuplicados<a class="headerlink" href="#calidad-datos-cantidadduplicados" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Ver documentación <a class="reference internal" href="calidad_datos.html#calidad_datos.CalidadDatos.CantidadDuplicados" title="calidad_datos.CalidadDatos.CantidadDuplicados"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calidad_datos.CalidadDatos.CantidadDuplicados()</span></code></a></p>
+<p>Retorna el porcentaje/número de filas o columnas duplicadas (repetidas) en el dataframe.</p>
+</div>
+<div class="section" id="calidad-datos-correlacioncategoricas">
+<h2>calidad_datos.CorrelacionCategoricas<a class="headerlink" href="#calidad-datos-correlacioncategoricas" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Ver documentación <a class="reference internal" href="calidad_datos.html#calidad_datos.CalidadDatos.CorrelacionCategoricas" title="calidad_datos.CalidadDatos.CorrelacionCategoricas"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calidad_datos.CalidadDatos.CorrelacionCategoricas()</span></code></a></p>
+<p>Genera una matriz de correlación entre las variables de tipo categóricas</p>
+</div>
+<div class="section" id="calidad-datos-correlacionnumericas">
+<h2>calidad_datos.CorrelacionNumericas<a class="headerlink" href="#calidad-datos-correlacionnumericas" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Ver documentación <a class="reference internal" href="calidad_datos.html#calidad_datos.CalidadDatos.CorrelacionNumericas" title="calidad_datos.CalidadDatos.CorrelacionNumericas"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calidad_datos.CalidadDatos.CorrelacionNumericas()</span></code></a></p>
+<p>Genera una matriz de correlación entre las variables de tipo numérico</p>
+</div>
+<div class="section" id="calidad-datos-descripcioncategoricas">
+<h2>calidad_datos.DescripcionCategoricas<a class="headerlink" href="#calidad-datos-descripcioncategoricas" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Ver documentación <a class="reference internal" href="calidad_datos.html#calidad_datos.CalidadDatos.DescripcionCategoricas" title="calidad_datos.CalidadDatos.DescripcionCategoricas"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calidad_datos.CalidadDatos.DescripcionCategoricas()</span></code></a></p>
+<p>Genera una tabla con los primeros 10 valores más frecuentes de las columnas categóricas dataframe , además calcula su frecuencia y porcentaje dentro del total de observaciones. Incluye los valores faltantes.</p>
+</div>
+<div class="section" id="calidad-datos-descripcionnumericas">
+<h2>calidad_datos.DescripcionNumericas<a class="headerlink" href="#calidad-datos-descripcionnumericas" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Ver documentación <a class="reference internal" href="calidad_datos.html#calidad_datos.CalidadDatos.DescripcionNumericas" title="calidad_datos.CalidadDatos.DescripcionNumericas"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calidad_datos.CalidadDatos.DescripcionNumericas()</span></code></a></p>
+<p>Calcula estadísticas descriptivas de cada columna numérica.</p>
+</div>
+<div class="section" id="calidad-datos-emparejamientoduplicados">
+<h2>calidad_datos.EmparejamientoDuplicados<a class="headerlink" href="#calidad-datos-emparejamientoduplicados" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Ver documentación <a class="reference internal" href="calidad_datos.html#calidad_datos.CalidadDatos.EmparejamientoDuplicados" title="calidad_datos.CalidadDatos.EmparejamientoDuplicados"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calidad_datos.CalidadDatos.EmparejamientoDuplicados()</span></code></a></p>
+<p>Retorna las columnas o filas que presenten valores duplicados del dataframe.</p>
+</div>
+<div class="section" id="calidad-datos-memoria">
+<h2>calidad_datos.Memoria<a class="headerlink" href="#calidad-datos-memoria" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Ver documentación <a class="reference internal" href="calidad_datos.html#calidad_datos.CalidadDatos.Memoria" title="calidad_datos.CalidadDatos.Memoria"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calidad_datos.CalidadDatos.Memoria()</span></code></a></p>
+<p>Calcula el tamaño de la base de datos en memoria (megabytes)</p>
+</div>
+<div class="section" id="calidad-datos-resumen">
+<h2>calidad_datos.Resumen<a class="headerlink" href="#calidad-datos-resumen" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Ver documentación <a class="reference internal" href="calidad_datos.html#calidad_datos.CalidadDatos.Resumen" title="calidad_datos.CalidadDatos.Resumen"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calidad_datos.CalidadDatos.Resumen()</span></code></a></p>
+<p>Retorna una tabla con información general de la base de datos.</p>
+</div>
+<div class="section" id="calidad-datos-tipocolumnas">
+<h2>calidad_datos.TipoColumnas<a class="headerlink" href="#calidad-datos-tipocolumnas" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Ver documentación <a class="reference internal" href="calidad_datos.html#calidad_datos.CalidadDatos.TipoColumnas" title="calidad_datos.CalidadDatos.TipoColumnas"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calidad_datos.CalidadDatos.TipoColumnas()</span></code></a></p>
+<p>Retorna el tipo de dato de cada columna del dataframe.</p>
+</div>
+<div class="section" id="calidad-datos-valoresextremos">
+<h2>calidad_datos.ValoresExtremos<a class="headerlink" href="#calidad-datos-valoresextremos" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Ver documentación <a class="reference internal" href="calidad_datos.html#calidad_datos.CalidadDatos.ValoresExtremos" title="calidad_datos.CalidadDatos.ValoresExtremos"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calidad_datos.CalidadDatos.ValoresExtremos()</span></code></a></p>
+<p>Calcula el porcentaje o cantidad de outliers de cada columna numérica (las columnas con números en formato string se intentarán transformar a columnas numéricas)</p>
+</div>
+<div class="section" id="calidad-datos-valoresfaltantes">
+<h2>calidad_datos.ValoresFaltantes<a class="headerlink" href="#calidad-datos-valoresfaltantes" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Ver documentación <a class="reference internal" href="calidad_datos.html#calidad_datos.CalidadDatos.ValoresFaltantes" title="calidad_datos.CalidadDatos.ValoresFaltantes"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calidad_datos.CalidadDatos.ValoresFaltantes()</span></code></a></p>
+<p>Calcula el porcentaje/número de valores faltantes de cada columna del dataframe.</p>
+</div>
+<div class="section" id="calidad-datos-valoresunicos">
+<h2>calidad_datos.ValoresUnicos<a class="headerlink" href="#calidad-datos-valoresunicos" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Ver documentación <a class="reference internal" href="calidad_datos.html#calidad_datos.CalidadDatos.ValoresUnicos" title="calidad_datos.CalidadDatos.ValoresUnicos"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calidad_datos.CalidadDatos.ValoresUnicos()</span></code></a></p>
+<p>Calcula la cantidad de valores únicos de cada columna del dataframe.</p>
+</div>
+<div class="section" id="calidad-datos-varianzaenpercentil">
+<h2>calidad_datos.VarianzaEnPercentil<a class="headerlink" href="#calidad-datos-varianzaenpercentil" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Ver documentación <a class="reference internal" href="calidad_datos.html#calidad_datos.CalidadDatos.VarianzaEnPercentil" title="calidad_datos.CalidadDatos.VarianzaEnPercentil"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calidad_datos.CalidadDatos.VarianzaEnPercentil()</span></code></a></p>
+<p>Retorna las columnas numéricas cuyo percentil_inferior sea igual a su percentil_superior.</p>
 </div>
 </div>
 

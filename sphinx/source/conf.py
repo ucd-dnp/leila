@@ -33,7 +33,6 @@ version = 'Versión ' + release
 # ones.
 
 extensions = ['sphinx.ext.autodoc', 'rinoh.frontend.sphinx','sphinx.ext.autosectionlabel', 'sphinx_copybutton']
-# extensions = ['sphinx.ext.autodoc', 'rinoh.frontend.sphinx']
 
 copybutton_prompt_text = "myinputprompt"
 copybutton_prompt_text = ">>> "
@@ -73,14 +72,14 @@ exclude_patterns = []
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 html_theme = 'sphinx_rtd_theme'
-html_show_sourcelink = True
+html_show_sourcelink = False
 
 html_context = {
-    "display_github": True, # Integrate GitHub
-    "github_user": "ucd-dnp", # Username
-    "github_repo": "leila", # Repo name
-    "github_version": "master", # Version
-    "conf_py_path": "/source/", # Path in the checkout to the docs root
+    "display_github": False,         # Integrate GitHub
+    "github_user": "ucd-dnp",       # Username
+    "github_repo": "leila",         # Repo name
+    "github_version": "master",     # Version
+    "conf_py_path": "/source/",     # Path in the checkout to the docs root
 }
 
 
@@ -88,6 +87,8 @@ html_theme_options = {
     'display_version': True,
     'style_external_links' : True    
 }
+
+
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
