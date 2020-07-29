@@ -507,8 +507,8 @@ class CalidadDatos:
         else:
             pass    
     
-        col_tipos = self.TipoColumnas()
-        col_num = col_tipos[(col_tipos == "Numérico") | (col_tipos == "Float")].index
+        col_tipos = self.TipoColumnas(tipoGeneral=True, tipoGeneralPython = False, tipoEspecifico = False).iloc[:,0]
+        col_num = col_tipos[col_tipos == "Numérico"].index
         base_num = base[col_num]
         
         if len(col_num) == 0:
@@ -542,7 +542,7 @@ class CalidadDatos:
         base =self.base.copy()
     
         # Revisar si hay columnas numéricas
-        columnas_tipo = self.TipoColumnas()
+        columnas_tipo = self.TipoColumnas(tipoGeneral=True, tipoGeneralPython = False, tipoEspecifico = False).iloc[:,0]
         if len(columnas_tipo[columnas_tipo=="Numérico"])==0:
             print("La base de datos no tiene columnas numéricas")
             return
