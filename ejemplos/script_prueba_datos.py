@@ -32,8 +32,6 @@ print(varianza_perc)
 ############ Tipos de columnas
 tipos_columnas = datos.TipoColumnas(tipoGeneral=True, tipoGeneralPython = True, tipoEspecifico = True)
 
-tipos_columnas = datos.TipoColumnas(tipoGeneral=True, tipoGeneralPython = False, tipoEspecifico = False).iloc[:,0]
-
 ############ Valores únicos en cada columna
 # Sin faltantes
 unicos_nofaltantes=datos.ValoresUnicos(faltantes=False)
