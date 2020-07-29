@@ -19,7 +19,7 @@ base = pd.read_excel("../../../1_Insumos/Bases_de_datos/dataset ejemplos.xlsx")
 
 #creado objeto de la clase CalidadDatos, similar a pandas DataFrame
 
-datos = CalidadDatos(base, castNumero=True)
+datos = CalidadDatos(base, castNumero=False)
 
 ############ RESUMEN DE BASE DE DATOS
 resumen=datos.Resumen(columnasRepetidas=False)
