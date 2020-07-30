@@ -41,9 +41,11 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
                     archivo='perfilamiento_leila.html', castNumero=False):
     """Genera un reporte de calidad de datos en formato HTML. :ref:`Ver ejemplo <reporte.generar_reporte>`
 
+    :param castNumero: (bool) {True, False}. Valor por defecto: False. \
+            Indica si se desea convertir las columnas de tipos object y bool a float, de ser posible.
     :param df: (dataframe) base de datos de insumo para la generación del reporte de calidad de datos.
-    :param api_id: (str) Identificación de la base de datos asociado con la API de Socrata (de Datos Abiertos).
-    :param token: (str) *opcional* - token de usuario de la API de Socrata (de Datos Abiertos).
+    :param api_id: (str) opcional - Identificación de la base de datos asociado con la API de Socrata (de Datos Abiertos).
+    :param token: (str) opcional - Token de usuario de la API de Socrata (de Datos Abiertos).
     :param titulo: (str) valor por defecto: 'Reporte perfilamiento'. Título del reporte a generar.
     :param archivo: (str) valor por defecto: 'perfilamiento.html'. Ruta donde guardar el reporte.
     :return: archivo de reporte en formato HTML.

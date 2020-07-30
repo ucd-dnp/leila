@@ -39,12 +39,14 @@ DIC_RENAME = {
      }
 
 
-def cargar_base(api_id,token=None, limite_filas=1000000000):
+def cargar_base(api_id, token=None, limite_filas=1000000000):
     """ Se conecta al API de Socrata y retorna la base de datos descargada del Portal de Datos Abiertos
     como dataframe. :ref:`Ver ejemplo <datos_gov.cargar_base>`
 
     :param api_id: (str) Identificación de la base de datos asociado con la API de Socrata.
     :param token: (str) *opcional* - token de usuario de la API Socrata.
+    :param limite_filas: (int) (valor mayor a 0), indica el número máximo de filas a descargar /
+    de la base de datos asociada al api_id.
     :return: base de datos en formato dataframe.
     """
     
@@ -55,15 +57,17 @@ def cargar_base(api_id,token=None, limite_filas=1000000000):
     return(_base)
 
 # OBTENER LA TABLA QUE TIENE DATOS ABIERTOS CON INFORMACIÓN DE LAS BASES DE DATOS
-def tabla_inventario(token=None,limite_filas=1000000000):
+def tabla_inventario(token=None, limite_filas=1000000000):
     """ Se conecta al API de Socrata y retorna la base de datos *Asset Inventory* descargada del Portal de Datos Abiertos
     como dataframe. Este conjunto de datos es un inventario de los recursos en el sitio.  \
     :ref:`Ver ejemplo <datos_gov.tabla_inventario>`
 
     :param token: (str) *opcional* - token de usuario de la API Socrata.
+    :param limite_filas: (int) (valor mayor a 0), indica el número máximo de filas a descargar /
+    de la base de datos asociada al api_id.
     :return: base de datos en formato dataframe.
     """
-    asset_inventory = cargar_base(api_id = "uzcf-b9dh", token = token,
+    asset_inventory = cargar_base(api_id="uzcf-b9dh", token=token,
                                   limite_filas=limite_filas)
     asset_inventory = asset_inventory_espanol(asset_inventory)
     return(asset_inventory)
@@ -109,12 +113,10 @@ def asset_inventory_espanol(asset):
 
     return asset
 
-
 ############ METADATOS
 
-
 def filtrar_tabla(columnas_valor, token=None):
-    """ Permite filtrar la base de datos de *tabla de inventario* de acuerdo a\
+    """ Permite filtrar la base de datos de *tabla de inventario* de acuerdo con\
         diferentes términos de búsqueda. Como son fechas, textos y otros. :ref:`Ver ejemplo <datos_gov.filtrar_tabla>`
 
     :param columnas_valor: (diccinario) {'nombre de columna':'valor a buscar o rangos'}. \
