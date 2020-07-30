@@ -300,43 +300,45 @@
                                     <p class="descripcion">
                                         Contiene información para cada columna de tipo numérico, incluye media, mediana, percentiles, desviación estándar, valores extremos y porcentaje de valores faltantes.
                                     </p>
-                                    <div class="row max_size_row2 aligned-row">
-
-                                        <div class="col-md-3 table-responsive">
-                                            <h4><strong><em>Variables</em></strong></h4>
-                                            <p><input type="checkbox" onClick="toggle6(this)" id="select-all_6"> Seleccionar todos</p>
-                                                {% for item in variables_list %}
-                                                <p><input type="checkbox" name="tab6" class="checkbox_tab6" value="{{ item }}"> {{ loop.index }} - {{ item }}</p>
-                                            {% endfor %}
-                                        </div>
-                                        <div class="col-md-9 table-responsive">
-                                            <table class="table table-condensed tableFixHead" id="EstDescriptivas">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Variable</th>
-                                                        {% for item in header_list %}
-                                                            <th>{{ item }}</th>
-                                                        {% endfor %}
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {% for row in items%}
+                                    {% if variables_list != None %}
+                                        <div class="row max_size_row2 aligned-row">
+                                            <div class="col-md-3 table-responsive">
+                                                <h4><strong><em>Variables</em></strong></h4>
+                                                <p><input type="checkbox" onClick="toggle6(this)" id="select-all_6"> Seleccionar todos</p>
+                                                    {% for item in variables_list %}
+                                                    <p><input type="checkbox" name="tab6" class="checkbox_tab6" value="{{ item }}"> {{ loop.index }} - {{ item }}</p>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="col-md-9 table-responsive">
+                                                <table class="table table-condensed tableFixHead" id="EstDescriptivas">
+                                                    <thead>
                                                         <tr>
-                                                            {% for column in row %}
-                                                                {% if loop.index0 == 0 %}
-                                                                    <td class="referencia">{{ column }}</td>
-                                                                {% else %}
-                                                                    <td>{{ column }}</td>
-                                                                {% endif %}
+                                                            <th>Variable</th>
+                                                            {% for item in header_list %}
+                                                                <th>{{ item }}</th>
                                                             {% endfor %}
                                                         </tr>
-                                                    {% endfor %}
-                                                </tbody>
-                                            </table>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for row in items%}
+                                                            <tr>
+                                                                {% for column in row %}
+                                                                    {% if loop.index0 == 0 %}
+                                                                        <td class="referencia">{{ column }}</td>
+                                                                    {% else %}
+                                                                        <td>{{ column }}</td>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
-                                    </div>
+                                    {% else %}
+                                        <strong>* La base de datos no tiene columnas numéricas</strong>
+                                    {% endif %}
                                 </div>
-
                             </div>
                             <br>
                         </div>

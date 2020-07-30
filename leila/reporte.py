@@ -168,6 +168,7 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
 
     header_list = None
     items = None
+    variables_list = None
     if dataframe_descriptive_stats is not None:
         for col in ['freq', 'count', 'unique']:
             try:
