@@ -69,10 +69,10 @@ def tabla_inventario(token=None, limite_filas=1000000000):
     """
     asset_inventory = cargar_base(api_id="uzcf-b9dh", token=token,
                                   limite_filas=limite_filas)
-    asset_inventory = asset_inventory_espanol(asset_inventory)
+    asset_inventory = __asset_inventory_espanol(asset_inventory)
     return(asset_inventory)
 
-def asset_inventory_espanol(asset):
+def __asset_inventory_espanol(asset):
     """ Renombra los encabezados del inventario de bases de datos de Datos \
         Abiertos Colombia a términos en español.
 
