@@ -620,7 +620,7 @@ class CalidadDatos:
             utiliza para determinar si las variables posiblemente son de tipo \
             categóricas y ser incluidas en el análisis. Si el número de \
             valores únicos por columna es mayor al número de registros \
-            * limite*, se considera que la variable no es categórica.
+            limite, se considera que la variable no es categórica.
         :param categoriasMaximas: (int) (valor mayor a 0), indica el máximo \
             número de categorías de una variable para que sea incluida en el \
             análisis
@@ -1018,7 +1018,7 @@ class CalidadDatos:
             utiliza para determinar si las variables posiblemente son de tipo \
             categóricas y ser incluidas en el análisis. Si el número de \
             valores únicos por columna es mayor al número de registros \
-            * limite*, se considera que la variable no es categórica.
+            limite, se considera que la variable no es categórica.
         :param categoriasMaximas: (int) (valor mayor a 0), indica el máximo \
             número de categorías de una variable para que sea incluida en el \
             análisis
