@@ -12,81 +12,74 @@ import warnings
 
 class CalidadDatos:
 
-    def __init__(self, _base,castNumero=False,diccionarioCast=None,errores="ignore",formato_fecha=None):
+    def __init__(self, _base, castNumero=False, diccionarioCast=None, errores="ignore", formato_fecha=None):
         """ Constructor por defecto de la clase CalidadDatos. Esta clase se \
         encarga de manejar todas las funciones asociadas a la medición de la \
         calidad de los datos en una base de datos 
-        
-        Parameters
-        ----------
-        base : pandas.DataFrame 
-            Base de datos de tipo pandas.DataFrame que será
+
+        :param base: (dataframe) Base de datos de tipo pandas.DataFrame que será
             analizada por la clase CalidadDatos.
-        param castNumero: (bool) {True, False}. Valor por defecto: False \
+        :param castNumero: (bool) {True, False}. Valor por defecto: False \
             Indica si se desea convertir las columnas de tipos object y \
             bool a float, de ser posible
-        param diccionarioCast: (dict) { {nombre_columna : tipo_columna} } \
+        :param diccionarioCast: (dict) { {nombre_columna : tipo_columna} } \
             Diccionario donde se especifican los tipos a que se desean \
             convertir las columnas (string, numerico, booleano, fecha, \
             categorico)
-        param errores: (string) {'ignore', 'coerce', 'raise'}\
+        :param errores: (string) {'ignore', 'coerce', 'raise'}\
             Valor por defecto: 'ignore'. Indica qué hacer con las columnas \
-            cuyo tipo no se puede cambiar al solicitado en \
-            'diccionarioCast'
-        
-        Returns
-        -------
-        CalidadDatos
-            Objeto del tipo de la clase CalidadDatos
+            cuyo tipo no se puede cambiar al solicitado en 'diccionarioCast'
+        :param formato_fecha: (string). Formato a ser utilizado al hacer cast a variables de fecha.
+        :return: Objeto del tipo de la clase CalidadDatos
         """
-        
-        _base = _base.copy()
-        
-        # Pasar los 'objects' a float, si posible
-        if castNumero==True:
-            tipos_columnas=_base.dtypes
-            tipos_object=tipos_columnas[(tipos_columnas=="object")|(tipos_columnas=="bool")].index.to_list()
-            # Pasar las columnas que se puedan a integer
-            _base[tipos_object]=_base[tipos_object].apply(lambda x:x.astype("int64",errors="ignore"),axis=0)
-            # Pasar las columnas qeu se puedan a float
-            tipos_columnas=_base.dtypes
-            tipos_object=tipos_columnas[(tipos_columnas=="object")|(tipos_columnas=="bool")].index.to_list()
-            _base[tipos_object]=_base[tipos_object].apply(lambda x:x.astype(float,errors="ignore"),axis=0)
 
-        elif castNumero==False:
+        _base = _base.copy()
+
+        # Pasar los 'objects' a float, si posible
+        if castNumero == True:
+            tipos_columnas = _base.dtypes
+            tipos_object = tipos_columnas[(tipos_columnas == "object") | (tipos_columnas == "bool")].index.to_list()
+            # Pasar las columnas que se puedan a integer
+            _base[tipos_object] = _base[tipos_object].apply(lambda x: x.astype("int64", errors="ignore"), axis=0)
+            # Pasar las columnas qeu se puedan a float
+            tipos_columnas = _base.dtypes
+            tipos_object = tipos_columnas[(tipos_columnas == "object") | (tipos_columnas == "bool")].index.to_list()
+            _base[tipos_object] = _base[tipos_object].apply(lambda x: x.astype(float, errors="ignore"), axis=0)
+
+        elif castNumero == False:
             pass
         else:
             raise ValueError('"castNumero" tiene que ser True o False')
-        
+
         # Cambiar los tipos de las variables según el diccionario
-        if type(diccionarioCast)==dict:
+        if type(diccionarioCast) == dict:
             for s in diccionarioCast:
-        
-                if diccionarioCast[s]=="string":
-                    _base[s]=_base[s].apply(lambda x:str(x))
-                elif diccionarioCast[s]=="numerico":
-                    _base[s]=pd.to_numeric(_base[s],errors=errores)
-                elif diccionarioCast[s]=="booleano":
-                    _base[s]=_base[s].astype("bool")
-                elif diccionarioCast[s]=="fecha":
-                    _base[s]=pd.to_datetime(_base[s],format=formato_fecha,errors=errores)
-                elif diccionarioCast[s]=="categorico":
-                    _base[s]=pd.Categorical(_base[s])
+
+                if diccionarioCast[s] == "string":
+                    _base[s] = _base[s].apply(lambda x: str(x))
+                elif diccionarioCast[s] == "numerico":
+                    _base[s] = pd.to_numeric(_base[s], errors=errores)
+                elif diccionarioCast[s] == "booleano":
+                    _base[s] = _base[s].astype("bool")
+                elif diccionarioCast[s] == "fecha":
+                    _base[s] = pd.to_datetime(_base[s], format=formato_fecha, errors=errores)
+                elif diccionarioCast[s] == "categorico":
+                    _base[s] = pd.Categorical(_base[s])
                 else:
-                    raise ValueError('Las llaves de "diccionarioCast" tienen que ser "string", "numerico", "booleano", "fecha" o "categorico" ')
+                    raise ValueError(
+                        'Las llaves de "diccionarioCast" tienen que ser "string", "numerico", "booleano", "fecha" o "categorico" ')
         elif diccionarioCast is None:
             pass
         else:
             raise ValueError('"diccionario" tiene que ser tipo "dict"')
 
         self.base = _base
-        
-    
+
     # Tipos de las columnas
-    def TipoColumnas(self, tipoGeneral=True, tipoGeneralPython = True, tipoEspecifico = True):
+    def TipoColumnas(self, tipoGeneral=True, tipoGeneralPython=True, tipoEspecifico=True):
         """ Retorna el tipo de dato de cada columna del dataframe. :ref:`Ver ejemplo <calidad_datos.TipoColumnas>`
                 
-        :param tipoGeneral (bool) {True, False}, valor por defecto: True. \
+        :param tipoGeneral: (bool) {True, False}, valor por defecto: True. \
             Incluye el tipo general de cada columna. Los tipos son: numérico,\
             texto, booleano, otro
         :param tipoGeneralPython: (bool) {True, False}, valor por defecto: \
@@ -99,16 +92,16 @@ class CalidadDatos:
 
         :return: Dataframe de pandas con los tipos de dato de cada columna.
         """
-        
+
         base = self.base.copy()
-        
+
         lista_total = []
-        
+
         lista_nombres = list(base.columns)
-        lista_nombres.insert(0,"")
-        
+        lista_nombres.insert(0, "")
+
         lista_total.append(lista_nombres)
-        
+
         if tipoGeneral == True:
             lista_general = []
             for s in base.columns:
@@ -116,10 +109,10 @@ class CalidadDatos:
                 if base[s].isnull().sum() == base.shape[0]:
                     lista_general.append("Otro")
                 else:
-                
+
                     tipo_para_object = str(type(base[s].value_counts(dropna=True).index[0]))
                     tipo_para_resto = str(base[s].dtype)
-                                
+
                     if "int" in tipo_para_resto or "float" in tipo_para_resto:
                         lista_general.append("Numérico")
                     elif "str" in tipo_para_object:
@@ -128,23 +121,23 @@ class CalidadDatos:
                         lista_general.append("Booleano")
                     else:
                         lista_general.append("Otro")
-            lista_general.insert(0,"tipo_general")
+            lista_general.insert(0, "tipo_general")
             lista_total.append(lista_general)
         elif tipoGeneral == False:
             pass
         else:
             raise ValueError('"tipoGeneral" tiene que ser True o False')
-        
+
         # TIpo general de Python
         if tipoGeneralPython == True:
             lista_python = list(base.dtypes.astype(str))
-            lista_python.insert(0,"tipo_general_python")
+            lista_python.insert(0, "tipo_general_python")
             lista_total.append(lista_python)
         elif tipoGeneralPython == False:
             pass
         else:
             raise ValueError('"tipoGeneralPython" tiene que ser True o False')
-        
+
         # Tipo específico Python 
         if tipoEspecifico == True:
             lista_especifico_1 = []
@@ -152,64 +145,68 @@ class CalidadDatos:
             lista_especifico_3 = []
             lista_especifico_4 = []
             lista_especifico_5 = []
-            
-            
+
             for s in base.columns:
 
-                tip = base[s].apply(lambda x: x if pd.isnull(x) else type(x)).value_counts(normalize = True, dropna = False)
-                
-                tip_1 = "{1}: {0}%".format(round(float(tip.iloc[0]*100), 2), str(tip.index[0]).replace("<class ", "").replace(">",""))
+                tip = base[s].apply(lambda x: x if pd.isnull(x) else type(x)).value_counts(normalize=True, dropna=False)
+
+                tip_1 = "{1}: {0}%".format(round(float(tip.iloc[0] * 100), 2),
+                                           str(tip.index[0]).replace("<class ", "").replace(">", ""))
                 lista_especifico_1.append(tip_1)
-                
+
                 try:
-                    tip_2 = "{1}: {0}%".format(round(float(tip.iloc[1]*100), 2), str(tip.index[1]).replace("<class ", "").replace(">",""))
+                    tip_2 = "{1}: {0}%".format(round(float(tip.iloc[1] * 100), 2),
+                                               str(tip.index[1]).replace("<class ", "").replace(">", ""))
                     lista_especifico_2.append(tip_2)
                 except:
                     lista_especifico_2.append("")
-                    
+
                 try:
-                    tip_3 = "{1}: {0}%".format(round(float(tip.iloc[2]*100), 2), str(tip.index[2]).replace("<class ", "").replace(">",""))
+                    tip_3 = "{1}: {0}%".format(round(float(tip.iloc[2] * 100), 2),
+                                               str(tip.index[2]).replace("<class ", "").replace(">", ""))
                     lista_especifico_3.append(tip_3)
                 except:
                     lista_especifico_3.append("")
-                
+
                 try:
-                    tip_4 = "{1}: {0}%".format(round(float(tip.iloc[3]*100), 2), str(tip.index[3]).replace("<class ", "").replace(">",""))
+                    tip_4 = "{1}: {0}%".format(round(float(tip.iloc[3] * 100), 2),
+                                               str(tip.index[3]).replace("<class ", "").replace(">", ""))
                     lista_especifico_4.append(tip_4)
                 except:
                     lista_especifico_4.append("")
-                    
+
                 try:
-                    tip_5 = "{1}: {0}%".format(round(float(tip.iloc[4]*100), 2), str(tip.index[4]).replace("<class ", "").replace(">",""))
+                    tip_5 = "{1}: {0}%".format(round(float(tip.iloc[4] * 100), 2),
+                                               str(tip.index[4]).replace("<class ", "").replace(">", ""))
                     lista_especifico_5.append(tip_5)
                 except:
                     lista_especifico_5.append("")
-                                    
-            lista_especifico_1.insert(0,"tipo_especifico_1")
+
+            lista_especifico_1.insert(0, "tipo_especifico_1")
             lista_total.append(lista_especifico_1)
-            
-            if all(q=="" for q in lista_especifico_2):
+
+            if all(q == "" for q in lista_especifico_2):
                 pass
             else:
-                lista_especifico_2.insert(0,"tipo_especifico_2")
+                lista_especifico_2.insert(0, "tipo_especifico_2")
                 lista_total.append(lista_especifico_2)
-            
-            if all(q=="" for q in lista_especifico_3):
+
+            if all(q == "" for q in lista_especifico_3):
                 pass
             else:
-                lista_especifico_3.insert(0,"tipo_especifico_3")
+                lista_especifico_3.insert(0, "tipo_especifico_3")
                 lista_total.append(lista_especifico_3)
-                
-            if all(q=="" for q in lista_especifico_4):
+
+            if all(q == "" for q in lista_especifico_4):
                 pass
             else:
-                lista_especifico_4.insert(0,"tipo_especifico_4")
+                lista_especifico_4.insert(0, "tipo_especifico_4")
                 lista_total.append(lista_especifico_4)
-                
-            if all(q=="" for q in lista_especifico_5):
+
+            if all(q == "" for q in lista_especifico_5):
                 pass
             else:
-                lista_especifico_5.insert(0,"tipo_especifico_5")
+                lista_especifico_5.insert(0, "tipo_especifico_5")
                 lista_total.append(lista_especifico_5)
 
         elif tipoEspecifico == False:
@@ -218,12 +215,11 @@ class CalidadDatos:
             raise ValueError('"tipoEspecifico" tiene que ser True o False')
 
         tips = pd.DataFrame(lista_total).T.set_index(keys=0, drop=True)
-        columnas=list(tips.iloc[0])
+        columnas = list(tips.iloc[0])
         tips.columns = columnas
         tips = tips.drop(tips.index[0])
-        
-        return(tips)
 
+        return (tips)
 
     # valores únicos en cada columna
     # sin missing values
@@ -236,23 +232,22 @@ class CalidadDatos:
                 conteo de valores únicos.
         :return: serie de pandas con la cantidad de valores únicos de cada columna.
         """
-    
-        if faltantes==False:
+
+        if faltantes == False:
             unicos_columnas = self.base.apply(lambda x: len(x.value_counts()), axis=0)
-        elif faltantes==True:
+        elif faltantes == True:
             unicos_columnas = self.base.apply(lambda x: len(x.value_counts(dropna=False)), axis=0)
         else:
-            raise ValueError('"faltantes" tiene que ser True o False')     
+            raise ValueError('"faltantes" tiene que ser True o False')
 
-        return(unicos_columnas)
-
+        return (unicos_columnas)
 
     #  Missing values
     def ValoresFaltantes(self, numero=False):
         """ Calcula el porcentaje/número de valores faltantes de cada columna \
             del dataframe. :ref:`Ver ejemplo <calidad_datos.ValoresFaltantes>`
     
-        :param cociente: (bool) {True, False}, valor por defecto: True. Si el \
+        :param numero: (bool) {True, False}, valor por defecto: True. Si el \
             valor es True el resultado se expresa como un cociente, si el \
             valor es False el valor se expresa como una cantidad de \
             registros (número entero).
@@ -260,17 +255,16 @@ class CalidadDatos:
             faltantes de cada columna.
         """
         base = self.base.copy()
-        
-        if numero==False:
-            missing_columnas = pd.isnull(base).sum()/len(base)
-        elif numero==True:
+
+        if numero == False:
+            missing_columnas = pd.isnull(base).sum() / len(base)
+        elif numero == True:
             missing_columnas = pd.isnull(base).sum()
         else:
             raise ValueError('"cociente" tiene que ser True o False')
-            
-        return(missing_columnas)
 
-        
+        return (missing_columnas)
+
     # Porcentaje y número de filas y columnas no únicas
     def CantidadDuplicados(self, eje=0, numero=False):
         """ Retorna el porcentaje/número de \
@@ -286,42 +280,43 @@ class CalidadDatos:
             registros (número entero).
         :return: (int o float) resultado de unicidad.
         """
-        base=self.base.copy()
-        
+        base = self.base.copy()
+
         # Revisar si hay columnas con tipos diccionario o lista para convertirlas a string
-        for s in base.columns:    
-            tip = str(type(self.base[s].value_counts(dropna=False).index[0])).replace("<class ", "").replace(">", "").replace("'", "")
-            
-            if tip=="dict" or tip=="list":
+        for s in base.columns:
+            tip = str(type(self.base[s].value_counts(dropna=False).index[0])).replace("<class ", "").replace(">",
+                                                                                                             "").replace(
+                "'", "")
+
+            if tip == "dict" or tip == "list":
                 base[s] = base[s].apply(str)
             else:
                 pass
-                        
+
         # Proporcion (decimal) de columnas repetidas
-        if eje==1 and numero==False:
+        if eje == 1 and numero == False:
             no_unic_columnas = base.T.duplicated(keep="first")
-            cols = no_unic_columnas[no_unic_columnas].shape[0]/base.shape[1]
-        
+            cols = no_unic_columnas[no_unic_columnas].shape[0] / base.shape[1]
+
         # Número de columnas repetidas
-        elif eje==1 and numero==True:
+        elif eje == 1 and numero == True:
             no_unic_columnas = base.T.duplicated(keep="first")
             cols = no_unic_columnas[no_unic_columnas].shape[0]
-        
+
         # Proporción de filas repetidas
-        elif eje==0 and numero==False:
+        elif eje == 0 and numero == False:
             no_unic_filas = base.duplicated(keep="first")
-            cols = no_unic_filas[no_unic_filas].shape[0]/base.shape[0]
-        
+            cols = no_unic_filas[no_unic_filas].shape[0] / base.shape[0]
+
         # Número de filas repetidas
-        elif eje==0 and numero==True:
+        elif eje == 0 and numero == True:
             no_unic_filas = base.duplicated(keep="first")
             cols = no_unic_filas[no_unic_filas].shape[0]
-            
+
         else:
             raise ValueError('"eje" tiene que ser 1 o 0 y "numero" tiene que ser True o False')
-        
-        return(cols)
 
+        return (cols)
 
     # Matching de columnas y filas no únicas
     def EmparejamientoDuplicados(self, col=False):
@@ -334,57 +329,58 @@ class CalidadDatos:
         :return: matriz (dataframe) que relaciona las indices de filas/nombre \
             de columnas que presentan valores duplicados.
         """
-        base=self.base.copy()
-    
+        base = self.base.copy()
+
         # Revisar si hay columnas con tipos diccionario o lista para convertirlas a string
-        for s in base.columns:    
-            tip = str(type(self.base[s].value_counts(dropna=False).index[0])).replace("<class ", "").replace(">", "").replace("'", "")
-            
-            if tip=="dict" or tip=="list":
+        for s in base.columns:
+            tip = str(type(self.base[s].value_counts(dropna=False).index[0])).replace("<class ", "").replace(">",
+                                                                                                             "").replace(
+                "'", "")
+
+            if tip == "dict" or tip == "list":
                 base[s] = base[s].apply(str)
             else:
                 pass
-        
+
         # Obtener todos los duplicados, sin hacer todavía el emparejamiento
-        if col==True:
+        if col == True:
             dupli = base.T.duplicated(keep=False)
-        elif col==False:
+        elif col == False:
             dupli = base.duplicated(keep=False)
         else:
             raise ValueError('"col" tiene que ser True o False')
-        
+
         # Revisar si hay duplicados o no. Parar si no hay 
         dupli = dupli[dupli]
         if dupli.sum() == 0:
-            if col==True:
+            if col == True:
                 print("No hay columnas duplicadas")
                 return
-            elif col==False:
+            elif col == False:
                 print("No hay filas duplicadas")
                 return
             else:
                 raise ValueError('"col" tiene que ser True o False')
         else:
             pass
-        
-        
+
         lista_duplicados = []
         for s in dupli.index:
             for ss in dupli.index:
-                if col==True:
+                if col == True:
                     if base[s].equals(base[ss]) and s != ss:
                         lista_duplicados.append([s, ss])
-                elif col==False:
+                elif col == False:
                     if base.iloc[s].equals(base.iloc[ss]) and s != ss:
                         lista_duplicados.append([s, ss])
                 else:
                     pass
-    
-        if col==False:
+
+        if col == False:
             lista_duplicados = sorted(lista_duplicados)
         else:
             pass
-                    
+
         dic = {}
         for s in dupli.index:
             dic[s] = []
@@ -395,32 +391,31 @@ class CalidadDatos:
         for s in dic:
             lista = [q for l in dic[s] for q in l]
             dic[s] = list(set(lista))
-        
-        if col==True:
+
+        if col == True:
             lista_listas = [q for q in dic.values()]
         else:
             lista_listas = [sorted(q) for q in dic.values()]
-    
-        for i in range(len(lista_listas)): 
+
+        for i in range(len(lista_listas)):
             for ii in range(len(lista_listas[i])):
                 lista_listas[i][ii] = str(lista_listas[i][ii])
-        
+
         df = pd.DataFrame(lista_listas).drop_duplicates().reset_index(drop=True)
-        
+
         df = df.T
-        
-        if col==True:
-            lista_columnas_df = ["Columnas iguales {0}".format(q) for q in range(1, df.shape[1]+1)]
+
+        if col == True:
+            lista_columnas_df = ["Columnas iguales {0}".format(q) for q in range(1, df.shape[1] + 1)]
             df.columns = lista_columnas_df
         else:
-            lista_columnas_df = ["Filas iguales {0}".format(q) for q in range(1, df.shape[1]+1)]
+            lista_columnas_df = ["Filas iguales {0}".format(q) for q in range(1, df.shape[1] + 1)]
             df.columns = lista_columnas_df
-        
-        # Quitar los 'nan' del
-        df=df.apply(lambda x:x.replace(np.nan,""))
-        
-        return(df)
 
+        # Quitar los 'nan' del
+        df = df.apply(lambda x: x.replace(np.nan, ""))
+
+        return (df)
 
     # CONSISTENCIA. Porcentaje de outliers
     def ValoresExtremos(self, extremos="ambos", numero=False):
@@ -445,29 +440,30 @@ class CalidadDatos:
         :return: serie de pandas con la cantidad/proporcion de valores outliers \
             de cada columna.
         """
-            
-        col_tipos = self.TipoColumnas(tipoGeneral=True, tipoGeneralPython = False, tipoEspecifico = False).iloc[:,0]
+
+        col_tipos = self.TipoColumnas(tipoGeneral=True, tipoGeneralPython=False, tipoEspecifico=False).iloc[:, 0]
         col_num = col_tipos[col_tipos == "Numérico"].index
         base_num = self.base[col_num]
-        
+
         if base_num.shape[1] == 0:
             print("La base de datos no tiene columnas numéricas")
             return
         else:
             pass
-        
-        percentiles_25 = base_num.apply(lambda x:np.nanpercentile(x,25),axis=0)
-        percentiles_75 = base_num.apply(lambda x:np.nanpercentile(x,75),axis=0)
-        
-        iqr = percentiles_75-percentiles_25
-        iqr_upper = percentiles_75+iqr*1.5
-        iqr_lower = percentiles_25-iqr*1.5
-    
+
+        percentiles_25 = base_num.apply(lambda x: np.nanpercentile(x, 25), axis=0)
+        percentiles_75 = base_num.apply(lambda x: np.nanpercentile(x, 75), axis=0)
+
+        iqr = percentiles_75 - percentiles_25
+        iqr_upper = percentiles_75 + iqr * 1.5
+        iqr_lower = percentiles_25 - iqr * 1.5
+
         dic_outliers = {}
-        
+
         if extremos == "ambos":
             for i in range(0, len(iqr)):
-                dic_outliers[base_num.columns[i]] = (base_num.iloc[:, i] > iqr_upper[i]) | (base_num.iloc[:, i] < iqr_lower[i])
+                dic_outliers[base_num.columns[i]] = (base_num.iloc[:, i] > iqr_upper[i]) | (
+                            base_num.iloc[:, i] < iqr_lower[i])
         elif extremos == "superior":
             for i in range(0, len(iqr)):
                 dic_outliers[base_num.columns[i]] = (base_num.iloc[:, i] > iqr_upper[i])
@@ -476,18 +472,17 @@ class CalidadDatos:
                 dic_outliers[base_num.columns[i]] = (base_num.iloc[:, i] < iqr_lower[i])
         else:
             raise ValueError('"extremos" tiene que ser "ambos", "superior" o "inferior"')
-        
-        base_outliers=pd.DataFrame(dic_outliers)
-        
-        if numero==False:
+
+        base_outliers = pd.DataFrame(dic_outliers)
+
+        if numero == False:
             cantidad_outliers = base_outliers.sum() / base_outliers.shape[0]
-        elif numero==True:
+        elif numero == True:
             cantidad_outliers = base_outliers.sum()
         else:
             raise ValueError('"numero" tiene que ser True o False')
-    
-        return(cantidad_outliers)
 
+        return (cantidad_outliers)
 
     # describe de columnas
     def DescripcionNumericas(self, variables=None):
@@ -503,31 +498,30 @@ class CalidadDatos:
         :return: dataframe con las estadísticas descriptivas.
         """
         base = self.base.copy()
-    
+
         # Filtrar la base por las variables escogidas en la opción 'variables'
         if type(variables) == list:
             base = base[variables]
         else:
-            pass    
-    
-        col_tipos = self.TipoColumnas(tipoGeneral=True, tipoGeneralPython = False, tipoEspecifico = False).iloc[:,0]
+            pass
+
+        col_tipos = self.TipoColumnas(tipoGeneral=True, tipoGeneralPython=False, tipoEspecifico=False).iloc[:, 0]
         col_num = col_tipos[col_tipos == "Numérico"].index
         base_num = base[col_num]
-        
+
         if len(col_num) == 0:
             print("La base de datos no tiene columnas numéricas")
             return
         else:
             pass
-        
+
         base_descripcion = base.describe().T
         base_descripcion["missing"] = pd.isnull(base_num).sum() / len(base_num)
         base_descripcion["outliers_total"] = self.ValoresExtremos()
         base_descripcion["outliers_altos"] = self.ValoresExtremos(extremos="superior")
         base_descripcion["outliers_bajos"] = self.ValoresExtremos(extremos="inferior")
-    
-        return(base_descripcion)
 
+        return (base_descripcion)
 
     ###############
     def VarianzaEnPercentil(self, percentil_inferior=5, percentil_superior=95):
@@ -542,16 +536,16 @@ class CalidadDatos:
         :return: indices de columnas cuyo percentil inferior es igual al \
             percentil superior.
         """
-        base =self.base.copy()
-    
+        base = self.base.copy()
+
         # Revisar si hay columnas numéricas
-        columnas_tipo = self.TipoColumnas(tipoGeneral=True, tipoGeneralPython = False, tipoEspecifico = False).iloc[:,0]
-        if len(columnas_tipo[columnas_tipo=="Numérico"])==0:
+        columnas_tipo = self.TipoColumnas(tipoGeneral=True, tipoGeneralPython=False, tipoEspecifico=False).iloc[:, 0]
+        if len(columnas_tipo[columnas_tipo == "Numérico"]) == 0:
             print("La base de datos no tiene columnas numéricas")
             return
         else:
             pass
-    
+
         cols_tipos = base.dtypes
         lista_nums = []
         for i in range(len(cols_tipos)):
@@ -563,20 +557,20 @@ class CalidadDatos:
                 del base_num[c]
             else:
                 pass
-            
+
         percentil_bajo = base_num.apply(lambda x: np.percentile(x.dropna(), 5), axis=0)
         percentil_alto = base_num.apply(lambda x: np.percentile(x.dropna(), 95), axis=0)
-        
+
         percentiles = pd.concat([percentil_bajo, percentil_alto], axis=1)
         percentiles_true = (percentiles.iloc[:, 0] == percentiles.iloc[:, 1])
-        percentiles_true = percentiles_true[percentiles_true  == True]
-        
+        percentiles_true = percentiles_true[percentiles_true == True]
+
         if len(percentiles_true) == 0:
-            print("No hay ninguna columna numérica que tenga el percentil {0} y el percentil {1} igual".format(percentil_inferior,percentil_superior))
+            print("No hay ninguna columna numérica que tenga el percentil {0} y el percentil {1} igual".format(
+                percentil_inferior, percentil_superior))
             return
         else:
-            return(percentiles_true.index)
-
+            return (percentiles_true.index)
 
     # tabla de valores únicos para cada variable de texto
     def DescripcionCategoricas(self, limite=0.5, categoriasMaximas=30, incluirNumericos=True, variables=None):
@@ -605,13 +599,13 @@ class CalidadDatos:
             de tipo texto.
         """
         base = self.base.copy()
-        
+
         # Filtrar la base por las variables escogidas en la opción 'variables'
         if type(variables) == list:
             base = base[variables]
         else:
             pass
-        
+
         # Si una variable solo tiene missing values, quitar
         for s in base.columns:
             if base[s].isnull().sum() == base.shape[0]:
@@ -619,21 +613,23 @@ class CalidadDatos:
                 warnings.warn("La variable '{0}' se eliminó del análisis porque solo tiene valores faltantes".format(s))
             else:
                 pass
-    
+
         # Revisar si hay columnas con tipos diccionario o lista para convertirlas a string
-        for s in base.columns:    
-            tip = str(type(self.base[s].value_counts(dropna=False).index[0])).replace("<class ", "").replace(">", "").replace("'", "")
-            
-            if tip=="dict" or tip=="list":
+        for s in base.columns:
+            tip = str(type(self.base[s].value_counts(dropna=False).index[0])).replace("<class ", "").replace(">",
+                                                                                                             "").replace(
+                "'", "")
+
+            if tip == "dict" or tip == "list":
                 base[s] = base[s].apply(str)
             else:
-                pass     
+                pass
 
-        # Filtrar por el número de categorías únicas en cada variable
-        if categoriasMaximas>0:
-            categorias_unicas=base.nunique()
-            categorias_unicas=categorias_unicas.loc[categorias_unicas<=categoriasMaximas].index
-            base=base[categorias_unicas]
+                # Filtrar por el número de categorías únicas en cada variable
+        if categoriasMaximas > 0:
+            categorias_unicas = base.nunique()
+            categorias_unicas = categorias_unicas.loc[categorias_unicas <= categoriasMaximas].index
+            base = base[categorias_unicas]
         else:
             raise ValueError('"categoriasMaximas" tiene que un ´numero mayor a 0"')
 
@@ -643,11 +639,11 @@ class CalidadDatos:
         lista_object_unicos = []
         for s in col_object.index:
             unico = len(pd.unique(base[s]))
-            if unico < base.shape[0]*limite:
+            if unico < base.shape[0] * limite:
                 lista_object_unicos.append(s)
-                
+
         # Si la opción 'transformar_nums' es True, incluir las variables numéricas con repeticiones menores al 50% (o el límite) del total de filas   
-        if incluirNumericos==True:
+        if incluirNumericos == True:
             cols_types = base.dtypes
             col_nums = []
             for i in range(len(cols_types)):
@@ -655,17 +651,17 @@ class CalidadDatos:
                     col_nums.append(cols_types.index[i])
             for s in col_nums:
                 unico = len(pd.unique(base[s]))
-                if unico < base.shape[0]*limite:
+                if unico < base.shape[0] * limite:
                     lista_object_unicos.append(s)
-        elif incluirNumericos==False:
+        elif incluirNumericos == False:
             pass
         else:
             raise ValueError('"incluirNumericos" tiene que ser True o False')
-        
+
         # Crear el dataframe con la información
         lista_counts = []
         for s in lista_object_unicos:
-                        
+
             counts = base[s].astype(str).value_counts().drop("nan", errors="ignore")
             if type(counts.index[0]) == dict:
                 continue
@@ -673,25 +669,23 @@ class CalidadDatos:
             lista = counts[0:10]
             resto = sum(counts[10:len(counts)])
             miss = pd.isnull(base[s]).sum()
-    
+
             lista["Demás categorías"] = resto
             lista["Datos faltantes"] = miss
-            
-          
-            
-            lista["Total categorías (incluye NA): {0}".format(len(pd.unique(base[s])))]=np.nan
-    
+
+            lista["Total categorías (incluye NA): {0}".format(len(pd.unique(base[s])))] = np.nan
+
             lista = lista.to_frame()
             lista["Columna"] = s
-            lista["Porcentaje del total de filas"] = lista[s]/len(base)
-                
+            lista["Porcentaje del total de filas"] = lista[s] / len(base)
+
             resto = lista.iloc[:, 0].loc["Demás categorías"]
-            
+
             if resto == 0:
                 lista = lista.drop("Demás categorías", axis=0)
-    
+
             lista = lista.reset_index()
-            
+
             s = lista.columns.tolist()[1]
             colis = ["Columna", "index", s, "Porcentaje del total de filas"]
             lista = lista[colis]
@@ -699,10 +693,10 @@ class CalidadDatos:
             lista = lista.rename(columns={"index": "Valor", lista_cols[2]: "Frecuencia"})
             lista_counts.append(lista)
         df_counts = pd.concat(lista_counts, axis=0)
-        return(df_counts)
+        return (df_counts)
 
     # Tamaño de la base de datos en la memoria
-    def Memoria(self, col=False,unidad="megabyte"):
+    def Memoria(self, col=False, unidad="megabyte"):
         """ Calcula el tamaño de la base de datos en memoria (megabytes). :ref:`Ver ejemplo <calidad_datos.Memoria>`
 
         :param col: (bool) {True, False}, valor por defecto: False. Si el \
@@ -724,25 +718,24 @@ class CalidadDatos:
             memoria_ = base.memory_usage(index=True)
         else:
             raise ValueError('"col" tiene que ser True o False')
-        
-        if unidad=="byte":
+
+        if unidad == "byte":
             pass
-        elif unidad=="kylobyte":
-            memoria_ = memoria_/(1024)
-        elif unidad=="megabyte":
-            memoria_ = memoria_/(1024**2)
-        elif unidad=="gygabyte":
-            memoria_ = memoria_/(1024**3)
-        elif unidad=="terabyte":
-            memoria_ = memoria_/(1024**4)
+        elif unidad == "kylobyte":
+            memoria_ = memoria_ / (1024)
+        elif unidad == "megabyte":
+            memoria_ = memoria_ / (1024 ** 2)
+        elif unidad == "gygabyte":
+            memoria_ = memoria_ / (1024 ** 3)
+        elif unidad == "terabyte":
+            memoria_ = memoria_ / (1024 ** 4)
         else:
             raise ValueError('"unidad" tiene que ser "byte", "kylobyte", "megabyte", "gygabyte" o "terabyte"')
-        return(memoria_)
-
+        return (memoria_)
 
     # tabla de resumen pequeña
-    def Resumen(self, filas=True, columnas=True, colNumericas=True, 
-                colTexto=True, colBooleanas=True, colFecha=True, 
+    def Resumen(self, filas=True, columnas=True, colNumericas=True,
+                colTexto=True, colBooleanas=True, colFecha=True,
                 colOtro=True, filasRepetidas=True, columnasRepetidas=False,
                 colFaltantes=True, colExtremos=True, memoriaTotal=True):
         """ Retorna una tabla con información general de la base de datos.\
@@ -782,15 +775,15 @@ class CalidadDatos:
             Indica si se incluye el cálculo del tamaño de la base de datos en memoria.
         :return: serie de pandas con las estadísticas descriptivas del dataframe.
         """
-    
+
         # Lista donde se guardarán resultados, dependiendo de si se escoge o no ver el cálculo
         lista_resumen = [[], []]
         base = self.base.copy()
         # Calcular tipo de columnas
-        col_tipos = self.TipoColumnas(tipoGeneral=True, tipoGeneralPython=False, tipoEspecifico=False).iloc[:,0]
-        
+        col_tipos = self.TipoColumnas(tipoGeneral=True, tipoGeneralPython=False, tipoEspecifico=False).iloc[:, 0]
+
         # Agregar a lista, si se escoge que sea así
-        
+
         # Número de filas
         if filas:
             calculo = base.shape[0]
@@ -798,81 +791,81 @@ class CalidadDatos:
             lista_resumen[0].append(nombre)
             lista_resumen[1].append(calculo)
         else:
-            pass  
-          
-        # Número de columnas
+            pass
+
+            # Número de columnas
         if columnas:
             calculo = base.shape[1]
             nombre = "Número de columnas"
             lista_resumen[0].append(nombre)
             lista_resumen[1].append(calculo)
         else:
-            pass  
-          
-        # Número de columnas numéricas
+            pass
+
+            # Número de columnas numéricas
         if colNumericas:
             calculo = len(col_tipos[col_tipos == "Numérico"])
             nombre = "Columnas numéricas"
             lista_resumen[0].append(nombre)
             lista_resumen[1].append(calculo)
         else:
-            pass 
-           
-        # Número de columnas de texto
+            pass
+
+            # Número de columnas de texto
         if colTexto:
             calculo = len(col_tipos[col_tipos == "Texto"])
             nombre = "Columnas de texto"
             lista_resumen[0].append(nombre)
             lista_resumen[1].append(calculo)
         else:
-            pass   
-         
-        # Número de columnas booleanas
+            pass
+
+            # Número de columnas booleanas
         if colBooleanas:
             calculo = len(col_tipos[col_tipos == "Boolean"])
             nombre = "Columnas booleanas"
             lista_resumen[0].append(nombre)
             lista_resumen[1].append(calculo)
         else:
-            pass        
-    
-        # Número de columnas de fecha
+            pass
+
+            # Número de columnas de fecha
         if colFecha:
             calculo = len(col_tipos[col_tipos == "Fecha"])
             nombre = "Columnas de fecha"
             lista_resumen[0].append(nombre)
             lista_resumen[1].append(calculo)
         else:
-            pass 
-           
-        # Número de columnas de otro tipo
+            pass
+
+            # Número de columnas de otro tipo
         if colOtro:
             calculo = len(col_tipos[col_tipos == "Otro"])
             nombre = "Otro tipo de columnas"
             lista_resumen[0].append(nombre)
             lista_resumen[1].append(calculo)
         else:
-            pass        
-       
-        # Número de filas no únicas
+            pass
+
+            # Número de filas no únicas
         if filasRepetidas:
             calculo = self.CantidadDuplicados(eje=0, numero=True)
             nombre = "Número de filas repetidas"
             lista_resumen[0].append(nombre)
             lista_resumen[1].append(calculo)
         else:
-            pass  
-          
-        # Número de columnas no únicas
+            pass
+
+            # Número de columnas no únicas
         if columnasRepetidas:
             calculo = self.CantidadDuplicados(eje=1, numero=True)
             nombre = "Número de columnas repetidas"
             lista_resumen[0].append(nombre)
             lista_resumen[1].append(calculo)
         else:
-            pass        
-    
-        # Porcentaje de columnas con más de la mitad de datos faltantes
+            pass
+
+            # Porcentaje de columnas con más de la mitad de datos faltantes
         if colFaltantes:
             col_missing = self.ValoresFaltantes(numero=False)
             calculo = len(col_missing[col_missing > 0.5])
@@ -880,9 +873,9 @@ class CalidadDatos:
             lista_resumen[0].append(nombre)
             lista_resumen[1].append(calculo)
         else:
-            pass     
-        
-        # Columnas con más del 10% de datos como extremos
+            pass
+
+            # Columnas con más del 10% de datos como extremos
         if colExtremos:
             col_porc = self.ValoresExtremos(extremos="ambos", numero=False)
             try:
@@ -893,9 +886,9 @@ class CalidadDatos:
             except:
                 pass
         else:
-            pass         
-        
-        # Tamaño de la base en la memoria
+            pass
+
+            # Tamaño de la base en la memoria
         if memoriaTotal:
             memoria_tot = self.Memoria()
             if memoria_tot > 1024:
@@ -903,22 +896,21 @@ class CalidadDatos:
                 nombre = "Tamaño de la base en gygabytes (aproximado)"
             elif memoria_tot < (1 / 1024):
                 memoria_tot = memoria_tot * 1024 * 1024
-                nombre = "Tamaño de la base en bytes (aproximado)"                  
+                nombre = "Tamaño de la base en bytes (aproximado)"
             elif memoria_tot < 1:
                 memoria_tot = memoria_tot * 1024
-                nombre = "Tamaño de la base en kylobytes (aproximado)"  
+                nombre = "Tamaño de la base en kylobytes (aproximado)"
             else:
                 nombre = "Tamaño de la base en megabytes (aproximado)"
-                
+
             calculo = memoria_tot
             lista_resumen[0].append(nombre)
             lista_resumen[1].append(calculo)
         else:
-            pass         
-        
-        tabla_resumen = pd.Series(data=lista_resumen[1],index=lista_resumen[0]).astype(int)
-        return(tabla_resumen)
+            pass
 
+        tabla_resumen = pd.Series(data=lista_resumen[1], index=lista_resumen[0]).astype(int)
+        return (tabla_resumen)
 
     # Matrices de correlación para las variables numéricas
     def CorrelacionNumericas(self, metodo="pearson", variables=None):
@@ -934,18 +926,18 @@ class CalidadDatos:
             numérico analizadas.
         """
         base = self.base.copy()
-        
+
         # Filtrar la base por las variables escogidas en la opción 'variables'
         if type(variables) == list:
             base = base[variables]
         else:
             pass
-        
+
         # Filtrar por columnas que sean numéricas
         col_tipos = self.TipoColumnas()
         col_num = col_tipos[col_tipos == "Numérico"].index
         base_num = base[col_num]
-        
+
         # Crear la matriz de correlación dependiendo del método escogido
         if metodo == "pearson":
             correlacion_ = base_num.corr(method="pearson")
@@ -955,12 +947,11 @@ class CalidadDatos:
             correlacion_ = base_num.corr(method="spearman")
         else:
             raise ValueError('"metodo" tiene que ser "pearson", "kendall" o "spearman>"')
-        
+
         return correlacion_
-    
 
     # Matrices de correlación para variables categóricas
-    def CorrelacionCategoricas(self,metodo='phik', limite=0.5, categoriasMaximas=30,variables=None):
+    def CorrelacionCategoricas(self, metodo='phik', limite=0.5, categoriasMaximas=30, variables=None):
         """ Genera una matriz de correlación entre las variables de tipo categóricas. \
             :ref:`Ver ejemplo <calidad_datos.CorrelacionCategoricas>`
     
@@ -980,85 +971,86 @@ class CalidadDatos:
         :return: dataframe con las correlaciones de las columnas de tipo \
             categórica analizadas.
         """
-        base=self.base.copy()
-        
+        base = self.base.copy()
+
         # Filtrar la base por las variables escogidas en la opción 'variables'
         if type(variables) == list:
             base = base[variables]
         else:
             pass
-        
+
         # Revisar si hay columnas con tipos diccionario o lista para convertirlas a string
-        for s in base.columns:    
-            tip = str(type(self.base[s].value_counts(dropna=False).index[0])).replace("<class ", "").replace(">", "").replace("'", "")
-            
-            if tip=="dict" or tip=="list":
+        for s in base.columns:
+            tip = str(type(self.base[s].value_counts(dropna=False).index[0])).replace("<class ", "").replace(">",
+                                                                                                             "").replace(
+                "'", "")
+
+            if tip == "dict" or tip == "list":
                 base[s] = base[s].apply(str)
             else:
-                pass      
-        
-        # Filtrar por el número de categorías únicas en cada variable
-        if categoriasMaximas>0:
-            categorias_unicas=base.nunique()
-            categorias_unicas=categorias_unicas.loc[categorias_unicas<=categoriasMaximas].index
-            base=base[categorias_unicas]
+                pass
+
+                # Filtrar por el número de categorías únicas en cada variable
+        if categoriasMaximas > 0:
+            categorias_unicas = base.nunique()
+            categorias_unicas = categorias_unicas.loc[categorias_unicas <= categoriasMaximas].index
+            base = base[categorias_unicas]
         else:
             raise ValueError('"categoriasMaximas" tiene que un ´numero mayor a 0"')
-                
+
         # Calcular qué variables tipo object tienen valores únicos menores al 50% (o valor de 'limite') del total de filas de la base original
         col_tipos = base.dtypes
         lista_tipos_unicos = []
         for s in col_tipos.index:
             unico = len(pd.unique(base[s]))
-            if unico < base.shape[0]*limite:
+            if unico < base.shape[0] * limite:
                 lista_tipos_unicos.append(s)
-        
+
         # Filtrar la base con la lista de columnas categóricas deseadas
-        base=base[lista_tipos_unicos]
-        
+        base = base[lista_tipos_unicos]
+
         # Hacer doble loop para crear matriz de correlation tipo Cramer V
-        if metodo=='cramer':
-            lista_matriz=[]
+        if metodo == 'cramer':
+            lista_matriz = []
             for c in lista_tipos_unicos:
-                lista_fila=[]
+                lista_fila = []
                 for cc in lista_tipos_unicos:
                     try:
-                        cramer=self.__correlacion_cramerv(base[c],base[cc])
+                        cramer = self.correlacion_cramerv(base[c], base[cc])
                         lista_fila.append(cramer)
                     except:
                         lista_fila.append(np.nan)
-                
+
                 lista_matriz.append(lista_fila)
-                
-            lista_matriz=pd.DataFrame(lista_matriz)
-            lista_matriz.columns=lista_tipos_unicos
-            lista_matriz.index=lista_tipos_unicos
-            
-            correlacion_final=lista_matriz
-            
+
+            lista_matriz = pd.DataFrame(lista_matriz)
+            lista_matriz.columns = lista_tipos_unicos
+            lista_matriz.index = lista_tipos_unicos
+
+            correlacion_final = lista_matriz
+
             # Nombre de variables en 'correlacion_final' antes de filtro
-            nombres_nofiltro=list(correlacion_final.columns)
-            
+            nombres_nofiltro = list(correlacion_final.columns)
+
             # Quitar las columnas y filas que son 'nan' 
-            correlacion_final=correlacion_final.dropna(how="all",axis=1)
-            correlacion_final=correlacion_final.dropna(how="all",axis=0)
+            correlacion_final = correlacion_final.dropna(how="all", axis=1)
+            correlacion_final = correlacion_final.dropna(how="all", axis=0)
             # Mencionar las variables 
-            nombres_filtro=list(correlacion_final.columns)
-            nombres_eliminados=nombres_nofiltro.copy()
+            nombres_filtro = list(correlacion_final.columns)
+            nombres_eliminados = nombres_nofiltro.copy()
             for s in nombres_filtro:
                 nombres_eliminados.remove(s)
             for s in nombres_eliminados:
                 warnings.warn("no se pudo calcular la correlación con la variable '{0}'".format(s))
-                
-        elif metodo=='phik':
-            correlacion_final=base.phik_matrix()
+
+        elif metodo == 'phik':
+            correlacion_final = base.phik_matrix()
         else:
             raise ValueError('"metodo" tiene que ser "phik" o "cramer"')
-        
+
         return correlacion_final
 
-    
-    def __correlacion_cramerv(self, x, y):
+    def correlacion_cramerv(self, x, y):
         """ Función de soporte para calcular coeficiente de correlación Cramer V \
         (para usar en la función de las matrices de correlación entre variables categóricas)
 
@@ -1066,13 +1058,12 @@ class CalidadDatos:
         :param y:
         :return:
         """
-        confusion_matrix = pd.crosstab(x,y)
+        confusion_matrix = pd.crosstab(x, y)
         chi2 = sstats.chi2_contingency(confusion_matrix)[0]
         n = confusion_matrix.sum().sum()
-        phi2 = chi2/n
-        r,k = confusion_matrix.shape
-        phi2corr = max(0, phi2-((k-1)*(r-1))/(n-1))
-        rcorr = r-((r-1)**2)/(n-1)
-        kcorr = k-((k-1)**2)/(n-1)
-        return np.sqrt(phi2corr/min((kcorr-1),(rcorr-1)))    
-
+        phi2 = chi2 / n
+        r, k = confusion_matrix.shape
+        phi2corr = max(0, phi2 - ((k - 1) * (r - 1)) / (n - 1))
+        rcorr = r - ((r - 1) ** 2) / (n - 1)
+        kcorr = k - ((k - 1) ** 2) / (n - 1)
+        return np.sqrt(phi2corr / min((kcorr - 1), (rcorr - 1)))
