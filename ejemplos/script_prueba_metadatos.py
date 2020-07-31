@@ -24,7 +24,7 @@ tabla_filtrada = datos_gov.filtrar_tabla(columnas_valor)
 tabla_id = tabla_filtrada.iloc[0].numero_api
 datos = datos_gov.cargar_base(tabla_id)
 
-# Buscar bases cuya descripción incluya 
+# Buscar bases cuya descripción incluya
 columnas_valor = {"descripcion": ["economia", "ambiente"]}
 tabla_filtrada = datos_gov.filtrar_tabla(columnas_valor)
 
@@ -46,4 +46,3 @@ tabla_filtrada = datos_gov.filtrar_tabla(columnas_valor)
 #
 base = datos_gov.cargar_base("iwpe-6gqp")
 base = datos_gov.cargar_base("k9pc-rjkh")
-

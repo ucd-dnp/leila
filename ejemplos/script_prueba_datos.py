@@ -156,4 +156,3 @@ matriz_phik = datos.CorrelacionCategoricas(
     limite=0.5,
     variables=None)
 print(matriz_phik)
-
