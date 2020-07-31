@@ -21,7 +21,7 @@ En esta sección se presentan ejemplos de uso de las diferentes funciones de la 
         >>> # Lectura de archivo de datos como dataframe
         >>> df_datos = pd.read_excel('dataset ejemplos.xlsx', dtype=dtypes)
 
-En caso que desee utilizar los datos utilizados en los ejemplos, puede descargarlos utilizando el siguiente link. :download:`Descargar datos (6.2 MB)<_static/data/dataset ejemplos.xlsx>`.
+En caso que desee utilizar los datos utilizados en los ejemplos, puede descargarlos utilizando el siguiente link. :download:`Descargar datos (6.2 MB)<./_static/data/dataset ejemplos.xlsx>`.
 
 reporte.generar_reporte
 -----------------------

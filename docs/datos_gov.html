@@ -186,6 +186,7 @@ como dataframe. <a class="reference internal" href="ejemplos.html#datos-gov-carg
 <tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
 <li><strong>api_id</strong> – (str) Identificación de la base de datos asociado con la API de Socrata.</li>
 <li><strong>token</strong> – (str) <em>opcional</em> - token de usuario de la API Socrata.</li>
+<li><strong>limite_filas</strong> – (int) (valor mayor a 0), indica el número máximo de filas a descargar de la base de datos     asociada al api_id. El límite está pensado para bases de gran tamaño que superen la capacidad del computador.</li>
 </ul>
 </td>
 </tr>
@@ -199,7 +200,7 @@ como dataframe. <a class="reference internal" href="ejemplos.html#datos-gov-carg
 <dl class="py function">
 <dt id="datos_gov.filtrar_tabla">
 <code class="descclassname">datos_gov.</code><code class="descname">filtrar_tabla</code><span class="sig-paren">(</span><em><span class="n">columnas_valor</span></em>, <em><span class="n">token</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos_gov.filtrar_tabla" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Permite filtrar la base de datos de <em>tabla de inventario</em> de acuerdo a        diferentes términos de búsqueda. Como son fechas, textos y otros. <a class="reference internal" href="ejemplos.html#datos-gov-filtrar-tabla"><span class="std std-ref">Ver ejemplo</span></a></p>
+<dd><p>Permite filtrar la base de datos de <em>tabla de inventario</em> de acuerdo con        diferentes términos de búsqueda. Como son fechas, textos y otros. <a class="reference internal" href="ejemplos.html#datos-gov-filtrar-tabla"><span class="std std-ref">Ver ejemplo</span></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -226,9 +227,14 @@ como dataframe. Este conjunto de datos es un inventario de los recursos en el si
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>token</strong> – (str) <em>opcional</em> - token de usuario de la API Socrata.</td>
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>token</strong> – (str) <em>opcional</em> - token de usuario de la API Socrata.</li>
+<li><strong>limite_filas</strong> – (int) (valor mayor a 0), indica el número máximo de filas a descargar de la base de datos     asociada al api_id. El límite está pensado para bases de gran tamaño que superen la capacidad del computador.</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body">base de datos en formato dataframe.</td>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">base de datos en formato dataframe.</p>
+</td>
 </tr>
 </tbody>
 </table>

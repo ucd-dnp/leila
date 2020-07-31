@@ -359,7 +359,7 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
-<li><strong>(</strong><strong>bool</strong><strong>) </strong><strong>{True</strong><strong>, </strong><strong>False}</strong><strong>, </strong><strong>valor por defecto</strong> (<em>tipoGeneral</em>) – True.             Incluye el tipo general de cada columna. Los tipos son: numérico,            texto, booleano, otro</li>
+<li><strong>tipoGeneral</strong> – (bool) {True, False}, valor por defecto: True.             Incluye el tipo general de cada columna. Los tipos son: numérico,            texto, booleano, otro</li>
 <li><strong>tipoGeneralPython</strong> – (bool) {True, False}, valor por defecto:             True. Incluye el tipo general de cada columna dado por el método            “dtypes” de Python</li>
 <li><strong>tipoEspecifico</strong> – (bool) {True, False}, valor por defecto: True.            Incluye el porcentaje de los tres tipos más frecuentes de cada            columna. Se aplica la función “type” de Python para cada             observación.</li>
 </ul>
@@ -403,7 +403,7 @@ valor se expresa como una cantidad de registros (número entero).</li>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>cociente</strong> – (bool) {True, False}, valor por defecto: True. Si el             valor es True el resultado se expresa como un cociente, si el             valor es False el valor se expresa como una cantidad de             registros (número entero).</td>
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>numero</strong> – (bool) {True, False}, valor por defecto: True. Si el             valor es True el resultado se expresa como un cociente, si el             valor es False el valor se expresa como una cantidad de             registros (número entero).</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body">serie de pandas con la cantidad/cociente de valores             faltantes de cada columna.</td>
 </tr>

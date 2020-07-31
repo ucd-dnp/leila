@@ -45,7 +45,7 @@ def cargar_base(api_id, token=None, limite_filas=1000000000):
 
     :param api_id: (str) Identificación de la base de datos asociado con la API de Socrata.
     :param token: (str) *opcional* - token de usuario de la API Socrata.
-    param limite_filas: (int) (valor mayor a 0), indica el número máximo de filas a descargar de la base de datos \
+    :param limite_filas: (int) (valor mayor a 0), indica el número máximo de filas a descargar de la base de datos \
     asociada al api_id. El límite está pensado para bases de gran tamaño que superen la capacidad del computador.
     :return: base de datos en formato dataframe.
     """
