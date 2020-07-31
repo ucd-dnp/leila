@@ -2,8 +2,8 @@
 __pycache__
 env
 sphinx/env
+sphinx/build
 sphinx/__recursos_guia
-*.xlsx
 *.ipynb
 *.tsv
 x_pruebas funciones libreria.ipynb
@@ -14,3 +14,4 @@ datos.py
 test_reporte.py
 dist
 crear_whl.bat
+_dataset ejemplos.xlsx
