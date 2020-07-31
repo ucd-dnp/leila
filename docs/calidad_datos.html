@@ -209,7 +209,7 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
 <li><strong>metodo</strong> – (str) {“phik”, “cramer”}, valor por             defecto: “phik”. Medida de correlación a utilizar.</li>
-<li><strong>limite</strong> – (float) (valor de 0 a 1) límite de referencia, se             utiliza para determinar si las variables posiblemente son de tipo             categóricas y ser incluidas en el análisis. Si el número de             valores únicos por columna es mayor al número de registros             * limite*, se considera que la variable no es categórica.</li>
+<li><strong>limite</strong> – (float) (valor de 0 a 1) límite de referencia, se             utiliza para determinar si las variables posiblemente son de tipo             categóricas y ser incluidas en el análisis. Si el número de             valores únicos por columna es mayor al número de registros             limite, se considera que la variable no es categórica.</li>
 <li><strong>categoriasMaximas</strong> – (int) (valor mayor a 0), indica el máximo             número de categorías de una variable para que sea incluida en el             análisis</li>
 <li><strong>variables</strong> – (list) lista de nombres de las columnas separados             por comas. Permite escoger las columnas de interés de análisis             del dataframe</li>
 </ul>
@@ -252,7 +252,7 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
-<li><strong>limite</strong> – (float) (valor de 0 a 1) límite de referencia, se             utiliza para determinar si las variables posiblemente son de tipo             categóricas y ser incluidas en el análisis. Si el número de             valores únicos por columna es mayor al número de registros             * limite*, se considera que la variable no es categórica.</li>
+<li><strong>limite</strong> – (float) (valor de 0 a 1) límite de referencia, se             utiliza para determinar si las variables posiblemente son de tipo             categóricas y ser incluidas en el análisis. Si el número de             valores únicos por columna es mayor al número de registros             limite, se considera que la variable no es categórica.</li>
 <li><strong>categoriasMaximas</strong> – (int) (valor mayor a 0), indica el máximo             número de categorías de una variable para que sea incluida en el             análisis</li>
 <li><strong>incluirNumericos</strong> – (bool) {True, False}, determina si se desea             considerar las variables como categóricas e incluirlas en el             análisis. Si el valor es True se incluyen las variables numéricas             en el análisis, si el valor es False no se incluyen las variables             numéricas en el análisis.</li>
 <li><strong>variables</strong> – (list) lista de nombres de las columnas separados             por comas. Permite escoger las columnas de interés de análisis             del dataframe</li>
@@ -436,7 +436,6 @@ valor se expresa como una cantidad de registros (número entero).</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
-<li><strong>base</strong> – (dataframe) base de datos de interés a ser analizada.</li>
 <li><strong>percentil_inferior</strong> – (float), valor por defecto: 5. Percentil             inferior de referencia en la comparación.</li>
 <li><strong>percentil_superior</strong> – (float), valor por defecto: 95. Percentil             superior de referencia en la comparación.</li>
 </ul>
