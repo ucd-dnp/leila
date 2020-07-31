@@ -98,8 +98,8 @@
             
               <p class="caption"><span class="caption-text">CALIDAD DE DATOS:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="genindex.html">Índice</a></li>
 <li class="toctree-l1"><a class="reference internal" href="introduccion.html">Introducción</a></li>
+<li class="toctree-l1"><a class="reference internal" href="genindex.html">Índice</a></li>
 <li class="toctree-l1"><a class="reference internal" href="instalacion.html">Instalación</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ejemplos.html">Ejemplos</a></li>
 </ul>
@@ -381,10 +381,8 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
-<li><strong>extremos</strong> – (str) {“superior”, “inferior”, “ambos”}, valor por             defecto: “ambos”. Si el valor es “<strong>inferior</strong>” se tienen en cuenta los             registros con valor menor al límite inferior calculado por la             metodología de valor atípico por rango intercuartílico. Si el valor es             “<strong>superior</strong>” se tienen en cuenta los registros con valor mayor al            límite superior calculado por la metodología de valor atípico por rango             intercuartílico. Si el valor es “<strong>ambos</strong>” se tienen en cuenta los 
-registros con valor menor al límite inferior calculado por la              metodología de valor atípico por rango intercuartílico, y también             aquellos con valor mayor al límite superior calculado por la             metodología de valor atípico por rango intercuartílico.</li>
-<li><strong>numero</strong> – (bool) {True, False}, valor por defecto: False. Si el valor es             False el resultado se expresa como una proporcion (en decimales), si el valor es True el 
-valor se expresa como una cantidad de registros (número entero).</li>
+<li><strong>extremos</strong> – (str) {“superior”, “inferior”, “ambos”}, valor por             defecto: “ambos”. Si el valor es “<strong>inferior</strong>” se tienen en cuenta los             registros con valor menor al límite inferior calculado por la             metodología de valor atípico por rango intercuartílico. Si el valor es             “<strong>superior</strong>” se tienen en cuenta los registros con valor mayor al            límite superior calculado por la metodología de valor atípico por rango             intercuartílico. Si el valor es “<strong>ambos</strong>” se tienen en cuenta los             registros con valor menor al límite inferior calculado por la              metodología de valor atípico por rango intercuartílico, y también             aquellos con valor mayor al límite superior calculado por la             metodología de valor atípico por rango intercuartílico.</li>
+<li><strong>numero</strong> – (bool) {True, False}, valor por defecto: False. Si el valor es             False el resultado se expresa como una proporcion (en decimales), si el valor es True el             valor se expresa como una cantidad de registros (número entero).</li>
 </ul>
 </td>
 </tr>
@@ -436,6 +434,7 @@ valor se expresa como una cantidad de registros (número entero).</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>base</strong> – (dataframe) base de datos de interés a ser analizada.</li>
 <li><strong>percentil_inferior</strong> – (float), valor por defecto: 5. Percentil             inferior de referencia en la comparación.</li>
 <li><strong>percentil_superior</strong> – (float), valor por defecto: 95. Percentil             superior de referencia en la comparación.</li>
 </ul>

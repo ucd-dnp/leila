@@ -1,9 +1,7 @@
 .idea
 __pycache__
 env
-sphinx/env
-sphinx/build
-sphinx/__recursos_guia
+sphinx
 *.ipynb
 *.tsv
 x_pruebas funciones libreria.ipynb

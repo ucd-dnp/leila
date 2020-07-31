@@ -6,8 +6,8 @@ LEILA - Libreria de calidad de datos
    :caption: CALIDAD DE DATOS:
    :hidden:
 
-   genindex
    introduccion
+   genindex
    instalacion
    ejemplos
       
