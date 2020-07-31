@@ -12,10 +12,11 @@ import warnings
 
 class CalidadDatos:
 
-    def __init__(self, _base, castNumero=False, diccionarioCast=None, errores="ignore", formato_fecha=None):
+    def __init__(self, _base, castNumero=False, diccionarioCast=None,
+                 errores="ignore", formato_fecha=None):
         """ Constructor por defecto de la clase CalidadDatos. Esta clase se \
         encarga de manejar todas las funciones asociadas a la medición de la \
-        calidad de los datos en una base de datos 
+        calidad de los datos en una base de datos
 
         :param base: (dataframe) Base de datos de tipo pandas.DataFrame que será
             analizada por la clase CalidadDatos.
@@ -38,13 +39,17 @@ class CalidadDatos:
         # Pasar los 'objects' a float, si posible
         if castNumero == True:
             tipos_columnas = _base.dtypes
-            tipos_object = tipos_columnas[(tipos_columnas == "object") | (tipos_columnas == "bool")].index.to_list()
+            tipos_object = tipos_columnas[(tipos_columnas == "object") | (
+                tipos_columnas == "bool")].index.to_list()
             # Pasar las columnas que se puedan a integer
-            _base[tipos_object] = _base[tipos_object].apply(lambda x: x.astype("int64", errors="ignore"), axis=0)
+            _base[tipos_object] = _base[tipos_object].apply(
+                lambda x: x.astype("int64", errors="ignore"), axis=0)
             # Pasar las columnas qeu se puedan a float
             tipos_columnas = _base.dtypes
-            tipos_object = tipos_columnas[(tipos_columnas == "object") | (tipos_columnas == "bool")].index.to_list()
-            _base[tipos_object] = _base[tipos_object].apply(lambda x: x.astype(float, errors="ignore"), axis=0)
+            tipos_object = tipos_columnas[(tipos_columnas == "object") | (
+                tipos_columnas == "bool")].index.to_list()
+            _base[tipos_object] = _base[tipos_object].apply(
+                lambda x: x.astype(float, errors="ignore"), axis=0)
 
         elif castNumero == False:
             pass
@@ -52,7 +57,7 @@ class CalidadDatos:
             raise ValueError('"castNumero" tiene que ser True o False')
 
         # Cambiar los tipos de las variables según el diccionario
-        if type(diccionarioCast) == dict:
+        if isinstance(diccionarioCast, dict):
             for s in diccionarioCast:
 
                 if diccionarioCast[s] == "string":
@@ -62,7 +67,8 @@ class CalidadDatos:
                 elif diccionarioCast[s] == "booleano":
                     _base[s] = _base[s].astype("bool")
                 elif diccionarioCast[s] == "fecha":
-                    _base[s] = pd.to_datetime(_base[s], format=formato_fecha, errors=errores)
+                    _base[s] = pd.to_datetime(
+                        _base[s], format=formato_fecha, errors=errores)
                 elif diccionarioCast[s] == "categorico":
                     _base[s] = pd.Categorical(_base[s])
                 else:
@@ -76,9 +82,10 @@ class CalidadDatos:
         self.base = _base
 
     # Tipos de las columnas
-    def TipoColumnas(self, tipoGeneral=True, tipoGeneralPython=True, tipoEspecifico=True):
+    def TipoColumnas(self, tipoGeneral=True,
+                     tipoGeneralPython=True, tipoEspecifico=True):
         """ Retorna el tipo de dato de cada columna del dataframe. :ref:`Ver ejemplo <calidad_datos.TipoColumnas>`
-                
+
         :param tipoGeneral: (bool) {True, False}, valor por defecto: True. \
             Incluye el tipo general de cada columna. Los tipos son: numérico,\
             texto, booleano, otro
@@ -88,7 +95,7 @@ class CalidadDatos:
         :param tipoEspecifico: (bool) {True, False}, valor por defecto: True.\
             Incluye el porcentaje de los tres tipos más frecuentes de cada\
             columna. Se aplica la función 'type' de Python para cada \
-            observación. 
+            observación.
 
         :return: Dataframe de pandas con los tipos de dato de cada columna.
         """
@@ -110,7 +117,10 @@ class CalidadDatos:
                     lista_general.append("Otro")
                 else:
 
-                    tipo_para_object = str(type(base[s].value_counts(dropna=True).index[0]))
+                    tipo_para_object = str(
+                        type(
+                            base[s].value_counts(
+                                dropna=True).index[0]))
                     tipo_para_resto = str(base[s].dtype)
 
                     if "int" in tipo_para_resto or "float" in tipo_para_resto:
@@ -138,7 +148,7 @@ class CalidadDatos:
         else:
             raise ValueError('"tipoGeneralPython" tiene que ser True o False')
 
-        # Tipo específico Python 
+        # Tipo específico Python
         if tipoEspecifico == True:
             lista_especifico_1 = []
             lista_especifico_2 = []
@@ -148,7 +158,9 @@ class CalidadDatos:
 
             for s in base.columns:
 
-                tip = base[s].apply(lambda x: x if pd.isnull(x) else type(x)).value_counts(normalize=True, dropna=False)
+                tip = base[s].apply(
+                    lambda x: x if pd.isnull(x) else type(x)).value_counts(
+                    normalize=True, dropna=False)
 
                 tip_1 = "{1}: {0}%".format(round(float(tip.iloc[0] * 100), 2),
                                            str(tip.index[0]).replace("<class ", "").replace(">", ""))
@@ -158,28 +170,28 @@ class CalidadDatos:
                     tip_2 = "{1}: {0}%".format(round(float(tip.iloc[1] * 100), 2),
                                                str(tip.index[1]).replace("<class ", "").replace(">", ""))
                     lista_especifico_2.append(tip_2)
-                except:
+                except BaseException:
                     lista_especifico_2.append("")
 
                 try:
                     tip_3 = "{1}: {0}%".format(round(float(tip.iloc[2] * 100), 2),
                                                str(tip.index[2]).replace("<class ", "").replace(">", ""))
                     lista_especifico_3.append(tip_3)
-                except:
+                except BaseException:
                     lista_especifico_3.append("")
 
                 try:
                     tip_4 = "{1}: {0}%".format(round(float(tip.iloc[3] * 100), 2),
                                                str(tip.index[3]).replace("<class ", "").replace(">", ""))
                     lista_especifico_4.append(tip_4)
-                except:
+                except BaseException:
                     lista_especifico_4.append("")
 
                 try:
                     tip_5 = "{1}: {0}%".format(round(float(tip.iloc[4] * 100), 2),
                                                str(tip.index[4]).replace("<class ", "").replace(">", ""))
                     lista_especifico_5.append(tip_5)
-                except:
+                except BaseException:
                     lista_especifico_5.append("")
 
             lista_especifico_1.insert(0, "tipo_especifico_1")
@@ -226,7 +238,7 @@ class CalidadDatos:
     def ValoresUnicos(self, faltantes=False):
         """ Calcula la cantidad de valores únicos de cada columna del dataframe.  \
             :ref:`Ver ejemplo <calidad_datos.ValoresUnicos>`
-    
+
         :param faltantes: (bool) {True, False}, valor por defecto: False. \
             Indica si desea tener en cuenta los valores faltantes en el \
                 conteo de valores únicos.
@@ -234,9 +246,11 @@ class CalidadDatos:
         """
 
         if faltantes == False:
-            unicos_columnas = self.base.apply(lambda x: len(x.value_counts()), axis=0)
+            unicos_columnas = self.base.apply(
+                lambda x: len(x.value_counts()), axis=0)
         elif faltantes == True:
-            unicos_columnas = self.base.apply(lambda x: len(x.value_counts(dropna=False)), axis=0)
+            unicos_columnas = self.base.apply(
+                lambda x: len(x.value_counts(dropna=False)), axis=0)
         else:
             raise ValueError('"faltantes" tiene que ser True o False')
 
@@ -246,7 +260,7 @@ class CalidadDatos:
     def ValoresFaltantes(self, numero=False):
         """ Calcula el porcentaje/número de valores faltantes de cada columna \
             del dataframe. :ref:`Ver ejemplo <calidad_datos.ValoresFaltantes>`
-    
+
         :param numero: (bool) {True, False}, valor por defecto: True. Si el \
             valor es True el resultado se expresa como un cociente, si el \
             valor es False el valor se expresa como una cantidad de \
@@ -270,7 +284,7 @@ class CalidadDatos:
         """ Retorna el porcentaje/número de \
             filas o columnas duplicadas (repetidas) en el dataframe. \
             :ref:`Ver ejemplo <calidad_datos.CantidadDuplicados>`
-    
+
         :param eje: (int) {1, 0}, valor por defecto: 0. Si el valor \
             es 1 la validación se realiza por columnas, si el valor es \
                 0 la validación se realiza por filas.
@@ -282,7 +296,8 @@ class CalidadDatos:
         """
         base = self.base.copy()
 
-        # Revisar si hay columnas con tipos diccionario o lista para convertirlas a string
+        # Revisar si hay columnas con tipos diccionario o lista para
+        # convertirlas a string
         for s in base.columns:
             tip = str(type(self.base[s].value_counts(dropna=False).index[0])).replace("<class ", "").replace(">",
                                                                                                              "").replace(
@@ -314,7 +329,8 @@ class CalidadDatos:
             cols = no_unic_filas[no_unic_filas].shape[0]
 
         else:
-            raise ValueError('"eje" tiene que ser 1 o 0 y "numero" tiene que ser True o False')
+            raise ValueError(
+                '"eje" tiene que ser 1 o 0 y "numero" tiene que ser True o False')
 
         return (cols)
 
@@ -322,7 +338,7 @@ class CalidadDatos:
     def EmparejamientoDuplicados(self, col=False):
         """ Retorna las columnas o filas que presenten valores duplicados del \
             dataframe. :ref:`Ver ejemplo <calidad_datos.EmparejamientoDuplicados>`
-    
+
         :param col: (bool) {True, False}, valor por defecto: False. Si el valor \
             es True la validación se realiza por columnas, si el valor es \
                 False la validación se realiza por filas.
@@ -331,7 +347,8 @@ class CalidadDatos:
         """
         base = self.base.copy()
 
-        # Revisar si hay columnas con tipos diccionario o lista para convertirlas a string
+        # Revisar si hay columnas con tipos diccionario o lista para
+        # convertirlas a string
         for s in base.columns:
             tip = str(type(self.base[s].value_counts(dropna=False).index[0])).replace("<class ", "").replace(">",
                                                                                                              "").replace(
@@ -350,7 +367,7 @@ class CalidadDatos:
         else:
             raise ValueError('"col" tiene que ser True o False')
 
-        # Revisar si hay duplicados o no. Parar si no hay 
+        # Revisar si hay duplicados o no. Parar si no hay
         dupli = dupli[dupli]
         if dupli.sum() == 0:
             if col == True:
@@ -401,15 +418,20 @@ class CalidadDatos:
             for ii in range(len(lista_listas[i])):
                 lista_listas[i][ii] = str(lista_listas[i][ii])
 
-        df = pd.DataFrame(lista_listas).drop_duplicates().reset_index(drop=True)
+        df = pd.DataFrame(
+            lista_listas).drop_duplicates().reset_index(drop=True)
 
         df = df.T
 
         if col == True:
-            lista_columnas_df = ["Columnas iguales {0}".format(q) for q in range(1, df.shape[1] + 1)]
+            lista_columnas_df = [
+                "Columnas iguales {0}".format(q) for q in range(
+                    1, df.shape[1] + 1)]
             df.columns = lista_columnas_df
         else:
-            lista_columnas_df = ["Filas iguales {0}".format(q) for q in range(1, df.shape[1] + 1)]
+            lista_columnas_df = [
+                "Filas iguales {0}".format(q) for q in range(
+                    1, df.shape[1] + 1)]
             df.columns = lista_columnas_df
 
         # Quitar los 'nan' del
@@ -422,26 +444,27 @@ class CalidadDatos:
         """ Calcula el porcentaje o cantidad de outliers de cada columna numérica \
             (las columnas con números en formato string se intentarán transformar \
             a columnas numéricas). :ref:`Ver ejemplo <calidad_datos.ValoresExtremos>`
-    
+
         :param extremos: (str) {'superior', 'inferior', 'ambos'}, valor por \
             defecto: 'ambos'. Si el valor es '**inferior**' se tienen en cuenta los \
             registros con valor menor al límite inferior calculado por la \
             metodología de valor atípico por rango intercuartílico. Si el valor es \
             '**superior**' se tienen en cuenta los registros con valor mayor al\
             límite superior calculado por la metodología de valor atípico por rango \
-            intercuartílico. Si el valor es '**ambos**' se tienen en cuenta los \ 
+            intercuartílico. Si el valor es '**ambos**' se tienen en cuenta los \
             registros con valor menor al límite inferior calculado por la  \
             metodología de valor atípico por rango intercuartílico, y también \
             aquellos con valor mayor al límite superior calculado por la \
             metodología de valor atípico por rango intercuartílico.
         :param numero: (bool) {True, False}, valor por defecto: False. Si el valor es \
-            False el resultado se expresa como una proporcion (en decimales), si el valor es True el \ 
+            False el resultado se expresa como una proporcion (en decimales), si el valor es True el \
             valor se expresa como una cantidad de registros (número entero).
         :return: serie de pandas con la cantidad/proporcion de valores outliers \
             de cada columna.
         """
 
-        col_tipos = self.TipoColumnas(tipoGeneral=True, tipoGeneralPython=False, tipoEspecifico=False).iloc[:, 0]
+        col_tipos = self.TipoColumnas(
+            tipoGeneral=True, tipoGeneralPython=False, tipoEspecifico=False).iloc[:, 0]
         col_num = col_tipos[col_tipos == "Numérico"].index
         base_num = self.base[col_num]
 
@@ -451,8 +474,10 @@ class CalidadDatos:
         else:
             pass
 
-        percentiles_25 = base_num.apply(lambda x: np.nanpercentile(x, 25), axis=0)
-        percentiles_75 = base_num.apply(lambda x: np.nanpercentile(x, 75), axis=0)
+        percentiles_25 = base_num.apply(
+            lambda x: np.nanpercentile(x, 25), axis=0)
+        percentiles_75 = base_num.apply(
+            lambda x: np.nanpercentile(x, 75), axis=0)
 
         iqr = percentiles_75 - percentiles_25
         iqr_upper = percentiles_75 + iqr * 1.5
@@ -463,15 +488,18 @@ class CalidadDatos:
         if extremos == "ambos":
             for i in range(0, len(iqr)):
                 dic_outliers[base_num.columns[i]] = (base_num.iloc[:, i] > iqr_upper[i]) | (
-                            base_num.iloc[:, i] < iqr_lower[i])
+                    base_num.iloc[:, i] < iqr_lower[i])
         elif extremos == "superior":
             for i in range(0, len(iqr)):
-                dic_outliers[base_num.columns[i]] = (base_num.iloc[:, i] > iqr_upper[i])
+                dic_outliers[base_num.columns[i]] = (
+                    base_num.iloc[:, i] > iqr_upper[i])
         elif extremos == "inferior":
             for i in range(0, len(iqr)):
-                dic_outliers[base_num.columns[i]] = (base_num.iloc[:, i] < iqr_lower[i])
+                dic_outliers[base_num.columns[i]] = (
+                    base_num.iloc[:, i] < iqr_lower[i])
         else:
-            raise ValueError('"extremos" tiene que ser "ambos", "superior" o "inferior"')
+            raise ValueError(
+                '"extremos" tiene que ser "ambos", "superior" o "inferior"')
 
         base_outliers = pd.DataFrame(dic_outliers)
 
@@ -494,18 +522,19 @@ class CalidadDatos:
         :param variables: (list) lista de nombres de las columnas separados \
             por comas. Permite escoger las columnas de interés de análisis \
             del dataframe
-            
+
         :return: dataframe con las estadísticas descriptivas.
         """
         base = self.base.copy()
 
         # Filtrar la base por las variables escogidas en la opción 'variables'
-        if type(variables) == list:
+        if isinstance(variables, list):
             base = base[variables]
         else:
             pass
 
-        col_tipos = self.TipoColumnas(tipoGeneral=True, tipoGeneralPython=False, tipoEspecifico=False).iloc[:, 0]
+        col_tipos = self.TipoColumnas(
+            tipoGeneral=True, tipoGeneralPython=False, tipoEspecifico=False).iloc[:, 0]
         col_num = col_tipos[col_tipos == "Numérico"].index
         base_num = base[col_num]
 
@@ -518,8 +547,10 @@ class CalidadDatos:
         base_descripcion = base.describe().T
         base_descripcion["missing"] = pd.isnull(base_num).sum() / len(base_num)
         base_descripcion["outliers_total"] = self.ValoresExtremos()
-        base_descripcion["outliers_altos"] = self.ValoresExtremos(extremos="superior")
-        base_descripcion["outliers_bajos"] = self.ValoresExtremos(extremos="inferior")
+        base_descripcion["outliers_altos"] = self.ValoresExtremos(
+            extremos="superior")
+        base_descripcion["outliers_bajos"] = self.ValoresExtremos(
+            extremos="inferior")
 
         return (base_descripcion)
 
@@ -527,7 +558,7 @@ class CalidadDatos:
     def VarianzaEnPercentil(self, percentil_inferior=5, percentil_superior=95):
         """ Retorna las columnas numéricas cuyo percentil_inferior sea igual \
             a su percentil_superior. :ref:`Ver ejemplo <calidad_datos.VarianzaEnPercentil>`
-    
+
         :param base: (dataframe) base de datos de interés a ser analizada.
         :param percentil_inferior: (float), valor por defecto: 5. Percentil \
             inferior de referencia en la comparación.
@@ -539,7 +570,8 @@ class CalidadDatos:
         base = self.base.copy()
 
         # Revisar si hay columnas numéricas
-        columnas_tipo = self.TipoColumnas(tipoGeneral=True, tipoGeneralPython=False, tipoEspecifico=False).iloc[:, 0]
+        columnas_tipo = self.TipoColumnas(
+            tipoGeneral=True, tipoGeneralPython=False, tipoEspecifico=False).iloc[:, 0]
         if len(columnas_tipo[columnas_tipo == "Numérico"]) == 0:
             print("La base de datos no tiene columnas numéricas")
             return
@@ -558,8 +590,12 @@ class CalidadDatos:
             else:
                 pass
 
-        percentil_bajo = base_num.apply(lambda x: np.percentile(x.dropna(), 5), axis=0)
-        percentil_alto = base_num.apply(lambda x: np.percentile(x.dropna(), 95), axis=0)
+        percentil_bajo = base_num.apply(
+            lambda x: np.percentile(
+                x.dropna(), 5), axis=0)
+        percentil_alto = base_num.apply(
+            lambda x: np.percentile(
+                x.dropna(), 95), axis=0)
 
         percentiles = pd.concat([percentil_bajo, percentil_alto], axis=1)
         percentiles_true = (percentiles.iloc[:, 0] == percentiles.iloc[:, 1])
@@ -573,12 +609,13 @@ class CalidadDatos:
             return (percentiles_true.index)
 
     # tabla de valores únicos para cada variable de texto
-    def DescripcionCategoricas(self, limite=0.5, categoriasMaximas=30, incluirNumericos=True, variables=None):
+    def DescripcionCategoricas(
+            self, limite=0.5, categoriasMaximas=30, incluirNumericos=True, variables=None):
         """ Genera una tabla con los primeros 10 valores más frecuentes de las \
             columnas categóricas dataframe , además calcula su frecuencia \
             y porcentaje dentro del total de observaciones. Incluye los \
             valores faltantes. :ref:`Ver ejemplo <calidad_datos.DescripcionCategoricas>`
-    
+
         :param limite: (float) (valor de 0 a 1) límite de referencia, se \
             utiliza para determinar si las variables posiblemente son de tipo \
             categóricas y ser incluidas en el análisis. Si el número de \
@@ -601,7 +638,7 @@ class CalidadDatos:
         base = self.base.copy()
 
         # Filtrar la base por las variables escogidas en la opción 'variables'
-        if type(variables) == list:
+        if isinstance(variables, list):
             base = base[variables]
         else:
             pass
@@ -610,11 +647,13 @@ class CalidadDatos:
         for s in base.columns:
             if base[s].isnull().sum() == base.shape[0]:
                 del base[s]
-                warnings.warn("La variable '{0}' se eliminó del análisis porque solo tiene valores faltantes".format(s))
+                warnings.warn(
+                    "La variable '{0}' se eliminó del análisis porque solo tiene valores faltantes".format(s))
             else:
                 pass
 
-        # Revisar si hay columnas con tipos diccionario o lista para convertirlas a string
+        # Revisar si hay columnas con tipos diccionario o lista para
+        # convertirlas a string
         for s in base.columns:
             tip = str(type(self.base[s].value_counts(dropna=False).index[0])).replace("<class ", "").replace(">",
                                                                                                              "").replace(
@@ -628,12 +667,15 @@ class CalidadDatos:
                 # Filtrar por el número de categorías únicas en cada variable
         if categoriasMaximas > 0:
             categorias_unicas = base.nunique()
-            categorias_unicas = categorias_unicas.loc[categorias_unicas <= categoriasMaximas].index
+            categorias_unicas = categorias_unicas.loc[categorias_unicas <=
+                                                      categoriasMaximas].index
             base = base[categorias_unicas]
         else:
-            raise ValueError('"categoriasMaximas" tiene que un ´numero mayor a 0"')
+            raise ValueError(
+                '"categoriasMaximas" tiene que un ´numero mayor a 0"')
 
-        # Calcular qué variables tipo object tienen valores únicos menores al 50% (o valor de 'limite') del total de filas de la base original
+        # Calcular qué variables tipo object tienen valores únicos menores al
+        # 50% (o valor de 'limite') del total de filas de la base original
         col_object = base.dtypes
         col_object = col_object[col_object == "object"]
         lista_object_unicos = []
@@ -642,12 +684,15 @@ class CalidadDatos:
             if unico < base.shape[0] * limite:
                 lista_object_unicos.append(s)
 
-        # Si la opción 'transformar_nums' es True, incluir las variables numéricas con repeticiones menores al 50% (o el límite) del total de filas   
+        # Si la opción 'transformar_nums' es True, incluir las variables
+        # numéricas con repeticiones menores al 50% (o el límite) del total de
+        # filas
         if incluirNumericos == True:
             cols_types = base.dtypes
             col_nums = []
             for i in range(len(cols_types)):
-                if "int" in str(cols_types[i]) or "float" in str(cols_types[i]):
+                if "int" in str(cols_types[i]) or "float" in str(
+                        cols_types[i]):
                     col_nums.append(cols_types.index[i])
             for s in col_nums:
                 unico = len(pd.unique(base[s]))
@@ -662,8 +707,9 @@ class CalidadDatos:
         lista_counts = []
         for s in lista_object_unicos:
 
-            counts = base[s].astype(str).value_counts().drop("nan", errors="ignore")
-            if type(counts.index[0]) == dict:
+            counts = base[s].astype(str).value_counts().drop(
+                "nan", errors="ignore")
+            if isinstance(counts.index[0], dict):
                 continue
             # counts=list(counts)
             lista = counts[0:10]
@@ -673,7 +719,8 @@ class CalidadDatos:
             lista["Demás categorías"] = resto
             lista["Datos faltantes"] = miss
 
-            lista["Total categorías (incluye NA): {0}".format(len(pd.unique(base[s])))] = np.nan
+            lista["Total categorías (incluye NA): {0}".format(
+                len(pd.unique(base[s])))] = np.nan
 
             lista = lista.to_frame()
             lista["Columna"] = s
@@ -690,7 +737,10 @@ class CalidadDatos:
             colis = ["Columna", "index", s, "Porcentaje del total de filas"]
             lista = lista[colis]
             lista_cols = lista.columns.tolist()
-            lista = lista.rename(columns={"index": "Valor", lista_cols[2]: "Frecuencia"})
+            lista = lista.rename(
+                columns={
+                    "index": "Valor",
+                    lista_cols[2]: "Frecuencia"})
             lista_counts.append(lista)
         df_counts = pd.concat(lista_counts, axis=0)
         return (df_counts)
@@ -730,7 +780,8 @@ class CalidadDatos:
         elif unidad == "terabyte":
             memoria_ = memoria_ / (1024 ** 4)
         else:
-            raise ValueError('"unidad" tiene que ser "byte", "kylobyte", "megabyte", "gygabyte" o "terabyte"')
+            raise ValueError(
+                '"unidad" tiene que ser "byte", "kylobyte", "megabyte", "gygabyte" o "terabyte"')
         return (memoria_)
 
     # tabla de resumen pequeña
@@ -745,7 +796,7 @@ class CalidadDatos:
         observaciones con datos faltantes, número de columnas con más del \
         10% de observaciones con datos extremos y el tamaño de la base de \
         datos en memoria. :ref:`Ver ejemplo <calidad_datos.Resumen>`
-    
+
         :param filas: (bool) {True, False}, valor por defecto: True. Indica \
             si se incluye el cálculo de número de filas del dataframe.
         :param columnas: (bool) {True, False}, valor por defecto: True. \
@@ -776,11 +827,13 @@ class CalidadDatos:
         :return: serie de pandas con las estadísticas descriptivas del dataframe.
         """
 
-        # Lista donde se guardarán resultados, dependiendo de si se escoge o no ver el cálculo
+        # Lista donde se guardarán resultados, dependiendo de si se escoge o no
+        # ver el cálculo
         lista_resumen = [[], []]
         base = self.base.copy()
         # Calcular tipo de columnas
-        col_tipos = self.TipoColumnas(tipoGeneral=True, tipoGeneralPython=False, tipoEspecifico=False).iloc[:, 0]
+        col_tipos = self.TipoColumnas(
+            tipoGeneral=True, tipoGeneralPython=False, tipoEspecifico=False).iloc[:, 0]
 
         # Agregar a lista, si se escoge que sea así
 
@@ -883,7 +936,7 @@ class CalidadDatos:
                 nombre = "Columnas con más del 10% de datos como extremos"
                 lista_resumen[0].append(nombre)
                 lista_resumen[1].append(calculo)
-            except:
+            except BaseException:
                 pass
         else:
             pass
@@ -909,14 +962,16 @@ class CalidadDatos:
         else:
             pass
 
-        tabla_resumen = pd.Series(data=lista_resumen[1], index=lista_resumen[0]).astype(int)
+        tabla_resumen = pd.Series(
+            data=lista_resumen[1],
+            index=lista_resumen[0]).astype(int)
         return (tabla_resumen)
 
     # Matrices de correlación para las variables numéricas
     def CorrelacionNumericas(self, metodo="pearson", variables=None):
         """ Genera una matriz de correlación entre las variables de tipo numérico \
             :ref:`Ver ejemplo <calidad_datos.CorrelacionNumericas>`
-    
+
         :param metodo: (str) {'pearson', 'kendall', 'spearman'}, valor por \
             defecto: 'pearson'. Medida de correlación a utilizar.
         :param variables: (list) lista de nombres de las columnas separados \
@@ -928,7 +983,7 @@ class CalidadDatos:
         base = self.base.copy()
 
         # Filtrar la base por las variables escogidas en la opción 'variables'
-        if type(variables) == list:
+        if isinstance(variables, list):
             base = base[variables]
         else:
             pass
@@ -946,17 +1001,19 @@ class CalidadDatos:
         elif metodo == "spearman":
             correlacion_ = base_num.corr(method="spearman")
         else:
-            raise ValueError('"metodo" tiene que ser "pearson", "kendall" o "spearman>"')
+            raise ValueError(
+                '"metodo" tiene que ser "pearson", "kendall" o "spearman>"')
 
         return correlacion_
 
     # Matrices de correlación para variables categóricas
-    def CorrelacionCategoricas(self, metodo='phik', limite=0.5, categoriasMaximas=30, variables=None):
+    def CorrelacionCategoricas(
+            self, metodo='phik', limite=0.5, categoriasMaximas=30, variables=None):
         """ Genera una matriz de correlación entre las variables de tipo categóricas. \
             :ref:`Ver ejemplo <calidad_datos.CorrelacionCategoricas>`
-    
+
         :param metodo: (str) {'phik', 'cramer'}, valor por \
-            defecto: 'phik'. Medida de correlación a utilizar.   
+            defecto: 'phik'. Medida de correlación a utilizar.
         :param limite: (float) (valor de 0 a 1) límite de referencia, se \
             utiliza para determinar si las variables posiblemente son de tipo \
             categóricas y ser incluidas en el análisis. Si el número de \
@@ -964,7 +1021,7 @@ class CalidadDatos:
             * limite*, se considera que la variable no es categórica.
         :param categoriasMaximas: (int) (valor mayor a 0), indica el máximo \
             número de categorías de una variable para que sea incluida en el \
-            análisis            
+            análisis
         :param variables: (list) lista de nombres de las columnas separados \
             por comas. Permite escoger las columnas de interés de análisis \
             del dataframe
@@ -974,12 +1031,13 @@ class CalidadDatos:
         base = self.base.copy()
 
         # Filtrar la base por las variables escogidas en la opción 'variables'
-        if type(variables) == list:
+        if isinstance(variables, list):
             base = base[variables]
         else:
             pass
 
-        # Revisar si hay columnas con tipos diccionario o lista para convertirlas a string
+        # Revisar si hay columnas con tipos diccionario o lista para
+        # convertirlas a string
         for s in base.columns:
             tip = str(type(self.base[s].value_counts(dropna=False).index[0])).replace("<class ", "").replace(">",
                                                                                                              "").replace(
@@ -993,12 +1051,15 @@ class CalidadDatos:
                 # Filtrar por el número de categorías únicas en cada variable
         if categoriasMaximas > 0:
             categorias_unicas = base.nunique()
-            categorias_unicas = categorias_unicas.loc[categorias_unicas <= categoriasMaximas].index
+            categorias_unicas = categorias_unicas.loc[categorias_unicas <=
+                                                      categoriasMaximas].index
             base = base[categorias_unicas]
         else:
-            raise ValueError('"categoriasMaximas" tiene que un ´numero mayor a 0"')
+            raise ValueError(
+                '"categoriasMaximas" tiene que un ´numero mayor a 0"')
 
-        # Calcular qué variables tipo object tienen valores únicos menores al 50% (o valor de 'limite') del total de filas de la base original
+        # Calcular qué variables tipo object tienen valores únicos menores al
+        # 50% (o valor de 'limite') del total de filas de la base original
         col_tipos = base.dtypes
         lista_tipos_unicos = []
         for s in col_tipos.index:
@@ -1018,7 +1079,7 @@ class CalidadDatos:
                     try:
                         cramer = self.correlacion_cramerv(base[c], base[cc])
                         lista_fila.append(cramer)
-                    except:
+                    except BaseException:
                         lista_fila.append(np.nan)
 
                 lista_matriz.append(lista_fila)
@@ -1032,16 +1093,17 @@ class CalidadDatos:
             # Nombre de variables en 'correlacion_final' antes de filtro
             nombres_nofiltro = list(correlacion_final.columns)
 
-            # Quitar las columnas y filas que son 'nan' 
+            # Quitar las columnas y filas que son 'nan'
             correlacion_final = correlacion_final.dropna(how="all", axis=1)
             correlacion_final = correlacion_final.dropna(how="all", axis=0)
-            # Mencionar las variables 
+            # Mencionar las variables
             nombres_filtro = list(correlacion_final.columns)
             nombres_eliminados = nombres_nofiltro.copy()
             for s in nombres_filtro:
                 nombres_eliminados.remove(s)
             for s in nombres_eliminados:
-                warnings.warn("no se pudo calcular la correlación con la variable '{0}'".format(s))
+                warnings.warn(
+                    "no se pudo calcular la correlación con la variable '{0}'".format(s))
 
         elif metodo == 'phik':
             correlacion_final = base.phik_matrix()
