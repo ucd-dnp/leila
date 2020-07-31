@@ -1023,7 +1023,7 @@ class CalidadDatos:
                 lista_fila=[]
                 for cc in lista_tipos_unicos:
                     try:
-                        cramer=self.correlacion_cramerv(base[c],base[cc])
+                        cramer=self.__correlacion_cramerv(base[c],base[cc])
                         lista_fila.append(cramer)
                     except:
                         lista_fila.append(np.nan)
@@ -1058,7 +1058,7 @@ class CalidadDatos:
         return correlacion_final
 
     
-    def correlacion_cramerv(self, x, y):
+    def __correlacion_cramerv(self, x, y):
         """ Función de soporte para calcular coeficiente de correlación Cramer V \
         (para usar en la función de las matrices de correlación entre variables categóricas)
 
