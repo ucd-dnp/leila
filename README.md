@@ -1,6 +1,6 @@
 # LEILA - Librería de calidad de datos
 
-![screenshot](sphinx/source/_static/image/LEILA.jpg "LEILA")
+![screenshot](docs/_static/image/LEILA.jpg "LEILA")
 
 ## Descripción
 
@@ -18,7 +18,7 @@ La librería surge como resultado de un proyecto relacionado con realizar análi
 
 ## Ejemplo
 
-![screenshot](sphinx/source/_static/image/vista_reporte.gif "Reporte")
+![screenshot](docs/_static/image/vista_reporte.gif "Reporte")
 
 
 La librería permite generar un reporte de calidad de datos el cual contiene información descriptiva del dataframe analizado, a continuación se presenta el código requerido para generar un reporte a partir de un archivo en excel en formato .xlsx.
