@@ -417,8 +417,8 @@ Retorna una tabla con información general de la base de datos. Ver documentaci�
     Columnas numéricas                                     3
     Columnas de texto                                     15
     Columnas booleanas                                     0
-    Columnas de fecha                                      0
-    Otro tipo de columnas                                  6
+    Columnas de fecha                                      6
+    Otro tipo de columnas                                  0
     Número de filas repetidas                             10
     Número de columnas repetidas                           2
     Columnas con más de la mitad de datos faltantes        4
@@ -447,7 +447,7 @@ Retorna el tipo de dato de cada columna del dataframe. Ver documentación :py:me
     Index                           tipo_general            tipo_general_python     tipo_especifico_1                                       tipo_especifico_2
     ==============================  ======================  ======================  ======================================================  ==================================================
     ID de caso                      Texto                   object                  'str': 100.0%   
-    Fecha de notificación           Otro                    datetime64[ns]          'pandas._libs.tslibs.timestamps.Timestamp': 100.0%  
+    Fecha de notificación           Fecha                   datetime64[ns]          'pandas._libs.tslibs.timestamps.Timestamp': 100.0%  
     Código DIVIPOLA                 Texto                   object                  'str': 100.0%   
     Ciudad de ubicación             Texto                   object                  'str': 100.0%   
     Departamento o Distrito         Texto                   object                  'str': 100.0%   
@@ -458,16 +458,16 @@ Retorna el tipo de dato de cada columna del dataframe. Ver documentación :py:me
     Sexo                            Texto                   object                  'str': 100.0%   
     Tipo                            Texto                   object                  'str': 100.0%   
     Estado                          Texto                   object                  'str': 99.66%                                           nan: 0.34%
-    País de procedencia Texto       object                  nan: 98.58%             'str': 1.42%
+    País de procedencia Texto       Texto                   object                  nan: 98.58%                                             'str': 1.42%
     Fecha de inicio de síntomas     Texto                   object                  'str': 100.0%   
-    Fecha de muerte                 Otro                    datetime64[ns]          nan: 95.38%                                             'pandas._libs.tslibs.timestamps.Timestamp': 4.62%
-    Fecha diagnostico               Otro                    datetime64[ns]          'pandas._libs.tslibs.timestamps.Timestamp': 98.41%      nan: 1.59%
-    Fecha recuperado                Otro                    datetime64[ns]          'pandas._libs.tslibs.timestamps.Timestamp': 91.33%      nan: 8.67%
-    Fecha reporte web               Otro                    datetime64[ns]          'pandas._libs.tslibs.timestamps.Timestamp': 100.0%  
-    Fecha de registro               Otro                    datetime64[ns]          'pandas._libs.tslibs.timestamps.Timestamp': 100.0%  
+    Fecha de muerte                 Fecha                   datetime64[ns]          nan: 95.38%                                             'pandas._libs.tslibs.timestamps.Timestamp': 4.62%
+    Fecha diagnostico               Fecha                   datetime64[ns]          'pandas._libs.tslibs.timestamps.Timestamp': 98.41%      nan: 1.59%
+    Fecha recuperado                Fecha                   datetime64[ns]          'pandas._libs.tslibs.timestamps.Timestamp': 91.33%      nan: 8.67%
+    Fecha reporte web               Fecha                   datetime64[ns]          'pandas._libs.tslibs.timestamps.Timestamp': 100.0%  
+    Fecha de registro               Fecha                   datetime64[ns]          'pandas._libs.tslibs.timestamps.Timestamp': 100.0%  
     Tipo recuperación               Texto                   object                  'str': 91.33%                                           nan: 8.67%
     Codigo departamento             Texto                   object                  'str': 100.0%   
-    Codigo pais Texto               object                  nan: 98.65%             'str': 1.35%
+    Codigo pais Texto               texto                   object                  nan: 98.65%                                             'str': 1.35%
     Pertenencia etnica              Texto                   object                  'str': 98.13%                                           nan: 1.87%
     Nombre grupo etnico             Texto                   object                  nan: 97.97%                                             'str': 2.03%
     ==============================  ======================  ======================  ======================================================  ==================================================
