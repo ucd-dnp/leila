@@ -409,22 +409,22 @@ Retorna una tabla con información general de la base de datos. Ver documentaci�
         >>> resumen = datos.Resumen(columnasRepetidas=True)
         >>> print(resumen)
 
-    =================================================  =====
-    Index                                              Valor
-    =================================================  =====
-    Número de filas                                    65616
-    Número de columnas                                    24
-    Columnas numéricas                                     3
-    Columnas de texto                                     15
-    Columnas booleanas                                     0
-    Columnas de fecha                                      6
-    Otro tipo de columnas                                  0
-    Número de filas repetidas                             10
-    Número de columnas repetidas                           2
-    Columnas con más de la mitad de datos faltantes        4
-    Columnas con más del 10% de datos como extremos        0
-    Tamaño de la base en megabytes (aproximado)           12
-    =================================================  =====
+    ===================================================  =====
+    Index                                                Valor
+    ===================================================  =====
+    Número de filas                                      65616
+    Número de columnas                                      24
+    Columnas numéricas                                       3
+    Columnas de texto                                       15
+    Columnas booleanas                                       0
+    Columnas de fecha                                        6
+    Otro tipo de columnas                                    0
+    Número de filas repetidas                               10
+    Número de columnas repetidas                             2
+    Columnas con más de la mitad de datos faltantes          4
+    Columnas con más del 10% de datos como extremos          0
+    Uso en memoria de la base en megabytes (aproximado)     12
+    ===================================================  =====
 
 calidad_datos.TipoColumnas
 --------------------------
