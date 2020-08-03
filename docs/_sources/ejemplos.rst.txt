@@ -23,8 +23,6 @@ En esta sección se presentan ejemplos de uso de las diferentes funciones de la 
 
 En caso que desee utilizar los datos utilizados en los ejemplos, puede descargarlos utilizando el siguiente link. :download:`Descargar datos (6.2 MB)<https://planeacionnacional-my.sharepoint.com/:x:/g/personal/ucd_dnp_gov_co/EcSDnonZAlBFqSFZ7N9MP1gBp50GlC_itwgNcLOm9CksyA?Download=1>`.
 
-.. _dataset_ejemplos: https://planeacionnacional-my.sharepoint.com/:x:/g/personal/ucd_dnp_gov_co/EcSDnonZAlBFqSFZ7N9MP1gBp50GlC_itwgNcLOm9CksyA?Download=1
-
 reporte.generar_reporte
 -----------------------
 Crea un reporte de calidad de datos en formato HTML utilizando las funciones disponibles en los otros módulos de la librería. Ver documentación :py:meth:`reporte.generar_reporte`

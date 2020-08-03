@@ -18,7 +18,7 @@ La librería surge como resultado de un proyecto relacionado con realizar análi
 
 ## Ejemplo
 
-![screenshot](docs/_static/image/vista_reporte.gif "Reporte")
+![screenshot](https://planeacionnacional-my.sharepoint.com/personal/ucd_dnp_gov_co/Documents/Repositorio%20UCD/Proyectos%20UCD/2019/Datos%20abiertos%20Colombia/1_Insumos/Otros_insumos/vista_reporte.gif "Reporte")
 
 
 La librería permite generar un reporte de calidad de datos el cual contiene información descriptiva del dataframe analizado, a continuación se presenta el código requerido para generar un reporte a partir de un archivo en excel en formato .xlsx.
