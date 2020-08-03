@@ -33,8 +33,7 @@ setuptools.setup(
     license = 'MIT',
     classifiers=[
         "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: MIT License",
-        "Operating System :: WINDOWS",
+        "License :: OSI Approved :: MIT License"
     ],
     python_requires='>=3.6',
 )
