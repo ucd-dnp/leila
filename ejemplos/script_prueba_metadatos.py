@@ -43,6 +43,6 @@ columnas_valor = {"fecha_creacion": ["2018-12-31", "-"]}
 tabla_filtrada = datos_gov.filtrar_tabla(columnas_valor)
 
 
-#
+# Cargar bases de datos con API id ya conocida
 base = datos_gov.cargar_base("iwpe-6gqp")
 base = datos_gov.cargar_base("k9pc-rjkh")

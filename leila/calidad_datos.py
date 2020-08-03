@@ -129,6 +129,8 @@ class CalidadDatos:
                         lista_general.append("Texto")
                     elif "bool" in tipo_para_resto:
                         lista_general.append("Booleano")
+                    elif "date" in tipo_para_resto:
+                        lista_general.append("Fecha")
                     else:
                         lista_general.append("Otro")
             lista_general.insert(0, "tipo_general")
@@ -949,15 +951,15 @@ class CalidadDatos:
             memoria_tot = self.Memoria()
             if memoria_tot > 1024:
                 memoria_tot = memoria_tot / 1024
-                nombre = "Tamaño de la base en gygabytes (aproximado)"
+                nombre = "Uso en memoria de la base en gygabytes (aproximado)"
             elif memoria_tot < (1 / 1024):
                 memoria_tot = memoria_tot * 1024 * 1024
-                nombre = "Tamaño de la base en bytes (aproximado)"
+                nombre = "Uso en memoria de la base en bytes (aproximado)"
             elif memoria_tot < 1:
                 memoria_tot = memoria_tot * 1024
-                nombre = "Tamaño de la base en kylobytes (aproximado)"
+                nombre = "Uso en memoria de la base en kylobytes (aproximado)"
             else:
-                nombre = "Tamaño de la base en megabytes (aproximado)"
+                nombre = "Uso en memoria de la base en megabytes (aproximado)"
 
             calculo = memoria_tot
             lista_resumen[0].append(nombre)
