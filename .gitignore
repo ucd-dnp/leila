@@ -1,15 +1,27 @@
-.idea
-__pycache__
-env
+# ignore sphinx folder
 sphinx
-*.ipynb
-*.tsv
-x_pruebas funciones libreria.ipynb
-.ipynb_checkpoints
-perfilamiento.html
-perfilamiento_leila.html
-datos.py
+
+# ignore testing files
 test_reporte.py
+perfilamiento_leila.html
+
+
+# ignore compilation files
 dist
 crear_whl.bat
-_dataset ejemplos.xlsx
+
+# ignore Excel files
+*.xlsx
+*.tsv
+
+# ignore jupyter notebook files
+*.ipynb
+.ipynb_checkpoints
+
+# ignore virtual env
+env
+
+# ignore other files
+.idea
+__pycache__
+vista_reporte.gif

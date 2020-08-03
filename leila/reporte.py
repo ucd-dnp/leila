@@ -8,11 +8,11 @@ import pandas as pd
 from jinja2 import Environment, PackageLoader
 
 # Se deben usar estos imports para que funcione correctamente Sphinx
-from calidad_datos import CalidadDatos
-from datos_gov import *
+# from calidad_datos import CalidadDatos
+# from datos_gov import *
 
-# from leila.calidad_datos import CalidadDatos
-# from leila import datos_gov
+from leila.calidad_datos import CalidadDatos
+from leila import datos_gov
 
 
 def df_as_html(base, id=None, classes=None):

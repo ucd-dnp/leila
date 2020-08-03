@@ -3,7 +3,7 @@
 Reporte
 =======
 
-.. figure:: _static/image/vista_reporte.gif
+.. figure:: https://planeacionnacional-my.sharepoint.com/personal/ucd_dnp_gov_co/Documents/Repositorio%20UCD/Proyectos%20UCD/2019/Datos%20abiertos%20Colombia/1_Insumos/Otros_insumos/vista_reporte.gif
     :align: center
     :alt: Ejemplo de reporte
     :figclass: align-center
