@@ -15,11 +15,16 @@ from leila.calidad_datos import CalidadDatos
 
 # base = pd.read_csv("../../../1_Insumos/Bases_de_datos/Microestablecimientos_2016.csv",sep=";")
 
-base = pd.read_excel("../../../1_Insumos/Bases_de_datos/dataset ejemplos.xlsx")
+# base = pd.read_excel("../../../1_Insumos/Bases_de_datos/dataset ejemplos.xlsx")
+
+# base = pd.read_csv("../../../1_Insumos/Bases_de_datos/base_1.csv",sep=";")
+
+base = pd.read_csv("../../../1_Insumos/Bases_de_datos/Sabana2018.csv",sep=";")
+
 
 # creado objeto de la clase CalidadDatos, similar a pandas DataFrame
 
-datos = CalidadDatos(base, castNumero=False)
+datos = CalidadDatos(base, castNumero=True)
 
 # RESUMEN DE BASE DE DATOS
 resumen = datos.Resumen(columnasRepetidas=False)
@@ -34,6 +39,8 @@ tipos_columnas = datos.TipoColumnas(
     tipoGeneral=True,
     tipoGeneralPython=True,
     tipoEspecifico=True)
+
+print(tipos_columnas)
 
 # Valores únicos en cada columna
 # Sin faltantes
@@ -58,11 +65,11 @@ print(faltantes_num)
 repetidos_col_prop = datos.CantidadDuplicados(eje=1, numero=False)
 print(repetidos_col_prop)
 
-# Número de columnas que no son únicas
+# Número de columnas repetidas
 repetidos_col_num = datos.CantidadDuplicados(eje=1, numero=True)
 print(repetidos_col_num)
 
-# Proporción de filas que no son únicas
+# Proporción de filas repetidas
 repetidos_fil_prop = datos.CantidadDuplicados(eje=0, numero=False)
 print(repetidos_fil_prop)
 

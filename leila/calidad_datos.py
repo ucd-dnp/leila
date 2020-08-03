@@ -525,31 +525,34 @@ class CalidadDatos:
 
         :return: dataframe con las estadísticas descriptivas.
         """
-        base = self.base.copy()
+        # base = self.base.copy()
+
 
         # Filtrar la base por las variables escogidas en la opción 'variables'
         if isinstance(variables, list):
-            base = base[variables]
+            baseObjeto = CalidadDatos(self.base[variables].copy(), castNumero=False)
+            # base = baseObjeto.base[variables]
         else:
-            pass
-
-        col_tipos = self.TipoColumnas(
+            baseObjeto = CalidadDatos(self.base.copy(), castNumero=False)
+        
+        # FIltrar por tipos numéricos
+        col_tipos = baseObjeto.TipoColumnas(
             tipoGeneral=True, tipoGeneralPython=False, tipoEspecifico=False).iloc[:, 0]
         col_num = col_tipos[col_tipos == "Numérico"].index
-        base_num = base[col_num]
-
+        base_num = baseObjeto.base[col_num]
+        
         if len(col_num) == 0:
             print("La base de datos no tiene columnas numéricas")
             return
         else:
             pass
 
-        base_descripcion = base.describe().T
+        base_descripcion = base_num.describe().T
         base_descripcion["missing"] = pd.isnull(base_num).sum() / len(base_num)
-        base_descripcion["outliers_total"] = self.ValoresExtremos()
-        base_descripcion["outliers_altos"] = self.ValoresExtremos(
+        base_descripcion["outliers_total"] = baseObjeto.ValoresExtremos()
+        base_descripcion["outliers_altos"] = baseObjeto.ValoresExtremos(
             extremos="superior")
-        base_descripcion["outliers_bajos"] = self.ValoresExtremos(
+        base_descripcion["outliers_bajos"] = baseObjeto.ValoresExtremos(
             extremos="inferior")
 
         return (base_descripcion)
@@ -982,16 +985,17 @@ class CalidadDatos:
         """
         base = self.base.copy()
 
-        # Filtrar la base por las variables escogidas en la opción 'variables'
-        if isinstance(variables, list):
-            base = base[variables]
-        else:
-            pass
-
         # Filtrar por columnas que sean numéricas
-        col_tipos = self.TipoColumnas()
+        col_tipos = self.TipoColumnas(tipoGeneral=True, tipoGeneralPython=False, tipoEspecifico=False).iloc[:,0]
         col_num = col_tipos[col_tipos == "Numérico"].index
         base_num = base[col_num]
+        
+        # Filtrar la base por las variables escogidas en la opción 'variables'
+        if isinstance(variables, list):
+            columnas_filtro = [q  for q in variables if q in list(col_num)]
+            base_num = base_num[columnas_filtro]
+        else:
+            pass
 
         # Crear la matriz de correlación dependiendo del método escogido
         if metodo == "pearson":
