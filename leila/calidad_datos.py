@@ -261,9 +261,9 @@ class CalidadDatos:
         """ Calcula el porcentaje/número de valores faltantes de cada columna \
             del dataframe. :ref:`Ver ejemplo <calidad_datos.ValoresFaltantes>`
 
-        :param numero: (bool) {True, False}, valor por defecto: True. Si el \
-            valor es True el resultado se expresa como un cociente, si el \
-            valor es False el valor se expresa como una cantidad de \
+        :param numero: (bool) {True, False}, valor por defecto: False. Si el \
+            valor es False el resultado se expresa como un cociente, si el \
+            valor es True el valor se expresa como una cantidad de \
             registros (número entero).
         :return: serie de pandas con la cantidad/cociente de valores \
             faltantes de cada columna.
@@ -612,7 +612,7 @@ class CalidadDatos:
     def DescripcionCategoricas(
             self, limite=0.5, categoriasMaximas=30, incluirNumericos=True, variables=None):
         """ Genera una tabla con los primeros 10 valores más frecuentes de las \
-            columnas categóricas dataframe , además calcula su frecuencia \
+            columnas categóricas del dataframe, además calcula su frecuencia \
             y porcentaje dentro del total de observaciones. Incluye los \
             valores faltantes. :ref:`Ver ejemplo <calidad_datos.DescripcionCategoricas>`
 
@@ -625,7 +625,7 @@ class CalidadDatos:
             número de categorías de una variable para que sea incluida en el \
             análisis
         :param incluirNumericos: (bool) {True, False}, determina si se desea \
-            considerar las variables como categóricas e incluirlas en el \
+            considerar las variables numéricas como categóricas e incluirlas en el \
             análisis. Si el valor es True se incluyen las variables numéricas \
             en el análisis, si el valor es False no se incluyen las variables \
             numéricas en el análisis.

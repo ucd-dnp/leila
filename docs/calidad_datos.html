@@ -246,7 +246,7 @@
 <dl class="py method">
 <dt id="calidad_datos.CalidadDatos.DescripcionCategoricas">
 <code class="descname">DescripcionCategoricas</code><span class="sig-paren">(</span><em><span class="n">limite</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em><span class="n">categoriasMaximas</span><span class="o">=</span><span class="default_value">30</span></em>, <em><span class="n">incluirNumericos</span><span class="o">=</span><span class="default_value">True</span></em>, <em><span class="n">variables</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#calidad_datos.CalidadDatos.DescripcionCategoricas" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Genera una tabla con los primeros 10 valores más frecuentes de las             columnas categóricas dataframe , además calcula su frecuencia             y porcentaje dentro del total de observaciones. Incluye los             valores faltantes. <a class="reference internal" href="ejemplos.html#calidad-datos-descripcioncategoricas"><span class="std std-ref">Ver ejemplo</span></a></p>
+<dd><p>Genera una tabla con los primeros 10 valores más frecuentes de las             columnas categóricas del dataframe, además calcula su frecuencia             y porcentaje dentro del total de observaciones. Incluye los             valores faltantes. <a class="reference internal" href="ejemplos.html#calidad-datos-descripcioncategoricas"><span class="std std-ref">Ver ejemplo</span></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -254,7 +254,7 @@
 <tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
 <li><strong>limite</strong> – (float) (valor de 0 a 1) límite de referencia, se             utiliza para determinar si las variables posiblemente son de tipo             categóricas y ser incluidas en el análisis. Si el número de             valores únicos por columna es mayor al número de registros             limite, se considera que la variable no es categórica.</li>
 <li><strong>categoriasMaximas</strong> – (int) (valor mayor a 0), indica el máximo             número de categorías de una variable para que sea incluida en el             análisis</li>
-<li><strong>incluirNumericos</strong> – (bool) {True, False}, determina si se desea             considerar las variables como categóricas e incluirlas en el             análisis. Si el valor es True se incluyen las variables numéricas             en el análisis, si el valor es False no se incluyen las variables             numéricas en el análisis.</li>
+<li><strong>incluirNumericos</strong> – (bool) {True, False}, determina si se desea             considerar las variables numéricas como categóricas e incluirlas en el             análisis. Si el valor es True se incluyen las variables numéricas             en el análisis, si el valor es False no se incluyen las variables             numéricas en el análisis.</li>
 <li><strong>variables</strong> – (list) lista de nombres de las columnas separados             por comas. Permite escoger las columnas de interés de análisis             del dataframe</li>
 </ul>
 </td>
@@ -401,7 +401,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>numero</strong> – (bool) {True, False}, valor por defecto: True. Si el             valor es True el resultado se expresa como un cociente, si el             valor es False el valor se expresa como una cantidad de             registros (número entero).</td>
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>numero</strong> – (bool) {True, False}, valor por defecto: False. Si el             valor es False el resultado se expresa como un cociente, si el             valor es True el valor se expresa como una cantidad de             registros (número entero).</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body">serie de pandas con la cantidad/cociente de valores             faltantes de cada columna.</td>
 </tr>
