@@ -387,10 +387,10 @@ Calcula el tamaño de la base de datos en memoria (megabytes). Ver documentació
         >>> # Creamos un objeto tipo CalidadDatos con el dataframe de datos de interés
         >>> datos = CalidadDatos(df_datos)
 
-        >>> # Se invoca la función para calcular el tamaño de la base de datos en megabytes
+        >>> # Se invoca la función para realizar el cálculo de uso en memoria en megabytes
         >>> peso_base = datos.Memoria(col=False, unidad='megabyte')
         >>> print(peso_base)
-        6.23
+        12.01
 
 
 calidad_datos.Resumen
@@ -423,7 +423,7 @@ Retorna una tabla con información general de la base de datos. Ver documentaci�
     Número de columnas repetidas                           2
     Columnas con más de la mitad de datos faltantes        4
     Columnas con más del 10% de datos como extremos        0
-    Tamaño de la base en megabytes (aproximado)            6
+    Tamaño de la base en megabytes (aproximado)           12
     =================================================  =====
 
 calidad_datos.TipoColumnas
