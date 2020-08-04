@@ -1,4 +1,4 @@
-# LEILA - Librer\'ia de calidad de datos
+# LEILA - Librería de calidad de datos
 
 ![screenshot](https://raw.githubusercontent.com/ucd-dnp/leila/master/docs/_images/LEILA.jpg "LEILA")
 
