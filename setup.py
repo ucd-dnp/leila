@@ -1,11 +1,11 @@
 import setuptools
 
-with open("README.md", "r") as fh:
+with open("README.md", "r", encoding ='utf-8') as fh:
     long_description = fh.read()
 
 setuptools.setup(
     name="leila", # Replace with your own username
-    version="0.0.2",
+    version="0.0.2.3",
     author="Departamento Nacional de Planeación - DNP",
     author_email="ucd@dnp.gov.co",
     description="calidad de datos",
@@ -24,7 +24,7 @@ setuptools.setup(
                         'idna==2.9',
                         'Jinja2==2.11.2',
                         'MarkupSafe==1.1.1',
-                        'python-dateutil==2.8.1',
+                        'python-dateutixl==2.8.1',
                         'requests==2.23.0',
                         'six==1.14.0',
                         'sodapy==2.1.0',
