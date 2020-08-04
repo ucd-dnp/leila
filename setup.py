@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="leila", # Replace with your own username
-    version="0.0.1",
+    version="0.0.2",
     author="Departamento Nacional de Planeación - DNP",
     author_email="ucd@dnp.gov.co",
     description="calidad de datos",
@@ -14,7 +14,7 @@ setuptools.setup(
     url="https://github.com/ucd-dnp/leila",
     packages=setuptools.find_packages(),
     include_package_data = True,
-    install_requires = ['numpy==1.18.4',
+    install_requires = ['numpy>=1.18.4',
                         'pandas==1.0.3',
                         'scipy==1.5.1',
                         'pytz==2020.1',
@@ -33,8 +33,7 @@ setuptools.setup(
     license = 'MIT',
     classifiers=[
         "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: MIT License",
-        "Operating System :: WINDOWS",
+        "License :: OSI Approved :: MIT License"
     ],
     python_requires='>=3.6',
 )
