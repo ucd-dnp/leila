@@ -99,7 +99,6 @@
               <p class="caption"><span class="caption-text">CALIDAD DE DATOS:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="introduccion.html">Introducción</a></li>
-<li class="toctree-l1"><a class="reference internal" href="genindex.html">Índice</a></li>
 <li class="toctree-l1"><a class="reference internal" href="instalacion.html">Instalación</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ejemplos.html">Ejemplos</a></li>
 </ul>
@@ -179,6 +178,12 @@
 <code class="descclassname">datos_gov.</code><code class="descname">cargar_base</code><span class="sig-paren">(</span><em><span class="n">api_id</span></em>, <em><span class="n">token</span><span class="o">=</span><span class="default_value">None</span></em>, <em><span class="n">limite_filas</span><span class="o">=</span><span class="default_value">1000000000</span></em><span class="sig-paren">)</span><a class="headerlink" href="#datos_gov.cargar_base" title="Enlazar permanentemente con esta definición">¶</a></dt>
 <dd><p>Se conecta al API de Socrata y retorna la base de datos descargada del Portal de Datos Abiertos
 como dataframe. <a class="reference internal" href="ejemplos.html#datos-gov-cargar-base"><span class="std std-ref">Ver ejemplo</span></a></p>
+<div class="admonition warning">
+<p class="first admonition-title">Advertencia</p>
+<p class="last">Al descargar una base de datos utilizando el API de Socrata, esta omitirá cualquier
+columna que no contenga registros, lo cual puede generar inconsistencias con la información
+descrita en el portal de datos abiertos.</p>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
