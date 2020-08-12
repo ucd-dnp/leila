@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 
-# Created on Wed Sep 18 16:33:57 2019
-# @author: pabmontenegro
-
 import pandas as pd
 import numpy as np
 import phik
