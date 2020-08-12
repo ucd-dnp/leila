@@ -17,3 +17,18 @@ div[class="wy-menu wy-menu-vertical"] p[class="caption"] {
 .wy-nav-content {
     max-width: 1200px !important;
 }
+
+/* replace the copyright to eliminate the copyright symbol enforced by
+   the ReadTheDocs theme but eschewed by our legal team */
+div[role=contentinfo] {
+    visibility: hidden;
+    position: relative;
+}
+
+div[role=contentinfo]:after {
+    visibility: visible;
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: "DNP - 2020";
+}
