@@ -3,7 +3,7 @@ LEILA - Librería de calidad de datos
 
 .. toctree::
    :maxdepth: 2
-   :caption: CALIDAD DE DATOS:
+   :caption: LEILA:
    :hidden:
 
    introduccion   
