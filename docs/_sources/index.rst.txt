@@ -1,4 +1,4 @@
-LEILA - Libreria de calidad de datos
+LEILA - Librería de calidad de datos
 ====================================
 
 .. toctree::
