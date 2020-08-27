@@ -1,10 +1,6 @@
 # ignore sphinx folder
 sphinx
 
-# ignore testing files
-test_reporte.py
-perfilamiento_leila.html
-
 
 # ignore compilation files
 dist
@@ -13,10 +9,6 @@ crear_whl.bat
 # ignore Excel files
 *.xlsx
 *.tsv
-
-# ignore jupyter notebook files
-*.ipynb
-.ipynb_checkpoints
 
 # ignore virtual env
 env
