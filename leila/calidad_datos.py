@@ -97,28 +97,36 @@ class CalidadDatos:
         :return: Dataframe de pandas con los tipos de dato de cada columna.
         """
 
-        base = self.base.copy()
+        # base = self.base.copy()
+
+        ## Funciones generales
+        # Tipos de columnas según función dtypes
+        tipos_dtypes = self.base.dtypes.apply(str)
+        # Lista de los nombres de las columnas
+        lista_nombres = list(self.base.columns)
+        #
+        numero_columnas_base = self.base.shape[0]
+        ##
 
         lista_total = []
 
-        lista_nombres = list(base.columns)
-        lista_nombres.insert(0, "")
+        # lista_nombres.insert(0, "")
 
-        lista_total.append(lista_nombres)
+        lista_total.append([""] + lista_nombres)
 
         if tipoGeneral == True:
             lista_general = []
-            for s in base.columns:
+            for s in lista_nombres:
                 # Si solo hay missing values, poner como 'Otro'
-                if base[s].isnull().sum() == base.shape[0]:
+                if self.base[s].isnull().sum() == numero_columnas_base:
                     lista_general.append("Otro")
                 else:
 
                     tipo_para_object = str(
                         type(
-                            base[s].value_counts(
-                                dropna=True).index[0]))
-                    tipo_para_resto = str(base[s].dtype)
+                            self.base[s].mode(
+                                dropna=True)[0]))
+                    tipo_para_resto = tipos_dtypes[s]
 
                     if "int" in tipo_para_resto or "float" in tipo_para_resto:
                         lista_general.append("Numérico")
@@ -139,7 +147,7 @@ class CalidadDatos:
 
         # TIpo general de Python
         if tipoGeneralPython == True:
-            lista_python = list(base.dtypes.astype(str))
+            lista_python = list(tipos_dtypes.copy())
             lista_python.insert(0, "tipo_general_python")
             lista_total.append(lista_python)
         elif tipoGeneralPython == False:
@@ -155,10 +163,10 @@ class CalidadDatos:
             lista_especifico_4 = []
             lista_especifico_5 = []
 
-            for s in base.columns:
-
-                tip = base[s].apply(
-                    lambda x: x if pd.isnull(x) else type(x)).value_counts(
+            for s in lista_nombres:
+                
+                tip = self.base[s].fillna("nan").apply(
+                    lambda x: x if x == "nan" else type(x)).value_counts(
                     normalize=True, dropna=False)
 
                 tip_1 = "{1}: {0}%".format(round(float(tip.iloc[0] * 100), 2),
@@ -219,6 +227,8 @@ class CalidadDatos:
             else:
                 lista_especifico_5.insert(0, "tipo_especifico_5")
                 lista_total.append(lista_especifico_5)
+                
+            del tip
 
         elif tipoEspecifico == False:
             pass
@@ -569,7 +579,6 @@ class CalidadDatos:
         :return: indices de columnas cuyo percentil inferior es igual al \
             percentil superior.
         """
-        base = self.base.copy()
 
         # Revisar si hay columnas numéricas
         columnas_tipo = self.TipoColumnas(
@@ -579,23 +588,24 @@ class CalidadDatos:
             return
         else:
             pass
-
-        cols_tipos = base.dtypes
+        
+        cols_tipos = self.base.dtypes
         lista_nums = []
         for i in range(len(cols_tipos)):
             if "int" in str(cols_tipos[i]) or "float" in str(cols_tipos[i]):
                 lista_nums.append(cols_tipos.index[i])
-        base_num = base[lista_nums]
-        for c in base_num.columns:
-            if base_num[c].isnull().sum() == base_num.shape[0]:
-                del base_num[c]
+        # base_num = base[lista_nums]
+        numero_filas = self.base.shape[0]
+        for c in self.base[lista_nums].columns:
+            if self.base[c].isnull().sum() == numero_filas:
+                del self.base[c]
             else:
                 pass
 
-        percentil_bajo = base_num.apply(
+        percentil_bajo = self.base[lista_nums].apply(
             lambda x: np.percentile(
                 x.dropna(), 5), axis=0)
-        percentil_alto = base_num.apply(
+        percentil_alto = self.base[lista_nums].apply(
             lambda x: np.percentile(
                 x.dropna(), 95), axis=0)
 
