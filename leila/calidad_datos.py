@@ -76,16 +76,18 @@ class CalidadDatos:
             pass
         else:
             raise ValueError('"diccionario" tiene que ser tipo "dict"')
-        
+
         # Tipo más común´de cada columna
-        tipo_mas_comun = [str(type(_base[q].mode()[0])).replace("<class ", "").replace(">", "").replace("'", "") for q in _base.columns]
+        tipo_mas_comun = [str(type(_base[q].mode()[0])).replace(
+            "<class ", "").replace(">", "").replace("'", "") for q in _base.columns]
 
         columnas_dtypes = [str(q) for q in columnas_dtypes]
-        self.lista_tipos_columnas = [list(_base.columns), columnas_dtypes, tipo_mas_comun]
+        self.lista_tipos_columnas = [
+            list(_base.columns), columnas_dtypes, tipo_mas_comun]
         self.base = _base
-        
 
     # Tipos de las columnas
+
     def TipoColumnas(self, tipoGeneral=True,
                      tipoGeneralPython=True, tipoEspecifico=True):
         """ Retorna el tipo de dato de cada columna del dataframe. :ref:`Ver ejemplo <calidad_datos.TipoColumnas>`
@@ -104,7 +106,7 @@ class CalidadDatos:
         :return: Dataframe de pandas con los tipos de dato de cada columna.
         """
 
-        ## Funciones generales
+        # Funciones generales
         # Tipos de columnas según función dtypes
         tipos_dtypes = self.base.dtypes.apply(str)
         # Lista de los nombres de las columnas
@@ -169,7 +171,7 @@ class CalidadDatos:
             lista_especifico_5 = []
 
             for s in lista_nombres:
-                
+
                 tip = self.base[s].fillna("nan").apply(
                     lambda x: x if x == "nan" else type(x)).value_counts(
                     normalize=True, dropna=False)
@@ -232,7 +234,7 @@ class CalidadDatos:
             else:
                 lista_especifico_5.insert(0, "tipo_especifico_5")
                 lista_total.append(lista_especifico_5)
-                
+
             del tip
 
         elif tipoEspecifico == False:
@@ -261,7 +263,7 @@ class CalidadDatos:
 
         if faltantes == False:
             unicos_columnas = self.base.nunique()
-            
+
         elif faltantes == True:
             unicos_columnas = self.base.apply(
                 lambda x: len(x.value_counts(dropna=False)), axis=0)
@@ -312,7 +314,8 @@ class CalidadDatos:
         # Revisar si hay columnas con tipos diccionario o lista para
         # convertirlas a string
         for s in base.columns:
-            tip = str(type(self.base[s].mode(dropna=False))).replace("<class ", "").replace(">", "").replace("'", "")
+            tip = str(type(self.base[s].mode(dropna=False))).replace(
+                "<class ", "").replace(">", "").replace("'", "")
 
             if tip == "dict" or tip == "list":
                 base[s] = base[s].apply(str)
@@ -321,41 +324,41 @@ class CalidadDatos:
 
         # Proporcion (decimal) de columnas repetidas
         if eje == 1 and numero == False:
-            
+
             # Calcular los duplicados con una submuestra del conjunto de datos grande
             if base.shape[0] > 30000:
                 mini_base = base.iloc[0:30000]
                 no_unic_columnas = mini_base.T.duplicated(keep="first")
             else:
                 no_unic_columnas = base.T.duplicated(keep="first")
-            
+
             # Si no hay columnas duplicadas en la muestra pequeña del conjunto de datos,#
             # entonces el valor de 'cols' será cero
             if no_unic_columnas.sum() == 0:
                 cols = 0.00
                 del mini_base
-            # Si sí hay columnas duplicadas 
+            # Si sí hay columnas duplicadas
             else:
                 no_unic_columnas = base.T.duplicated(keep="first")
-                cols = no_unic_columnas[no_unic_columnas].shape[0] / base.shape[1]
+                cols = no_unic_columnas[no_unic_columnas].shape[0] / \
+                    base.shape[1]
 
         # Número de columnas repetidas
         elif eje == 1 and numero == True:
-            
-            
+
             # Calcular los duplicados con una submuestra del conjunto de datos grande
             if base.shape[0] > 30000:
                 mini_base = base.iloc[0:30000]
                 no_unic_columnas = mini_base.T.duplicated(keep="first")
             else:
                 no_unic_columnas = base.T.duplicated(keep="first")
-            
+
             # Si no hay columnas duplicadas en la muestra pequeña del conjunto de datos,#
             # entonces el valor de 'cols' será cero
             if no_unic_columnas.sum() == 0:
                 cols = 0
                 del mini_base
-            # Si sí hay columnas duplicadas 
+            # Si sí hay columnas duplicadas
             else:
                 no_unic_columnas = base.T.duplicated(keep="first")
                 cols = no_unic_columnas[no_unic_columnas].shape[0]
@@ -408,7 +411,7 @@ class CalidadDatos:
                 dupli = mini_base.T.duplicated(keep=False)
             else:
                 dupli = base.T.duplicated(keep=False)
-            
+
             if dupli.sum() == 0:
                 return("No hay columnas duplicadas")
             else:
@@ -515,8 +518,9 @@ class CalidadDatos:
         :return: serie de pandas con la cantidad/proporcion de valores outliers \
             de cada columna.
         """
-        ### Revisar si hay columnas numéricas. En caso de no haber, detener función
-        col_num = [self.lista_tipos_columnas[0][i] for i in range(len(self.lista_tipos_columnas[0])) if "float" in self.lista_tipos_columnas[1][i] or "int" in self.lista_tipos_columnas[1][i] ]
+        # Revisar si hay columnas numéricas. En caso de no haber, detener función
+        col_num = [self.lista_tipos_columnas[0][i] for i in range(len(
+            self.lista_tipos_columnas[0])) if "float" in self.lista_tipos_columnas[1][i] or "int" in self.lista_tipos_columnas[1][i]]
 
         if len(col_num) == 0:
             print("El conjunto de datos no tiene columnas numéricas")
@@ -560,7 +564,7 @@ class CalidadDatos:
             cantidad_outliers = base_outliers.sum()
         else:
             raise ValueError('"numero" tiene que ser True o False')
-        
+
         del base_outliers
 
         return (cantidad_outliers)
@@ -580,17 +584,18 @@ class CalidadDatos:
         """
         # Filtrar el conjunto de datos por las variables escogidas en la opción 'variables'
         if isinstance(variables, list):
-            baseObjeto = CalidadDatos(self.base[variables].copy(), castNumero=False)
+            baseObjeto = CalidadDatos(
+                self.base[variables].copy(), castNumero=False)
             # base = baseObjeto.base[variables]
         else:
             baseObjeto = CalidadDatos(self.base.copy(), castNumero=False)
-        
+
         # FIltrar por tipos numéricos
         col_tipos = baseObjeto.TipoColumnas(
             tipoGeneral=True, tipoGeneralPython=False, tipoEspecifico=False).iloc[:, 0]
         col_num = col_tipos[col_tipos == "Numérico"].index
         base_num = baseObjeto.base[col_num]
-        
+
         if len(col_num) == 0:
             print("El conjunto de datos no tiene columnas numéricas")
             return
@@ -621,15 +626,16 @@ class CalidadDatos:
             percentil superior.
         """
 
-        ### Revisar si hay columnas numéricas. En caso de no haber, detener función
-        col_num = [self.lista_tipos_columnas[0][i] for i in range(len(self.lista_tipos_columnas[0])) if "float" in self.lista_tipos_columnas[1][i] or "int" in self.lista_tipos_columnas[1][i] ]
+        # Revisar si hay columnas numéricas. En caso de no haber, detener función
+        col_num = [self.lista_tipos_columnas[0][i] for i in range(len(
+            self.lista_tipos_columnas[0])) if "float" in self.lista_tipos_columnas[1][i] or "int" in self.lista_tipos_columnas[1][i]]
 
         if len(col_num) == 0:
             print("El conjunto de datos no tiene columnas numéricas")
             return
         else:
             pass
-        
+
         cols_tipos = self.base.dtypes
         lista_nums = []
         for i in range(len(cols_tipos)):
@@ -887,8 +893,9 @@ class CalidadDatos:
         col_tipos = self.TipoColumnas(
             tipoGeneral=True, tipoGeneralPython=False, tipoEspecifico=False).iloc[:, 0]
 
-        ### Revisar si hay columnas numéricas. En caso de no haber, detener función
-        col_num = [self.lista_tipos_columnas[0][i] for i in range(len(self.lista_tipos_columnas[0])) if "float" in self.lista_tipos_columnas[1][i] or "int" in self.lista_tipos_columnas[1][i] ]
+        # Revisar si hay columnas numéricas. En caso de no haber, detener función
+        col_num = [self.lista_tipos_columnas[0][i] for i in range(len(
+            self.lista_tipos_columnas[0])) if "float" in self.lista_tipos_columnas[1][i] or "int" in self.lista_tipos_columnas[1][i]]
 
         if len(col_num) == 0:
             print("El conjunto de datos no tiene columnas numéricas")
@@ -1041,18 +1048,19 @@ class CalidadDatos:
         :return: dataframe con las correlaciones de las columnas de tipo \
             numérico analizadas.
         """
-        ### Revisar si hay columnas numéricas. En caso de no haber, detener función
-        col_num = [self.lista_tipos_columnas[0][i] for i in range(len(self.lista_tipos_columnas[0])) if "float" in self.lista_tipos_columnas[1][i] or "int" in self.lista_tipos_columnas[1][i] ]
+        # Revisar si hay columnas numéricas. En caso de no haber, detener función
+        col_num = [self.lista_tipos_columnas[0][i] for i in range(len(
+            self.lista_tipos_columnas[0])) if "float" in self.lista_tipos_columnas[1][i] or "int" in self.lista_tipos_columnas[1][i]]
 
         if len(col_num) == 0:
             print("El conjunto de datos no tiene columnas numéricas")
             return
         else:
             pass
-        
+
         # Crera lista de númericas filtradas por las variables escogidas en la opción 'variables'
         if isinstance(variables, list):
-            columnas_filtro = [q  for q in variables if q in list(col_num)]
+            columnas_filtro = [q for q in variables if q in list(col_num)]
             col_num = columnas_filtro
             del columnas_filtro
         else:
@@ -1093,7 +1101,7 @@ class CalidadDatos:
         :return: dataframe con las correlaciones de las columnas de tipo \
             categórica analizadas.
         """
-        
+
         base = self.base.copy()
 
         # Filtrar el conjunto de datos por las variables escogidas en la opción 'variables'

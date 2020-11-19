@@ -40,7 +40,7 @@ DIC_RENAME = {
 def cargar_base(api_id, token=None, limite_filas=1000000000):
     """ Se conecta al API de Socrata y retorna la base de datos descargada del Portal de Datos Abiertos
     como dataframe. :ref:`Ver ejemplo <datos_gov.cargar_base>`
-    
+
     .. warning::
         Al descargar una base de datos utilizando el API de Socrata, esta omitirá cualquier
         columna que no contenga registros, lo cual puede generar inconsistencias con la información
