@@ -1,16 +1,15 @@
-# -*- coding: utf-8 -*-
-
 import pandas as pd
 import numpy as np
 import phik
 import scipy.stats as sstats
 import warnings
 
+from datos_gov import Datos
+
 
 class CalidadDatos:
 
-    def __init__(self, _base, castNumero=False, diccionarioCast=None,
-                 errores="ignore", formato_fecha=None):
+    def __init__(self, datos: Datos, castNumero=False, diccionarioCast=None, errores="ignore", formato_fecha=None):
         """ Constructor por defecto de la clase CalidadDatos. Esta clase se \
         encarga de manejar todas las funciones asociadas a la medición de la \
         calidad de los datos en una base de datos
@@ -30,24 +29,27 @@ class CalidadDatos:
         :param formato_fecha: (string). Formato a ser utilizado al hacer cast a variables de fecha.
         :return: Objeto del tipo de la clase CalidadDatos
         """
-
-        _base = _base.copy()
+        if isinstance(datos, Datos):
+            self.base = datos._base.copy()
+            self.metadata = datos.metadata.copy()
+            self.desde_socrata = True
+        elif isinstance(datos, pd.DataFrame):
+            self.base = datos
+            self.desde_socrata = False
+        else:
+            print("Los datos deben provenir desde Datos.gov.co usando datos_gov o deben estar como DataFrame!")
 
         # Calcular tipos de columnas con 'dtypes' para no volver a calcular en todo el script
-        columnas_dtypes = _base.dtypes
+        columnas_dtypes = self.base.dtypes
 
         # Pasar los 'objects' a float, si posible
         if castNumero == True:
-            tipos_object = columnas_dtypes[(columnas_dtypes == "object") | (
-                columnas_dtypes == "bool")].index.to_list()
+            tipos_object = columnas_dtypes[(columnas_dtypes == "object") | (columnas_dtypes == "bool")].index.to_list()
             # Pasar las columnas que se puedan a integer
-            _base[tipos_object] = _base[tipos_object].apply(
-                lambda x: x.astype("int64", errors="ignore"), axis=0)
+            self.base[tipos_object] = self.base[tipos_object].apply(lambda x: x.astype("int64", errors="ignore"), axis=0)
             # Pasar las columnas qeu se puedan a float
-            tipos_object = columnas_dtypes[(columnas_dtypes == "object") | (
-                columnas_dtypes == "bool")].index.to_list()
-            _base[tipos_object] = _base[tipos_object].apply(
-                lambda x: x.astype(float, errors="ignore"), axis=0)
+            tipos_object = columnas_dtypes[(columnas_dtypes == "object") | (columnas_dtypes == "bool")].index.to_list()
+            self.base[tipos_object] = self.base[tipos_object].apply(lambda x: x.astype(float, errors="ignore"), axis=0)
 
         elif castNumero == False:
             pass
@@ -59,16 +61,15 @@ class CalidadDatos:
             for s in diccionarioCast:
 
                 if diccionarioCast[s] == "string":
-                    _base[s] = _base[s].apply(lambda x: str(x))
+                    self.base[s] = self.base[s].apply(lambda x: str(x))
                 elif diccionarioCast[s] == "numerico":
-                    _base[s] = pd.to_numeric(_base[s], errors=errores)
+                    self.base[s] = pd.to_numeric(self.base[s], errors=errores)
                 elif diccionarioCast[s] == "booleano":
-                    _base[s] = _base[s].astype("bool")
+                    self.base[s] = self.base[s].astype("bool")
                 elif diccionarioCast[s] == "fecha":
-                    _base[s] = pd.to_datetime(
-                        _base[s], format=formato_fecha, errors=errores)
+                    self.base[s] = pd.to_datetime(self.base[s], format=formato_fecha, errors=errores)
                 elif diccionarioCast[s] == "categorico":
-                    _base[s] = pd.Categorical(_base[s])
+                    self.base[s] = pd.Categorical(self.base[s])
                 else:
                     raise ValueError(
                         'Las llaves de "diccionarioCast" tienen que ser "string", "numerico", "booleano", "fecha" o "categorico" ')
@@ -78,16 +79,14 @@ class CalidadDatos:
             raise ValueError('"diccionario" tiene que ser tipo "dict"')
         
         # Tipo más común´de cada columna
-        tipo_mas_comun = [str(type(_base[q].mode()[0])).replace("<class ", "").replace(">", "").replace("'", "") for q in _base.columns]
+        tipo_mas_comun = [str(type(self.base[q].mode()[0])).replace("<class ", "").replace(">", "").replace("'", "") for q in self.base.columns]
 
         columnas_dtypes = [str(q) for q in columnas_dtypes]
-        self.lista_tipos_columnas = [list(_base.columns), columnas_dtypes, tipo_mas_comun]
-        self.base = _base
+        self.lista_tipos_columnas = [list(self.base.columns), columnas_dtypes, tipo_mas_comun]
         
 
     # Tipos de las columnas
-    def TipoColumnas(self, tipoGeneral=True,
-                     tipoGeneralPython=True, tipoEspecifico=True):
+    def TipoColumnas(self, tipoGeneral=True, tipoGeneralPython=True, tipoEspecifico=True):
         """ Retorna el tipo de dato de cada columna del dataframe. :ref:`Ver ejemplo <calidad_datos.TipoColumnas>`
 
         :param tipoGeneral: (bool) {True, False}, valor por defecto: True. \
@@ -126,11 +125,7 @@ class CalidadDatos:
                 if self.base[s].isnull().sum() == numero_columnas_base:
                     lista_general.append("Otro")
                 else:
-
-                    tipo_para_object = str(
-                        type(
-                            self.base[s].mode(
-                                dropna=True)[0]))
+                    tipo_para_object = str(type(self.base[s].mode(dropna=True)[0]))
                     tipo_para_resto = tipos_dtypes[s]
 
                     if "int" in tipo_para_resto or "float" in tipo_para_resto:
@@ -244,7 +239,6 @@ class CalidadDatos:
         columnas = list(tips.iloc[0])
         tips.columns = columnas
         tips = tips.drop(tips.index[0])
-
         return (tips)
 
     # valores únicos en cada columna
@@ -324,8 +318,8 @@ class CalidadDatos:
             
             # Calcular los duplicados con una submuestra del conjunto de datos grande
             if base.shape[0] > 30000:
-                mini_base = base.iloc[0:30000]
-                no_unic_columnas = mini_base.T.duplicated(keep="first")
+                miniself._base = base.iloc[0:30000]
+                no_unic_columnas = miniself._base.T.duplicated(keep="first")
             else:
                 no_unic_columnas = base.T.duplicated(keep="first")
             
@@ -333,7 +327,7 @@ class CalidadDatos:
             # entonces el valor de 'cols' será cero
             if no_unic_columnas.sum() == 0:
                 cols = 0.00
-                del mini_base
+                del miniself._base
             # Si sí hay columnas duplicadas 
             else:
                 no_unic_columnas = base.T.duplicated(keep="first")
@@ -345,8 +339,8 @@ class CalidadDatos:
             
             # Calcular los duplicados con una submuestra del conjunto de datos grande
             if base.shape[0] > 30000:
-                mini_base = base.iloc[0:30000]
-                no_unic_columnas = mini_base.T.duplicated(keep="first")
+                miniself._base = base.iloc[0:30000]
+                no_unic_columnas = miniself._base.T.duplicated(keep="first")
             else:
                 no_unic_columnas = base.T.duplicated(keep="first")
             
@@ -354,7 +348,7 @@ class CalidadDatos:
             # entonces el valor de 'cols' será cero
             if no_unic_columnas.sum() == 0:
                 cols = 0
-                del mini_base
+                del miniself._base
             # Si sí hay columnas duplicadas 
             else:
                 no_unic_columnas = base.T.duplicated(keep="first")
@@ -404,8 +398,8 @@ class CalidadDatos:
         # Obtener todos los duplicados, sin hacer todavía el emparejamiento
         if col == True:
             if base.shape[0] > 30000:
-                mini_base = base.iloc[0:30000]
-                dupli = mini_base.T.duplicated(keep=False)
+                miniself._base = base.iloc[0:30000]
+                dupli = miniself._base.T.duplicated(keep=False)
             else:
                 dupli = base.T.duplicated(keep=False)
             
@@ -1195,3 +1189,319 @@ class CalidadDatos:
         rcorr = r - ((r - 1) ** 2) / (n - 1)
         kcorr = k - ((k - 1) ** 2) / (n - 1)
         return np.sqrt(phi2corr / min((kcorr - 1), (rcorr - 1)))
+    
+    def Actualidad(self):
+        
+        if self.desde_socrata:
+            # Obteniendo ultima fecha de actualizacion
+            try:
+                dias = 0
+
+                rowsUpdatedAt = self.metadata.get("rowsUpdatedAt")
+                rowsUpdatedAt = datetime.fromtimestamp(rowsUpdatedAt).strftime('%Y-%m-%d %I:%M:%S')
+                rowsUpdatedAt = datetime.strptime(rowsUpdatedAt, '%Y-%m-%d %I:%M:%S')
+
+                # obteneiendo frecuencia de actualizacion
+
+                customDatos = self.metadata.get("metadata").get("custom_fields")
+                infoDatos = customDatos['Información de Datos']
+                dateUpdate = infoDatos['Frecuencia de Actualización']
+                # dateUpdate = datetime.strptime(dateUpdate, '%Y-%m-%d %I:%M:%S')
+
+                if dateUpdate == 'Diaria' or dateUpdate == 'No aplica':
+                    dias = 1
+                elif dateUpdate == 'Semanal':
+                    dias = 7
+                elif dateUpdate == 'Quincenal':
+                    dias = 15
+                elif dateUpdate == 'Mensual':
+                    dias = 30
+                elif dateUpdate == 'Trimestral':
+                    dias = 90
+                elif dateUpdate == 'Semestral':
+                    dias = 183
+                elif dateUpdate == 'Anual':
+                    dias = 365
+
+                # Fecha de Hoy menos dias de actualizacion
+                todayDate = datetime.now()
+                targetDateUpdate = datetime.now() - timedelta(days=dias)
+
+                # Indicador Actualidad: si False no cumple - si True si cumple
+                indexActualidad = targetDateUpdate < rowsUpdatedAt
+                if indexActualidad == False:
+                    indexActualidad = 0
+                else:
+                    indexActualidad = 10
+
+            except KeyError as error:
+                indexActualidad = 0
+
+            except TypeError as error:
+                indexActualidad = 0
+
+            indexActualidad = int(indexActualidad)
+            return indexActualidad
+        else:
+            print("Este indicador sólo está disponible para conjuntos de datos descargados desde datos.gov.co usando datos_gov")
+    
+    def Credibilidad(self):
+        
+        if self.desde_socrata:
+            try:
+                # Obteneiendo informacion asociada a credibilidad
+                approvals = self.metadata.get("approvals")
+                datos = approvals[0]
+                submitter = datos['submitter']
+                displayName = submitter['displayName']
+
+                if displayName is not None:
+                    indexCredibilidad = 5
+                else:
+                    indexCredibilidad = 0
+
+                indexCredibilidad = int(indexCredibilidad)
+
+            except KeyError as error:
+                indexCredibilidad = int(0)
+            try:
+                email = submitter['email']
+                if email is not None:
+                    indexCredibilidad = indexCredibilidad + 5
+                else:
+                    indexCredibilidad = indexCredibilidad + 0
+                indexCredibilidad = int(indexCredibilidad)
+
+            except KeyError as error:
+                indexCredibilidad = indexCredibilidad + 0
+
+            return indexCredibilidad
+        else:
+            print("Este indicador sólo está disponible para conjuntos de datos descargados desde datos.gov.co usando datos_gov")
+    
+    def Trazabilidad(self):
+        
+        if self.desde_socrata:
+            try:
+                publicationDate = self.metadata.get("publicationDate")
+                creationDate = self.metadata.get("createdAt")
+                metaData = self.metadata.get("metadata")
+                customDatos = metaData['custom_fields']
+                infoDatos = customDatos['Información de Datos']
+                dateUpdate = infoDatos['Frecuencia de Actualización']
+
+                if publicationDate is not None and creationDate is not None and dateUpdate is not None:
+                    indexTrazabilidad = 10
+
+                else:
+                    indexTrazabilidad = 0
+                return indexTrazabilidad
+
+            except KeyError as error:
+                indexTrazabilidad = 0
+                return indexTrazabilidad
+        else:
+            print("Este indicador sólo está disponible para conjuntos de datos descargados desde datos.gov.co usando datos_gov")
+        
+    def Conformidad(self):
+
+        if self.desde_socrata:
+            indexConformidad = 0
+            vectorConformidad = []
+            try:
+                if self.metadata.get("name") is not None:
+                    vectorConformidad.append(10)
+                    nombre = self.metadata.get("name")
+                else:
+                    vectorConformidad.append(0)
+                    nombre = ""
+            except KeyError as error:
+                vectorConformidad.append(0)
+                nombre = ""
+            try:
+                if self.metadata.get("description") is not None:
+                    vectorConformidad.append(10)
+                else:
+                    vectorConformidad.append(0)
+                    descripcion = ""
+            except KeyError as error:
+                vectorConformidad.append(0)
+                descripcion = ""
+            try:
+                if self.metadata.get("category") is not None:
+                    vectorConformidad.append(10)
+                    categoria = self.metadata.get("category")
+                else:
+                    vectorConformidad.append(0)
+                    categoria = ""
+            except KeyError as error:
+                vectorConformidad.append(0)
+                categoria = ""
+            try:
+                if self.metadata.get("rowsUpdatedAt") is not None:
+                    vectorConformidad.append(10)
+                else:
+                    vectorConformidad.append(0)
+            except KeyError as error:
+                vectorConformidad.append(0)
+            try:
+                approvals = self.metadata.get("approvals")
+                datos = approvals[0]
+                submitter = datos['submitter']
+                email = submitter['email']
+                if email is not None:
+                    vectorConformidad.append(10)
+                else:
+                    vectorConformidad.append(0)
+            except KeyError as error:
+                vectorConformidad.append(0)
+            try:
+                if self.metadata.get("attribution") is not None:
+                    vectorConformidad.append(10)
+                    atribucion = self.metadata.get("attribution")
+                else:
+                    vectorConformidad.append(0)
+                    atribucion = ""
+            except KeyError as error:
+                vectorConformidad.append(0)
+                atribucion = ""
+            try:
+                if self.metadata.get("id") is not None:
+                    vectorConformidad.append(10)
+                else:
+                    vectorConformidad.append(0)
+            except KeyError as error:
+                vectorConformidad.append(0)
+            longVectorConformidad = len(vectorConformidad)
+
+            for m in vectorConformidad:
+                indexConformidad = indexConformidad + m
+
+            indexConformidad = round(indexConformidad / longVectorConformidad)
+            indexConformidad = int(indexConformidad)
+            return indexConformidad
+        else:
+            print("Este indicador sólo está disponible para conjuntos de datos descargados desde datos.gov.co usando datos_gov")
+    
+    def Comprensibilidad(self):
+
+        if self.desde_socrata:
+            nombresMetaDatos, nombresDatos = [], []
+            columnas = self.metadata.get("columns")
+            columns = pd.DataFrame(list(self.base.columns.values))
+
+            for z in columnas:
+                auxiliar = z['name']
+                auxiliar = auxiliar.lower()
+                auxiliar = auxiliar.replace(" ", "_")
+                nombresMetaDatos.append(auxiliar)
+
+                info = columns[0]
+                rango = len(info)
+
+                for y in range(rango):
+                    nombresDatos.append(info.loc[y])
+
+                    long_nombresMetaDatos = len(nombresMetaDatos)
+                    long_nombresDatos = len(nombresDatos)
+
+                    if long_nombresDatos > long_nombresMetaDatos:
+                        longitud = long_nombresDatos
+                    else:
+                        longitud = long_nombresMetaDatos
+
+                    datosComprensibilidad = set(nombresDatos) & set(nombresMetaDatos)
+                    comprensibilidad = len(datosComprensibilidad)
+
+                    indexComprensibilidad = round((1 - (comprensibilidad / longitud)) * 10)
+                    indexComprensibilidad = int(indexComprensibilidad)
+            return indexComprensibilidad
+        else:
+            print("Este indicador sólo está disponible para conjuntos de datos descargados desde datos.gov.co usando datos_gov")
+    
+    def Portabilidad(self):
+
+        if self.desde_socrata:
+            if self.metadata is not None:
+                portabilidad = json.dumps(self.metadata)
+                indexPortabilidad = 10
+            else:
+                indexPortabilidad = 0
+            indexPortabilidad = int(indexPortabilidad)
+
+            return indexPortabilidad
+        else:
+            print("Este indicador sólo está disponible para conjuntos de datos descargados desde datos.gov.co usando datos_gov")
+    
+    def Consisetencia(self):
+        
+        if self.desde_socrata:
+            try:
+                duplicados = self.base[self.base.duplicated(keep=False)]
+                shapeDuplicados = duplicados.shape
+                numeroDuplicados1 = shapeDuplicados[0]
+                numeroRegistros = self.base.shape
+                numeroRegistros1 = numeroRegistros[0]
+                indexConsistencia = round(1 - (numeroDuplicados1 / numeroRegistros1)) * 10
+
+            except TypeError as error:
+                indexConsistencia = 0
+
+            return indexConsistencia
+        else:
+            print("Este indicador sólo está disponible para conjuntos de datos descargados desde datos.gov.co usando datos_gov")
+    
+    def Exactitud(self):
+        
+        if self.desde_socrata:
+            try:
+                nombresDatos, nombresMetaDatos, exactitudVector, calculoExactitud = [], [], [], []
+                contadorExactitud, indexExactitud = 0, 0
+                columnas = self.metadata['columns']
+                colz = self.base.shape[1]
+
+                # Extrayendo los tipos de datos del conjunto de datos
+                for type in columnas:
+                    exactitudVector.append(type['dataTypeName'])
+                if self.base.shape[0] < 500:
+                    iteraciones = self.base.shape[0]
+                else:
+                    iteraciones = int(self.base.shape[0] / 20)
+
+                for mm in range(colz):
+                    for jj in range(iteraciones):
+                        contadorExactitud = contadorExactitud + 1
+                        try:
+                            if self.base.iloc[jj, mm] is not np.nan:
+                                palabra = self.base.iloc[jj, mm]
+                                palabraAssess = re.findall('\d', palabra)
+                                longPalabraResult = len(palabraAssess)
+                                longPalabra = len(palabra)
+                                if exactitudVector[mm] == 'number' or exactitudVector[mm] == 'floating_timestamp':
+                                    if longPalabra == longPalabraResult:
+                                        calculoExactitud.append(10)
+                                    else:
+                                        calculoExactitud.append(0)
+                                elif exactitudVector[mm] == 'text' or exactitudVector[mm] == 'url':
+                                    if longPalabra == longPalabraResult:
+                                        calculoExactitud.append(0)
+                                    else:
+                                        calculoExactitud.append(10)
+                            else:
+                                calculoExactitud.append(10)
+
+                        except TypeError as error:
+                            calculoExactitud.append(0)
+
+                        for mn in calculoExactitud:
+                            indexExactitud = indexExactitud + mn
+
+                        indexExactitud = indexExactitud / contadorExactitud
+                        indexExactitud = int(indexExactitud)
+
+            except KeyError as error:
+                indexExactitud = 0
+
+            return indexExactitud
+        else:
+            print("Este indicador sólo está disponible para conjuntos de datos descargados desde datos.gov.co usando datos_gov")
