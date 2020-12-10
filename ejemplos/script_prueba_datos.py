@@ -1,5 +1,3 @@
-
-
 import pandas as pd
 
 # importación libreria calidad de datos

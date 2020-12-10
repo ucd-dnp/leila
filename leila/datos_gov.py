@@ -1,9 +1,9 @@
-# -*- coding: utf-8 -*-
-
 import pandas as pd
 import numpy as np
 import datetime
 from sodapy import Socrata
+
+from datetime import datetime, timedelta
 
 class Datos:
 
@@ -41,9 +41,6 @@ class Datos:
         self._base = pd.DataFrame.from_records(results)
         self.metadata = client.get_metadata(self.api_id)
 
-# OBTENER LA TABLA QUE TIENE DATOS ABIERTOS CON INFORMACIÓN DE LAS BASES
-# DE DATOS
-
 class Inventario:
     
     def __init__(self, token=None, limite_filas=1000000000):
@@ -78,6 +75,8 @@ class Inventario:
             "informacindedatos_coberturageogrfica": "cobertura",
             "publication_stage": "base_publica"
         }
+        
+        self.cargar_inventario()
 
     def cargar_inventario(self):
         """ Se conecta al API de Socrata y retorna la base de datos *Asset Inventory* descargada del Portal de Datos Abiertos

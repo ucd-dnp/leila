@@ -10,7 +10,7 @@ from jinja2 import Environment, PackageLoader
 # from datos_gov import *
 
 from leila.calidad_datos import CalidadDatos
-from leila import datos_gov
+from leila.datos_gov import Datos, Inventario
 
 
 def df_as_html(base, id=None, classes=None):
@@ -55,11 +55,11 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
     html_metadatos_tail = None
 
     if api_id is not None:
-        datos = datos_gov.cargar_base(api_id=api_id, token=token)
+        datos = Datos(api_id=api_id, token=token)
         base = CalidadDatos(datos, castNumero=castNumero)
 
-        inventario = datos_gov.tabla_inventario(token=token)
-        df_metadatos = inventario[inventario['numero_api'] == api_id]
+        inventario = Inventario(token=token)
+        df_metadatos = inventario.inventario._base[inventario.inventario._base['numero_api'] == api_id]
 
         df_metadatos.columns = ['Id api', 'Nombre', 'Descripción', 'Propietario', 'Tipo', 'Categoría', 'Términos clave',
                                 'Página web', 'Fecha de creación', 'Fecha de actualización',
@@ -103,6 +103,9 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
     current_time = timestamp.strftime("%d-%m-%Y %I:%M:%S %p")
 
     # Estadísticas generales -------------------------------------------------
+    if base.Resumen() is None:
+        return
+    
     dataframe_summary = base.Resumen().to_frame().reset_index()
     dataframe_summary.columns = ['Categoría', 'Valor']
 
