@@ -31,22 +31,22 @@ class CalidadDatos:
         :return: Objeto del tipo de la clase CalidadDatos
         """
 
-        _base = _base.copy()
+        self.base = _base.copy()
 
         # Calcular tipos de columnas con 'dtypes' para no volver a calcular en todo el script
-        columnas_dtypes = _base.dtypes
+        self.tipos_dtypes = self.base.dtypes
 
         # Pasar los 'objects' a float, si posible
         if castNumero == True:
-            tipos_object = columnas_dtypes[(columnas_dtypes == "object") | (
-                columnas_dtypes == "bool")].index.to_list()
+            tipos_object = self.tipos_dtypes[(self.tipos_dtypes == "object") | (
+                self.tipos_dtypes == "bool")].index.to_list()
             # Pasar las columnas que se puedan a integer
-            _base[tipos_object] = _base[tipos_object].apply(
+            self.base[tipos_object] = self.base[tipos_object].apply(
                 lambda x: x.astype("int64", errors="ignore"), axis=0)
             # Pasar las columnas qeu se puedan a float
-            tipos_object = columnas_dtypes[(columnas_dtypes == "object") | (
-                columnas_dtypes == "bool")].index.to_list()
-            _base[tipos_object] = _base[tipos_object].apply(
+            tipos_object = self.tipos_dtypes[(self.tipos_dtypes == "object") | (
+                self.tipos_dtypes == "bool")].index.to_list()
+            self.base[tipos_object] = self.base[tipos_object].apply(
                 lambda x: x.astype(float, errors="ignore"), axis=0)
 
         elif castNumero == False:
@@ -59,16 +59,16 @@ class CalidadDatos:
             for s in diccionarioCast:
 
                 if diccionarioCast[s] == "string":
-                    _base[s] = _base[s].apply(lambda x: str(x))
+                    self.base[s] = self.base[s].apply(lambda x: str(x))
                 elif diccionarioCast[s] == "numerico":
-                    _base[s] = pd.to_numeric(_base[s], errors=errores)
+                    self.base[s] = pd.to_numeric(self.base[s], errors=errores)
                 elif diccionarioCast[s] == "booleano":
-                    _base[s] = _base[s].astype("bool")
+                    self.base[s] = self.base[s].astype("bool")
                 elif diccionarioCast[s] == "fecha":
-                    _base[s] = pd.to_datetime(
-                        _base[s], format=formato_fecha, errors=errores)
+                    self.base[s] = pd.to_datetime(
+                        self.base[s], format=formato_fecha, errors=errores)
                 elif diccionarioCast[s] == "categorico":
-                    _base[s] = pd.Categorical(_base[s])
+                    self.base[s] = pd.Categorical(self.base[s])
                 else:
                     raise ValueError(
                         'Las llaves de "diccionarioCast" tienen que ser "string", "numerico", "booleano", "fecha" o "categorico" ')
@@ -78,16 +78,16 @@ class CalidadDatos:
             raise ValueError('"diccionario" tiene que ser tipo "dict"')
 
         # Tipo más común´de cada columna
-        tipo_mas_comun = [str(type(_base[q].mode()[0])).replace(
-            "<class ", "").replace(">", "").replace("'", "") for q in _base.columns]
+        tipo_mas_comun = [str(type(self.base[q].mode()[0])).replace(
+            "<class ", "").replace(">", "").replace("'", "") for q in self.base.columns]
 
-        columnas_dtypes = [str(q) for q in columnas_dtypes]
+        columnas_dtypes = [str(q) for q in self.tipos_dtypes]
         self.lista_tipos_columnas = [
-            list(_base.columns), columnas_dtypes, tipo_mas_comun]
-        self.base = _base
+            list(self.base.columns), columnas_dtypes, tipo_mas_comun]
+
+        print(self.lista_tipos_columnas)
 
     # Tipos de las columnas
-
     def TipoColumnas(self, tipoGeneral=True,
                      tipoGeneralPython=True, tipoEspecifico=True):
         """ Retorna el tipo de dato de cada columna del dataframe. :ref:`Ver ejemplo <calidad_datos.TipoColumnas>`
@@ -108,7 +108,7 @@ class CalidadDatos:
 
         # Funciones generales
         # Tipos de columnas según función dtypes
-        tipos_dtypes = self.base.dtypes.apply(str)
+        tipos_dtypes = self.tipos_dtypes.apply(str)
         # Lista de los nombres de las columnas
         lista_nombres = list(self.base.columns)
         #
@@ -582,19 +582,18 @@ class CalidadDatos:
 
         :return: dataframe con las estadísticas descriptivas.
         """
+        # Seleccionar columnas numéricas de 'self.lista_tipos_columnas'
+        col_num = [self.lista_tipos_columnas[0][i] for i in range(len(
+            self.lista_tipos_columnas[0])) if "float" in self.lista_tipos_columnas[2][i] or "int" in self.lista_tipos_columnas[2][i]]
+
         # Filtrar el conjunto de datos por las variables escogidas en la opción 'variables'
         if isinstance(variables, list):
             baseObjeto = CalidadDatos(
                 self.base[variables].copy(), castNumero=False)
-            # base = baseObjeto.base[variables]
+            # Seleccionar columnas numéricas que se encuentren dentro de 'variables'
+            col_num = [q for q in variables if q in col_num]
         else:
             baseObjeto = CalidadDatos(self.base.copy(), castNumero=False)
-
-        # FIltrar por tipos numéricos
-        col_tipos = baseObjeto.TipoColumnas(
-            tipoGeneral=True, tipoGeneralPython=False, tipoEspecifico=False).iloc[:, 0]
-        col_num = col_tipos[col_tipos == "Numérico"].index
-        base_num = baseObjeto.base[col_num]
 
         if len(col_num) == 0:
             print("El conjunto de datos no tiene columnas numéricas")
@@ -602,8 +601,8 @@ class CalidadDatos:
         else:
             pass
 
-        base_descripcion = base_num.describe().T
-        base_descripcion["missing"] = pd.isnull(base_num).sum() / len(base_num)
+        base_descripcion = self.base.loc[:, col_num].describe().T
+        base_descripcion["missing"] = pd.isnull(self.base.loc[:, col_num]).sum() / len(self.base.loc[:, col_num])
         base_descripcion["outliers_total"] = baseObjeto.ValoresExtremos()
         base_descripcion["outliers_altos"] = baseObjeto.ValoresExtremos(
             extremos="superior")
@@ -635,12 +634,11 @@ class CalidadDatos:
             return
         else:
             pass
-
-        cols_tipos = self.base.dtypes
+                
         lista_nums = []
-        for i in range(len(cols_tipos)):
-            if "int" in str(cols_tipos[i]) or "float" in str(cols_tipos[i]):
-                lista_nums.append(cols_tipos.index[i])
+        for i in range(len(self.tipos_dtypes)):
+            if "int" in str(self.tipos_dtypes[i]) or "float" in str(self.tipos_dtypes[i]):
+                lista_nums.append(self.tipos_dtypes.index[i])
         # base_num = base[lista_nums]
         numero_filas = self.base.shape[0]
         for c in self.base[lista_nums].columns:
