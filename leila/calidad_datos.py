@@ -85,8 +85,6 @@ class CalidadDatos:
         self.lista_tipos_columnas = [
             list(self.base.columns), columnas_dtypes, tipo_mas_comun]
 
-        print(self.lista_tipos_columnas)
-
     # Tipos de las columnas
     def TipoColumnas(self, tipoGeneral=True,
                      tipoGeneralPython=True, tipoEspecifico=True):
@@ -313,12 +311,12 @@ class CalidadDatos:
 
         # Revisar si hay columnas con tipos diccionario o lista para
         # convertirlas a string
-        for s in base.columns:
-            tip = str(type(self.base[s].mode(dropna=False))).replace(
-                "<class ", "").replace(">", "").replace("'", "")
+        for i in range(len(self.lista_tipos_columnas[0])):
+            col_nombre = self.lista_tipos_columnas[0][i]
+            tip = self.lista_tipos_columnas[2][i]
 
             if tip == "dict" or tip == "list":
-                base[s] = base[s].apply(str)
+                base[col_nombre] = base[col_nombre].apply(str)
             else:
                 pass
 
@@ -394,13 +392,12 @@ class CalidadDatos:
 
         # Revisar si hay columnas con tipos diccionario o lista para
         # convertirlas a string
-        for s in base.columns:
-            tip = str(type(self.base[s].value_counts(dropna=False).index[0])).replace("<class ", "").replace(">",
-                                                                                                             "").replace(
-                "'", "")
+        for i in range(len(self.lista_tipos_columnas[0])):
+            col_nombre = self.lista_tipos_columnas[0][i]
+            tip = self.lista_tipos_columnas[2][i]
 
             if tip == "dict" or tip == "list":
-                base[s] = base[s].apply(str)
+                base[col_nombre] = base[col_nombre].apply(str)
             else:
                 pass
 
@@ -588,12 +585,12 @@ class CalidadDatos:
 
         # Filtrar el conjunto de datos por las variables escogidas en la opción 'variables'
         if isinstance(variables, list):
-            baseObjeto = CalidadDatos(
-                self.base[variables].copy(), castNumero=False)
-            # Seleccionar columnas numéricas que se encuentren dentro de 'variables'
             col_num = [q for q in variables if q in col_num]
+            baseObjeto = CalidadDatos(
+                self.base.loc[:, variables].copy(), castNumero=False)
+            # Seleccionar columnas numéricas que se encuentren dentro de 'variables'
         else:
-            baseObjeto = CalidadDatos(self.base.copy(), castNumero=False)
+            baseObjeto = CalidadDatos(self.base.loc[:, col_num].copy(), castNumero=False)
 
         if len(col_num) == 0:
             print("El conjunto de datos no tiene columnas numéricas")
@@ -711,17 +708,16 @@ class CalidadDatos:
 
         # Revisar si hay columnas con tipos diccionario o lista para
         # convertirlas a string
-        for s in base.columns:
-            tip = str(type(self.base[s].value_counts(dropna=False).index[0])).replace("<class ", "").replace(">",
-                                                                                                             "").replace(
-                "'", "")
+        for i in range(len(self.lista_tipos_columnas[0])):
+            col_nombre = self.lista_tipos_columnas[0][i]
+            tip = self.lista_tipos_columnas[2][i]
 
             if tip == "dict" or tip == "list":
-                base[s] = base[s].apply(str)
+                base[col_nombre] = base[col_nombre].apply(str)
             else:
                 pass
 
-                # Filtrar por el número de categorías únicas en cada variable
+        # Filtrar por el número de categorías únicas en cada variable
         if categoriasMaximas > 0:
             categorias_unicas = base.nunique()
             categorias_unicas = categorias_unicas.loc[categorias_unicas <=
@@ -1110,17 +1106,16 @@ class CalidadDatos:
 
         # Revisar si hay columnas con tipos diccionario o lista para
         # convertirlas a string
-        for s in base.columns:
-            tip = str(type(self.base[s].value_counts(dropna=False).index[0])).replace("<class ", "").replace(">",
-                                                                                                             "").replace(
-                "'", "")
+        for i in range(len(self.lista_tipos_columnas[0])):
+            col_nombre = self.lista_tipos_columnas[0][i]
+            tip = self.lista_tipos_columnas[2][i]
 
             if tip == "dict" or tip == "list":
-                base[s] = base[s].apply(str)
+                base[col_nombre] = base[col_nombre].apply(str)
             else:
                 pass
 
-                # Filtrar por el número de categorías únicas en cada variable
+        # Filtrar por el número de categorías únicas en cada variable
         if categoriasMaximas > 0:
             categorias_unicas = base.nunique()
             categorias_unicas = categorias_unicas.loc[categorias_unicas <=
