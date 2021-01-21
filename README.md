@@ -51,7 +51,7 @@ conda install -c ucd-dnp leila
 ```
 ## Contribuciones
 
-Para sugerir mejoras, cambios en la librería o seguir el avance de la solución de errores reportados, debe acceder a la sección de [Issues](https://github.com/ucd-dnp/calidad_datos/issues) del repositorio.
+Para sugerir mejoras, cambios en la librería o seguir el avance de la solución de errores reportados, lo invitamos a consultar la sección de [Wiki](https://github.com/ucd-dnp/leila/wiki/:::-Wiki-LEILA-:-P%C3%A1gina-de-inicio-:::) del repositorio, en donde se dan lineamientos para hacer contribuciones e interactuar con la comunidad y la Unidad de Científicos de Datos.
 
 ## Licencia
 
