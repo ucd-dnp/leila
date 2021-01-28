@@ -1104,56 +1104,65 @@ class CalidadDatos:
         :return: dataframe con las correlaciones de las columnas de tipo \
             categórica analizadas.
         """
-
-        base = self.base.copy()
-
-        # Filtrar el conjunto de datos por las variables escogidas en la opción 'variables'
+        # verificar si las variables escogidas del filtro se encuentran en el conjunto de datos
         if isinstance(variables, list):
-            base = base[variables]
+            for v in variables:
+                if v in self.lista_tipos_columnas[0]:
+                    pass
+                else:
+                    raise ValueError('"{0}" no es una columna del conjunto de datos'.format(v))
         else:
-            pass
+            variables = self.lista_tipos_columnas[0].copy()
 
         # Revisar si hay columnas con tipos diccionario o lista para
-        # convertirlas a string
+        # convertirlas a string cuando se realice el cálculo luego
+        lista_columnas_dict = []
         for i in range(len(self.lista_tipos_columnas[0])):
             col_nombre = self.lista_tipos_columnas[0][i]
             tip = self.lista_tipos_columnas[2][i]
 
             if tip == "dict" or tip == "list":
-                base[col_nombre] = base[col_nombre].apply(str)
+                # base[col_nombre] = base[col_nombre].apply(str)
+                lista_columnas_dict.append(col_nombre)
             else:
                 pass
 
         # Filtrar por el número de categorías únicas en cada variable
         if categoriasMaximas > 0:
-            categorias_unicas = base.nunique()
+            categorias_unicas = pd.concat([self.base.drop(columns = lista_columnas_dict), self.base.loc[:, lista_columnas_dict].astype(str)], axis = 1).nunique()
             categorias_unicas = categorias_unicas.loc[categorias_unicas <=
                                                       categoriasMaximas].index
-            base = base[categorias_unicas]
+            variables = [q for q in variables if q in categorias_unicas]
         else:
             raise ValueError(
                 '"categoriasMaximas" tiene que un ´numero mayor a 0"')
 
         # Calcular qué variables tipo object tienen valores únicos menores al
         # 50% (o valor de 'limite') del total de filas del conjunto de datos original
-        col_tipos = base.dtypes
-        lista_tipos_unicos = []
-        for s in col_tipos.index:
-            unico = len(pd.unique(base[s]))
-            if unico < base.shape[0] * limite:
-                lista_tipos_unicos.append(s)
-
-        # Filtrar el conjunto de datos con la lista de columnas categóricas deseadas
-        base = base[lista_tipos_unicos]
+        col_object = self.base.loc[:, variables].dtypes
+        col_object = col_object[col_object == "object"]
+        lista_object_unicos = []
+        for s in col_object.index:
+            unico = len(pd.unique(self.base[s]))
+            if unico < self.base.shape[0] * limite:
+                lista_object_unicos.append(s)
 
         # Hacer doble loop para crear matriz de correlation tipo Cramer V
         if metodo == 'cramer':
             lista_matriz = []
-            for c in lista_tipos_unicos:
+            for c in lista_object_unicos:
                 lista_fila = []
-                for cc in lista_tipos_unicos:
+                for cc in lista_object_unicos:
                     try:
-                        cramer = self.correlacion_cramerv(base[c], base[cc])
+                        if c not in lista_columnas_dict or cc not in lista_columnas_dict:
+                            cramer = self.correlacion_cramerv(self.base[c], self.base[cc])
+                        elif c in lista_columnas_dict or cc not in lista_columnas_dict:
+                            cramer = self.correlacion_cramerv(self.base[c].astype(str), self.base[cc])
+                        elif c not in lista_columnas_dict or cc in lista_columnas_dict:
+                            cramer = self.correlacion_cramerv(self.base[c], self.base[cc].astype(str))
+                        else:
+                            cramer = self.correlacion_cramerv(self.base[c].astype(str), self.base[cc].astype(str))
+                       
                         lista_fila.append(cramer)
                     except BaseException:
                         lista_fila.append(np.nan)
@@ -1161,8 +1170,8 @@ class CalidadDatos:
                 lista_matriz.append(lista_fila)
 
             lista_matriz = pd.DataFrame(lista_matriz)
-            lista_matriz.columns = lista_tipos_unicos
-            lista_matriz.index = lista_tipos_unicos
+            lista_matriz.columns = lista_object_unicos
+            lista_matriz.index = lista_object_unicos
 
             correlacion_final = lista_matriz
 
@@ -1182,7 +1191,7 @@ class CalidadDatos:
                     "no se pudo calcular la correlación con la variable '{0}'".format(s))
 
         elif metodo == 'phik':
-            correlacion_final = base.phik_matrix()
+            correlacion_final = self.base.loc[:, lista_object_unicos].phik_matrix()
         else:
             raise ValueError('"metodo" tiene que ser "phik" o "cramer"')
 
