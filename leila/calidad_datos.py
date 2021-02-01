@@ -293,7 +293,7 @@ class CalidadDatos:
         return (missing_columnas)
 
     # Porcentaje y número de filas y columnas no únicas
-    def CantidadDuplicados(self, eje=0, numero=False):
+    def CantidadDuplicados(self, eje=0, numero=False, numero_filas = 30000):
         """ Retorna el porcentaje/número de \
             filas o columnas duplicadas (repetidas) en el dataframe. \
             :ref:`Ver ejemplo <calidad_datos.CantidadDuplicados>`
@@ -305,6 +305,11 @@ class CalidadDatos:
             valor es False el resultado se expresa como un cociente, si el \
             valor es True el valor se expresa como una cantidad de \
             registros (número entero).
+        :param numero_filas: (int), valor por defecto: 30000. Número de filas \
+            que tendrá cada columna cuando se verifiquen los duplicados por \
+            columna (cuando 'eje = 1'). Se utiliza para agilizar el proceso de \
+            verificación de duplicados de columans, el cual puede resultar \
+            extremadamente lento para un conjunto de datos con muchas filas
         :return: (int o float) resultado de unicidad.
         """
         # Revisar si hay columnas con tipos diccionario o lista para
@@ -324,13 +329,17 @@ class CalidadDatos:
         if eje == 1 and numero == False:
 
             # Calcular los duplicados con una submuestra del conjunto de datos grande
-            if self.base.shape[0] > 30000:
-                mini_base = self.base.iloc[0:30000]
-                no_unic_columnas = mini_base.T.duplicated(keep="first")
+            if self.base.shape[0] > numero_filas:
+                numero_filas_tercio = numero_filas // 3
+                base_mitad= self.base.shape[0] // 2
+                mini_base = pd.concat([self.base.iloc[0: numero_filas_tercio], self.base.iloc[base_mitad: base_mitad + numero_filas_tercio], self.base.iloc[-numero_filas_tercio:]])
+                # mini_base = self.base.iloc[0:numero_filas]
+
+                # no_unic_columnas = mini_base.T.duplicated(keep="first")
+                no_unic_columnas = pd.concat([mini_base.drop(columns = lista_columnas_dict), mini_base.loc[:, lista_columnas_dict].astype(str)], axis = 1).T.duplicated(keep="first")
             else:
                 # no_unic_columnas = self.base.T.duplicated(keep="first")
                 no_unic_columnas = pd.concat([self.base.drop(columns = lista_columnas_dict), self.base.loc[:, lista_columnas_dict].astype(str)], axis = 1).T.duplicated(keep="first")
-
             # Si no hay columnas duplicadas en la muestra pequeña del conjunto de datos,#
             # entonces el valor de 'cols' será cero
             if no_unic_columnas.sum() == 0:
@@ -338,17 +347,18 @@ class CalidadDatos:
                 del mini_base
             # Si sí hay columnas duplicadas
             else:
-                no_unic_columnas = pd.concat([self.base.drop(columns = lista_columnas_dict), self.base.loc[:, lista_columnas_dict].astype(str)], axis = 1).T.duplicated(keep="first")
-                cols = no_unic_columnas[no_unic_columnas].shape[0] / \
-                    base.shape[1]
+                # no_unic_columnas = pd.concat([self.base.drop(columns = lista_columnas_dict), self.base.loc[:, lista_columnas_dict].astype(str)], axis = 1).T.duplicated(keep="first")
+                cols = no_unic_columnas[no_unic_columnas == True].shape[0] / self.base.shape[1]
 
         # Número de columnas repetidas
         elif eje == 1 and numero == True:
 
             # Calcular los duplicados con una submuestra del conjunto de datos grande
-            if self.base.shape[0] > 30000:
-                mini_base = self.base.iloc[0:30000]
-                no_unic_columnas = mini_base.T.duplicated(keep="first")
+            if self.base.shape[0] > numero_filas:
+                numero_filas_tercio = numero_filas // 3
+                base_mitad= self.base.shape[0] // 2
+                mini_base = pd.concat([self.base.iloc[0: numero_filas_tercio], self.base.iloc[base_mitad: base_mitad + numero_filas_tercio], self.base.iloc[-numero_filas_tercio:]])
+                no_unic_columnas = pd.concat([mini_base.drop(columns = lista_columnas_dict), mini_base.loc[:, lista_columnas_dict].astype(str)], axis = 1).T.duplicated(keep="first")
             else:
                 no_unic_columnas = pd.concat([self.base.drop(columns = lista_columnas_dict), self.base.loc[:, lista_columnas_dict].astype(str)], axis = 1).T.duplicated(keep="first")
 
@@ -359,8 +369,8 @@ class CalidadDatos:
                 del mini_base
             # Si sí hay columnas duplicadas
             else:
-                no_unic_columnas = pd.concat([self.base.drop(columns = lista_columnas_dict), self.base.loc[:, lista_columnas_dict].astype(str)], axis = 1).T.duplicated(keep="first")
-                cols = no_unic_columnas[no_unic_columnas].shape[0]
+                # no_unic_columnas = pd.concat([self.base.drop(columns = lista_columnas_dict), self.base.loc[:, lista_columnas_dict].astype(str)], axis = 1).T.duplicated(keep="first")
+                cols = no_unic_columnas[no_unic_columnas == True].shape[0]
 
         # Proporción de filas repetidas
         elif eje == 0 and numero == False:
@@ -753,7 +763,7 @@ class CalidadDatos:
             for i in range(len(cols_types)):
                 if "int" in str(cols_types[i]) or "float" in str(cols_types[i]):
                     col_nums.append(cols_types.index[i])
-            print(col_nums)
+            # print(col_nums)
             for s in col_nums:
                 unico = len(pd.unique(self.base[s]))
                 if unico < self.base.shape[0] * limite:
@@ -763,7 +773,7 @@ class CalidadDatos:
         else:
             raise ValueError('"incluirNumericos" tiene que ser True o False')
 
-        print(lista_object_unicos)
+        # print(lista_object_unicos)
 
         # Crear el dataframe con la información
         lista_counts = []
