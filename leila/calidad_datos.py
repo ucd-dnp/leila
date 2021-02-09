@@ -333,10 +333,8 @@ class CalidadDatos:
                 numero_filas_tercio = numero_filas // 3
                 base_mitad= self.base.shape[0] // 2
                 mini_base = pd.concat([self.base.iloc[0: numero_filas_tercio], self.base.iloc[base_mitad: base_mitad + numero_filas_tercio], self.base.iloc[-numero_filas_tercio:]])
-                # mini_base = self.base.iloc[0:numero_filas]
-
-                # no_unic_columnas = mini_base.T.duplicated(keep="first")
                 no_unic_columnas = pd.concat([mini_base.drop(columns = lista_columnas_dict), mini_base.loc[:, lista_columnas_dict].astype(str)], axis = 1).T.duplicated(keep="first")
+                del mini_base
             else:
                 # no_unic_columnas = self.base.T.duplicated(keep="first")
                 no_unic_columnas = pd.concat([self.base.drop(columns = lista_columnas_dict), self.base.loc[:, lista_columnas_dict].astype(str)], axis = 1).T.duplicated(keep="first")
@@ -344,7 +342,6 @@ class CalidadDatos:
             # entonces el valor de 'cols' será cero
             if no_unic_columnas.sum() == 0:
                 cols = 0.00
-                del mini_base
             # Si sí hay columnas duplicadas
             else:
                 # no_unic_columnas = pd.concat([self.base.drop(columns = lista_columnas_dict), self.base.loc[:, lista_columnas_dict].astype(str)], axis = 1).T.duplicated(keep="first")
@@ -359,6 +356,7 @@ class CalidadDatos:
                 base_mitad= self.base.shape[0] // 2
                 mini_base = pd.concat([self.base.iloc[0: numero_filas_tercio], self.base.iloc[base_mitad: base_mitad + numero_filas_tercio], self.base.iloc[-numero_filas_tercio:]])
                 no_unic_columnas = pd.concat([mini_base.drop(columns = lista_columnas_dict), mini_base.loc[:, lista_columnas_dict].astype(str)], axis = 1).T.duplicated(keep="first")
+                del mini_base
             else:
                 no_unic_columnas = pd.concat([self.base.drop(columns = lista_columnas_dict), self.base.loc[:, lista_columnas_dict].astype(str)], axis = 1).T.duplicated(keep="first")
 
@@ -366,7 +364,6 @@ class CalidadDatos:
             # entonces el valor de 'cols' será cero
             if no_unic_columnas.sum() == 0:
                 cols = 0
-                del mini_base
             # Si sí hay columnas duplicadas
             else:
                 # no_unic_columnas = pd.concat([self.base.drop(columns = lista_columnas_dict), self.base.loc[:, lista_columnas_dict].astype(str)], axis = 1).T.duplicated(keep="first")
@@ -381,53 +378,63 @@ class CalidadDatos:
         elif eje == 0 and numero == True:
             no_unic_filas = pd.concat([self.base.drop(columns = lista_columnas_dict), self.base.loc[:, lista_columnas_dict].astype(str)], axis = 1).duplicated(keep = "first")
             cols = no_unic_filas[no_unic_filas].shape[0]
-
         else:
             raise ValueError(
                 '"eje" tiene que ser 1 o 0 y "numero" tiene que ser True o False')
-
         return (cols)
 
     # Matching de columnas y filas no únicas
-    def EmparejamientoDuplicados(self, col=False):
+    def EmparejamientoDuplicados(self, col=False, limite_filas = 30000):
         """ Retorna las columnas o filas que presenten valores duplicados del \
             dataframe. :ref:`Ver ejemplo <calidad_datos.EmparejamientoDuplicados>`
 
         :param col: (bool) {True, False}, valor por defecto: False. Si el valor \
             es True la validación se realiza por columnas, si el valor es \
                 False la validación se realiza por filas.
+        :param numero_filas: (int), valor por defecto: 30000. Número de filas \
+            que tendrá cada columna cuando se verifiquen los duplicados por \
+            columna (cuando 'eje = 1'). Se utiliza para agilizar el proceso de \
+            verificación de duplicados de columans, el cual puede resultar \
+            extremadamente lento para un conjunto de datos con muchas filas
         :return: matriz (dataframe) que relaciona las indices de filas/nombre \
             de columnas que presentan valores duplicados.
         """
-        base = self.base.copy()
-
         # Revisar si hay columnas con tipos diccionario o lista para
-        # convertirlas a string
+        # convertirlas a string luego
+        lista_columnas_dict = []
         for i in range(len(self.lista_tipos_columnas[0])):
             col_nombre = self.lista_tipos_columnas[0][i]
             tip = self.lista_tipos_columnas[2][i]
-
+            # Agregar los nombres de las columnas diccionario o lista 
+            # al diccionario 'lista_columnas_dict'
             if tip == "dict" or tip == "list":
-                base[col_nombre] = base[col_nombre].apply(str)
+                lista_columnas_dict.append(col_nombre)
             else:
                 pass
 
         # Obtener todos los duplicados, sin hacer todavía el emparejamiento
         if col == True:
-            if base.shape[0] > 30000:
-                mini_base = base.iloc[0:30000]
-                dupli = mini_base.T.duplicated(keep=False)
+            # Crear un conjunto de datos reducido si el original supera 
+            # el número de filas dado por 'limite_filas'
+            if self.base.shape[0] > limite_filas:
+                # Crear un conjunto de datos reducido 
+                numero_filas_tercio = limite_filas // 3
+                base_mitad= self.base.shape[0] // 2
+                mini_base = pd.concat([self.base.iloc[0: numero_filas_tercio], self.base.iloc[base_mitad: base_mitad + numero_filas_tercio], self.base.iloc[-numero_filas_tercio:]])
+                # Obtener los duplicados del conjunto de datos reducido 
+                dupli = pd.concat([mini_base.drop(columns = lista_columnas_dict), mini_base.loc[:, lista_columnas_dict].astype(str)], axis = 1).T.duplicated(keep=False)
             else:
-                dupli = base.T.duplicated(keep=False)
-
+                dupli = self.base.T.duplicated(keep=False)
+            # Verifica si hay duplicados o no. En caso de no haber,
+            # terminar de ejecutar la función
             if dupli.sum() == 0:
                 return("No hay columnas duplicadas")
             else:
-                duplicados_mini = dupli[dupli == True].index
-                dupli = base[duplicados_mini].T.duplicated(keep=False)
-
+                pass
+        # Calcular los duplicados para las filas, en caso 
+        # de haber seleccionado la opción
         elif col == False:
-            dupli = base.duplicated(keep=False)
+            dupli = self.base.duplicated(keep=False)
         else:
             raise ValueError('"col" tiene que ser True o False')
 
@@ -444,62 +451,54 @@ class CalidadDatos:
                 raise ValueError('"col" tiene que ser True o False')
         else:
             pass
-
-        lista_duplicados = []
-        for s in dupli.index:
-            for ss in dupli.index:
-                if col == True:
-                    if base[s].equals(base[ss]) and s != ss:
-                        lista_duplicados.append([s, ss])
-                elif col == False:
-                    if base.iloc[s].equals(base.iloc[ss]) and s != ss:
-                        lista_duplicados.append([s, ss])
-                else:
+        # Empareamiento de columnas
+        if col == True:
+            # Crear lista donde se guardaran las columnas emparejadas (duplicadas)
+            lista = []
+            # Crear lista de los duplicados de filas, todavía sin emparejar
+            lista_indices = list(dupli.index)
+            # Copiar 'lista_indices para ir eliminando columnas y aemparejadas
+            # y no repetir los cálculos
+            lista_indices_slice = lista_indices.copy()
+            # Lista de columnas que ya fueron emparejadas
+            lista_ya_verificados = []
+            for i in lista_indices:
+                if i in lista_ya_verificados:
                     pass
-
-        if col == False:
-            lista_duplicados = sorted(lista_duplicados)
+                else:
+                    # Emparejar columnas
+                    e = [col for col in lista_indices_slice if mini_base.loc[:, lista_indices_slice].loc[:, col].equals(mini_base.loc[:, i])]
+                    for s in e:
+                        lista_ya_verificados.append(s)
+                    lista.append(e)
+                    # Actualizar lista de indices ya emparejados
+                    lista_indices_slice = [q for q in lista_indices_slice if q not in lista_ya_verificados]
+            df = pd.DataFrame(lista).T
+            df.columns = ["Filas iguales {0}".format(q + 1) for q in range(df.shape[1])]
+        # Emparejamiento de filas
         else:
-            pass
-
-        dic = {}
-        for s in dupli.index:
-            dic[s] = []
-        for s in dupli.index:
-            for i in range(len(lista_duplicados)):
-                if s in lista_duplicados[i]:
-                    dic[s].append(lista_duplicados[i])
-        for s in dic:
-            lista = [q for l in dic[s] for q in l]
-            dic[s] = list(set(lista))
-
-        if col == True:
-            lista_listas = [q for q in dic.values()]
-        else:
-            lista_listas = [sorted(q) for q in dic.values()]
-
-        for i in range(len(lista_listas)):
-            for ii in range(len(lista_listas[i])):
-                lista_listas[i][ii] = str(lista_listas[i][ii])
-
-        df = pd.DataFrame(
-            lista_listas).drop_duplicates().reset_index(drop=True)
-
-        df = df.T
-
-        if col == True:
-            lista_columnas_df = [
-                "Columnas iguales {0}".format(q) for q in range(
-                    1, df.shape[1] + 1)]
-            df.columns = lista_columnas_df
-        else:
-            lista_columnas_df = [
-                "Filas iguales {0}".format(q) for q in range(
-                    1, df.shape[1] + 1)]
-            df.columns = lista_columnas_df
-
-        # Quitar los 'nan' del
-        df = df.apply(lambda x: x.replace(np.nan, ""))
+            # Crear lista donde se guardaran las columnas emparejadas (duplicadas)
+            lista = []
+            # Crear lista de los duplicados de filas, todavía sin emparejar
+            lista_indices = list(dupli.index)
+            # Copiar 'lista_indices para ir eliminando columnas y aemparejadas
+            # y no repetir los cálculos
+            lista_indices_slice = lista_indices.copy()
+            # Lista de filas que ya fueron emparejadas
+            lista_numeros = []
+            for i in lista_indices:
+                if i in lista_numeros:
+                    pass
+                else:
+                    # Emparejar filas
+                    e = self.base.loc[lista_indices_slice].apply(lambda row: row.equals(self.base.loc[i]), axis = 1)
+                    e = e[e == True]
+                    lista_numeros = list(e.index)
+                    lista.append(lista_numeros)
+                    # Actualizar lista de indices ya emparejados
+                    lista_indices_slice = [q for q in lista_indices_slice if q not in lista_numeros]
+            df = pd.DataFrame(lista).T
+            df.columns = ["Filas iguales {0}".format(q + 1) for q in range(df.shape[1])]
 
         return (df)
 
