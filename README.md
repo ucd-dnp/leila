@@ -49,6 +49,12 @@ Para la instalación de la librería se recomienda utilizar el gestor de paquete
 pip install leila
 ```
 
+De manera alterna también puede utilizar el gestor de paquetes ``conda``.
+
+```
+conda install -c ucd-dnp leila
+```
+
 ## Contribuciones a LEILA
 
 Todas las contribuciones, reportes de errores, corrección de errores, las mejoras de la documentación y las ideas son bienvenidas.
