@@ -28,7 +28,7 @@ La librería surge como resultado de un proyecto relacionado con realizar análi
 
 La librería permite generar un reporte de calidad de datos el cual contiene información descriptiva del dataframe analizado, a continuación se presenta el código requerido para generar un reporte a partir de un archivo en Excel en formato .xlsx.
 
-```
+``` python
 import pandas as pd
 from leila.reporte import generar_reporte
 
@@ -45,11 +45,10 @@ La librería cuenta con una documentación que detalla las funciones que la conf
 
 Para la instalación de la librería se recomienda utilizar el gestor de paquetes ``pip``, por buenas prácticas se sugiere antes de la instalación crear un entorno virtual que permita aislar las librerías y evitar conflictos de versiones con el entorno de desarrollo base del computador.
 
-```
+``` linux
 pip install leila
 ```
 
-<<<<<<< HEAD
 ## Contribuciones a LEILA
 
 Todas las contribuciones, reportes de errores, corrección de errores, las mejoras de la documentación y las ideas son bienvenidas.
@@ -59,16 +58,6 @@ Puede encontrar una descripción detallada de cómo contribuir en la [Wiki de LE
 También lo invitamos a revisar el [:calendar: Tablero **TODO** de LEILA](https://github.com/users/ucd-dnp/projects/3), donde hay una serie de temas listados en los que el equipo UCD se encuentra trabajando.
 
 ## Licencia [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
-=======
-De manera alterna también puede utilizar el gestor de paquetes ``conda``.
-
-```
-conda install -c ucd-dnp leila
-```
-## Contribuciones
-
-Para sugerir mejoras, cambios en la librería o seguir el avance de la solución de errores reportados, lo invitamos a consultar la sección de [Wiki](https://github.com/ucd-dnp/leila/wiki/:::-Wiki-LEILA-:-P%C3%A1gina-de-inicio-:::) del repositorio, en donde se dan lineamientos para hacer contribuciones e interactuar con la comunidad y la Unidad de Científicos de Datos.
->>>>>>> master
 
 ### **MIT License** 
 
