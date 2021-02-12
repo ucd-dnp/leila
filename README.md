@@ -1,6 +1,11 @@
 # LEILA - Librería de calidad de datos
 
 ![screenshot](https://raw.githubusercontent.com/ucd-dnp/leila/master/docs/_images/LEILA.jpg "LEILA")
+---
+
+[![PyPI version fury.io](https://badge.fury.io/py/leila.svg)](https://pypi.org/project/leila/) [![PyPI pyversions](https://img.shields.io/pypi/pyversions/leila.svg)](https://pypi.org/project/leila/)
+ [![PyPI license](https://img.shields.io/pypi/l/leila.svg)](https://pypi.org/project/leila/) [![Downloads](https://pepy.tech/badge/leila)](https://pepy.tech/project/leila) [![GitHub forks](https://img.shields.io/github/forks/ucd-dnp/leila.svg?style=social&label=Fork&maxAge=2592000)](https://github.com/ucd-dnp/leila/)
+
 
 ## Descripción
 
@@ -44,16 +49,22 @@ Para la instalación de la librería se debe utilizar el gestor de paquetes ``pi
 pip install leila
 ```
 
-## Contribuciones
+## Contribuciones a LEILA
 
-Para sugerir mejoras, cambios en la librería o seguir el avance de la solución de errores reportados, debe acceder a la sección de [Issues](https://github.com/ucd-dnp/calidad_datos/issues) del repositorio.
+Todas las contribuciones, reportes de errores, corrección de errores, las mejoras de la documentación y las ideas son bienvenidas.
 
-## Licencia
+Puede encontrar una descripción detallada de cómo contribuir en la [Wiki de LEILA](https://github.com/ucd-dnp/leila/wiki)
+
+También lo invitamos a revisar el [:calendar: Tablero **TODO** de LEILA](https://github.com/users/ucd-dnp/projects/3), donde hay una serie de temas listados en los que el equipo UCD se encuentra trabajando.
+
+## Licencia [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
+
+### **MIT License** 
 
 La librería LEILA - Calidad de datos se encuentra publicada bajo la licencia MIT <br />
 Copyleft (c) 2020 Departamento Nacional de Planeación - DNP Colombia
 
-Para mayor información puede consultar el archivo de [Licencia](https://github.com/ucd-dnp/calidad_datos/blob/master/LICENSE)
+Para mayor información puede consultar el archivo de [Licencia](https://github.com/ucd-dnp/leila/blob/master/LICENSE)
 
 ## Contacto
 
