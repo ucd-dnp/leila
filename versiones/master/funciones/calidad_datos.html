@@ -73,7 +73,7 @@
             
             
               <div class="version">
-                v0.1
+                latest - v0.1
               </div>
             
           
@@ -304,18 +304,18 @@
 <dl class="py method">
 <dt id="calidad_datos.CalidadDatos.Memoria">
 <code class="descname"><span class="pre">Memoria</span></code><span class="sig-paren">(</span><em><span class="n"><span class="pre">col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em><span class="n"><span class="pre">unidad</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'megabyte'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#calidad_datos.CalidadDatos.Memoria" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Calcula el tamaño de la base de datos en memoria (megabytes). <a class="reference internal" href="../ejemplos/ejemplos_calidad_datos.html#calidad-datos-memoria"><span class="std std-ref">Ver ejemplo</span></a></p>
+<dd><p>Calcula el tamaño del conjunto de datos en memoria (megabytes). <a class="reference internal" href="../ejemplos/ejemplos_calidad_datos.html#calidad-datos-memoria"><span class="std std-ref">Ver ejemplo</span></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
 <li><strong>col</strong> – (bool) {True, False}, valor por defecto: False. Si el             valor es False realiza el cálculo de memoria del dataframe             completo, si el valor es True realiza el cálculo de memoria por             cada columna del dataframe.</li>
-<li><strong>unidad</strong> – (str) {byte, kylobyte, megabyte, gygabyte, terabyte},             valor por defecto: “megabyte”. Es la unidad con la que se desea             ver la memoria de la base de datos</li>
+<li><strong>unidad</strong> – (str) {byte, kylobyte, megabyte, gygabyte, terabyte},             valor por defecto: “megabyte”. Es la unidad con la que se desea             ver la memoria del conjunto  de datos</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">valor (float) del tamaño de la base de datos en megabytes             (si el parámetro col es False). Serie de pandas con el cálculo de             memoria en megabytes por cada columna del dataframe. (si el             parámetro col es True).</p>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">valor (float) del tamaño del conjunto de datos en megabytes             (si el parámetro col es False). Serie de pandas con el cálculo de             memoria en megabytes por cada columna del dataframe. (si el             parámetro col es True).</p>
 </td>
 </tr>
 </tbody>
@@ -325,7 +325,7 @@
 <dl class="py method">
 <dt id="calidad_datos.CalidadDatos.Resumen">
 <code class="descname"><span class="pre">Resumen</span></code><span class="sig-paren">(</span><em><span class="n"><span class="pre">filas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em><span class="n"><span class="pre">columnas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em><span class="n"><span class="pre">colNumericas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em><span class="n"><span class="pre">colTexto</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em><span class="n"><span class="pre">colBooleanas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em><span class="n"><span class="pre">colFecha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em><span class="n"><span class="pre">colOtro</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em><span class="n"><span class="pre">filasRepetidas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em><span class="n"><span class="pre">columnasRepetidas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em><span class="n"><span class="pre">colFaltantes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em><span class="n"><span class="pre">colExtremos</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em><span class="n"><span class="pre">memoriaTotal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#calidad_datos.CalidadDatos.Resumen" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Retorna una tabla con información general de la base de datos.        Incluye número de filas y columnas, número de columnas de tipo         numéricas, de texto, booleanas, fecha y otros, número de filas y         columnas no únicas, número de columnas con más de la mitad de las         observaciones con datos faltantes, número de columnas con más del         10% de observaciones con datos extremos y el tamaño de la base de         datos en memoria. <a class="reference internal" href="../ejemplos/ejemplos_calidad_datos.html#calidad-datos-resumen"><span class="std std-ref">Ver ejemplo</span></a></p>
+<dd><p>Retorna una tabla con información general el conjunto de datos.        Incluye número de filas y columnas, número de columnas de tipo         numéricas, de texto, booleanas, fecha y otros, número de filas y         columnas no únicas, número de columnas con más de la mitad de las         observaciones con datos faltantes, número de columnas con más del         10% de observaciones con datos extremos y el tamaño del conjunto de         datos en memoria. <a class="reference internal" href="../ejemplos/ejemplos_calidad_datos.html#calidad-datos-resumen"><span class="std std-ref">Ver ejemplo</span></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -342,7 +342,7 @@
 <li><strong>columnasRepetidas</strong> – (bool) {True, False}, valor por defecto:             False. Indica si se incluye el número de columnas repetidas.</li>
 <li><strong>colFaltantes</strong> – (bool) {True, False}, valor por defecto: True.             Indica si se incluye el número de columnas con más de la mitad de             las observaciones con datos faltantes.</li>
 <li><strong>colExtremos</strong> – (bool) {True, False}, valor por defecto: True.             Indica si se incluye el número de columnas con más del 10% de                 observaciones con datos extremos.</li>
-<li><strong>memoriaTotal</strong> – (bool) {True, False}, valor por defecto: True.             Indica si se incluye el cálculo del tamaño de la base de datos en memoria.</li>
+<li><strong>memoriaTotal</strong> – (bool) {True, False}, valor por defecto: True.             Indica si se incluye el cálculo del tamaño del conjunto de datos en memoria.</li>
 </ul>
 </td>
 </tr>
