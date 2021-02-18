@@ -126,7 +126,7 @@ html_show_sourcelink = False
 copybutton_prompt_text = ">>> "
 ```
 
-La variable *copybutton_prompt_text* define una marca para saber cuales líneas se deben copiar.Teniendo en cuenta lo anterior,en el siguiente ejemplo no se copiaría la primera línea.
+La variable *copybutton_prompt_text* define una marca para saber cuales líneas se deben copiar.Teniendo en cuenta lo anterior, en el siguiente ejemplo no se copiaría la primera línea.
 
 ```python
 # Se importan las funciones de la librería
@@ -186,7 +186,9 @@ Indices and tables
 ```
 
 ***Nota 1:*** solo se agrega la referencia al archivo *modules.rst* porque internamente este llama al *archivo leila.rst*
+
 ***Nota 2:*** tener cuidado con la indentación en los archivos *.rst*.
+
 ***Nota 3:*** los archivos *.rst* utilizan reStructuredText, para mayor información puede consultar el enlace [Sphinx - reStructuredText](https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html)
 
 ***
