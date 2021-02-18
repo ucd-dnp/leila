@@ -5,6 +5,8 @@
       
       {%- if current_version.name == 'master' %}
         v: latest
+      {% elif current_version.name == 'v0.1b' %}
+        v: v0.1
       {% else %}
         v: {{ current_version.name }}
       {% endif %}
@@ -18,7 +20,7 @@
       {%- for item in versions.branches %}
 
         {%- if item.name == 'master' %}
-          <dd><a href="{{ item.url }}">latest</a></dd>
+          <dd><a href="{{ item.url }}">latest</a></dd>        
         {% else %}
           <dd><a href="{{ item.url }}">{{ item.name }}</a></dd>
         {% endif %}
@@ -31,7 +33,13 @@
     <dl>
       <dt>Tags</dt>
       {%- for item in versions.tags %}
-      <dd><a href="{{ item.url }}">{{ item.name }}</a></dd>
+
+      {% if item.name == 'v0.1b' %}
+        <dd><a href="{{ item.url }}">v0.1</a></dd>
+      {% else %}
+        <dd><a href="{{ item.url }}">{{ item.name }}</a></dd>
+      {% endif %}
+
       {%- endfor %}
     </dl>
     {%- endif %}    
