@@ -1,6 +1,3 @@
-# ignore sphinx folder
-sphinx
-
 # ignore testing files
 test_reporte.py
 perfilamiento_leila.html
