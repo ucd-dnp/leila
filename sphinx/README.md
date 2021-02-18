@@ -48,12 +48,14 @@ sphinx-quickstart
 
 * Responda las preguntas en consola, a continuación se presenta un modelo:
 
-> Separate source and build directories (y/n) [n]: y
-> Project name: LEILA
-> Author name(s): UCD-DNP
-> Project release []: v0.1
-> Project language [en]: es
+```console
+Separate source and build directories (y/n) [n]: y
+Project name: LEILA
+Author name(s): UCD-DNP
+Project release []: v0.1
+Project language [en]: es
 Finished: An initial directory structure has been created.
+```
 
 Una vez finalizada la ejecución inicial deberá tener una estructura de archivos como la siguiente:
 
@@ -85,7 +87,7 @@ Una vez finalizada la ejecución inicial deberá tener una estructura de archivo
 ***
 #### 3. Procedemos a hacer ajustes de configuración en el archivo doc/source/conf.py
 
-##### 3.1 Se deben incluir las siguientes líneas para indicar la ubicación de los archivos de código fuente de la librería a documentar.
+#### 3.1 Se deben incluir las siguientes líneas para indicar la ubicación de los archivos de código fuente de la librería a documentar.
 
 ```python
 import os
@@ -94,7 +96,7 @@ sys.path.insert(0, os.path.abspath('../../leila'))
 ```
 
 ***
-##### 3.2 Se procede a modificar la variable *extensions* para agregar las extensiones que utilizaremos. El resultado final debe verse así:
+#### 3.2 Se procede a modificar la variable *extensions* para agregar las extensiones que utilizaremos. El resultado final debe verse así:
 
 ```python
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.autosectionlabel', 'sphinx_copybutton']
@@ -105,7 +107,7 @@ extensions = ['sphinx.ext.autodoc', 'sphinx.ext.autosectionlabel', 'sphinx_copyb
 * La extensión **'sphinx.ext.autosectionlabel'** permite hacer referencias o enlaces entre las páginas de la documentación.
 
 ***
-##### 3.3 Para cambiar el theme de los html, se debe cambiar la variable html_theme con el nombre del theme (opcional)
+#### 3.3 Para cambiar el theme de los html, se debe cambiar la variable html_theme con el nombre del theme (opcional)
 
 ```python
 html_theme = 'sphinx_rtd_theme'
@@ -118,7 +120,7 @@ html_show_sourcelink = False
 ```
 
 ***
-##### 3.4 La extensión **'sphinx_copybutton'** habilita la función de copiar el código mediante un botón en la esquina superior derecha de las casillas identificadas como código.
+#### 3.4 La extensión **'sphinx_copybutton'** habilita la función de copiar el código mediante un botón en la esquina superior derecha de las casillas identificadas como código.
 
 ```python
 copybutton_prompt_text = ">>> "
@@ -132,7 +134,7 @@ La variable *copybutton_prompt_text* define una marca para saber cuales líneas 
 ```
 
 ***
-##### 3.5 Se pueden agregar variables adicionales como son:
+#### 3.5 Se pueden agregar variables adicionales como son:
 
 ```python
 # agrega la referencia de un archivo .css en la carpeta definida en la variable html_static_path.
@@ -190,7 +192,7 @@ Indices and tables
 ***
 #### 6. Generación de documentación
 
-##### 6.1 Generación de documentación - versión web
+#### 6.1 Generación de documentación - versión web
 
 En este momento ya se puede generar una primera versión de la documentación.
 
@@ -204,10 +206,10 @@ make html               # inicia el proceso de generación de la documentación 
 
 Una vez finalizado el proceso podrá consultar los resultaos en la siguiente ruta: ***doc/build/html/index.html***
 
-##### El resultado obtenido difiere mucho de la [documentación de LEILA](https://ucd-dnp.github.io/leila/) ya que la última versión incluye muchos ajustes de estilo, referencia y diseño en los archivos *.rst*. Puede consultar los archivos finales de la documentación de LEILA en este [enlace](https://github.com/ucd-dnp/leila/tree/master/sphinx/source)
+#### El resultado obtenido difiere mucho de la [documentación de LEILA](https://ucd-dnp.github.io/leila/) ya que la última versión incluye muchos ajustes de estilo, referencia y diseño en los archivos *.rst*. Puede consultar los archivos finales de la documentación de LEILA en este [enlace](https://github.com/ucd-dnp/leila/tree/master/sphinx/source)
 
 ***
-##### 6.2 Generación de documentación - versión PDF
+#### 6.2 Generación de documentación - versión PDF
 
 Para la generación de la documentación en formato PDF se requiere primero generar la documentación en formato latex.
 
