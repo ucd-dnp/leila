@@ -45,8 +45,23 @@ pip install sphinx-multiversion
 
 * Debe verificar la configuración del archivo **sphinx/source/conf.py**
     Las variables ***smv_tag_whitelist*** y ***smv_branch_whitelist*** contienen expresiones regulares que permiten ignorar tags o ramas en particular
+	* Para mayor información puede consultar el enlace [**Configuración sphinx-multiversion**](https://holzhaus.github.io/sphinx-multiversion/master/configuration.html)
 
-* Para mayor información puede consultar el enlace [**Configuración sphinx-multiversion**](https://holzhaus.github.io/sphinx-multiversion/master/configuration.html)
+* Otra posible causa de este error es que no estén sincronizados los tags remotos con los tags locales. Puede utilizar los siguientes comando:
+	* Permite consultar los tags locales
+	```console
+	git tag
+	```
+
+	* Permite consultar los tags remotos
+	```console
+	git ls-remote --tags
+	```
+
+	* Permite sincronizar los tags remotos/locales
+	```console
+	git fetch --prune
+	```
          
 #### - Los nombres de las versiones están mal
     
