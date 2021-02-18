@@ -1,6 +1,6 @@
 # Documentación LEILA - Librería de calidad de datos
 
-![screenshot](https://raw.githubusercontent.com/ucd-dnp/leila/master/docs/_images/LEILA.jpg "LEILA")
+![screenshot](https://raw.githubusercontent.com/ucd-dnp/leila/master/recursos/LEILA.jpg "LEILA")
 
 ## Descripción
 
