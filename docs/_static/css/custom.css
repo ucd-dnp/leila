@@ -1,0 +1,19 @@
+p {
+    text-align: justify;    
+}
+
+li {
+    text-align: justify;    
+}
+
+p[class="caption"] {
+    text-align: center;
+}
+
+div[class="wy-menu wy-menu-vertical"] p[class="caption"] {
+    text-align: left;
+}
+
+.wy-nav-content {
+    max-width: 1200px !important;
+}
