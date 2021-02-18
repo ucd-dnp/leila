@@ -1,6 +1,6 @@
 # LEILA - Librería de calidad de datos
 
-![screenshot](https://raw.githubusercontent.com/ucd-dnp/leila/master/docs/_images/LEILA.jpg "LEILA")
+![screenshot](https://raw.githubusercontent.com/ucd-dnp/leila/master/recursos/LEILA.jpg "LEILA")
 
 ## Descripción
 
@@ -18,7 +18,7 @@ La librería surge como resultado de un proyecto relacionado con realizar análi
 
 ## Ejemplo
 
-![screenshot](https://raw.githubusercontent.com/ucd-dnp/leila/master/docs/_static/image/vista_reporte.jpg "Reporte")
+![screenshot](https://raw.githubusercontent.com/ucd-dnp/leila/master/recursos/vista_reporte.gif "Reporte")
 
 
 La librería permite generar un reporte de calidad de datos el cual contiene información descriptiva del dataframe analizado, a continuación se presenta el código requerido para generar un reporte a partir de un archivo en Excel en formato .xlsx.
@@ -38,15 +38,20 @@ La librería cuenta con una documentación que detalla las funciones que la conf
 
 ## Instalación
 
-Para la instalación de la librería se debe utilizar el gestor de paquetes ``pip``, por buenas prácticas se sugiere antes de la instalación crear un entorno virtual que permita aislar las librerías y evitar conflictos de versiones con el entorno de desarrollo base del computador.
+Para la instalación de la librería se recomienda utilizar el gestor de paquetes ``pip``, por buenas prácticas se sugiere antes de la instalación crear un entorno virtual que permita aislar las librerías y evitar conflictos de versiones con el entorno de desarrollo base del computador.
 
 ```
 pip install leila
 ```
 
+De manera alterna también puede utilizar el gestor de paquetes ``conda``.
+
+```
+conda install -c ucd-dnp leila
+```
 ## Contribuciones
 
-Para sugerir mejoras, cambios en la librería o seguir el avance de la solución de errores reportados, debe acceder a la sección de [Issues](https://github.com/ucd-dnp/calidad_datos/issues) del repositorio.
+Para sugerir mejoras, cambios en la librería o seguir el avance de la solución de errores reportados, lo invitamos a consultar la sección de [Wiki](https://github.com/ucd-dnp/leila/wiki/:::-Wiki-LEILA-:-P%C3%A1gina-de-inicio-:::) del repositorio, en donde se dan lineamientos para hacer contribuciones e interactuar con la comunidad y la Unidad de Científicos de Datos.
 
 ## Licencia
 

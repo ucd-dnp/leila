@@ -1,8 +1,3 @@
-# ignore testing files
-test_reporte.py
-perfilamiento_leila.html
-
-
 # ignore compilation files
 dist
 crear_whl.bat
@@ -11,14 +6,9 @@ crear_whl.bat
 *.xlsx
 *.tsv
 
-# ignore jupyter notebook files
-*.ipynb
-.ipynb_checkpoints
-
 # ignore virtual env
 env
 
 # ignore other files
 .idea
 __pycache__
-vista_reporte.gif

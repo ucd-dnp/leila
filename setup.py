@@ -5,7 +5,7 @@ with open("README.md", "r", encoding ='utf-8') as fh:
 
 setuptools.setup(
     name="leila", # Replace with your own username
-    version="0.0.2.6",
+    version="0.1",
     author="Departamento Nacional de Planeación - DNP",
     author_email="ucd@dnp.gov.co",
     description="calidad de datos",

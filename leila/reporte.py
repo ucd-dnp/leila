@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-# Created on Tue Jul 10
-# @author: jairo ruiz saenz
 
 import os
 import datetime

@@ -1,9 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Jun 30 08:51:18 2020
 
-@author: pabmontenegro
-"""
 
 from leila import datos_gov
 

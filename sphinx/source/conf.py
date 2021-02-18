@@ -24,7 +24,7 @@ author = 'UCD - DNP'
 
 # The full version, including alpha/beta/rc tags
 release = '0.1'
-version = 'v0.1'
+version = 'latest - v0.1'
 
 # -- General configuration ---------------------------------------------------
 
