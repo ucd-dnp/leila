@@ -1,6 +1,6 @@
 # LEILA - Librería de calidad de datos
 
-![screenshot](https://raw.githubusercontent.com/ucd-dnp/leila/master/docs/_images/LEILA.jpg "LEILA")
+![screenshot](https://raw.githubusercontent.com/ucd-dnp/leila/master/recursos/LEILA.jpg "LEILA")
 
 ## Descripción
 
@@ -18,7 +18,7 @@ La librería surge como resultado de un proyecto relacionado con realizar análi
 
 ## Ejemplo
 
-![screenshot](https://raw.githubusercontent.com/ucd-dnp/leila/master/docs/_static/image/vista_reporte.jpg "Reporte")
+![screenshot](https://raw.githubusercontent.com/ucd-dnp/leila/master/recursos/vista_reporte.jpg "Reporte")
 
 
 La librería permite generar un reporte de calidad de datos el cual contiene información descriptiva del dataframe analizado, a continuación se presenta el código requerido para generar un reporte a partir de un archivo en Excel en formato .xlsx.
