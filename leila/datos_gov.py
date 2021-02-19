@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 
 class Datos:
 
+
     """clase para cargar los conjuntos de datos de Socrata y almacenar en atributos los datos y la metadata"""
 
     def __init__(self, api_id: str, token=None, limite_filas=1000000000):

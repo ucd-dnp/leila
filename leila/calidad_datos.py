@@ -44,16 +44,18 @@ class CalidadDatos:
         # Calcular tipos de columnas con 'dtypes' para no volver a calcular en todo el script
         columnas_dtypes = self.base.dtypes
 
+
         # Pasar los 'objects' a float, si posible
         if castNumero == True:
-            tipos_object = columnas_dtypes[(columnas_dtypes == "object") | (
-                columnas_dtypes == "bool")].index.to_list()
+            tipos_object = self.tipos_dtypes[(self.tipos_dtypes == "object") | (
+                self.tipos_dtypes == "bool")].index.to_list()
             # Pasar las columnas que se puedan a integer
             self.base[tipos_object] = self.base[tipos_object].apply(
                 lambda x: x.astype("int64", errors="ignore"), axis=0)
             # Pasar las columnas qeu se puedan a float
             tipos_object = columnas_dtypes[(columnas_dtypes == "object") | (
                 columnas_dtypes == "bool")].index.to_list()
+
             self.base[tipos_object] = self.base[tipos_object].apply(
                 lambda x: x.astype(float, errors="ignore"), axis=0)
 
@@ -89,8 +91,10 @@ class CalidadDatos:
         tipo_mas_comun = [str(type(self.base[q].mode()[0])).replace(
             "<class ", "").replace(">", "").replace("'", "") for q in self.base.columns]
 
+
         columnas_dtypes = [str(q) for q in columnas_dtypes]
         self.lista_tipos_columnas = [list(self.base.columns), columnas_dtypes, tipo_mas_comun]       
+
 
     # Tipos de las columnas
     def TipoColumnas(self, tipoGeneral=True,
@@ -111,7 +115,7 @@ class CalidadDatos:
 
         # Funciones generales
         # Tipos de columnas según función dtypes
-        tipos_dtypes = self.base.dtypes.apply(str)
+        tipos_dtypes = self.tipos_dtypes.apply(str)
         # Lista de los nombres de las columnas
         lista_nombres = list(self.base.columns)
         #
@@ -296,7 +300,7 @@ class CalidadDatos:
         return (missing_columnas)
 
     # Porcentaje y número de filas y columnas no únicas
-    def CantidadDuplicados(self, eje=0, numero=False):
+    def CantidadDuplicados(self, eje=0, numero=False, numero_filas = 30000):
         """ Retorna el porcentaje/número de \
             filas o columnas duplicadas (repetidas) en el dataframe. \
             :ref:`Ver ejemplo <calidad_datos.CantidadDuplicados>`
@@ -307,18 +311,23 @@ class CalidadDatos:
             valor es False el resultado se expresa como un cociente, si el \
             valor es True el valor se expresa como una cantidad de \
             registros (número entero).
+        :param numero_filas: (int), valor por defecto: 30000. Número de filas \
+            que tendrá cada columna cuando se verifiquen los duplicados por \
+            columna (cuando 'eje = 1'). Se utiliza para agilizar el proceso de \
+            verificación de duplicados de columans, el cual puede resultar \
+            extremadamente lento para un conjunto de datos con muchas filas
         :return: (int o float) resultado de unicidad.
         """
-        base = self.base.copy()
-
         # Revisar si hay columnas con tipos diccionario o lista para
         # convertirlas a string
         for s in base.columns:
             tip = str(type(self.base[s].mode(dropna=False))).replace(
                 "<class ", "").replace(">", "").replace("'", "")
 
+
             if tip == "dict" or tip == "list":
-                base[s] = base[s].apply(str)
+                # base[col_nombre] = base[col_nombre].apply(str)
+                lista_columnas_dict.append(col_nombre)
             else:
                 pass
 
@@ -326,11 +335,15 @@ class CalidadDatos:
         if eje == 1 and numero == False:
 
             # Calcular los duplicados con una submuestra del conjunto de datos grande
-            if base.shape[0] > 30000:
-                mini_base = base.iloc[0:30000]
-                no_unic_columnas = mini_base.T.duplicated(keep="first")
+            if self.base.shape[0] > numero_filas:
+                numero_filas_tercio = numero_filas // 3
+                base_mitad= self.base.shape[0] // 2
+                mini_base = pd.concat([self.base.iloc[0: numero_filas_tercio], self.base.iloc[base_mitad: base_mitad + numero_filas_tercio], self.base.iloc[-numero_filas_tercio:]])
+                no_unic_columnas = pd.concat([mini_base.drop(columns = lista_columnas_dict), mini_base.loc[:, lista_columnas_dict].astype(str)], axis = 1).T.duplicated(keep="first")
+                del mini_base
             else:
                 no_unic_columnas = base.T.duplicated(keep="first")
+
 
             # Si no hay columnas duplicadas en la muestra pequeña del conjunto de datos,#
             # entonces el valor de 'cols' será cero
@@ -343,82 +356,97 @@ class CalidadDatos:
                 cols = no_unic_columnas[no_unic_columnas].shape[0] / \
                     base.shape[1]
 
+
         # Número de columnas repetidas
         elif eje == 1 and numero == True:
 
             # Calcular los duplicados con una submuestra del conjunto de datos grande
-            if base.shape[0] > 30000:
-                mini_base = base.iloc[0:30000]
-                no_unic_columnas = mini_base.T.duplicated(keep="first")
+            if self.base.shape[0] > numero_filas:
+                numero_filas_tercio = numero_filas // 3
+                base_mitad= self.base.shape[0] // 2
+                mini_base = pd.concat([self.base.iloc[0: numero_filas_tercio], self.base.iloc[base_mitad: base_mitad + numero_filas_tercio], self.base.iloc[-numero_filas_tercio:]])
+                no_unic_columnas = pd.concat([mini_base.drop(columns = lista_columnas_dict), mini_base.loc[:, lista_columnas_dict].astype(str)], axis = 1).T.duplicated(keep="first")
+                del mini_base
             else:
                 no_unic_columnas = base.T.duplicated(keep="first")
+
 
             # Si no hay columnas duplicadas en la muestra pequeña del conjunto de datos,#
             # entonces el valor de 'cols' será cero
             if no_unic_columnas.sum() == 0:
                 cols = 0
                 del mini_base
+
             # Si sí hay columnas duplicadas
             else:
-                no_unic_columnas = base.T.duplicated(keep="first")
-                cols = no_unic_columnas[no_unic_columnas].shape[0]
+                # no_unic_columnas = pd.concat([self.base.drop(columns = lista_columnas_dict), self.base.loc[:, lista_columnas_dict].astype(str)], axis = 1).T.duplicated(keep="first")
+                cols = no_unic_columnas[no_unic_columnas == True].shape[0]
 
         # Proporción de filas repetidas
         elif eje == 0 and numero == False:
-            no_unic_filas = base.duplicated(keep="first")
-            cols = no_unic_filas[no_unic_filas].shape[0] / base.shape[0]
+            no_unic_filas = pd.concat([self.base.drop(columns = lista_columnas_dict), self.base.loc[:, lista_columnas_dict].astype(str)], axis = 1).duplicated(keep = "first")
+            cols = no_unic_filas[no_unic_filas].shape[0] / self.base.shape[0]
 
         # Número de filas repetidas
         elif eje == 0 and numero == True:
-            no_unic_filas = base.duplicated(keep="first")
+            no_unic_filas = pd.concat([self.base.drop(columns = lista_columnas_dict), self.base.loc[:, lista_columnas_dict].astype(str)], axis = 1).duplicated(keep = "first")
             cols = no_unic_filas[no_unic_filas].shape[0]
-
         else:
             raise ValueError(
                 '"eje" tiene que ser 1 o 0 y "numero" tiene que ser True o False')
-
         return (cols)
 
     # Matching de columnas y filas no únicas
-    def EmparejamientoDuplicados(self, col=False):
+    def EmparejamientoDuplicados(self, col=False, limite_filas = 30000):
         """ Retorna las columnas o filas que presenten valores duplicados del \
             dataframe. :ref:`Ver ejemplo <calidad_datos.EmparejamientoDuplicados>`
         :param col: (bool) {True, False}, valor por defecto: False. Si el valor \
             es True la validación se realiza por columnas, si el valor es \
                 False la validación se realiza por filas.
+        :param numero_filas: (int), valor por defecto: 30000. Número de filas \
+            que tendrá cada columna cuando se verifiquen los duplicados por \
+            columna (cuando 'eje = 1'). Se utiliza para agilizar el proceso de \
+            verificación de duplicados de columans, el cual puede resultar \
+            extremadamente lento para un conjunto de datos con muchas filas
         :return: matriz (dataframe) que relaciona las indices de filas/nombre \
             de columnas que presentan valores duplicados.
         """
-        base = self.base.copy()
-
         # Revisar si hay columnas con tipos diccionario o lista para
-        # convertirlas a string
-        for s in base.columns:
-            tip = str(type(self.base[s].value_counts(dropna=False).index[0])).replace("<class ", "").replace(">",
-                                                                                                             "").replace(
-                "'", "")
-
+        # convertirlas a string luego
+        lista_columnas_dict = []
+        for i in range(len(self.lista_tipos_columnas[0])):
+            col_nombre = self.lista_tipos_columnas[0][i]
+            tip = self.lista_tipos_columnas[2][i]
+            # Agregar los nombres de las columnas diccionario o lista 
+            # al diccionario 'lista_columnas_dict'
             if tip == "dict" or tip == "list":
-                base[s] = base[s].apply(str)
+                lista_columnas_dict.append(col_nombre)
             else:
                 pass
 
         # Obtener todos los duplicados, sin hacer todavía el emparejamiento
         if col == True:
-            if base.shape[0] > 30000:
-                mini_base = base.iloc[0:30000]
-                dupli = mini_base.T.duplicated(keep=False)
+            # Crear un conjunto de datos reducido si el original supera 
+            # el número de filas dado por 'limite_filas'
+            if self.base.shape[0] > limite_filas:
+                # Crear un conjunto de datos reducido 
+                numero_filas_tercio = limite_filas // 3
+                base_mitad= self.base.shape[0] // 2
+                mini_base = pd.concat([self.base.iloc[0: numero_filas_tercio], self.base.iloc[base_mitad: base_mitad + numero_filas_tercio], self.base.iloc[-numero_filas_tercio:]])
+                # Obtener los duplicados del conjunto de datos reducido 
+                dupli = pd.concat([mini_base.drop(columns = lista_columnas_dict), mini_base.loc[:, lista_columnas_dict].astype(str)], axis = 1).T.duplicated(keep=False)
             else:
                 dupli = base.T.duplicated(keep=False)
+
 
             if dupli.sum() == 0:
                 return("No hay columnas duplicadas")
             else:
-                duplicados_mini = dupli[dupli == True].index
-                dupli = base[duplicados_mini].T.duplicated(keep=False)
-
+                pass
+        # Calcular los duplicados para las filas, en caso 
+        # de haber seleccionado la opción
         elif col == False:
-            dupli = base.duplicated(keep=False)
+            dupli = self.base.duplicated(keep=False)
         else:
             raise ValueError('"col" tiene que ser True o False')
 
@@ -435,62 +463,54 @@ class CalidadDatos:
                 raise ValueError('"col" tiene que ser True o False')
         else:
             pass
-
-        lista_duplicados = []
-        for s in dupli.index:
-            for ss in dupli.index:
-                if col == True:
-                    if base[s].equals(base[ss]) and s != ss:
-                        lista_duplicados.append([s, ss])
-                elif col == False:
-                    if base.iloc[s].equals(base.iloc[ss]) and s != ss:
-                        lista_duplicados.append([s, ss])
-                else:
+        # Empareamiento de columnas
+        if col == True:
+            # Crear lista donde se guardaran las columnas emparejadas (duplicadas)
+            lista = []
+            # Crear lista de los duplicados de filas, todavía sin emparejar
+            lista_indices = list(dupli.index)
+            # Copiar 'lista_indices para ir eliminando columnas y aemparejadas
+            # y no repetir los cálculos
+            lista_indices_slice = lista_indices.copy()
+            # Lista de columnas que ya fueron emparejadas
+            lista_ya_verificados = []
+            for i in lista_indices:
+                if i in lista_ya_verificados:
                     pass
-
-        if col == False:
-            lista_duplicados = sorted(lista_duplicados)
+                else:
+                    # Emparejar columnas
+                    e = [col for col in lista_indices_slice if mini_base.loc[:, lista_indices_slice].loc[:, col].equals(mini_base.loc[:, i])]
+                    for s in e:
+                        lista_ya_verificados.append(s)
+                    lista.append(e)
+                    # Actualizar lista de indices ya emparejados
+                    lista_indices_slice = [q for q in lista_indices_slice if q not in lista_ya_verificados]
+            df = pd.DataFrame(lista).T
+            df.columns = ["Filas iguales {0}".format(q + 1) for q in range(df.shape[1])]
+        # Emparejamiento de filas
         else:
-            pass
-
-        dic = {}
-        for s in dupli.index:
-            dic[s] = []
-        for s in dupli.index:
-            for i in range(len(lista_duplicados)):
-                if s in lista_duplicados[i]:
-                    dic[s].append(lista_duplicados[i])
-        for s in dic:
-            lista = [q for l in dic[s] for q in l]
-            dic[s] = list(set(lista))
-
-        if col == True:
-            lista_listas = [q for q in dic.values()]
-        else:
-            lista_listas = [sorted(q) for q in dic.values()]
-
-        for i in range(len(lista_listas)):
-            for ii in range(len(lista_listas[i])):
-                lista_listas[i][ii] = str(lista_listas[i][ii])
-
-        df = pd.DataFrame(
-            lista_listas).drop_duplicates().reset_index(drop=True)
-
-        df = df.T
-
-        if col == True:
-            lista_columnas_df = [
-                "Columnas iguales {0}".format(q) for q in range(
-                    1, df.shape[1] + 1)]
-            df.columns = lista_columnas_df
-        else:
-            lista_columnas_df = [
-                "Filas iguales {0}".format(q) for q in range(
-                    1, df.shape[1] + 1)]
-            df.columns = lista_columnas_df
-
-        # Quitar los 'nan' del
-        df = df.apply(lambda x: x.replace(np.nan, ""))
+            # Crear lista donde se guardaran las columnas emparejadas (duplicadas)
+            lista = []
+            # Crear lista de los duplicados de filas, todavía sin emparejar
+            lista_indices = list(dupli.index)
+            # Copiar 'lista_indices para ir eliminando columnas y aemparejadas
+            # y no repetir los cálculos
+            lista_indices_slice = lista_indices.copy()
+            # Lista de filas que ya fueron emparejadas
+            lista_numeros = []
+            for i in lista_indices:
+                if i in lista_numeros:
+                    pass
+                else:
+                    # Emparejar filas
+                    e = self.base.loc[lista_indices_slice].apply(lambda row: row.equals(self.base.loc[i]), axis = 1)
+                    e = e[e == True]
+                    lista_numeros = list(e.index)
+                    lista.append(lista_numeros)
+                    # Actualizar lista de indices ya emparejados
+                    lista_indices_slice = [q for q in lista_indices_slice if q not in lista_numeros]
+            df = pd.DataFrame(lista).T
+            df.columns = ["Filas iguales {0}".format(q + 1) for q in range(df.shape[1])]
 
         return (df)
 
@@ -518,7 +538,6 @@ class CalidadDatos:
         """
         # Revisar si hay columnas numéricas. En caso de no haber, detener función
         col_num = [self.lista_tipos_columnas[0][i] for i in range(len(
-            self.lista_tipos_columnas[0])) if "float" in self.lista_tipos_columnas[2][i] or "int" in self.lista_tipos_columnas[2][i]]
 
         if len(col_num) == 0:
             print("El conjunto de datos no tiene columnas numéricas")
@@ -578,6 +597,10 @@ class CalidadDatos:
             del dataframe
         :return: dataframe con las estadísticas descriptivas.
         """
+        # Seleccionar columnas numéricas de 'self.lista_tipos_columnas'
+        col_num = [self.lista_tipos_columnas[0][i] for i in range(len(
+            self.lista_tipos_columnas[0])) if "float" in self.lista_tipos_columnas[2][i] or "int" in self.lista_tipos_columnas[2][i]]
+
         # Filtrar el conjunto de datos por las variables escogidas en la opción 'variables'
         if isinstance(variables, list):
             baseObjeto = CalidadDatos(
@@ -592,14 +615,15 @@ class CalidadDatos:
         col_num = col_tipos[col_tipos == "Numérico"].index
         base_num = baseObjeto.base[col_num]
 
+
         if len(col_num) == 0:
             print("El conjunto de datos no tiene columnas numéricas")
             return
         else:
             pass
 
-        base_descripcion = base_num.describe().T
-        base_descripcion["missing"] = pd.isnull(base_num).sum() / len(base_num)
+        base_descripcion = self.base.loc[:, col_num].describe().T
+        base_descripcion["missing"] = pd.isnull(self.base.loc[:, col_num]).sum() / len(self.base.loc[:, col_num])
         base_descripcion["outliers_total"] = baseObjeto.ValoresExtremos()
         base_descripcion["outliers_altos"] = baseObjeto.ValoresExtremos(
             extremos="superior")
@@ -632,10 +656,11 @@ class CalidadDatos:
             pass
 
         cols_tipos = self.base.dtypes
+
         lista_nums = []
-        for i in range(len(cols_tipos)):
-            if "int" in str(cols_tipos[i]) or "float" in str(cols_tipos[i]):
-                lista_nums.append(cols_tipos.index[i])
+        for i in range(len(self.tipos_dtypes)):
+            if "int" in str(self.tipos_dtypes[i]) or "float" in str(self.tipos_dtypes[i]):
+                lista_nums.append(self.tipos_dtypes.index[i])
         # base_num = base[lista_nums]
         numero_filas = self.base.shape[0]
         for c in self.base[lista_nums].columns:
@@ -688,96 +713,103 @@ class CalidadDatos:
         :return: dataframe con las estadísticas descriptivas de las columnas \
             de tipo texto.
         """
-        base = self.base.copy()
 
         # Filtrar El conjunto de datos por las variables escogidas en la opción 'variables'
         if isinstance(variables, list):
-            base = base[variables]
+            for v in variables:
+                if v in self.lista_tipos_columnas[0]:
+                    pass
+                else:
+                    raise ValueError('"{0}" no es una columna del conjunto de datos'.format(v))
         else:
-            pass
+            variables = self.lista_tipos_columnas[0].copy()
 
         # Si una variable solo tiene missing values, quitar
-        for s in base.columns:
-            if base[s].isnull().sum() == base.shape[0]:
-                del base[s]
+        for s in self.base.columns:
+            if self.base[s].isnull().sum() == self.base.shape[0]:
+                variables.remove(s)
                 warnings.warn(
-                    "La variable '{0}' se eliminó del análisis porque solo tiene valores faltantes".format(s))
+                    "La variable '{0}' se eliminó del análisis descriptivo porque solo tiene valores faltantes".format(s))
             else:
                 pass
 
         # Revisar si hay columnas con tipos diccionario o lista para
         # convertirlas a string
-        for s in base.columns:
-            tip = str(type(self.base[s].value_counts(dropna=False).index[0])).replace("<class ", "").replace(">",
-                                                                                                             "").replace(
-                "'", "")
+        lista_columnas_dict = []
+        for i in range(len(self.lista_tipos_columnas[0])):
+            col_nombre = self.lista_tipos_columnas[0][i]
+            tip = self.lista_tipos_columnas[2][i]
 
             if tip == "dict" or tip == "list":
-                base[s] = base[s].apply(str)
+                # base[col_nombre] = base[col_nombre].apply(str)
+                lista_columnas_dict.append(col_nombre)
             else:
                 pass
 
-                # Filtrar por el número de categorías únicas en cada variable
+        # Filtrar por el número de categorías únicas en cada variable
         if categoriasMaximas > 0:
-            categorias_unicas = base.nunique()
+            categorias_unicas = self.base.nunique()
             categorias_unicas = categorias_unicas.loc[categorias_unicas <=
                                                       categoriasMaximas].index
-            base = base[categorias_unicas]
+            # base = base[categorias_unicas]
+            variables = [q for q in variables if q in categorias_unicas]
         else:
             raise ValueError(
                 '"categoriasMaximas" tiene que un ´numero mayor a 0"')
 
         # Calcular qué variables tipo object tienen valores únicos menores al
         # 50% (o valor de 'limite') del total de filas del conjunto de datos original
-        col_object = base.dtypes
+        col_object = self.base.loc[:, variables].dtypes
         col_object = col_object[col_object == "object"]
         lista_object_unicos = []
         for s in col_object.index:
-            unico = len(pd.unique(base[s]))
-            if unico < base.shape[0] * limite:
+            unico = len(pd.unique(self.base[s]))
+            if unico < self.base.shape[0] * limite:
                 lista_object_unicos.append(s)
 
         # Si la opción 'transformar_nums' es True, incluir las variables
         # numéricas con repeticiones menores al 50% (o el límite) del total de
         # filas
         if incluirNumericos == True:
-            cols_types = base.dtypes
+            cols_types = self.base.loc[:, variables].dtypes
             col_nums = []
             for i in range(len(cols_types)):
-                if "int" in str(cols_types[i]) or "float" in str(
-                        cols_types[i]):
+                if "int" in str(cols_types[i]) or "float" in str(cols_types[i]):
                     col_nums.append(cols_types.index[i])
+            # print(col_nums)
             for s in col_nums:
-                unico = len(pd.unique(base[s]))
-                if unico < base.shape[0] * limite:
+                unico = len(pd.unique(self.base[s]))
+                if unico < self.base.shape[0] * limite:
                     lista_object_unicos.append(s)
         elif incluirNumericos == False:
             pass
         else:
             raise ValueError('"incluirNumericos" tiene que ser True o False')
 
+        # print(lista_object_unicos)
+
         # Crear el dataframe con la información
         lista_counts = []
         for s in lista_object_unicos:
 
-            counts = base[s].astype(str).value_counts().drop(
+            counts = self.base[s].astype(str).value_counts().drop(
                 "nan", errors="ignore")
             if isinstance(counts.index[0], dict):
                 continue
             # counts=list(counts)
             lista = counts[0:10]
             resto = sum(counts[10:len(counts)])
-            miss = pd.isnull(base[s]).sum()
+            miss = pd.isnull(self.base[s]).sum()
 
             lista["Demás categorías"] = resto
             lista["Datos faltantes"] = miss
 
             lista["Total categorías (incluye NA): {0}".format(
-                len(pd.unique(base[s])))] = np.nan
+                len(pd.unique(self.base[s])))] = np.nan
 
             lista = lista.to_frame()
             lista["Columna"] = s
-            lista["Porcentaje del total de filas"] = lista[s] / len(base)
+            lista["Porcentaje del total de filas"] = lista[s] / len(self.base)
 
             resto = lista.iloc[:, 0].loc["Demás categorías"]
 
@@ -888,6 +920,7 @@ class CalidadDatos:
         # Revisar si hay columnas numéricas. En caso de no haber, detener función
         col_num = [self.lista_tipos_columnas[0][i] for i in range(len(
             self.lista_tipos_columnas[0])) if "float" in self.lista_tipos_columnas[2][i] or "int" in self.lista_tipos_columnas[2][i]]
+
 
         if len(col_num) == 0:
             print("El conjunto de datos no tiene columnas numéricas")
@@ -1095,53 +1128,65 @@ class CalidadDatos:
         base = self.base.copy()
 
         # Filtrar el conjunto de datos por las variables escogidas en la opción 'variables'
+
         if isinstance(variables, list):
-            base = base[variables]
+            for v in variables:
+                if v in self.lista_tipos_columnas[0]:
+                    pass
+                else:
+                    raise ValueError('"{0}" no es una columna del conjunto de datos'.format(v))
         else:
-            pass
+            variables = self.lista_tipos_columnas[0].copy()
 
         # Revisar si hay columnas con tipos diccionario o lista para
-        # convertirlas a string
-        for s in base.columns:
-            tip = str(type(self.base[s].value_counts(dropna=False).index[0])).replace("<class ", "").replace(">",
-                                                                                                             "").replace(
-                "'", "")
+        # convertirlas a string cuando se realice el cálculo luego
+        lista_columnas_dict = []
+        for i in range(len(self.lista_tipos_columnas[0])):
+            col_nombre = self.lista_tipos_columnas[0][i]
+            tip = self.lista_tipos_columnas[2][i]
 
             if tip == "dict" or tip == "list":
-                base[s] = base[s].apply(str)
+                # base[col_nombre] = base[col_nombre].apply(str)
+                lista_columnas_dict.append(col_nombre)
             else:
                 pass
 
-                # Filtrar por el número de categorías únicas en cada variable
+        # Filtrar por el número de categorías únicas en cada variable
         if categoriasMaximas > 0:
-            categorias_unicas = base.nunique()
+            categorias_unicas = pd.concat([self.base.drop(columns = lista_columnas_dict), self.base.loc[:, lista_columnas_dict].astype(str)], axis = 1).nunique()
             categorias_unicas = categorias_unicas.loc[categorias_unicas <=
                                                       categoriasMaximas].index
-            base = base[categorias_unicas]
+            variables = [q for q in variables if q in categorias_unicas]
         else:
             raise ValueError(
                 '"categoriasMaximas" tiene que un ´numero mayor a 0"')
 
         # Calcular qué variables tipo object tienen valores únicos menores al
         # 50% (o valor de 'limite') del total de filas del conjunto de datos original
-        col_tipos = base.dtypes
-        lista_tipos_unicos = []
-        for s in col_tipos.index:
-            unico = len(pd.unique(base[s]))
-            if unico < base.shape[0] * limite:
-                lista_tipos_unicos.append(s)
-
-        # Filtrar el conjunto de datos con la lista de columnas categóricas deseadas
-        base = base[lista_tipos_unicos]
+        col_object = self.base.loc[:, variables].dtypes
+        col_object = col_object[col_object == "object"]
+        lista_object_unicos = []
+        for s in col_object.index:
+            unico = len(pd.unique(self.base[s]))
+            if unico < self.base.shape[0] * limite:
+                lista_object_unicos.append(s)
 
         # Hacer doble loop para crear matriz de correlation tipo Cramer V
         if metodo == 'cramer':
             lista_matriz = []
-            for c in lista_tipos_unicos:
+            for c in lista_object_unicos:
                 lista_fila = []
-                for cc in lista_tipos_unicos:
+                for cc in lista_object_unicos:
                     try:
-                        cramer = self.correlacion_cramerv(base[c], base[cc])
+                        if c not in lista_columnas_dict or cc not in lista_columnas_dict:
+                            cramer = self.correlacion_cramerv(self.base[c], self.base[cc])
+                        elif c in lista_columnas_dict or cc not in lista_columnas_dict:
+                            cramer = self.correlacion_cramerv(self.base[c].astype(str), self.base[cc])
+                        elif c not in lista_columnas_dict or cc in lista_columnas_dict:
+                            cramer = self.correlacion_cramerv(self.base[c], self.base[cc].astype(str))
+                        else:
+                            cramer = self.correlacion_cramerv(self.base[c].astype(str), self.base[cc].astype(str))
+                       
                         lista_fila.append(cramer)
                     except BaseException:
                         lista_fila.append(np.nan)
@@ -1149,8 +1194,8 @@ class CalidadDatos:
                 lista_matriz.append(lista_fila)
 
             lista_matriz = pd.DataFrame(lista_matriz)
-            lista_matriz.columns = lista_tipos_unicos
-            lista_matriz.index = lista_tipos_unicos
+            lista_matriz.columns = lista_object_unicos
+            lista_matriz.index = lista_object_unicos
 
             correlacion_final = lista_matriz
 
@@ -1170,7 +1215,7 @@ class CalidadDatos:
                     "no se pudo calcular la correlación con la variable '{0}'".format(s))
 
         elif metodo == 'phik':
-            correlacion_final = base.phik_matrix()
+            correlacion_final = self.base.loc[:, lista_object_unicos].phik_matrix()
         else:
             raise ValueError('"metodo" tiene que ser "phik" o "cramer"')
 

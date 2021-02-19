@@ -1,7 +1,3 @@
-# ignore sphinx folder
-sphinx
-
-
 # ignore compilation files
 dist
 crear_whl.bat

@@ -1,6 +1,11 @@
 # LEILA - Librería de calidad de datos
 
-![screenshot](https://raw.githubusercontent.com/ucd-dnp/leila/master/docs/_images/LEILA.jpg "LEILA")
+![screenshot](https://raw.githubusercontent.com/ucd-dnp/leila/master/recursos/LEILA.jpg "LEILA")
+---
+
+[![PyPI version fury.io](https://badge.fury.io/py/leila.svg)](https://pypi.org/project/leila/) [![PyPI pyversions](https://img.shields.io/pypi/pyversions/leila.svg)](https://pypi.org/project/leila/)
+ [![PyPI license](https://img.shields.io/pypi/l/leila.svg)](https://pypi.org/project/leila/) [![Downloads](https://pepy.tech/badge/leila)](https://pepy.tech/project/leila) [![GitHub forks](https://img.shields.io/github/forks/ucd-dnp/leila.svg?style=social&label=Fork&maxAge=2592000)](https://github.com/ucd-dnp/leila/)
+
 
 ## Descripción
 
@@ -18,12 +23,12 @@ La librería surge como resultado de un proyecto relacionado con realizar análi
 
 ## Ejemplo
 
-![screenshot](https://raw.githubusercontent.com/ucd-dnp/leila/master/docs/_static/image/vista_reporte.jpg "Reporte")
+![screenshot](https://raw.githubusercontent.com/ucd-dnp/leila/master/recursos/vista_reporte.gif "Reporte")
 
 
 La librería permite generar un reporte de calidad de datos el cual contiene información descriptiva del dataframe analizado, a continuación se presenta el código requerido para generar un reporte a partir de un archivo en Excel en formato .xlsx.
 
-```
+``` python
 import pandas as pd
 from leila.reporte import generar_reporte
 
@@ -38,22 +43,34 @@ La librería cuenta con una documentación que detalla las funciones que la conf
 
 ## Instalación
 
-Para la instalación de la librería se debe utilizar el gestor de paquetes ``pip``, por buenas prácticas se sugiere antes de la instalación crear un entorno virtual que permita aislar las librerías y evitar conflictos de versiones con el entorno de desarrollo base del computador.
+Para la instalación de la librería se recomienda utilizar el gestor de paquetes ``pip``, por buenas prácticas se sugiere antes de la instalación crear un entorno virtual que permita aislar las librerías y evitar conflictos de versiones con el entorno de desarrollo base del computador.
 
-```
+``` linux
 pip install leila
 ```
 
-## Contribuciones
+De manera alterna también puede utilizar el gestor de paquetes ``conda``.
 
-Para sugerir mejoras, cambios en la librería o seguir el avance de la solución de errores reportados, debe acceder a la sección de [Issues](https://github.com/ucd-dnp/calidad_datos/issues) del repositorio.
+```
+conda install -c ucd-dnp leila
+```
 
-## Licencia
+## Contribuciones a LEILA
+
+Todas las contribuciones, reportes de errores, corrección de errores, las mejoras de la documentación y las ideas son bienvenidas.
+
+Puede encontrar una descripción detallada de cómo contribuir en la [Wiki de LEILA](https://github.com/ucd-dnp/leila/wiki)
+
+También lo invitamos a revisar el [:calendar: Tablero **TODO** de LEILA](https://github.com/users/ucd-dnp/projects/3), donde hay una serie de temas listados en los que el equipo UCD se encuentra trabajando.
+
+## Licencia [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
+
+### **MIT License** 
 
 La librería LEILA - Calidad de datos se encuentra publicada bajo la licencia MIT <br />
 Copyleft (c) 2020 Departamento Nacional de Planeación - DNP Colombia
 
-Para mayor información puede consultar el archivo de [Licencia](https://github.com/ucd-dnp/calidad_datos/blob/master/LICENSE)
+Para mayor información puede consultar el archivo de [Licencia](https://github.com/ucd-dnp/leila/blob/master/LICENSE)
 
 ## Contacto
 
