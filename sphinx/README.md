@@ -10,13 +10,12 @@ Los pasos presentados a continuación se utilizaron con las siguientes librería
 | sphinx_copybutton   |0.3.1  |
 | sphinx_rtd_theme    |0.5.1  |
 
-Adicionalmente, se tomó como código fuente la librería [LEILA](https://github.com/ucd-dnp/leila) y se tiene cuenta la siguiente estructura base de carpetas:
+Adicionalmente, se tomó como código fuente la librería [LEILA](https://github.com/ucd-dnp/leila) y se tiene en cuenta la siguiente estructura base de carpetas:
 
 ```
-[Proyecto]              # carpeta principal
+[Proyecto]               # carpeta principal
 |
 |--- [leila]             # carpeta que contiene el código fuente
-| |--- [__pycache__]
 | |--- [templates]
 | |--- __init__.py
 | |--- calidad_datos.py
@@ -24,7 +23,7 @@ Adicionalmente, se tomó como código fuente la librería [LEILA](https://github
 | |--- reporte.py
 ```
 
-Vale la pena mencionar que la librería [LEILA](https://github.com/ucd-dnp/leila) y los archivos usados su documentación utilizan el lenguaje ReStructuredText. Para mayor información puede consultar los siguientes links:
+Vale la pena mencionar que la librería [LEILA](https://github.com/ucd-dnp/leila) y los archivos usados en su documentación utilizan el lenguaje ReStructuredText. Para mayor información puede consultar los siguientes links:
 
 * [ReStructuredText en Wikipedia](https://es.wikipedia.org/wiki/ReStructuredText)
 * [Sphinx - reStructuredText](https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html)
@@ -60,28 +59,26 @@ Finished: An initial directory structure has been created.
 Una vez finalizada la ejecución inicial deberá tener una estructura de archivos como la siguiente:
 
 ```
-[Proyecto]              # carpeta principal
+[Proyecto]               # carpeta principal
 |
 |--- [doc]
-| |--- [build]            # carpeta de resultados de la documentación
-| |--- [source]           # carpeta de archivos de configuración de sphinx
-|   |--- [_static]        # carpeta de archivos estáticos como imágenes, .css y otros
-|   |--- [_templates]     # carpeta de templates - se utiliza con sphinx-multiversion
-|   |--- conf.py          # archivo principal de configuración de sphinx
+| |--- [build]           # carpeta de resultados de la documentación
+| |--- [source]          # carpeta de archivos de configuración de sphinx
+|   |--- [_static]       # carpeta de archivos estáticos como imágenes, .css y otros
+|   |--- [_templates]    # carpeta de templates - se utiliza con sphinx-multiversion
+|   |--- conf.py         # archivo principal de configuración de sphinx
 |   |--- index.rst
 |
-| |--- make.bat           # archivo ejecutable - le permitirá generar la documentación
-| |--- Makefile           # archivo ejecutable - le permitirá generar la documentación
+| |--- make.bat          # archivo ejecutable - le permitirá generar la documentación
+| |--- Makefile          # archivo ejecutable - le permitirá generar la documentación
 |
 |
 |--- [leila]             # carpeta que contiene el código fuente
-| |--- [__pycache__]
 | |--- [templates]
 | |--- __init__.py
 | |--- calidad_datos.py
 | |--- datos_gov.py
 | |--- reporte.py
-
 ```
 
 ***
@@ -107,7 +104,7 @@ extensions = ['sphinx.ext.autodoc', 'sphinx.ext.autosectionlabel', 'sphinx_copyb
 * La extensión **'sphinx.ext.autosectionlabel'** permite hacer referencias o enlaces entre las páginas de la documentación.
 
 ***
-#### 3.3 Para cambiar el theme de los html, se debe cambiar la variable html_theme con el nombre del theme (opcional)
+#### 3.3 Para cambiar el theme de los archivso html, se debe cambiar la variable html_theme con el nombre del theme (opcional)
 
 ```python
 html_theme = 'sphinx_rtd_theme'
@@ -185,7 +182,7 @@ Indices and tables
 * :ref:`search`
 ```
 
-***Nota 1:*** solo se agrega la referencia al archivo *modules.rst* porque internamente este llama al *archivo leila.rst*
+***Nota 1:*** solo se agrega la referencia al archivo *modules.rst* porque internamente este llama al archivo *leila.rst*
 
 ***Nota 2:*** tener cuidado con la indentación en los archivos *.rst*.
 
@@ -223,7 +220,7 @@ make latex              # inicia el proceso de generación de la documentación 
 Una vez finalice la ejecución ejecute el siguiente comando.
 ```python
 # ubicados en la carpeta doc/build/latex correr:
-pdflatex leila.tex       # inicia el proceso de generación de la documentación en formato PDF
+pdflatex leila.tex      # inicia el proceso de generación de la documentación en formato PDF
 ```
 
 Se generará el archivo *leila.pdf* y lo podrá encontrar en la ruta ***doc/build/latex/leila.pdf***
