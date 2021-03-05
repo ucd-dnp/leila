@@ -19,12 +19,21 @@ sys.path.insert(0, os.path.abspath('../../leila'))
 # -- Project information -----------------------------------------------------
 
 project = 'LEILA'
+<<<<<<< HEAD
 copyright = '2021, UCD - DNP'
 author = 'UCD - DNP'
 
 # The full version, including alpha/beta/rc tags
 release = '0.2'
 version = 'latest'
+=======
+copyright = '2020, UCD - DNP'
+author = 'UCD - DNP'
+
+# The full version, including alpha/beta/rc tags
+release = '0.1'
+version = 'latest - v0.1'
+>>>>>>> master
 
 # -- General configuration ---------------------------------------------------
 

@@ -1,11 +1,14 @@
 # LEILA - Librería de calidad de datos
 
 ![screenshot](https://raw.githubusercontent.com/ucd-dnp/leila/master/recursos/LEILA.jpg "LEILA")
+<<<<<<< HEAD
 ---
 
 [![PyPI version fury.io](https://badge.fury.io/py/leila.svg)](https://pypi.org/project/leila/) [![PyPI pyversions](https://img.shields.io/pypi/pyversions/leila.svg)](https://pypi.org/project/leila/)
  [![PyPI license](https://img.shields.io/pypi/l/leila.svg)](https://pypi.org/project/leila/) [![Downloads](https://pepy.tech/badge/leila)](https://pepy.tech/project/leila) [![GitHub forks](https://img.shields.io/github/forks/ucd-dnp/leila.svg?style=social&label=Fork&maxAge=2592000)](https://github.com/ucd-dnp/leila/)
 
+=======
+>>>>>>> master
 
 ## Descripción
 
