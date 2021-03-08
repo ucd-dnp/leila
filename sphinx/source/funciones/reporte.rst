@@ -1,5 +1,21 @@
 .. _reporte:
 
+.. |ul| raw:: html
+
+   <ul>
+
+.. |/ul| raw:: html
+
+   </ul>
+
+.. |li| raw:: html
+
+   <li>
+
+.. |/li| raw:: html
+
+   </li>
+
 Reporte
 =======
 

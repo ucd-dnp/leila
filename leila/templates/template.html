@@ -15,7 +15,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 
         <!-- Load plotly.js into the DOM -->
-	    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+        <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
 
         <style>
             .aligned-row { display: flex; }
@@ -85,40 +85,41 @@
                                 </div>
                             </div>
                         </div>
-                    <br>
+                        <br>
                     {% endif %}
 
                     <!-- Estadísticas generales -->
-                    <div class="row max_size_row">
-                        <div class="col-md-12 borde">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h3><em>Estadísticas generales</em></h3>
-                                </div>
-                            </div>
-                            <div class="row hidden-md hidden-lg">
-                                <div class="col-md-12">
-                                    <div class="table-responsive">
-                                        {{ html_data_summary_full }}
+                    {% if generales %}
+                        <div class="row max_size_row">
+                            <div class="col-md-12 borde">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h3><em>Estadísticas generales</em></h3>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row hidden-xs hidden-sm">
-                                <div class="col-md-6">
-                                    <div class="table-responsive">
-                                        {{ html_data_summary_head }}
+                                <div class="row hidden-md hidden-lg">
+                                    <div class="col-md-12">
+                                        <div class="table-responsive">
+                                            {{ html_data_summary_full }}
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="table-responsive">
-                                        {{ html_data_summary_tail }}
+                                <div class="row hidden-xs hidden-sm">
+                                    <div class="col-md-6">
+                                        <div class="table-responsive">
+                                            {{ html_data_summary_head }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="table-responsive">
+                                            {{ html_data_summary_tail }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <br>
+                        <br>
+                    {% endif %}
 
                     <!-- Muestra de datos -->
                     {% if muestra_datos %}
@@ -151,27 +152,42 @@
                                 <hr><em>{{ dataframe_shape }}</em><br><br>
                             </div>
                         </div>
+                        <br>
                     {% endif %}
 
-                    <br>
-
                     <!-- Estadísticas específicas -->
-                    {% if especificas %}
+                    {% if seccion_especificas %}
                         <div class="row">
                             <div class="col-md-12 borde">
 
                                 <h3><em>Estadísticas específicas</em></h3>
                                 <ul class="nav nav-tabs">
-                                    <li class="active"><a data-toggle="tab" href="#tab05">Tipo de las columnas</a></li>
-                                    <li><a data-toggle="tab" href="#tab03">Frecuencia de categorías</a></li>
-                                    <li><a data-toggle="tab" href="#tab04">Datos duplicados</a></li>
-                                    <li><a data-toggle="tab" href="#tab06">Estadísticas descriptivas</a></li>
+                                    {% if especificas_tipo %} {% if especificas_active == 'tipo' %}<li class="active">{% else %}<li>{% endif %}
+                                        <a data-toggle="tab" href="#tab05">Tipo de las columnas</a></li>
+                                    {% endif %}
+
+                                    {% if especificas_frecuencias %} {% if especificas_active == 'frecuencias' %}<li class="active">{% else %}<li>{% endif %}
+                                        <a data-toggle="tab" href="#tab03">Frecuencia de categorías</a></li>
+                                    {% endif %}
+
+                                    {% if especificas_duplicados %} {% if especificas_active == 'duplicados' %}<li class="active">{% else %}<li>{% endif %}
+                                        <a data-toggle="tab" href="#tab04">Datos duplicados</a></li>
+                                    {% endif %}
+
+                                    {% if especificas_descriptivas %} {% if especificas_active == 'descriptivas' %}<li class="active">{% else %}<li>{% endif %}
+                                        <a data-toggle="tab" href="#tab06">Estadísticas descriptivas</a></li>
+                                    {% endif %}
                                 </ul>
 
-                                <div class="tab-content" style="text-align: justify; text-justify: inter-word;">
+                                <div class="tab-content" style="text-align: justify; text-justify: inter-word;">                    
 
-                                    <!-- Tipo de las columnas -->
-                                    <div id="tab05" class="tab-pane fade in active">
+                                <!-- Tipo de las columnas -->
+                                {% if especificas_tipo %}
+                                    {% if especificas_active == 'tipo' %}
+                                        <div id="tab05" class="tab-pane fade in active">
+                                    {% else %}
+                                        <div id="tab05" class="tab-pane fade">
+                                    {% endif %}
                                         <br>
                                         <p class="descripcion">
                                             Aquí se muestran los tipos de las columnas de la base de datos con tres metodologías diferentes. La columna 'Tipo general' muestra si las variables son numéricas, de texto, booleanas; la columna 'Tipo general (Python)' muestra el tipo de la variable según la función "dtypes" de Python; las columnas 'Tipo especifico' muestran los tipos de las observaciones de cada columna, incluidos datos faltantes ("nan"), como porcentaje del total.
@@ -212,9 +228,15 @@
                                             </div>
                                         </div>
                                     </div>
+                                {% endif %}
 
-                                    <!-- Frecuencia de categorías -->
-                                    <div id="tab03" class="tab-pane fade">
+                                <!-- Frecuencia de categorías -->
+                                {% if especificas_frecuencias %}
+                                    {% if especificas_active == 'frecuencias' %}
+                                        <div id="tab03" class="tab-pane fade in active">
+                                    {% else %}
+                                        <div id="tab03" class="tab-pane fade">
+                                    {% endif %}
                                         <br>
                                         <p class="descripcion">
                                             Contiene las 10 categorías más frecuentes de las columnas tipo texto y presenta el porcentaje dentro del total de observaciones. Incluye valores faltantes.
@@ -254,9 +276,15 @@
                                             </div>
                                         </div>
                                     </div>
+                                {% endif %}
 
-                                    <!-- Datos duplicados -->
-                                    <div id="tab04" class="tab-pane fade">
+                                <!-- Datos duplicados -->
+                                {% if especificas_duplicados %}
+                                    {% if especificas_active == 'duplicados' %}
+                                        <div id="tab04" class="tab-pane fade in active">
+                                    {% else %}
+                                        <div id="tab04" class="tab-pane fade">
+                                    {% endif %}
                                         <br>
                                         <p class="descripcion">
                                             Cada columna muestra los nombres de las filas y columnas que están duplicadas en la base de datos
@@ -296,9 +324,15 @@
                                             </div>
                                         </div>
                                     </div>
+                                {% endif %}
 
-                                    <!-- Estadísticas Descriptivas -->
-                                    <div id="tab06" class="tab-pane fade">
+                                <!-- Estadísticas Descriptivas -->
+                                {% if especificas_descriptivas %}
+                                    {% if especificas_active == 'descriptivas' %}
+                                        <div id="tab06" class="tab-pane fade in active">
+                                    {% else %}
+                                        <div id="tab06" class="tab-pane fade">
+                                    {% endif %}                                    
                                         <br>
                                         <p class="descripcion">
                                             Contiene información para cada columna de tipo numérico, incluye media, mediana, percentiles, desviación estándar, valores extremos y porcentaje de valores faltantes.
@@ -342,129 +376,171 @@
                                             <strong>* La base de datos no tiene columnas numéricas</strong>
                                         {% endif %}
                                     </div>
+                                {% endif %}
+
                                 </div>
                                 <br>
                             </div>
                         </div>
-                    {% endif %}
-
-                    <br>
+                        <br>
+                    {% endif %}                    
 
                     <!-- Correlaciones -->
-                    {% if correlaciones %}
+                    {% if seccion_correlaciones %}
                         <div class="row">
                             <div class="col-md-12 borde">
 
                                 <h3><em>Correlaciones</em></h3>
                                 <ul class="nav nav-tabs">
-                                    <li class="active"><a data-toggle="tab" href="#tab01b">Pearson</a></li>
-                                    <li><a data-toggle="tab" href="#tab02b">Kendall</a></li>
-                                    <li><a data-toggle="tab" href="#tab03b">Spearman</a></li>
-                                    <li><a data-toggle="tab" href="#tab04b">Cramer</a></li>
-                                    <li><a data-toggle="tab" href="#tab05b">Phik</a></li>
+                                    {% if corre_pearson_values != None %} {% if correlaciones_active == 'pearson' %}<li class="active">{% else %}<li>{% endif %}
+                                        <a data-toggle="tab" href="#tab01b">Pearson</a></li>
+                                    {% endif %}
+                                    {% if corre_kendall_values != None %} {% if correlaciones_active == 'kendall' %}<li class="active">{% else %}<li>{% endif %}
+                                        <a data-toggle="tab" href="#tab02b">Kendall</a></li>
+                                    {% endif %}
+                                    {% if corre_spearman_values != None %} {% if correlaciones_active == 'spearman' %}<li class="active">{% else %}<li>{% endif %}
+                                        <a data-toggle="tab" href="#tab03b">Spearman</a></li>
+                                    {% endif %}
+                                    {% if corre_cramer_values != None %} {% if correlaciones_active == 'cramer' %}<li class="active">{% else %}<li>{% endif %}
+                                        <a data-toggle="tab" href="#tab04b">Cramer</a></li>
+                                    {% endif %}
+                                    {% if corre_phik_values != None %} {% if correlaciones_active == 'phik' %}<li class="active">{% else %}<li>{% endif %}
+                                        <a data-toggle="tab" href="#tab05b">Phik</a></li>
+                                    {% endif %}                                    
                                 </ul>
 
                                 <div class="tab-content" style="text-align: justify; text-justify: inter-word;">
 
-                                    <!-- correlación numérica - Pearson -->
-                                    <div id="tab01b" class="tab-pane fade in active">
-                                        <br>
-                                        <p class="descripcion">
-                                            La correlación de Pearson es una medida de correlación lineal entre dos variables. Varía entre -1 y 1, donde -1 significa que la correlación entre las variables es negativa y total, 0 que no existe la correlación y 1 que hay correlación positiva total. Se calcula como la división de la covarianza de las dos variables con el producto de las desviaciones estándar de cada variable.
-                                        </p>
-                                        {% if corre_pearson_headers|length > 1 %}
-                                            <div class="row max_size_row3 aligned-row">
-                                                <div class="col-md-12">
-                                                    <div class="container">
-                                                        <div id='corre_pearson' class="max_size_row3"></div>
+                                    <!-- correlación numérica - Pearson -->                                    
+                                    {% if corre_pearson_values != None %}
+                                        {% if correlaciones_active == 'pearson' %}
+                                            <div id="tab01b" class="tab-pane fade in active">
+                                        {% else %}
+                                            <div id="tab01b" class="tab-pane fade">
+                                        {% endif %}
+                                            <br>
+                                            <p class="descripcion">
+                                                La correlación de Pearson es una medida de correlación lineal entre dos variables. Varía entre -1 y 1, donde -1 significa que la correlación entre las variables es negativa y total, 0 que no existe la correlación y 1 que hay correlación positiva total. Se calcula como la división de la covarianza de las dos variables con el producto de las desviaciones estándar de cada variable.
+                                            </p>
+                                            {% if corre_pearson_headers|length > 1 %}
+                                                <div class="row max_size_row3 aligned-row">
+                                                    <div class="col-md-12">
+                                                        <div class="container">
+                                                            <div id='corre_pearson' class="max_size_row3"></div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        <p>* En caso de ver mal los labels del eje x, ajustar el zoom del navegador.</p><br>
-                                        {% else %}
-                                            <p><strong>* La base de datos no tiene columnas numéricas para el cálculo de correlaciones</strong></p>
-                                        {% endif %}
-                                    </div>
+                                            <p>* En caso de ver mal los labels del eje x, ajustar el zoom del navegador.</p><br>
+                                            {% else %}
+                                                <p><strong>* La base de datos no tiene columnas numéricas para el cálculo de correlaciones</strong></p>
+                                            {% endif %}
+                                        </div>
+                                    {% endif %}
 
                                     <!-- correlación numérica - Kendall -->
-                                    <div id="tab02b" class="tab-pane fade">
-                                        <br>
-                                        <p class="descripcion">
-                                           La correlación de Kendall mide la relación entre dos variables ordinales. Varía entre -1 y 1, donde -1 significa que la correlación entre las variables es negativa total, 0 que no existe la correlación y 1 que hay correlación positiva total. Se calcula como la división de los números concordantes menos los discordantes de pares entre las variables con el número total de pares.
-                                        </p>
-                                        {% if corre_kendall_headers|length > 1 %}
-                                            <div class="row max_size_row3 aligned-row">
-                                                <div class="col-md-12">
-                                                    <div class="container">
-                                                        <div id='corre_kendall' class="max_size_row3"></div>
+                                    {% if corre_kendall_values != None %}
+                                        {% if correlaciones_active == 'kendall' %}
+                                            <div id="tab02b" class="tab-pane fade in active">
+                                        {% else %}
+                                            <div id="tab02b" class="tab-pane fade">
+                                        {% endif %}
+                                            <br>
+                                            <p class="descripcion">
+                                               La correlación de Kendall mide la relación entre dos variables ordinales. Varía entre -1 y 1, donde -1 significa que la correlación entre las variables es negativa total, 0 que no existe la correlación y 1 que hay correlación positiva total. Se calcula como la división de los números concordantes menos los discordantes de pares entre las variables con el número total de pares.
+                                            </p>
+                                            {% if corre_kendall_headers|length > 1 %}
+                                                <div class="row max_size_row3 aligned-row">
+                                                    <div class="col-md-12">
+                                                        <div class="container">
+                                                            <div id='corre_kendall' class="max_size_row3"></div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        <p>* En caso de ver mal los labels del eje x, ajustar el zoom del navegador.</p><br>
-                                        {% else %}
-                                            <p><strong>* La base de datos no tiene columnas numéricas para el cálculo de correlaciones</strong></p>
-                                        {% endif %}
-                                    </div>
+                                            <p>* En caso de ver mal los labels del eje x, ajustar el zoom del navegador.</p><br>
+                                            {% else %}
+                                                <p><strong>* La base de datos no tiene columnas numéricas para el cálculo de correlaciones</strong></p>
+                                            {% endif %}
+                                        </div>
+                                    {% endif %}
 
                                     <!-- correlación numérica - Spearman -->
-                                    <div id="tab03b" class="tab-pane fade">
-                                        <br>
-                                        <p class="descripcion">
-                                            La correlación de Spearman es una medida de correlación monotónica que  se usa principalmente para medir la relación entre dos variables ordinales. Varía entre -1 y 1, donde -1 significa una correlación monotónica negativa total, 0 que no hay correlación monotónica y 1 que hay una correlación monotónica positiva total. Se calcula como la división de la covarianza de los rangos de cada variable con el producto de las desviaciones estándar de cada variable.
-                                        </p>
-                                        {% if corre_spearman_headers|length > 1 %}
-                                            <div class="row max_size_row3 aligned-row">
-                                                <div class="col-md-12">
-                                                    <div class="container">
-                                                        <div id='corre_spearman' class="max_size_row3"></div>
+                                    {% if corre_spearman_values != None %}
+                                        {% if correlaciones_active == 'spearman' %}
+                                            <div id="tab03b" class="tab-pane fade in active">
+                                        {% else %}
+                                            <div id="tab03b" class="tab-pane fade">
+                                        {% endif %}
+                                            <br>
+                                            <p class="descripcion">
+                                                La correlación de Spearman es una medida de correlación monotónica que  se usa principalmente para medir la relación entre dos variables ordinales. Varía entre -1 y 1, donde -1 significa una correlación monotónica negativa total, 0 que no hay correlación monotónica y 1 que hay una correlación monotónica positiva total. Se calcula como la división de la covarianza de los rangos de cada variable con el producto de las desviaciones estándar de cada variable.
+                                            </p>
+                                            {% if corre_spearman_headers|length > 1 %}
+                                                <div class="row max_size_row3 aligned-row">
+                                                    <div class="col-md-12">
+                                                        <div class="container">
+                                                            <div id='corre_spearman' class="max_size_row3"></div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        <p>* En caso de ver mal los labels del eje x, ajustar el zoom del navegador.</p><br>
-                                        {% else %}
-                                            <p><strong>* La base de datos no tiene columnas numéricas para el cálculo de correlaciones</strong></p>
-                                        {% endif %}
-                                    </div>
+                                            <p>* En caso de ver mal los labels del eje x, ajustar el zoom del navegador.</p><br>
+                                            {% else %}
+                                                <p><strong>* La base de datos no tiene columnas numéricas para el cálculo de correlaciones</strong></p>
+                                            {% endif %}
+                                        </div>
+                                    {% endif %}
 
                                     <!-- correlación categórica - Cramer -->
-                                    <div id="tab04b" class="tab-pane fade">
-                                        <br>
-                                        <p class="descripcion">
-                                            La correlación Cramer V se usas para medir la relación entre dos variables nominales. Varía entre 0 y 1, donde 0 significa que no hay correlación y 1 que la correlación es positiva y total. Se calcula como la raíz cuadrada de la división de estadístico Chi Cuadrado con el mínimo entre el número de filas o columnas y el número total de observaciones.
-                                        </p>
-                                        {% if corre_cramer_headers|length > 1 %}
-                                            <div class="row max_size_row3 aligned-row">
-                                                <div class="col-md-12">
-                                                    <div class="container">
-                                                        <div id='corre_cramer' class="max_size_row3"></div>
+                                    {% if corre_cramer_values != None %}
+                                        {% if correlaciones_active == 'cramer' %}
+                                            <div id="tab04b" class="tab-pane fade in active">
+                                        {% else %}
+                                            <div id="tab04b" class="tab-pane fade">
+                                        {% endif %}
+                                            <br>
+                                            <p class="descripcion">
+                                                La correlación Cramer V se usas para medir la relación entre dos variables nominales. Varía entre 0 y 1, donde 0 significa que no hay correlación y 1 que la correlación es positiva y total. Se calcula como la raíz cuadrada de la división de estadístico Chi Cuadrado con el mínimo entre el número de filas o columnas y el número total de observaciones.
+                                            </p>
+                                            {% if corre_cramer_headers|length > 1 %}
+                                                <div class="row max_size_row3 aligned-row">
+                                                    <div class="col-md-12">
+                                                        <div class="container">
+                                                            <div id='corre_cramer' class="max_size_row3"></div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        <p>* En caso de ver mal los labels del eje x, ajustar el zoom del navegador.</p><br>
-                                        {% else %}
-                                            <p><strong>* La base de datos no tiene columnas categóricas para el cálculo de correlaciones</strong></p>
-                                        {% endif %}
-                                    </div>
+                                            <p>* En caso de ver mal los labels del eje x, ajustar el zoom del navegador.</p><br>
+                                            {% else %}
+                                                <p><strong>* La base de datos no tiene columnas categóricas para el cálculo de correlaciones</strong></p>
+                                            {% endif %}
+                                        </div>
+                                    {% endif %}
 
                                     <!-- correlación categórica - Phik -->
-                                    <div id="tab05b" class="tab-pane fade">
-                                        <br>
-                                        <p class="descripcion">
-                                            Esta correlación se calcula con el módulo Phik de Python. <a href="https://pypi.org/project/phik/" target="_blank">ver más detalles</a>
-                                        </p>
-                                        {% if corre_phik_headers|length > 1 %}
-                                            <div class="row max_size_row3 aligned-row">
-                                                <div class="col-md-12">
-                                                    <div class="container">
-                                                        <div id='corre_phik' class="max_size_row3"></div>
+                                    {% if corre_phik_values != None %}
+                                        {% if correlaciones_active == 'phik' %}
+                                            <div id="tab05b" class="tab-pane fade in active">
+                                        {% else %}
+                                            <div id="tab05b" class="tab-pane fade">
+                                        {% endif %}                                    
+                                            <br>
+                                            <p class="descripcion">
+                                                Esta correlación se calcula con el módulo Phik de Python. <a href="https://pypi.org/project/phik/" target="_blank">ver más detalles</a>
+                                            </p>
+                                            {% if corre_phik_headers|length > 1 %}
+                                                <div class="row max_size_row3 aligned-row">
+                                                    <div class="col-md-12">
+                                                        <div class="container">
+                                                            <div id='corre_phik' class="max_size_row3"></div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        <p>* En caso de ver mal los labels del eje x, ajustar el zoom del navegador.</p><br>
-                                        {% else %}
-                                            <p><strong>* La base de datos no tiene columnas categóricas para el cálculo de correlaciones</strong></p>
-                                        {% endif %}
-                                    </div>
+                                            <p>* En caso de ver mal los labels del eje x, ajustar el zoom del navegador.</p><br>
+                                            {% else %}
+                                                <p><strong>* La base de datos no tiene columnas categóricas para el cálculo de correlaciones</strong></p>
+                                            {% endif %}
+                                        </div>
+                                    {% endif %}
+
                                 </div>
                             </div>
                         </div>
@@ -476,7 +552,7 @@
                             <footer class="text-center">
                                 <hr>
                                 <p>
-                                    Reporte generado con <em><a href="https://github.com/ucd-dnp/leila" target="_blank">LEILA - Librería de calidad de datos</a></em> - Versión 0.1
+                                    Reporte generado con <em><a href="https://github.com/ucd-dnp/leila" target="_blank">LEILA - Librería de calidad de datos</a></em> - Versión 0.2
                                 </p>
                                 <br>
                             </footer>
@@ -678,7 +754,7 @@
                     </script>
 
                     <!-- Heatmaps -->
-                    {% if correlaciones %}
+                    {% if seccion_correlaciones %}
                         <script>
                             // Función para la generación de heat maps de correlación usando plotly
                             function heatMap(graph_id, headers, values) {
@@ -709,19 +785,19 @@
                                 try { Plotly.newPlot(graph_id, data, layout, {displayModeBar: false, responsive: true}); } catch (error) { }
                             }
                             
-                            heatMap('corre_pearson', {{ corre_pearson_headers }}, {{ corre_pearson_values }});
-                            heatMap('corre_kendall', {{ corre_kendall_headers }}, {{ corre_kendall_values }});
-                            heatMap('corre_spearman', {{ corre_spearman_headers }}, {{ corre_spearman_values }});
-                            heatMap('corre_cramer', {{ corre_cramer_headers }}, {{ corre_cramer_values }});
-                            heatMap('corre_phik', {{ corre_phik_headers }}, {{ corre_phik_values }});
+                            try { heatMap('corre_pearson', {{ corre_pearson_headers }}, {{ corre_pearson_values }}); } catch (error) { }
+                            try { heatMap('corre_kendall', {{ corre_kendall_headers }}, {{ corre_kendall_values }}); } catch (error) { }
+                            try { heatMap('corre_spearman', {{ corre_spearman_headers }}, {{ corre_spearman_values }}); } catch (error) { }
+                            try { heatMap('corre_cramer', {{ corre_cramer_headers }}, {{ corre_cramer_values }}); } catch (error) { }
+                            try { heatMap('corre_phik', {{ corre_phik_headers }}, {{ corre_phik_values }}); } catch (error) { }
                         </script>
 
                         <script>
-                            var heatmap_1 = document.getElementById('corre_pearson');
-                            var heatmap_2 = document.getElementById('corre_kendall');
-                            var heatmap_3 = document.getElementById('corre_spearman');
-                            var heatmap_4 = document.getElementById('corre_cramer');
-                            var heatmap_5 = document.getElementById('corre_phik');
+                            try { var heatmap_1 = document.getElementById('corre_pearson'); } catch (error) { }
+                            try { var heatmap_2 = document.getElementById('corre_kendall'); } catch (error) { }
+                            try { var heatmap_3 = document.getElementById('corre_spearman'); } catch (error) { }
+                            try { var heatmap_4 = document.getElementById('corre_cramer'); } catch (error) { }
+                            try { var heatmap_5 = document.getElementById('corre_phik'); } catch (error) { }
 
                             function resizeHeatmaps() {
                                 try { Plotly.Plots.resize(heatmap_1); } catch (error) { }
