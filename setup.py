@@ -22,7 +22,7 @@ setuptools.setup(
                         'certifi==2020.4.5.1',
                         'chardet==3.0.4',
                         'idna==2.9',
-                        'Jinja2==2.11.2',
+                        'Jinja2==2.11.3',
                         'MarkupSafe==1.1.1',
                         'python-dateutil==2.8.1',
                         'requests==2.23.0',
