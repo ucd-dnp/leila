@@ -5,10 +5,6 @@ import datetime
 import pandas as pd
 from jinja2 import Environment, PackageLoader
 
-# Se deben usar estos imports para que funcione correctamente Sphinx
-# from calidad_datos import CalidadDatos
-# from datos_gov import *
-
 from leila.calidad_datos import CalidadDatos
 from leila import datos_gov
 
@@ -36,7 +32,7 @@ def df_as_html(base, id=None, classes=None):
 
 def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamiento',
                     archivo='perfilamiento_leila.html', castNumero=False, 
-                    muestra_datos=True, correlaciones=True, especificas=True):
+                    secciones = {'generales':True, 'muestra_datos': True, 'especificas': True,  'correlaciones': True}):
     """Genera un reporte de calidad de datos en formato HTML. :ref:`Ver ejemplo <reporte.generar_reporte>`
 
     :param castNumero: (bool) {True, False}. Valor por defecto: False. \
@@ -45,21 +41,19 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
     :param api_id: (str) opcional - Identificación de la base de datos asociado con la API de Socrata (de Datos Abiertos).
     :param token: (str) opcional - Token de usuario de la API de Socrata (de Datos Abiertos).
     :param titulo: (str) valor por defecto: 'Reporte perfilamiento'. Título del reporte a generar.
-    :param archivo: (str) valor por defecto: 'perfilamiento.html'. Ruta donde guardar el reporte.
-    :param muestra_datos: (bool) {True, False}. Valor por defecto: True. \
-            Indica si desea incluir la sección de 'Muestra de datos' en el reporte.
-    :param correlaciones: (bool) {True, False}. Valor por defecto: True. \
-            Indica si desea incluir la sección de correlaciones en el reporte.
-    :param especificas: (bool) {True, False}. Valor por defecto: True.
-            Indica si desea incluir la sección de 'Estadísticas específicas' en el reporte.
-    :return: archivo de reporte en formato HTML.
+    :param archivo: (str) valor por defecto: 'perfilamiento.html'. Ruta donde guardar el reporte.    
+    :param secciones: (dic) Diccionario indicando cuales secciones incluir en el reporte. Las opciones son las siguientes: \
+         |ul| 
+         |li| 'generales': (bool) {True, False}. Valor por defecto: True. Indica si desea incluir la sección de 'Estadísticas generales' en el reporte. |/li| 
+         |li| 'muestra_datos': (bool) {True, False}. Valor por defecto: True. Indica si desea incluir la sección 'Muestra de datos' en el reporte. |/li| 
+         |li| 'especificas': (bool/list) {True, False, Lista}. Valor por defecto: True. Puede tomar un valor boolean indicando \
+                si desea incluir la sección de 'Estadísticas específicas' en el reporte. O mediante una lista de strings indicar \
+                cuál pestaña de la sección incluir. Valores posibles: 'tipo','frecuencias','duplicados','descriptivas' |/li| 
+         |li| 'correlaciones': (bool/list) {True, False, Lista}. Valor por defecto: True. Puede tomar un valor boolean indicando \
+                si desea incluir la sección de 'Correlaciones' en el reporte. O mediante una lista de strings indicar \
+                cuál pestaña de la sección incluir. Valores posibles: 'pearson','kendall','spearman','cramer','phik' |/li| 
+         |/ul| 
     """
-
-    link_datos_abiertos = None
-    html_metadatos_full = None
-    html_metadatos_head = None
-    html_metadatos_tail = None
-
     if api_id is not None:
         datos = datos_gov.cargar_base(api_id=api_id, token=token)
         base = CalidadDatos(datos, castNumero=castNumero)
@@ -104,28 +98,37 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
         print('--------------------------------------------------------------------------------------------')
     else:
         base = CalidadDatos(df, castNumero=castNumero)
+        link_datos_abiertos = None
+        html_metadatos_full = None
+        html_metadatos_head = None
+        html_metadatos_tail = None
 
     timestamp = datetime.datetime.now()
     current_time = timestamp.strftime("%d-%m-%Y %I:%M:%S %p")
 
     # ------------------------------------------------------------------------
     # Estadísticas generales -------------------------------------------------
-    dataframe_summary = base.Resumen().to_frame().reset_index()
-    dataframe_summary.columns = ['Categoría', 'Valor']
+    if secciones.get('generales')==True:
+        dataframe_summary = base.Resumen().to_frame().reset_index()
+        dataframe_summary.columns = ['Categoría', 'Valor']
 
-    try:
-        dataframe_summary['Valor'] = dataframe_summary['Valor'].apply(
-            '{:,.0f}'.format)
-    except BaseException:
-        pass
+        try:
+            dataframe_summary['Valor'] = dataframe_summary['Valor'].apply(
+                '{:,.0f}'.format)
+        except BaseException:
+            pass
 
-    html_data_summary_full = df_as_html(dataframe_summary)
-    html_data_summary_head = df_as_html(dataframe_summary[:6])
-    html_data_summary_tail = df_as_html(dataframe_summary[-5:])
+        html_data_summary_full = df_as_html(dataframe_summary)
+        html_data_summary_head = df_as_html(dataframe_summary[:6])
+        html_data_summary_tail = df_as_html(dataframe_summary[-5:])
+    else:
+        html_data_summary_full=None
+        html_data_summary_head=None
+        html_data_summary_tail=None
 
     # ------------------------------------------------------------------------
     # Muestra de datos -------------------------------------------------------
-    if muestra_datos:
+    if secciones.get('muestra_datos')==True:
         # Head
         html_dataframe_head = df_as_html(base.base.head(10))
         # Tail
@@ -141,7 +144,17 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
 
     # ------------------------------------------------------------------------
     # Estadísticas específicas
-    if especificas:
+    s_especificas=secciones.get('especificas')    
+    seccion_especificas=False
+    especificas_active=None
+
+    # ------------------------------------------------------------------------
+    if (isinstance(s_especificas, list) and 'tipo' in s_especificas) or (s_especificas==True):
+    
+        especificas_tipo=True
+        seccion_especificas=True
+        if especificas_active==None: especificas_active='tipo' 
+        
         # Tab 5 - Tipo de las columnas -------------------------------------------
         tipo_columnas_df = base.TipoColumnas()
 
@@ -156,8 +169,19 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
 
         tipo_columnas_df = tipo_columnas_df.reset_index()
         items_2 = tipo_columnas_df.values.tolist()
-
-        # ------------------------------------------------------------------------
+    else:
+        especificas_tipo=False
+        header_list_2=None
+        variables_list_2=None
+        items_2=None
+        
+    # ------------------------------------------------------------------------
+    if (isinstance(s_especificas, list) and 'frecuencias' in s_especificas) or (s_especificas==True):
+        
+        especificas_frecuencias=True
+        seccion_especificas=True
+        if especificas_active==None: especificas_active='frecuencias' 
+        
         # Tab 3 - Frecuencia de categorías ---------------------------------------
         dataframe_unique_text = base.DescripcionCategoricas()
         try:
@@ -175,8 +199,19 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
         variables_list_3 = dataframe_unique_text.Columna.unique()
         columnas_list_3 = list(dataframe_unique_text)
         items_3 = dataframe_unique_text.values.tolist()
+    else:
+        especificas_frecuencias=False
+        variables_list_3=None
+        columnas_list_3=None
+        items_3=None
 
-        # ------------------------------------------------------------------------
+    # ------------------------------------------------------------------------
+    if (isinstance(s_especificas, list) and 'duplicados' in s_especificas) or (s_especificas==True):
+        
+        especificas_duplicados=True
+        seccion_especificas=True
+        if especificas_active==None: especificas_active='duplicados' 
+        
         # Tab 4 - Datos duplicados -----------------------------------------------
         html_dataframe_duplic_filas = None
         html_dataframe_duplic_colum = None
@@ -188,8 +223,18 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
         dataframe_duplic_colum = base.EmparejamientoDuplicados(col=True)
         if dataframe_duplic_colum is not None:
             html_dataframe_duplic_colum = df_as_html(dataframe_duplic_colum)
+    else:
+        especificas_duplicados=False
+        html_dataframe_duplic_filas=None
+        html_dataframe_duplic_colum=None
 
-        # ------------------------------------------------------------------------
+    # ------------------------------------------------------------------------
+    if (isinstance(s_especificas, list) and 'descriptivas' in s_especificas) or (s_especificas==True):
+    
+        especificas_descriptivas=True
+        seccion_especificas=True
+        if especificas_active==None: especificas_active='descriptivas' 
+        
         # Tab 6 - Estadísticas descriptivas --------------------------------------
         dataframe_descriptive_stats = base.DescripcionNumericas()
 
@@ -237,88 +282,104 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
             dataframe_descriptive_stats = dataframe_descriptive_stats.reset_index()
             items = dataframe_descriptive_stats.values.tolist()
     else:
+        especificas_descriptivas=False
         header_list=None
         variables_list=None
         items=None
-        header_list_2=None
-        variables_list_2=None
-        items_2=None
-        html_dataframe_head=None
-        html_dataframe_tail=None
-        dataframe_shape=None
-        variables_list_3=None
-        columnas_list_3=None
-        items_3=None
-        html_dataframe_duplic_filas=None
-        html_dataframe_duplic_colum=None
-
+        
     # ------------------------------------------------------------------------
     # Gráficos correlaciones -------------------------------------------------
-    if correlaciones:
-        # Escala de colores del heatmap
-        heatmap_colorscale = [
-            ['0.000000000000', 'rgb(103,  0, 31)'],
-            ['0.111111111111', 'rgb(178, 24, 43)'],
-            ['0.222222222222', 'rgb(214, 96, 77)'],
-            ['0.333333333333', 'rgb(244,165,130)'],
-            ['0.444444444444', 'rgb(253,219,199)'],
-            ['0.555555555556', 'rgb(209,229,240)'],
-            ['0.666666666667', 'rgb(146,197,222)'],
-            ['0.777777777778', 'rgb( 67,147,195)'],
-            ['0.888888888889', 'rgb( 33,102,172)'],
-            ['1.000000000000', 'rgb(  5, 48, 97)']
-        ]
-        # Tab 1 - numérica - Pearson ---------------------------------------------
+    s_correlaciones=secciones.get('correlaciones')    
+    seccion_correlaciones=False
+    correlaciones_active=None
+
+    # Escala de colores del heatmap
+    heatmap_colorscale = [
+        ['0.000000000000', 'rgb(103,  0, 31)'],
+        ['0.111111111111', 'rgb(178, 24, 43)'],
+        ['0.222222222222', 'rgb(214, 96, 77)'],
+        ['0.333333333333', 'rgb(244,165,130)'],
+        ['0.444444444444', 'rgb(253,219,199)'],
+        ['0.555555555556', 'rgb(209,229,240)'],
+        ['0.666666666667', 'rgb(146,197,222)'],
+        ['0.777777777778', 'rgb( 67,147,195)'],
+        ['0.888888888889', 'rgb( 33,102,172)'],
+        ['1.000000000000', 'rgb(  5, 48, 97)']
+    ]
+
+    # Tab 1 - numérica - Pearson ---------------------------------------------
+    if (isinstance(s_correlaciones, list) and 'pearson' in s_correlaciones) or (s_correlaciones==True):
+        seccion_correlaciones=True
+        if correlaciones_active==None: correlaciones_active='pearson'
+
         df_corre_pearson = base.CorrelacionNumericas(metodo="pearson")
         corre_pearson_headers = list(df_corre_pearson)
 
         df_corre_pearson = df_corre_pearson.round(3).fillna('null')
         corre_pearson_values = df_corre_pearson.values.tolist()
+    else:
+        corre_pearson_headers=None
+        corre_pearson_values=None
 
-        # Tab 2 - numérica - Kendall ---------------------------------------------
+    # Tab 2 - numérica - Kendall ---------------------------------------------
+    if (isinstance(s_correlaciones, list) and 'kendall' in s_correlaciones) or (s_correlaciones==True):
+        seccion_correlaciones=True
+        if correlaciones_active==None: correlaciones_active='kendall'
+
         df_corre_kendall = base.CorrelacionNumericas(metodo="kendall")
         corre_kendall_headers = list(df_corre_kendall)
 
         df_corre_kendall = df_corre_kendall.round(3).fillna('null')
         corre_kendall_values = df_corre_kendall.values.tolist()
+    else:
+        corre_kendall_headers=None
+        corre_kendall_values=None    
+    
+    # Tab 3 - numérica - Pearson ---------------------------------------------
+    if (isinstance(s_correlaciones, list) and 'spearman' in s_correlaciones) or (s_correlaciones==True):
+        seccion_correlaciones=True
+        if correlaciones_active==None: correlaciones_active='spearman'
 
-        # Tab 3 - numérica - Pearson ---------------------------------------------
         df_corre_spearman = base.CorrelacionNumericas(metodo="spearman")
         corre_spearman_headers = list(df_corre_spearman)
 
         df_corre_spearman = df_corre_spearman.round(3).fillna('null')
         corre_spearman_values = df_corre_spearman.values.tolist()
+    else:
+        corre_spearman_headers=None
+        corre_spearman_values=None
 
-        # Tab 4 - categórica - Cramer --------------------------------------------
+    # Tab 4 - categórica - Cramer --------------------------------------------
+    if (isinstance(s_correlaciones, list) and 'cramer' in s_correlaciones) or (s_correlaciones==True):
+        seccion_correlaciones=True
+        if correlaciones_active==None: correlaciones_active='cramer'
+
         df_corre_cramer = base.CorrelacionCategoricas(metodo="cramer")
         corre_cramer_headers = list(df_corre_cramer)
 
         df_corre_cramer = df_corre_cramer.round(3).fillna('null')
         corre_cramer_values = df_corre_cramer.values.tolist()
+    else:
+        corre_cramer_headers=None
+        corre_cramer_values=None
 
-        # Tab 5 - categórica - Phik ----------------------------------------------
+    # Tab 5 - categórica - Phik ----------------------------------------------
+    if (isinstance(s_correlaciones, list) and 'phik' in s_correlaciones) or (s_correlaciones==True):
+        seccion_correlaciones=True
+        if correlaciones_active==None: correlaciones_active='phik'
+
         df_corre_phik = base.CorrelacionCategoricas(metodo="phik")
         corre_phik_headers = list(df_corre_phik)
 
         df_corre_phik = df_corre_phik.round(3).fillna('null')
         corre_phik_values = df_corre_phik.values.tolist()
-
     else:
-        heatmap_colorscale=None
-        corre_pearson_headers=None
-        corre_pearson_values=None
-        corre_kendall_headers=None
-        corre_kendall_values=None
-        corre_spearman_headers=None
-        corre_spearman_values=None
-        corre_cramer_headers=None
-        corre_cramer_values=None
         corre_phik_headers=None
         corre_phik_values=None
 
     # ------------------------------------------------------------------------
     # ------------------------------------------------------------------------
-
+    
     # Configuración inicial de Jinja
     env = Environment(loader=PackageLoader('leila'))
 
@@ -351,7 +412,17 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
             columnas_list_3=columnas_list_3,
             items_3=items_3,
             html_dataframe_duplic_filas=html_dataframe_duplic_filas,
-            html_dataframe_duplic_colum=html_dataframe_duplic_colum,
+            html_dataframe_duplic_colum=html_dataframe_duplic_colum,            
+            generales=secciones.get('generales'),
+            muestra_datos=secciones.get('muestra_datos'),
+            seccion_especificas=seccion_especificas,
+            especificas_active=especificas_active,
+            especificas_tipo=especificas_tipo,
+            especificas_frecuencias=especificas_frecuencias,
+            especificas_duplicados=especificas_duplicados,
+            especificas_descriptivas=especificas_descriptivas,            
+            seccion_correlaciones=seccion_correlaciones,
+            correlaciones_active=correlaciones_active,
             heatmap_colorscale=heatmap_colorscale,
             corre_pearson_headers=corre_pearson_headers,
             corre_pearson_values=corre_pearson_values,
@@ -362,10 +433,7 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
             corre_cramer_headers=corre_cramer_headers,
             corre_cramer_values=corre_cramer_values,
             corre_phik_headers=corre_phik_headers,
-            corre_phik_values=corre_phik_values,
-            muestra_datos=muestra_datos,
-            correlaciones=correlaciones,
-            especificas=especificas
+            corre_phik_values=corre_phik_values
         )
         try:
             HTML_file.write(output)
