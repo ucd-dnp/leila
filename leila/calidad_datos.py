@@ -150,8 +150,6 @@ class CalidadDatos:
         lista_nombres = self.lista_tipos_columnas[0]
         tipos_dtypes = self.lista_tipos_columnas[1]
         tipo_datos = dict()
-        lista_total = []
-        lista_total.append([""] + lista_nombres)
 
         # Tipo general en español
         if tipoGeneral:
@@ -165,7 +163,7 @@ class CalidadDatos:
                 )
             )
             tipo_datos["tipo_general"] = general
-            lista_total.append(["tipo_general"] + general)
+
         # Tipo general de Python
         if tipoGeneralPython:
             tipo_datos["tipo_general_python"] = tipos_dtypes.copy()
