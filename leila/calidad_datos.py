@@ -42,6 +42,14 @@ class CalidadDatos:
             https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior
         :return: Objeto del tipo de la clase `CalidadDatos`.
         """
+        self._dic_tipo = {
+            "int": "Numérico",
+            "float": "Numérico",
+            "str": "Texto",
+            "bool": "Booleano",
+            "date": "Fecha",
+            "object": "Otro",
+        }
         self._cast = castNumero
         self._castdic = diccionarioCast
         self._errores = errores
@@ -98,7 +106,7 @@ class CalidadDatos:
         ]
 
         # Tipo según 'dtypes'
-        col_dtypes = [str(tipo) for tipo in self._base.dtypes]
+        col_dtypes = list(self._base.dtypes.apply(str))
         self.lista_tipos_columnas = [
             list(self._base.columns),
             col_dtypes,
@@ -109,80 +117,63 @@ class CalidadDatos:
     def TipoColumnas(
         self, tipoGeneral=True, tipoGeneralPython=True, tipoEspecifico=True
     ):
-        """ Retorna el tipo de dato de cada columna del dataframe. :ref:`Ver ejemplo <calidad_datos.TipoColumnas>`
+        """
+        Retorna el tipo de dato de cada columna del dataframe. \
+        :ref:`Ver ejemplo <calidad_datos.TipoColumnas>`
 
         :param tipoGeneral: (bool) {True, False}, valor por defecto: True. \
             Incluye el tipo general de cada columna. Los tipos son: numérico,\
-            texto, booleano, otro
+            texto, booleano, otro.
         :param tipoGeneralPython: (bool) {True, False}, valor por defecto: \
             True. Incluye el tipo general de cada columna dado por el método\
-            'dtypes' de Python
+            'pandas.dtypes' de Pandas
         :param tipoEspecifico: (bool) {True, False}, valor por defecto: True.\
             Incluye el porcentaje de los tres tipos más frecuentes de cada\
-            columna. Se aplica la función 'type' de Python para cada \
+            columna. Se aplica la función nativa 'type' de Python para cada \
             observación.
 
         :return: Dataframe de pandas con los tipos de dato de cada columna.
         """
+        if not isinstance(tipoGeneral, bool):
+            raise ValueError("'tipoGeneral' debe ser booleano. {True, False}")
 
-        tipos_dtypes = self.tipos_dtypes.apply(str)
-        lista_nombres = list(self.base.columns)
-        numero_columnas_base = self.base.shape[0]
+        if not isinstance(tipoGeneralPython, bool):
+            raise ValueError(
+                "'tipoGeneralPython' debe ser booleano. {True, False}"
+            )
 
+        if not isinstance(tipoEspecifico, bool):
+            raise ValueError(
+                "'tipoEspecifico' debe ser booleano. {True, False}"
+            )
+
+        lista_nombres = self.lista_tipos_columnas[0]
+        tipos_dtypes = self.lista_tipos_columnas[1]
+        tipo_datos = dict()
         lista_total = []
-
         lista_total.append([""] + lista_nombres)
 
         # Tipo general en español
-        if tipoGeneral == True:
-            lista_general = []
-            for s in lista_nombres:
-                if self.base[s].isnull().sum() == numero_columnas_base:
-                    lista_general.append("Otro")
-                else:
-
-                    tipo_para_object = str(
-                        type(self.base[s].mode(dropna=True)[0])
-                    )
-                    tipo_para_resto = tipos_dtypes[s]
-
-                    if "int" in tipo_para_resto or "float" in tipo_para_resto:
-                        lista_general.append("Numérico")
-                    elif "str" in tipo_para_object:
-                        lista_general.append("Texto")
-                    elif "bool" in tipo_para_resto:
-                        lista_general.append("Booleano")
-                    elif "date" in tipo_para_resto:
-                        lista_general.append("Fecha")
-                    else:
-                        lista_general.append("Otro")
-            lista_general.insert(0, "tipo_general")
-            lista_total.append(lista_general)
-        elif tipoGeneral == False:
-            pass
-        else:
-            raise ValueError('"tipoGeneral" tiene que ser True o False')
-
-        # TIpo general de Python
-        if tipoGeneralPython == True:
-            lista_python = list(tipos_dtypes.copy())
-            lista_python.insert(0, "tipo_general_python")
-            lista_total.append(lista_python)
-        elif tipoGeneralPython == False:
-            pass
-        else:
-            raise ValueError('"tipoGeneralPython" tiene que ser True o False')
+        if tipoGeneral:
+            general = list(
+                map(
+                    self._dic_tipo.get,
+                    [
+                        re.findall("|".join(list(self._dic_tipo.keys())), k)[0]
+                        for k in list(map(str.lower, tipos_dtypes))
+                    ],
+                )
+            )
+            tipo_datos["tipo_general"] = general
+            lista_total.append(["tipo_general"] + general)
+        # Tipo general de Python
+        if tipoGeneralPython:
+            tipo_datos["tipo_general_python"] = tipos_dtypes.copy()
 
         # Tipo específico Python
-        if tipoEspecifico == True:
-            lista_especifico_1 = []
-            lista_especifico_2 = []
-            lista_especifico_3 = []
-            lista_especifico_4 = []
-            lista_especifico_5 = []
-
+        if tipoEspecifico:
+            temp_list = []
             for s in lista_nombres:
-
                 tip = (
                     self.base[s]
                     .fillna("nan")
@@ -190,94 +181,26 @@ class CalidadDatos:
                     .value_counts(normalize=True, dropna=False)
                 )
 
-                tip_1 = "{1}: {0}%".format(
-                    round(float(tip.iloc[0] * 100), 2),
-                    str(tip.index[0]).replace("<class ", "").replace(">", ""),
-                )
-                lista_especifico_1.append(tip_1)
+                nombre_tipo = [
+                    re.findall("'(.*)'", x)[0]
+                    for x in list(map(str, tip.index.tolist()))
+                ]
 
-                try:
-                    tip_2 = "{1}: {0}%".format(
-                        round(float(tip.iloc[1] * 100), 2),
-                        str(tip.index[1])
-                        .replace("<class ", "")
-                        .replace(">", ""),
-                    )
-                    lista_especifico_2.append(tip_2)
-                except BaseException:
-                    lista_especifico_2.append("")
+                temp_dic = dict()
+                for i, (nom, t) in enumerate(zip(nombre_tipo, tip)):
+                    key = "tipo_especifico_" + str(i + 1)
+                    temp_dic[key] = [f"'{nom}'': {round(t*100,2)}%"]
+                temp_list.append(temp_dic)
 
-                try:
-                    tip_3 = "{1}: {0}%".format(
-                        round(float(tip.iloc[2] * 100), 2),
-                        str(tip.index[2])
-                        .replace("<class ", "")
-                        .replace(">", ""),
-                    )
-                    lista_especifico_3.append(tip_3)
-                except BaseException:
-                    lista_especifico_3.append("")
-
-                try:
-                    tip_4 = "{1}: {0}%".format(
-                        round(float(tip.iloc[3] * 100), 2),
-                        str(tip.index[3])
-                        .replace("<class ", "")
-                        .replace(">", ""),
-                    )
-                    lista_especifico_4.append(tip_4)
-                except BaseException:
-                    lista_especifico_4.append("")
-
-                try:
-                    tip_5 = "{1}: {0}%".format(
-                        round(float(tip.iloc[4] * 100), 2),
-                        str(tip.index[4])
-                        .replace("<class ", "")
-                        .replace(">", ""),
-                    )
-                    lista_especifico_5.append(tip_5)
-                except BaseException:
-                    lista_especifico_5.append("")
-
-            lista_especifico_1.insert(0, "tipo_especifico_1")
-            lista_total.append(lista_especifico_1)
-
-            if all(q == "" for q in lista_especifico_2):
-                pass
-            else:
-                lista_especifico_2.insert(0, "tipo_especifico_2")
-                lista_total.append(lista_especifico_2)
-
-            if all(q == "" for q in lista_especifico_3):
-                pass
-            else:
-                lista_especifico_3.insert(0, "tipo_especifico_3")
-                lista_total.append(lista_especifico_3)
-
-            if all(q == "" for q in lista_especifico_4):
-                pass
-            else:
-                lista_especifico_4.insert(0, "tipo_especifico_4")
-                lista_total.append(lista_especifico_4)
-
-            if all(q == "" for q in lista_especifico_5):
-                pass
-            else:
-                lista_especifico_5.insert(0, "tipo_especifico_5")
-                lista_total.append(lista_especifico_5)
-
-            del tip
-
-        elif tipoEspecifico == False:
-            pass
-        else:
-            raise ValueError('"tipoEspecifico" tiene que ser True o False')
-
-        tips = pd.DataFrame(lista_total).T.set_index(keys=0, drop=True)
-        columnas = list(tips.iloc[0])
-        tips.columns = columnas
-        tips = tips.drop(tips.index[0])
+            for d in temp_list:
+                for k, v in d.items():
+                    if k in tipo_datos:
+                        tipo_datos[k].extend(v)
+                    else:
+                        tipo_datos[k] = v
+            tips = pd.DataFrame.from_dict(
+                tipo_datos, orient="index", columns=lista_nombres
+            ).T
 
         return tips
 
