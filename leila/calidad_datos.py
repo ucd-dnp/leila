@@ -5,6 +5,7 @@ import numpy as np
 import scipy.stats as sstats
 import warnings
 import re
+import phik
 
 
 class CalidadDatos:
