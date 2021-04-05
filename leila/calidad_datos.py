@@ -230,23 +230,25 @@ class CalidadDatos:
 
     #  Valores faltantes (missing values)
     def ValoresFaltantes(self, numero=False):
-        """ Calcula el porcentaje/número de valores faltantes de cada columna \
-            del dataframe. :ref:`Ver ejemplo <calidad_datos.ValoresFaltantes>`
+        """
+        Calcula el porcentaje/número de valores faltantes de cada columna \
+        del dataframe. :ref:`Ver ejemplo <calidad_datos.ValoresFaltantes>`
 
-        :param numero: (bool) {True, False}, valor por defecto: False. Si el \
-            valor es False el resultado se expresa como un cociente, si el \
-            valor es True el valor se expresa como una cantidad de \
+        :param numero: (bool) {True, False} Valor por defecto: False. Si el \
+            valor es `False` el resultado se expresa como un cociente, si el \
+            valor es `True` el valor se expresa como una cantidad de \
             registros (número entero).
-        :return: serie de pandas con la cantidad/cociente de valores \
+        :return: Serie de pandas con la cantidad/cociente de valores \
             faltantes de cada columna.
         """
 
-        if numero == False:
-            missing_columnas = pd.isnull(self.base).sum() / len(self.base)
-        elif numero == True:
+        if not isinstance(numero, bool):
+            raise ValueError("'numero' debe ser booleano. {True, False}.")
+
+        if numero:
             missing_columnas = pd.isnull(self.base).sum()
         else:
-            raise ValueError('"cociente" tiene que ser True o False')
+            missing_columnas = pd.isnull(self.base).sum() / len(self.base)
 
         return missing_columnas
 
