@@ -207,24 +207,25 @@ class CalidadDatos:
     # valores únicos en cada columna
     # sin missing values
     def ValoresUnicos(self, faltantes=False):
-        """ Calcula la cantidad de valores únicos de cada columna del dataframe.  \
-            :ref:`Ver ejemplo <calidad_datos.ValoresUnicos>`
-
-        :param faltantes: (bool) {True, False}, valor por defecto: False. \
-            Indica si desea tener en cuenta los valores faltantes en el \
-                conteo de valores únicos.
-        :return: serie de pandas con la cantidad de valores únicos de cada columna.
         """
+        Calcula la cantidad de valores únicos de cada columna del dataframe. \
+        :ref:`Ver ejemplo <calidad_datos.ValoresUnicos>`
 
-        if faltantes == False:
-            unicos_columnas = self.base.nunique()
+        :param faltantes: (bool) {True, False}, Valor por defecto: False. \
+            Indica si desea tener en cuenta los valores faltantes en el \
+            conteo de valores únicos.
+        :return: Serie de pandas con la cantidad de valores únicos de cada \
+            columna.
+        """
+        if not isinstance(faltantes, bool):
+            raise ValueError("'faltantes' debe ser booleano. {True, False}.")
 
-        elif faltantes == True:
+        if faltantes:
             unicos_columnas = self.base.apply(
                 lambda x: len(x.value_counts(dropna=False)), axis=0
             )
         else:
-            raise ValueError('"faltantes" tiene que ser True o False')
+            unicos_columnas = self.base.nunique()
 
         return unicos_columnas
 
