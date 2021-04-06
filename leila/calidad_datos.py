@@ -148,6 +148,12 @@ class CalidadDatos:
                 "'tipoEspecifico' debe ser booleano. {True, False}"
             )
 
+        if not (tipoGeneral or tipoGeneralPython or tipoEspecifico):
+            raise ValueError(
+                "Al menos uno de los párametros tipoGeneral, tipoGeneralPython"
+                " o tipoEspecifico debe ser True"
+            )
+
         lista_nombres = self.lista_tipos_columnas[0]
         tipos_dtypes = self.lista_tipos_columnas[1]
         tipo_datos = dict()
