@@ -190,15 +190,21 @@ class CalidadDatos:
                     temp_dic[key] = [f"'{nom}': {round(t*100,2)}%"]
                 temp_list.append(temp_dic)
 
+            max_keys = max(temp_list, key=len).keys()
             for d in temp_list:
+                for key in max_keys:
+                    if key not in d:
+                        d[key] = [""]
+
                 for k, v in d.items():
                     if k in tipo_datos:
                         tipo_datos[k].extend(v)
                     else:
                         tipo_datos[k] = v
-            tips = pd.DataFrame.from_dict(
-                tipo_datos, orient="index", columns=lista_nombres
-            ).T
+
+        tips = pd.DataFrame.from_dict(
+            tipo_datos, orient="index", columns=lista_nombres
+        ).T
 
         return tips
 
