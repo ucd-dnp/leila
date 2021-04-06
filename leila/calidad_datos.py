@@ -71,9 +71,9 @@ class CalidadDatos:
             )
 
         if self._cast:
-            self._base = datos.convert_dtypes()
+            self._base = datos.fillna(np.nan).convert_dtypes()
         else:
-            self._base = datos.copy()
+            self._base = datos.fillna(np.nan).copy()
 
         if self._castdic:
             for col, tipo in self._castdic.items():
@@ -86,7 +86,7 @@ class CalidadDatos:
                 elif tipo == "booleano":
                     self._base[col] = self.base[col].astype("bool")
                 elif tipo == "fecha":
-                    self._base["col"] = pd.to_datetime(
+                    self._base[col] = pd.to_datetime(
                         self._base[col],
                         format=self._strdate,
                         errors=self._errores,
@@ -175,8 +175,7 @@ class CalidadDatos:
             for s in lista_nombres:
                 tip = (
                     self.base[s]
-                    .fillna("nan")
-                    .apply(lambda x: x if x == "nan" else type(x))
+                    .apply(type)
                     .value_counts(normalize=True, dropna=False)
                 )
 
@@ -188,7 +187,7 @@ class CalidadDatos:
                 temp_dic = dict()
                 for i, (nom, t) in enumerate(zip(nombre_tipo, tip)):
                     key = "tipo_especifico_" + str(i + 1)
-                    temp_dic[key] = [f"'{nom}'': {round(t*100,2)}%"]
+                    temp_dic[key] = [f"'{nom}': {round(t*100,2)}%"]
                 temp_list.append(temp_dic)
 
             for d in temp_list:
@@ -254,23 +253,24 @@ class CalidadDatos:
 
     # Porcentaje y número de filas y columnas no únicas
     def CantidadDuplicados(self, eje=0, numero=False, numero_filas=30000):
-        """ Retorna el porcentaje/número de \
-            filas o columnas duplicadas (repetidas) en el dataframe. \
-            :ref:`Ver ejemplo <calidad_datos.CantidadDuplicados>`
+        """
+        Retorna el porcentaje/número de filas o columnas duplicadas \
+        (repetidas) en el dataframe. \
+        :ref:`Ver ejemplo <calidad_datos.CantidadDuplicados>`
 
-        :param eje: (int) {1, 0}, valor por defecto: 0. Si el valor \
-            es 1 la validación se realiza por columnas, si el valor es \
-                0 la validación se realiza por filas.
-        :param numero: (bool) {True, False}, valor por defecto: False. Si el \
-            valor es False el resultado se expresa como un cociente, si el \
-            valor es True el valor se expresa como una cantidad de \
+        :param eje: (int) {1, 0} Valor por defecto: 0. Si el valor \
+            es `1` la validación se realiza por columnas. Si el valor es \
+            `0` la validación se realiza por filas.
+        :param numero: (bool) {True, False} Valor por defecto: False. Si el \
+            valor es `False` el resultado se expresa como un cociente, si el \
+            valor es `True` el valor se expresa como una cantidad de \
             registros (número entero).
-        :param numero_filas: (int), valor por defecto: 30000. Número de filas \
+        :param numero_filas: (int) Valor por defecto: 30000. Número de filas \
             que tendrá cada columna cuando se verifiquen los duplicados por \
-            columna (cuando 'eje = 1'). Se utiliza para agilizar el proceso de \
-            verificación de duplicados de columans, el cual puede resultar \
-            extremadamente lento para un conjunto de datos con muchas filas
-        :return: (int o float) resultado de unicidad.
+            columna (cuando 'eje = 1'). Se utiliza para agilizar el proceso \
+            de verificación de duplicados de columans, el cual puede resultar \
+            extremadamente lento para un conjunto de datos con muchas filas.
+        :return: (int o float) Resultado de unicidad.
         """
         # Revisar si hay columnas con tipos diccionario o lista
         lista_columnas_dict = []
