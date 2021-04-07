@@ -284,121 +284,79 @@ class CalidadDatos:
             extremadamente lento para un conjunto de datos con muchas filas.
         :return: (int o float) Resultado de unicidad.
         """
-        # Revisar si hay columnas con tipos diccionario o lista
-        lista_columnas_dict = []
-        for i in range(len(self.lista_tipos_columnas[0])):
-            col_nombre = self.lista_tipos_columnas[0][i]
-            tip = self.lista_tipos_columnas[2][i]
+        if not isinstance(numero, bool):
+            raise ValueError("'numero' debe ser booleano. {True, False}.")
+        if eje not in [0, 1]:
+            raise ValueError("'eje' solo puede ser 0 o 1.")
 
-            if tip == "dict" or tip == "list":
-                lista_columnas_dict.append(col_nombre)
-            else:
-                pass
+        # Revisar si hay columnas con tipos diccionario o lista
+        temp = np.array(self.lista_tipos_columnas)
+        lista_columnas_dict = list(
+            temp[0][(temp[2] == "dict") | (temp[2] == "list")]
+        )
 
         # Proporcion (decimal) de columnas repetidas
-        if eje == 1 and numero == False:
-
-            # Calcular los duplicados con una submuestra del conjunto de datos grande
-            if self.base.shape[0] > numero_filas:
-                numero_filas_tercio = numero_filas // 3
-                base_mitad = self.base.shape[0] // 2
-                mini_base = pd.concat(
-                    [
-                        self.base.iloc[0:numero_filas_tercio],
-                        self.base.iloc[
-                            base_mitad : base_mitad + numero_filas_tercio
+        if eje == 1:
+            if self.base.shape[0] <= numero_filas:
+                if not len(lista_columnas_dict):
+                    no_unic_columnas = self.base.T.duplicated()
+                else:
+                    no_unic_columnas = pd.concat(
+                        [
+                            self.base.columns.difference(lista_columnas_dict),
+                            self.base.loc[lista_columnas_dict].astype(str),
                         ],
-                        self.base.iloc[-numero_filas_tercio:],
+                        axis=1,
+                    ).T.duplicated()
+
+            else:
+                tercio = numero_filas // 3
+                mitad = numero_filas // 2
+
+                idx_mini = np.concatenate(
+                    [
+                        np.arange(tercio),
+                        np.arange(mitad, mitad + tercio),
+                        np.arange(numero_filas - tercio, numero_filas),
                     ]
                 )
-                no_unic_columnas = pd.concat(
-                    [
-                        mini_base.drop(columns=lista_columnas_dict),
-                        mini_base.loc[:, lista_columnas_dict].astype(str),
-                    ],
-                    axis=1,
-                ).T.duplicated(keep="first")
-                del mini_base
-            else:
-                no_unic_columnas = pd.concat(
-                    [
-                        self.base.drop(columns=lista_columnas_dict),
-                        self.base.loc[:, lista_columnas_dict].astype(str),
-                    ],
-                    axis=1,
-                ).T.duplicated(keep="first")
-
-            if no_unic_columnas.sum() == 0:
-                cols = 0.00
-            else:
-                cols = (
-                    no_unic_columnas[no_unic_columnas == True].shape[0]
-                    / self.base.shape[1]
-                )
-
-        # Número de columnas repetidas
-        elif eje == 1 and numero == True:
-
-            # Calcular los duplicados con una submuestra del conjunto de datos grande
-            if self.base.shape[0] > numero_filas:
-                numero_filas_tercio = numero_filas // 3
-                base_mitad = self.base.shape[0] // 2
-                mini_base = pd.concat(
-                    [
-                        self.base.iloc[0:numero_filas_tercio],
-                        self.base.iloc[
-                            base_mitad : base_mitad + numero_filas_tercio
+                if not len(lista_columnas_dict):
+                    no_unic_columnas = self.base.iloc[idx_mini].T.duplicated()
+                else:
+                    no_unic_columnas = pd.concat(
+                        [
+                            self.base.iloc[idx_mini].columns.difference(
+                                lista_columnas_dict
+                            ),
+                            self.base.iloc[idx_mini]
+                            .loc[lista_columnas_dict]
+                            .astype(str),
                         ],
-                        self.base.iloc[-numero_filas_tercio:],
-                    ]
-                )
-                no_unic_columnas = pd.concat(
-                    [
-                        mini_base.drop(columns=lista_columnas_dict),
-                        mini_base.loc[:, lista_columnas_dict].astype(str),
-                    ],
-                    axis=1,
-                ).T.duplicated(keep="first")
-                del mini_base
-            else:
-                no_unic_columnas = pd.concat(
-                    [
-                        self.base.drop(columns=lista_columnas_dict),
-                        self.base.loc[:, lista_columnas_dict].astype(str),
-                    ],
-                    axis=1,
-                ).T.duplicated(keep="first")
+                        axis=1,
+                    ).T.duplicated()
 
-            if no_unic_columnas.sum() == 0:
-                cols = 0
+            if numero:
+                cols = no_unic_columnas.sum()
             else:
-                cols = no_unic_columnas[no_unic_columnas == True].shape[0]
+                cols = no_unic_columnas.sum() / self.base.shape[1]
 
         # Proporción de filas repetidas
-        elif eje == 0 and numero == False:
-            no_unic_filas = pd.concat(
-                [
-                    self.base.drop(columns=lista_columnas_dict),
-                    self.base.loc[:, lista_columnas_dict].astype(str),
-                ],
-                axis=1,
-            ).duplicated(keep="first")
-            cols = no_unic_filas[no_unic_filas].shape[0] / self.base.shape[0]
-
-        # Número de filas repetidas
-        elif eje == 0 and numero == True:
-            no_unic_filas = pd.concat(
-                [
-                    self.base.drop(columns=lista_columnas_dict),
-                    self.base.loc[:, lista_columnas_dict].astype(str),
-                ],
-                axis=1,
-            ).duplicated(keep="first")
-            cols = no_unic_filas[no_unic_filas].shape[0]
         else:
-            raise ValueError(
-                '"eje" tiene que ser 1 o 0 y "numero" tiene que ser True o False'
-            )
+            if not len(lista_columnas_dict):
+                no_unic_filas = self.base.duplicated()
+            else:
+                no_unic_filas = pd.concat(
+                    [
+                        self.base.columns.difference(lista_columnas_dict),
+                        self.base.loc[lista_columnas_dict].astype(str),
+                    ],
+                    axis=1,
+                ).duplicated()
+            if numero:
+                cols = no_unic_filas.sum()
+            else:
+                cols = no_unic_filas.sum() / self.base.shape[0]
+
         return cols
 
     # Emparejamiento de columnas y filas no únicas
