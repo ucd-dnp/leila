@@ -120,7 +120,7 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
 
         html_data_summary_full = df_as_html(dataframe_summary)
         html_data_summary_head = df_as_html(dataframe_summary[:6])
-        html_data_summary_tail = df_as_html(dataframe_summary[-5:])
+        html_data_summary_tail = df_as_html(dataframe_summary[-6:])
     else:
         html_data_summary_full=None
         html_data_summary_head=None

@@ -12,7 +12,7 @@ class CalidadDatos:
     def __init__(
         self,
         datos,
-        castNumero=True,
+        castNumero=False,
         diccionarioCast=None,
         errores="ignore",
         formato_fecha="%d/%m/%Y",
@@ -952,19 +952,6 @@ class CalidadDatos:
         col_tipos = self.TipoColumnas(
             tipoGeneral=True, tipoGeneralPython=False, tipoEspecifico=False
         ).iloc[:, 0]
-
-        # Revisar si hay columnas numéricas. En caso de no haber, detener función
-        col_num = [
-            self.lista_tipos_columnas[0][i]
-            for i in range(len(self.lista_tipos_columnas[0]))
-            if "float" in self.lista_tipos_columnas[1][i]
-            or "int" in self.lista_tipos_columnas[1][i]
-        ]
-        if len(col_num) == 0:
-            print("El conjunto de datos no tiene columnas numéricas")
-            return
-        else:
-            pass
 
         ## Agregar a lista, si se escoge que sea así
 
