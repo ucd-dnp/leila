@@ -301,10 +301,11 @@ class CalidadDatos:
                 if not len(lista_columnas_dict):
                     no_unic_columnas = self.base.T.duplicated()
                 else:
+                    subset = self.base.columns.difference(lista_columnas_dict)
                     no_unic_columnas = pd.concat(
                         [
-                            self.base.columns.difference(lista_columnas_dict),
-                            self.base.loc[lista_columnas_dict].astype(str),
+                            self.base[subset],
+                            self.base.loc[:, lista_columnas_dict].astype(str),
                         ],
                         axis=1,
                     ).T.duplicated()
@@ -323,13 +324,12 @@ class CalidadDatos:
                 if not len(lista_columnas_dict):
                     no_unic_columnas = self.base.iloc[idx_mini].T.duplicated()
                 else:
+                    subset = self.base.columns.difference(lista_columnas_dict)
                     no_unic_columnas = pd.concat(
                         [
-                            self.base.iloc[idx_mini].columns.difference(
-                                lista_columnas_dict
-                            ),
-                            self.base.iloc[idx_mini]
-                            .loc[lista_columnas_dict]
+                            self.base[subset].iloc[idx_mini],
+                            self.base.loc[:, lista_columnas_dict]
+                            .iloc[idx_mini]
                             .astype(str),
                         ],
                         axis=1,
@@ -345,10 +345,11 @@ class CalidadDatos:
             if not len(lista_columnas_dict):
                 no_unic_filas = self.base.duplicated()
             else:
+                subset = self.base.columns.difference(lista_columnas_dict)
                 no_unic_filas = pd.concat(
                     [
-                        self.base.columns.difference(lista_columnas_dict),
-                        self.base.loc[lista_columnas_dict].astype(str),
+                        self.base[subset],
+                        self.base.loc[:, lista_columnas_dict].astype(str),
                     ],
                     axis=1,
                 ).duplicated()
