@@ -83,7 +83,6 @@ class CalidadDatos:
         if self._castNum:
             self._base = datos.fillna(np.nan).convert_dtypes(
                 infer_objects=False,
-                convert_string=False,
                 convert_boolean=False,
             )
             warnings.warn(
@@ -94,7 +93,13 @@ class CalidadDatos:
         elif self._castDatos:
             self._base = datos.fillna(np.nan).convert_dtypes()
         else:
-            self._base = datos.fillna(np.nan).copy()
+            self._base = datos.fillna(np.nan).convert_dtypes(
+                infer_objects=False,
+                convert_string=True,
+                convert_integer=False,
+                convert_boolean=False,
+                convert_floating=False,
+            )
 
         if self._castdic:
             for col, tipo in self._castdic.items():
