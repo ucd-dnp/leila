@@ -13,6 +13,7 @@ class CalidadDatos:
         self,
         datos,
         castNumero=False,
+        castDatos=True,
         diccionarioCast=None,
         errores="ignore",
         formato_fecha="%d/%m/%Y",
@@ -24,9 +25,15 @@ class CalidadDatos:
 
         :param datos: (Dataframe) Base de datos de tipo pandas.DataFrame que \
             será analizada por la clase `CalidadDatos`.
-        :param castNumero: (bool) {True, False}. Valor por defecto: True \
+        :param castNumero: (bool) {True, False}. Valor por defecto: False \
             Indica si se desea convertir las columnas de tipos object y \
             bool a float, de ser posible.
+        :param castDatos: (bool) {True, False}. Valor por defecto: True. \
+            Indica si se desean convertir las columnas al mejor tipo de datos \
+            para cada columna según la función `convert_dtypes` de Pandas. \
+            Por ejemplo si una columna es de tipo string, pero sus datos son \
+            en su mayoría números, se convierte a columna númerica. \
+            `castNumero` debe ser `False`.
         :param diccionarioCast: (dict) { {nombre_columna : tipo_columna} }. \
             Valor por defecto None. Diccionario donde se especifican los \
             tipos de datos a los que se desean convertir las columnas dentro \
@@ -51,7 +58,8 @@ class CalidadDatos:
             "date": "Fecha",
             "object": "Otro",
         }
-        self._cast = castNumero
+        self._castNum = castNumero
+        self._castDatos = castDatos
         self._castdic = diccionarioCast
         self._errores = errores
         self._strdate = formato_fecha
@@ -63,14 +71,27 @@ class CalidadDatos:
 
     @base.setter
     def base(self, datos):
-        if not isinstance(self._cast, bool):
+        if not isinstance(self._castNum, bool):
             raise ValueError("'castNumero' debe ser de tipo booleano (bool).")
         if not isinstance(self._castdic, (dict, type(None))):
             raise ValueError(
-                "'diccionarioCast' debe ser de tipo diccionario (dict)"
+                "'diccionarioCast' debe ser de tipo diccionario (dict)."
             )
+        if not isinstance(self._castNum, bool):
+            raise ValueError("'castDatos' debe ser de tipo booleano (bool).")
 
-        if self._cast:
+        if self._castNum:
+            self._base = datos.fillna(np.nan).convert_dtypes(
+                infer_objects=False,
+                convert_string=False,
+                convert_boolean=False,
+            )
+            warnings.warn(
+                "En futuras versiones, el párametro castNumero será "
+                "eliminado. En su lugar use castDatos=True",
+                FutureWarning,
+            )
+        elif self._castDatos:
             self._base = datos.fillna(np.nan).convert_dtypes()
         else:
             self._base = datos.fillna(np.nan).copy()
