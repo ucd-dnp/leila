@@ -388,133 +388,148 @@ class CalidadDatos:
 
     # Emparejamiento de columnas y filas no únicas
     def EmparejamientoDuplicados(self, col=False, limite_filas=30000):
-        """ Retorna las columnas o filas que presenten valores duplicados del \
-            dataframe. :ref:`Ver ejemplo <calidad_datos.EmparejamientoDuplicados>`
+        """
+        Retorna las columnas o filas que presenten valores duplicados del \
+        dataframe. \
+        :ref:`Ver ejemplo <calidad_datos.EmparejamientoDuplicados>`
 
-        :param col: (bool) {True, False}, valor por defecto: False. Si el valor \
-            es True la validación se realiza por columnas, si el valor es \
-                False la validación se realiza por filas.
+        :param col: (bool) {True, False}, valor por defecto: False. Si el \
+            valor es `True` la validación se realiza por columnas, en caso \
+            contrario, la validación se hace por filas.
         :param numero_filas: (int), valor por defecto: 30000. Número de filas \
             que tendrá cada columna cuando se verifiquen los duplicados por \
-            columna (cuando 'eje = 1'). Se utiliza para agilizar el proceso de \
-            verificación de duplicados de columans, el cual puede resultar \
-            extremadamente lento para un conjunto de datos con muchas filas
-        :return: matriz (dataframe) que relaciona las indices de filas/nombre \
-            de columnas que presentan valores duplicados.
+            columna (cuando `eje=1`). Se utiliza para agilizar el proceso de \
+            verificación de duplicados por columnas, el cual puede resultar \
+            extremadamente lento para un conjunto de datos con muchas filas.
+        :return: (Dataframe) Matriz que relaciona los indices de filas o \
+            nombre de columnas que presentan valores duplicados.
         """
-        # Revisar si hay columnas con tipos diccionario o lista
-        lista_columnas_dict = []
-        for i in range(len(self.lista_tipos_columnas[0])):
-            col_nombre = self.lista_tipos_columnas[0][i]
-            tip = self.lista_tipos_columnas[2][i]
-            if tip == "dict" or tip == "list":
-                lista_columnas_dict.append(col_nombre)
-            else:
-                pass
 
-        # Obtener todos los duplicados, sin hacer todavía el emparejamiento
-        if col == True:
-            # Calcular los duplicados con una submuestra del conjunto de datos grande
-            if self.base.shape[0] > limite_filas:
-                numero_filas_tercio = limite_filas // 3
-                base_mitad = self.base.shape[0] // 2
-                mini_base = pd.concat(
-                    [
-                        self.base.iloc[0:numero_filas_tercio],
-                        self.base.iloc[
-                            base_mitad : base_mitad + numero_filas_tercio
+        if not isinstance(col, bool):
+            raise ValueError("'col' debe ser booleano. {True, False}.")
+
+        # Revisar si hay columnas con tipos diccionario o lista
+        temp = np.array(self.lista_tipos_columnas)
+        lista_columnas_dict = list(
+            temp[0][(temp[2] == "dict") | (temp[2] == "list")]
+        )
+
+        # Proporcion (decimal) de columnas repetidas
+        if col:
+            if self.base.shape[0] <= limite_filas:
+                if not len(lista_columnas_dict):
+                    no_unic_columnas = self.base.T.duplicated(keep=False)
+                else:
+                    subset = self.base.columns.difference(lista_columnas_dict)
+                    no_unic_columnas = pd.concat(
+                        [
+                            self.base[subset],
+                            self.base.loc[:, lista_columnas_dict].astype(str),
                         ],
-                        self.base.iloc[-numero_filas_tercio:],
+                        axis=1,
+                    ).T.duplicated(keep=False)
+
+            else:
+                tercio = limite_filas // 3
+                mitad = limite_filas // 2
+
+                idx_mini = np.concatenate(
+                    [
+                        np.arange(tercio),
+                        np.arange(mitad, mitad + tercio),
+                        np.arange(limite_filas - tercio, limite_filas),
                     ]
                 )
-                dupli = pd.concat(
-                    [
-                        mini_base.drop(columns=lista_columnas_dict),
-                        mini_base.loc[:, lista_columnas_dict].astype(str),
-                    ],
-                    axis=1,
-                ).T.duplicated(keep=False)
-            else:
-                dupli = self.base.T.duplicated(keep=False)
-            if dupli.sum() == 0:
-                return "No hay columnas duplicadas"
-            else:
-                pass
-        elif col == False:
-            dupli = self.base.duplicated(keep=False)
-        else:
-            raise ValueError('"col" tiene que ser True o False')
 
-        # Revisar si hay duplicados o no. Parar si no hay
-        dupli = dupli[dupli]
-        if dupli.sum() == 0:
-            if col == True:
+                if not len(lista_columnas_dict):
+                    no_unic_columnas = self.base.iloc[idx_mini].T.duplicated(
+                        keep=False
+                    )
+                else:
+                    subset = self.base.columns.difference(lista_columnas_dict)
+                    no_unic_columnas = pd.concat(
+                        [
+                            self.base[subset].iloc[idx_mini],
+                            self.base.loc[:, lista_columnas_dict]
+                            .iloc[idx_mini]
+                            .astype(str),
+                        ],
+                        axis=1,
+                    ).T.duplicated(keep=False)
+
+            if not no_unic_columnas.sum():
                 print("No hay columnas duplicadas")
                 return
-            elif col == False:
+
+            if self.base.shape[0] <= limite_filas:
+                subset1 = self.base.iloc[:, list(no_unic_columnas)]
+            else:
+                subset1 = self.base.iloc[idx_mini, list(no_unic_columnas)]
+
+            d_duplicados = {}
+            verificado = []
+            for i, r1 in enumerate(subset1):
+                indexs = []
+                if r1 in verificado:
+                    continue
+
+                verificado.append(r1)
+                indexs.append(subset1.index[r1])
+                for r2 in subset1.iloc[:, i + 1 :]:
+                    if r2 not in verificado:
+                        comp = subset1[r1].equals(subset1[r2])
+                        if comp:
+                            indexs.append(subset1.index[r2])
+                            verificado.append(r2)
+                d_duplicados[str(r1)] = indexs
+
+            d = pd.DataFrame.from_dict(d_duplicados, orient="index").T
+            d.columns = [
+                f"Columnas iguales {q + 1}" for q in range(d.shape[1])
+            ]
+        # Proporción de filas repetidas
+        else:
+            if not len(lista_columnas_dict):
+                no_unic_filas = self.base.duplicated(keep=False)
+            else:
+                subset = self.base.columns.difference(lista_columnas_dict)
+                no_unic_filas = pd.concat(
+                    [
+                        self.base[subset],
+                        self.base.loc[:, lista_columnas_dict].astype(str),
+                    ],
+                    axis=1,
+                ).duplicated(keep=False)
+
+            if not no_unic_filas.sum():
                 print("No hay filas duplicadas")
                 return
-            else:
-                raise ValueError('"col" tiene que ser True o False')
-        else:
-            pass
-        # Empareamiento de columnas
-        if col == True:
-            lista = []
-            lista_indices = list(dupli.index)
-            lista_indices_slice = lista_indices.copy()
-            lista_ya_verificados = []
-            for i in lista_indices:
-                if i in lista_ya_verificados:
-                    pass
-                else:
-                    e = [
-                        col
-                        for col in lista_indices_slice
-                        if mini_base.loc[:, lista_indices_slice]
-                        .loc[:, col]
-                        .equals(mini_base.loc[:, i])
-                    ]
-                    for s in e:
-                        lista_ya_verificados.append(s)
-                    lista.append(e)
-                    lista_indices_slice = [
-                        q
-                        for q in lista_indices_slice
-                        if q not in lista_ya_verificados
-                    ]
-            df = pd.DataFrame(lista).T
-            df.columns = [
-                "Filas iguales {0}".format(q + 1) for q in range(df.shape[1])
-            ]
 
-        # Emparejamiento de filas
-        else:
-            lista = []
-            lista_indices = list(dupli.index)
-            lista_indices_slice = lista_indices.copy()
-            lista_numeros = []
-            for i in lista_indices:
-                if i in lista_numeros:
-                    pass
-                else:
-                    e = self.base.loc[lista_indices_slice].apply(
-                        lambda row: row.equals(self.base.loc[i]), axis=1
-                    )
-                    e = e[e == True]
-                    lista_numeros = list(e.index)
-                    lista.append(lista_numeros)
-                    lista_indices_slice = [
-                        q
-                        for q in lista_indices_slice
-                        if q not in lista_numeros
-                    ]
-            df = pd.DataFrame(lista).T
-            df.columns = [
-                "Filas iguales {0}".format(q + 1) for q in range(df.shape[1])
-            ]
+            subset1 = self.base.iloc[list(no_unic_filas)]
 
-        return df
+            d_duplicados = {}
+            verificado = []
+
+            n_rows = subset1.shape[0]
+            for r1 in range(n_rows):
+                indexs = []
+                if r1 in verificado:
+                    continue
+
+                verificado.append(r1)
+                indexs.append(subset1.index[r1])
+                for r2 in range(r1 + 1, n_rows):
+                    if r2 not in verificado:
+                        comp = subset1.iloc[r1].equals(subset1.iloc[r2])
+                        if comp:
+                            indexs.append(subset1.index[r2])
+                            verificado.append(r2)
+                d_duplicados[str(r1)] = indexs
+
+            d = pd.DataFrame.from_dict(d_duplicados, orient="index").T
+            d.columns = [f"Filas iguales {q + 1}" for q in range(d.shape[1])]
+
+        return d
 
     # Valores extremos
     def ValoresExtremos(self, extremos="ambos", numero=False):
