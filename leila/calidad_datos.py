@@ -533,46 +533,55 @@ class CalidadDatos:
 
     # Valores extremos
     def ValoresExtremos(self, extremos="ambos", numero=False):
-        """ Calcula el porcentaje o cantidad de outliers de cada columna numérica \
-            (las columnas con números en formato string se intentarán transformar \
-            a columnas numéricas). :ref:`Ver ejemplo <calidad_datos.ValoresExtremos>`
+        """
+        Calcula el porcentaje o cantidad de valores extremos (outliers) de \
+        cada columna numérica (las columnas con números en formato string se \
+        intentarán transformar a columnas numéricas). \
+        :ref:`Ver ejemplo <calidad_datos.ValoresExtremos>`
 
         :param extremos: (str) {'superior', 'inferior', 'ambos'}, valor por \
-            defecto: 'ambos'. Si el valor es '**inferior**' se tienen en cuenta los \
-            registros con valor menor al límite inferior calculado por la \
-            metodología de valor atípico por rango intercuartílico. Si el valor es \
-            '**superior**' se tienen en cuenta los registros con valor mayor al\
-            límite superior calculado por la metodología de valor atípico por rango \
-            intercuartílico. Si el valor es '**ambos**' se tienen en cuenta los \
-            registros con valor menor al límite inferior calculado por la  \
-            metodología de valor atípico por rango intercuartílico, y también \
-            aquellos con valor mayor al límite superior calculado por la \
-            metodología de valor atípico por rango intercuartílico.
-        :param numero: (bool) {True, False}, valor por defecto: False. Si el valor es \
-            False el resultado se expresa como una proporcion (en decimales), si el valor es True el \
-            valor se expresa como una cantidad de registros (número entero).
-        :return: serie de pandas con la cantidad/proporcion de valores outliers \
-            de cada columna.
+            defecto: 'ambos'. Si el valor es `inferior` se tienen en cuenta \
+            los registros con valor menor al límite inferior calculado por la \
+            metodología de valor atípico por rango intercuartílico. Si el \
+            valor es `superior` se tienen en cuenta los registros con valor \
+            mayor al límite superior calculado por la metodología de valor \
+            atípico por rango intercuartílico. Si el valor es `ambos` se \
+            tienen en cuenta los registros con valor menor al límite inferior \
+            calculado por la  metodología de valor atípico por rango \
+            intercuartílico, y también aquellos con valor mayor al límite \
+            superior calculado por la metodología de valor atípico por rango \
+            intercuartílico.
+        :param numero: (bool) {True, False}, valor por defecto: False. Si el \
+            valor es `False` el resultado se expresa como una proporcion \
+            (en decimales), si el valor es `True` el valor se expresa como \
+            una cantidad de registros (número entero).
+        :return: Serie de pandas con la cantidad/proporción de valores \
+            extremos (outliers) de cada columna.
         """
-        # Revisar si hay columnas numéricas. En caso de no haber, detener función
-        col_num = [
-            self.lista_tipos_columnas[0][i]
-            for i in range(len(self.lista_tipos_columnas[0]))
-            if "float" in self.lista_tipos_columnas[1][i]
-            or "int" in self.lista_tipos_columnas[1][i]
-        ]
-        if len(col_num) == 0:
+        if not isinstance(numero, bool):
+            raise ValueError("'numero' debe ser booleano. {True, False}.")
+        if extremos not in ["superior", "inferior", "ambos"]:
+            raise ValueError(
+                "Valor  desconocido para  el parametro `extremos`. Este debe "
+                "ser 'superior', 'inferior' o 'ambos'."
+            )
+
+        # Revisar si hay columnas númericas
+        col_num = self.base.select_dtypes(include=np.number).columns.tolist()
+        if not len(col_num):
             print("El conjunto de datos no tiene columnas numéricas")
             return
-        else:
-            pass
 
         # Calcular valores de columnas en percentiles 25 y 75
-        percentiles_25 = self.base[col_num].apply(
-            lambda x: np.nanpercentile(x, 25), axis=0
+        percentiles_25 = (
+            self.base[col_num]
+            .astype(float)
+            .apply(lambda x: np.nanpercentile(x, 25), axis=0)
         )
-        percentiles_75 = self.base[col_num].apply(
-            lambda x: np.nanpercentile(x, 75), axis=0
+        percentiles_75 = (
+            self.base[col_num]
+            .astype(float)
+            .apply(lambda x: np.nanpercentile(x, 75), axis=0)
         )
 
         # Calcular IQR
@@ -592,26 +601,17 @@ class CalidadDatos:
                 dic_outliers[self.base[col_num].columns[i]] = (
                     self.base[col_num].iloc[:, i] > iqr_upper[i]
                 )
-        elif extremos == "inferior":
+        else:  # extremos == "inferior":
             for i in range(0, len(iqr)):
                 dic_outliers[self.base[col_num].columns[i]] = (
                     self.base[col_num].iloc[:, i] < iqr_lower[i]
                 )
-        else:
-            raise ValueError(
-                '"extremos" tiene que ser "ambos", "superior" o "inferior"'
-            )
 
         base_outliers = pd.DataFrame(dic_outliers)
 
-        if numero == False:
-            cantidad_outliers = base_outliers.sum() / base_outliers.shape[0]
-        elif numero == True:
-            cantidad_outliers = base_outliers.sum()
-        else:
-            raise ValueError('"numero" tiene que ser True o False')
-
-        del base_outliers
+        cantidad_outliers = base_outliers.sum()
+        if not numero:
+            cantidad_outliers /= base_outliers.shape[0]
 
         return cantidad_outliers
 
