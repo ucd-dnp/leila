@@ -532,7 +532,7 @@ class CalidadDatos:
         return d
 
     # Valores extremos
-    def ValoresExtremos(self, extremos="ambos", numero=False):
+    def ValoresExtremos(self, extremos="ambos", numero=False, **kwargs):
         """
         Calcula el porcentaje o cantidad de valores extremos (outliers) de \
         cada columna numérica (las columnas con números en formato string se \
@@ -565,12 +565,16 @@ class CalidadDatos:
                 "Valor  desconocido para  el parametro `extremos`. Este debe "
                 "ser 'superior', 'inferior' o 'ambos'."
             )
-
-        # Revisar si hay columnas númericas
-        col_num = self.base.select_dtypes(include=np.number).columns.tolist()
-        if not len(col_num):
-            print("El conjunto de datos no tiene columnas numéricas")
-            return
+        if "col_num" not in kwargs:
+            # Revisar si hay columnas númericas
+            col_num = self.base.select_dtypes(
+                include=np.number
+            ).columns.tolist()
+            if not len(col_num):
+                print("El conjunto de datos no tiene columnas numéricas")
+                return
+        else:
+            col_num = kwargs.pop("col_num")
 
         # Calcular valores de columnas en percentiles 25 y 75
         percentiles_25 = (
@@ -617,54 +621,52 @@ class CalidadDatos:
 
     # Estadísticas descriptivas de columnas numéricas
     def DescripcionNumericas(self, variables=None):
-        """ Calcula estadísticas descriptivas de cada columna numérica. \
-            Incluyen media, mediana, valores en distintos percentiles,\
-            desviación estándar, valores extremos y porcentaje de valores \
-            faltantes. :ref:`Ver ejemplo <calidad_datos.DescripcionNumericas>`
-
-        :param variables: (list) lista de nombres de las columnas separados \
-            por comas. Permite escoger las columnas de interés de análisis \
-            del dataframe
-
-        :return: dataframe con las estadísticas descriptivas.
         """
-        # Seleccionar columnas numéricas de 'self.lista_tipos_columnas'
-        col_num = [
-            self.lista_tipos_columnas[0][i]
-            for i in range(len(self.lista_tipos_columnas[0]))
-            if "float" in self.lista_tipos_columnas[2][i]
-            or "int" in self.lista_tipos_columnas[2][i]
-        ]
+        Calcula estadísticas descriptivas de cada columna numérica. \
+        Incluyen media, mediana, valores en distintos percentiles,\
+        desviación estándar, valores extremos y porcentaje de valores \
+        faltantes. :ref:`Ver ejemplo <calidad_datos.DescripcionNumericas>`
 
-        # Filtrar el conjunto de datos por las variables escogidas en la opción 'variables'
-        if isinstance(variables, list):
-            col_num = [q for q in variables if q in col_num]
-            baseObjeto = CalidadDatos(
-                self.base.loc[:, variables].copy(), castNumero=False
-            )
-        else:
-            baseObjeto = CalidadDatos(
-                self.base.loc[:, col_num].copy(), castNumero=False
-            )
+        :param variables: Por defecto None. lista de nombres de las \
+            columnas númericas que se desea analizar. Si `None`, todas las \
+            columnas númericas son seleccionadas.
+        :type variables: list, optional
+        :return: Dataframe con las estadísticas descriptivas de las \
+            columnas númericas.
+        :rtype: pandas.DataFrame
+        """
 
-        # Detener si no hay columans numéricas
-        if len(col_num) == 0:
+        # Revisar si hay columnas númericas
+        col_num = self.base.select_dtypes(include=np.number).columns.tolist()
+        if not len(col_num):
             print("El conjunto de datos no tiene columnas numéricas")
             return
-        else:
+
+        if isinstance(variables, list):
+            col_num = [q for q in variables if q in col_num]
+            if not len(col_num):
+                raise ValueError(
+                    "El parámetro `variables` no contiene ningún nombre "
+                    "de columna númerica valido."
+                )
+        elif variables is None:
             pass
+        else:
+            raise ValueError("No se reconoce el parámetro `variables`.")
 
         # Calcular estadísticas descriptivas
         base_descripcion = self.base.loc[:, col_num].describe().T
         base_descripcion["missing"] = pd.isnull(
             self.base.loc[:, col_num]
         ).sum() / len(self.base.loc[:, col_num])
-        base_descripcion["outliers_total"] = baseObjeto.ValoresExtremos()
-        base_descripcion["outliers_altos"] = baseObjeto.ValoresExtremos(
-            extremos="superior"
+        base_descripcion["outliers_total"] = self.ValoresExtremos(
+            col_num=col_num
         )
-        base_descripcion["outliers_bajos"] = baseObjeto.ValoresExtremos(
-            extremos="inferior"
+        base_descripcion["outliers_altos"] = self.ValoresExtremos(
+            extremos="superior", col_num=col_num
+        )
+        base_descripcion["outliers_bajos"] = self.ValoresExtremos(
+            extremos="inferior", col_num=col_num
         )
 
         return base_descripcion
