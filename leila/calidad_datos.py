@@ -539,24 +539,25 @@ class CalidadDatos:
         intentarán transformar a columnas numéricas). \
         :ref:`Ver ejemplo <calidad_datos.ValoresExtremos>`
 
-        :param extremos: (str) {'superior', 'inferior', 'ambos'}, valor por \
-            defecto: 'ambos'. Si el valor es `inferior` se tienen en cuenta \
-            los registros con valor menor al límite inferior calculado por la \
-            metodología de valor atípico por rango intercuartílico. Si el \
-            valor es `superior` se tienen en cuenta los registros con valor \
+        :param extremos: {'superior', 'inferior', 'ambos'}. Si el valor es \
+            `inferior` se tienen en cuenta los registros con valor menor al \
+            límite inferior calculado por la metodología de valor atípico \
+            por rango intercuartílico. Si el valor es `superior` se tienen \
+            en cuenta los registros con valor \
             mayor al límite superior calculado por la metodología de valor \
             atípico por rango intercuartílico. Si el valor es `ambos` se \
             tienen en cuenta los registros con valor menor al límite inferior \
             calculado por la  metodología de valor atípico por rango \
             intercuartílico, y también aquellos con valor mayor al límite \
             superior calculado por la metodología de valor atípico por rango \
-            intercuartílico.
-        :param numero: (bool) {True, False}, valor por defecto: False. Si el \
-            valor es `False` el resultado se expresa como una proporcion \
+            intercuartílico.. Valor por defecto "ambos"
+        :type extremos: str, opcional.
+        :param numero: Si `False` el resultado se expresa como una proporcion \
             (en decimales), si el valor es `True` el valor se expresa como \
-            una cantidad de registros (número entero).
-        :return: Serie de pandas con la cantidad/proporción de valores \
-            extremos (outliers) de cada columna.
+            una cantidad de registros (número entero). Valor por defecto False
+        :type numero: bool, opcional.
+        :return: (pandas.Series) Serie de pandas con la cantidad/proporción \
+            de valores extremos (outliers) de cada columna.
         """
         if not isinstance(numero, bool):
             raise ValueError("'numero' debe ser booleano. {True, False}.")
@@ -630,10 +631,9 @@ class CalidadDatos:
         :param variables: Por defecto None. lista de nombres de las \
             columnas númericas que se desea analizar. Si `None`, todas las \
             columnas númericas son seleccionadas.
-        :type variables: list, optional
-        :return: Dataframe con las estadísticas descriptivas de las \
-            columnas númericas.
-        :rtype: pandas.DataFrame
+        :type variables: list, opcional.
+        :return: (pandas.DataFrame) Dataframe con las estadísticas \
+            descriptivas de las columnas númericas.
         """
 
         # Revisar si hay columnas númericas
@@ -673,65 +673,43 @@ class CalidadDatos:
 
     # Varianza de columnas numéricas con el cálculo de percentiles
     def VarianzaEnPercentil(self, percentil_inferior=5, percentil_superior=95):
-        """ Retorna las columnas numéricas cuyo percentil_inferior sea igual \
-            a su percentil_superior. :ref:`Ver ejemplo <calidad_datos.VarianzaEnPercentil>`
+        """
+        Retorna el nombre de las columnas numéricas cuyo `percentil_inferior` \
+        sea igual a su `percentil_superior`. \
+        :ref:`Ver ejemplo <calidad_datos.VarianzaEnPercentil>`
 
-        :param base: (dataframe) base de datos de interés a ser analizada.
-        :param percentil_inferior: (float), valor por defecto: 5. Percentil \
-            inferior de referencia en la comparación.
-        :param percentil_superior: (float), valor por defecto: 95. Percentil \
-            superior de referencia en la comparación.
-        :return: indices de columnas cuyo percentil inferior es igual al \
-            percentil superior.
+        :param percentil_inferior: Percentil inferior de referencia en la \
+            comparación. Valor por defecto 5.
+        :type percentil_inferior: int, opcional.
+        :param percentil_superior: Percentil superior de referencia en la \
+            comparación. Valor por defecto 95.
+        :type percentil_superior: int, opcional
+        :return: (list) Lista de los nombres de las columnas cuyo percentil \
+            inferior es igual al percentil superior.
         """
 
-        # Revisar si hay columnas numéricas. En caso de no haber, detener función
-        col_num = [
-            self.lista_tipos_columnas[0][i]
-            for i in range(len(self.lista_tipos_columnas[0]))
-            if "float" in self.lista_tipos_columnas[1][i]
-            or "int" in self.lista_tipos_columnas[1][i]
-        ]
-        if len(col_num) == 0:
+        # Revisar si hay columnas númericas
+        col_num = self.base.select_dtypes(include=np.number).columns.tolist()
+        if not len(col_num):
             print("El conjunto de datos no tiene columnas numéricas")
-            return
-        else:
-            pass
-
-        lista_nums = []
-        for i in range(len(self.tipos_dtypes)):
-            if "int" in str(self.tipos_dtypes[i]) or "float" in str(
-                self.tipos_dtypes[i]
-            ):
-                lista_nums.append(self.tipos_dtypes.index[i])
-        numero_filas = self.base.shape[0]
-        for c in self.base[lista_nums].columns:
-            if self.base[c].isnull().sum() == numero_filas:
-                lista_nums.remove(c)
-            else:
-                pass
+            return []
 
         # Calcular percentiles
-        percentil_bajo = self.base[lista_nums].apply(
+        percentil_bajo = self.base[col_num].apply(
             lambda x: np.percentile(x.dropna(), 5), axis=0
         )
-        percentil_alto = self.base[lista_nums].apply(
+        percentil_alto = self.base[col_num].apply(
             lambda x: np.percentile(x.dropna(), 95), axis=0
         )
 
-        percentiles = pd.concat([percentil_bajo, percentil_alto], axis=1)
-        percentiles_true = percentiles.iloc[:, 0] == percentiles.iloc[:, 1]
-        percentiles_true = percentiles_true[percentiles_true == True]
+        percentiles_true = percentil_alto.index[
+            percentil_alto == percentil_bajo
+        ]
 
-        if len(percentiles_true) == 0:
-            print(
-                "No hay ninguna columna numérica que tenga el percentil {0} y el percentil {1} igual".format(
-                    percentil_inferior, percentil_superior
-                )
-            )
-            return
+        if not len(percentiles_true):
+            return []
         else:
-            return percentiles_true.index
+            return list(percentiles_true)
 
     # tabla de valores únicos para cada variable de texto
     def DescripcionCategoricas(
