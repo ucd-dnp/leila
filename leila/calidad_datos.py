@@ -6,6 +6,7 @@ import numpy as np
 import scipy.stats as sstats
 import warnings
 import re
+import math
 import phik
 
 
@@ -929,10 +930,10 @@ class CalidadDatos:
 
         if not isinstance(col, bool):
             raise ValueError("'col' debe ser booleano. {True, False}.")
-        if unidad not in ["byte", "kb", "Mb", "Gb", "Tb"]:
+        if unidad not in ["b", "kb", "Mb", "Gb", "Tb"]:
             raise ValueError(
                 "El parámetro 'unidad' debe ser uno de  estos "
-                " valores : 'byte', 'kb', 'Mb', 'Gb', 'Tb'"
+                " valores : 'b', 'kb', 'Mb', 'Gb', 'Tb'"
             )
 
         if col:
@@ -940,7 +941,7 @@ class CalidadDatos:
         else:
             memoria_ = self.base.memory_usage(index=True).sum()
 
-        if unidad == "byte":
+        if unidad == "b":
             pass
         elif unidad == "kb":
             memoria_ = memoria_ / (1024)
@@ -969,7 +970,8 @@ class CalidadDatos:
         colExtremos=True,
         memoriaTotal=True,
     ):
-        """ Retorna una tabla con información general el conjunto de datos.\
+        """
+        Retorna una tabla con información general el conjunto de datos.\
         Incluye número de filas y columnas, número de columnas de tipo \
         numéricas, de texto, booleanas, fecha y otros, número de filas y \
         columnas no únicas, número de columnas con más de la mitad de las \
@@ -977,34 +979,46 @@ class CalidadDatos:
         10% de observaciones con datos extremos y el tamaño del conjunto de \
         datos en memoria. :ref:`Ver ejemplo <calidad_datos.Resumen>`
 
-        :param filas: (bool) {True, False}, valor por defecto: True. Indica \
-            si se incluye el cálculo de número de filas del dataframe.
-        :param columnas: (bool) {True, False}, valor por defecto: True. \
-            Indica si se incluye el cálculo de número de filas del dataframe.
-        :param colNumericas: (bool) {True, False}, valor por defecto: True. \
-            Indica si se incluye el número de columnas de tipo numéricas.
-        :param colTexto: (bool) {True, False}, valor por defecto: True. \
-            Indica si se incluye el número de columnas de tipo texto.
-        :param colBooleanas: (bool) {True, False}, valor por defecto: True. \
-            Indica si se incluye el número de columnas de tipo boolean.
-        :param colFecha: (bool) {True, False}, valor por defecto: True. \
-            Indica si se incluye el número de columnas de tipo fecha.
-        :param colOtro: (bool) {True, False}, valor por defecto: True. \
-            Indica si se incluye el número de columnas de otro tipo deferente \
-            a los anteriores.
-        :param filasRepetidas: (bool) {True, False}, valor por defecto: True. \
-            Indica si se incluye el número de filas repetidas.
-        :param columnasRepetidas: (bool) {True, False}, valor por defecto: \
-            False. Indica si se incluye el número de columnas repetidas.
-        :param colFaltantes: (bool) {True, False}, valor por defecto: True. \
-            Indica si se incluye el número de columnas con más de la mitad de \
-            las observaciones con datos faltantes.
-        :param colExtremos: (bool) {True, False}, valor por defecto: True. \
-            Indica si se incluye el número de columnas con más del 10% de \
-                observaciones con datos extremos.
-        :param memoriaTotal: (bool) {True, False}, valor por defecto: True. \
-            Indica si se incluye el cálculo del tamaño del conjunto de datos en memoria.
-        :return: serie de pandas con las estadísticas descriptivas del dataframe.
+        :param filas: Indica si se incluye el cálculo de número de filas \
+            del conjunto de datos. Por defecto `True`.
+        :type filas: bool, opcional
+        :param columnas: Indica si se incluye el cálculo de número de \
+            columnas del conjunto de datos. Por defecto `True`.
+        :type columnas: bool, opcional
+        :param colNumericas: Indica si se incluye el número de columnas de \
+            tipo numéricas. Por defecto `True`.
+        :type colNumericas: bool, opcional
+        :param colTexto: Indica si se incluye el número de columnas de tipo \
+            texto.Por defecto `True`.
+        :type colTexto: bool, opcional
+        :param colBooleanas:  Indica si se incluye el número de columnas de \
+            tipo booleana. Por defecto `True`.
+        :type colBooleanas: bool, opcional
+        :param colFecha: Indica si se incluye el número de columnas de tipo \
+            fecha. Por defecto `True`.
+        :type colFecha: bool, opcional
+        :param colOtro: Indica si se incluye el número de columnas de otro \
+            tipo diferente a los anteriores. Por defecto `True`.
+        :type colOtro: bool, opcional
+        :param filasRepetidas: Indica si se incluye el número de filas \
+            repetidas. Por defecto `True`.
+        :type filasRepetidas: bool, opcional
+        :param columnasRepetidas: Indica si se incluye el número de \
+            columnas repetidas. Por defecto `True`.
+        :type columnasRepetidas: bool, opcional
+        :param colFaltantes: Indica si se incluye el número de columnas \
+            con más de la mitad de las observaciones con datos faltantes. \
+            Por defecto `True`.
+        :type colFaltantes: bool, opcional
+        :param colExtremos: Indica si se incluye el número de columnas con \
+            más del 10% de observaciones con datos extremos. Por \
+            defecto `True`.
+        :type colExtremos: bool, opcional
+        :param memoriaTotal: Indica si se incluye el uso del tamaño del \
+            conjunto de datos en memoria.Por defecto `True`.
+        :type memoriaTotal: bool, opcional
+        :return: (pandas.Series) Serie de pandas con las estadísticas \
+            descriptivas del conjunto de datos.
         """
 
         # Lista donde se guardarán resultados
@@ -1013,9 +1027,9 @@ class CalidadDatos:
         # Calcular tipo de columnas
         col_tipos = self.TipoColumnas(
             tipoGeneral=True, tipoGeneralPython=False, tipoEspecifico=False
-        ).iloc[:, 0]
+        )
 
-        ## Agregar a lista, si se escoge que sea así
+        # Agregar a lista, si se escoge que sea así
 
         # Número de filas
         if filas:
@@ -1023,8 +1037,6 @@ class CalidadDatos:
             nombre = "Número de filas"
             lista_resumen[0].append(nombre)
             lista_resumen[1].append(calculo)
-        else:
-            pass
 
         # Número de columnas
         if columnas:
@@ -1032,53 +1044,41 @@ class CalidadDatos:
             nombre = "Número de columnas"
             lista_resumen[0].append(nombre)
             lista_resumen[1].append(calculo)
-        else:
-            pass
 
         # Número de columnas numéricas
         if colNumericas:
-            calculo = len(col_tipos[col_tipos == "Numérico"])
+            calculo = int((col_tipos == "Numérico").sum())
             nombre = "Columnas numéricas"
             lista_resumen[0].append(nombre)
             lista_resumen[1].append(calculo)
-        else:
-            pass
 
         # Número de columnas de texto
         if colTexto:
-            calculo = len(col_tipos[col_tipos == "Texto"])
+            calculo = int((col_tipos == "Texto").sum())
             nombre = "Columnas de texto"
             lista_resumen[0].append(nombre)
             lista_resumen[1].append(calculo)
-        else:
-            pass
 
         # Número de columnas booleanas
         if colBooleanas:
-            calculo = len(col_tipos[col_tipos == "Boolean"])
+            calculo = int((col_tipos == "Booleano").sum())
             nombre = "Columnas booleanas"
             lista_resumen[0].append(nombre)
             lista_resumen[1].append(calculo)
-        else:
-            pass
 
         # Número de columnas de fecha
         if colFecha:
-            calculo = len(col_tipos[col_tipos == "Fecha"])
+            calculo = int((col_tipos == "Fecha").sum())
             nombre = "Columnas de fecha"
             lista_resumen[0].append(nombre)
             lista_resumen[1].append(calculo)
-        else:
-            pass
 
         # Número de columnas de otro tipo
         if colOtro:
-            calculo = len(col_tipos[col_tipos == "Otro"])
+            calculo = int((col_tipos == "Otro").sum())
             nombre = "Otro tipo de columnas"
             lista_resumen[0].append(nombre)
             lista_resumen[1].append(calculo)
-        else:
-            pass
 
         # Número de filas no únicas
         if filasRepetidas:
@@ -1086,8 +1086,6 @@ class CalidadDatos:
             nombre = "Número de filas repetidas"
             lista_resumen[0].append(nombre)
             lista_resumen[1].append(calculo)
-        else:
-            pass
 
         # Número de columnas no únicas
         if columnasRepetidas:
@@ -1095,8 +1093,6 @@ class CalidadDatos:
             nombre = "Número de columnas repetidas"
             lista_resumen[0].append(nombre)
             lista_resumen[1].append(calculo)
-        else:
-            pass
 
         # Porcentaje de columnas con más de la mitad de datos faltantes
         if colFaltantes:
@@ -1105,8 +1101,6 @@ class CalidadDatos:
             nombre = "Columnas con más de la mitad de datos faltantes"
             lista_resumen[0].append(nombre)
             lista_resumen[1].append(calculo)
-        else:
-            pass
 
         # Columnas con más del 10% de datos como extremos
         if colExtremos:
@@ -1118,33 +1112,24 @@ class CalidadDatos:
                 lista_resumen[1].append(calculo)
             except BaseException:
                 pass
-        else:
-            pass
 
         # Tamaño del conjunto de datos en la memoria
         if memoriaTotal:
-            memoria_tot = self.Memoria()
-            if memoria_tot > 1024:
-                memoria_tot = memoria_tot / 1024
-                nombre = "Uso en memoria del conjunto de datos en gygabytes (aproximado)"
-            elif memoria_tot < (1 / 1024):
-                memoria_tot = memoria_tot * 1024 * 1024
-                nombre = "Uso en memoria del conjunto de datos en bytes (aproximado)"
-            elif memoria_tot < 1:
-                memoria_tot = memoria_tot * 1024
-                nombre = "Uso en memoria del conjunto de datos en kylobytes (aproximado)"
-            else:
-                nombre = "Uso en memoria del conjunto de datos en megabytes (aproximado)"
+            memoria_tot = self.Memoria(unidad="b")
+            name = ("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
+            i = int(math.floor(math.log(memoria_tot, 1024)))
+            p = math.pow(1024, i)
+            name = name[i]
+            memoria_tot = round(memoria_tot / p, 2)
+            nombre = f"Uso de memoria del conjunto de datos en {name} (aprox)"
 
-            calculo = memoria_tot
             lista_resumen[0].append(nombre)
-            lista_resumen[1].append(calculo)
-        else:
-            pass
+            lista_resumen[1].append(memoria_tot)
 
         tabla_resumen = pd.Series(
             data=lista_resumen[1], index=lista_resumen[0]
         ).astype(int)
+
         return tabla_resumen
 
     # Matrices de correlación para las variables numéricas
