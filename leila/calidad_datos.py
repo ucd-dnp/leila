@@ -551,7 +551,7 @@ class CalidadDatos:
             calculado por la  metodología de valor atípico por rango \
             intercuartílico, y también aquellos con valor mayor al límite \
             superior calculado por la metodología de valor atípico por rango \
-            intercuartílico.. Valor por defecto "ambos"
+            intercuartílico. Valor por defecto "ambos"
         :type extremos: str, opcional.
         :param numero: Si `False` el resultado se expresa como una proporcion \
             (en decimales), si el valor es `True` el valor se expresa como \
@@ -908,42 +908,49 @@ class CalidadDatos:
         return df_counts
 
     # Tamaño del conjunto de datos en la memoria
-    def Memoria(self, col=False, unidad="megabyte"):
-        """ Calcula el tamaño del conjunto de datos en memoria (megabytes). :ref:`Ver ejemplo <calidad_datos.Memoria>`
-
-        :param col: (bool) {True, False}, valor por defecto: False. Si el \
-            valor es False realiza el cálculo de memoria del dataframe \
-            completo, si el valor es True realiza el cálculo de memoria por \
-            cada columna del dataframe.
-        :param unidad: (str) {byte, kylobyte, megabyte, gygabyte, terabyte}, \
-            valor por defecto: 'megabyte'. Es la unidad con la que se desea \
-            ver la memoria del conjunto  de datos
-        :return: valor (float) del tamaño del conjunto de datos en megabytes \
-            (si el parámetro col es False). Serie de pandas con el cálculo de \
-            memoria en megabytes por cada columna del dataframe. (si el \
-            parámetro col es True).
+    def Memoria(self, col=False, unidad="Mb"):
         """
-        if col == False:
-            memoria_ = self.base.memory_usage(index=True).sum()
-        elif col == True:
+        Calcula el tamaño del conjunto de datos en memoria (megabytes). \
+        :ref:`Ver ejemplo <calidad_datos.Memoria>`
+
+        :param col: Si `False` realiza el cálculo de memoria del Dataframe \
+            completo, si `True` realiza el cálculo de memoria por \
+            cada columna del Dataframe. Por defecto `False`.
+        :type col: bool, opcional
+        :param unidad: {"byte", "kb", "Mb", "Gb", "Tb"} Es la unidad de \
+            medida de memoria con la que se desea ver la memoria que ocupa \
+            en el computador del conjunto  de datos. Por defecto "Mb".
+        :type unidad: str, opcional
+
+        :return: (float | pandas.Series) Si `col = False` retorna el valor de \
+            memoria ocupada por el cojunto de datos. Si `col = True`, retorna \
+            la memoria ocupada por cada columna del conjunto de datos.
+        """
+
+        if not isinstance(col, bool):
+            raise ValueError("'col' debe ser booleano. {True, False}.")
+        if unidad not in ["byte", "kb", "Mb", "Gb", "Tb"]:
+            raise ValueError(
+                "El parámetro 'unidad' debe ser uno de  estos "
+                " valores : 'byte', 'kb', 'Mb', 'Gb', 'Tb'"
+            )
+
+        if col:
             memoria_ = self.base.memory_usage(index=True)
         else:
-            raise ValueError('"col" tiene que ser True o False')
+            memoria_ = self.base.memory_usage(index=True).sum()
 
         if unidad == "byte":
             pass
-        elif unidad == "kylobyte":
+        elif unidad == "kb":
             memoria_ = memoria_ / (1024)
-        elif unidad == "megabyte":
+        elif unidad == "Mb":
             memoria_ = memoria_ / (1024 ** 2)
-        elif unidad == "gygabyte":
+        elif unidad == "Gb":
             memoria_ = memoria_ / (1024 ** 3)
-        elif unidad == "terabyte":
+        elif unidad == "Tb":
             memoria_ = memoria_ / (1024 ** 4)
-        else:
-            raise ValueError(
-                '"unidad" tiene que ser "byte", "kylobyte", "megabyte", "gygabyte" o "terabyte"'
-            )
+
         return memoria_
 
     # tabla de resumen pequeña
