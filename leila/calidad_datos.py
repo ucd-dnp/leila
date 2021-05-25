@@ -1134,37 +1134,40 @@ class CalidadDatos:
 
     # Matrices de correlación para las variables numéricas
     def CorrelacionNumericas(self, metodo="pearson", variables=None):
-        """ Genera una matriz de correlación entre las variables de tipo numérico \
-            :ref:`Ver ejemplo <calidad_datos.CorrelacionNumericas>`
-
-        :param metodo: (str) {'pearson', 'kendall', 'spearman'}, valor por \
-            defecto: 'pearson'. Medida de correlación a utilizar.
-        :param variables: (list) lista de nombres de las columnas separados \
-            por comas. Permite escoger las columnas de interés de análisis \
-            del dataframe
-        :return: dataframe con las correlaciones de las columnas de tipo \
-            numérico analizadas.
         """
-        # Revisar si hay columnas numéricas. En caso de no haber, detener función
-        col_num = [
-            self.lista_tipos_columnas[0][i]
-            for i in range(len(self.lista_tipos_columnas[0]))
-            if "float" in self.lista_tipos_columnas[1][i]
-            or "int" in self.lista_tipos_columnas[1][i]
-        ]
-        if len(col_num) == 0:
-            print("El conjunto de datos no tiene columnas numéricas")
-            return
-        else:
-            pass
+        Genera una matriz de correlación entre las variables de tipo numérico \
+        :ref:`Ver ejemplo <calidad_datos.CorrelacionNumericas>`.
 
-        # Crear lista de númericas filtradas por las variables escogidas en la opción 'variables'
+        :param metodo: {'pearson', 'kendall', 'spearman'} Medida de \
+            correlacion. Por defecto "pearson".
+        :type metodo: str, opcional
+        :param variables: Lista de nombres de las columnas númericas \
+            separados por comas. Permite seleccionar las columnas de interés. \
+            Por defecto `None`.
+        :type variables: [type], opcional
+        :return: (pandas.DataFrame) Dataframe con las correlaciones de las \
+            columnas de tipo numérico analizadas.
+        """
+
+        if metodo not in ["spearman", "kendall", "pearson"]:
+            raise ValueError(
+                "'metodo' es invalido. Seleccione 'spearman', "
+                "'kendall' o 'pearson' en su lugar."
+            )
+        # Revisar si hay columnas numéricas.
+        col_num = self.base.select_dtypes(include=np.number).columns.tolist()
+        if not len(col_num):
+            warnings.warn("El conjunto de datos no tiene columnas numéricas")
+            return None
+
+        # Crear lista de númericas filtradas por las variables escogidas
         if isinstance(variables, list):
-            columnas_filtro = [q for q in variables if q in list(col_num)]
-            col_num = columnas_filtro
-            del columnas_filtro
-        else:
-            pass
+            col_num = [q for q in variables if q in col_num]
+            if not len(col_num):
+                raise ValueError(
+                    "El parámetro `variables` no contiene ningún nombre "
+                    "de columna númerica valido."
+                )
 
         # Crear la matriz de correlación dependiendo del método escogido
         if metodo == "pearson":
@@ -1173,10 +1176,6 @@ class CalidadDatos:
             correlacion_ = self.base[col_num].corr(method="kendall")
         elif metodo == "spearman":
             correlacion_ = self.base[col_num].corr(method="spearman")
-        else:
-            raise ValueError(
-                '"metodo" tiene que ser "pearson", "kendall" o "spearman>"'
-            )
 
         return correlacion_
 
