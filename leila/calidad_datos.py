@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from numpy.core.fromnumeric import var
 import pandas as pd
 import numpy as np
 import scipy.stats as sstats
@@ -719,124 +720,149 @@ class CalidadDatos:
         incluirNumericos=True,
         variables=None,
     ):
-        """ Genera una tabla con los primeros 10 valores más frecuentes de las \
-            columnas categóricas del dataframe, además calcula su frecuencia \
-            y porcentaje dentro del total de observaciones. Incluye los \
-            valores faltantes. :ref:`Ver ejemplo <calidad_datos.DescripcionCategoricas>`
+        """
+        Genera una tabla con los primeros 10 valores más frecuentes de las \
+        columnas categóricas del dataframe, además calcula su frecuencia y \
+        porcentaje dentro del total de observaciones. Incluye los valores \
+        faltantes. :ref:`Ver ejemplo <calidad_datos.DescripcionCategoricas>`.
 
-        :param limite: (float) (valor de 0 a 1) límite de referencia, se \
-            utiliza para determinar si las variables posiblemente son de tipo \
-            categóricas y ser incluidas en el análisis. Si el número de \
-            valores únicos por columna es mayor al número de registros \
-            limite, se considera que la variable no es categórica.
-        :param categoriasMaximas: (int) (valor mayor a 0), indica el máximo \
-            número de categorías de una variable para que sea incluida en el \
-            análisis
-        :param incluirNumericos: (bool) {True, False}, determina si se desea \
-            considerar las variables numéricas como categóricas e incluirlas en el \
-            análisis. Si el valor es True se incluyen las variables numéricas \
-            en el análisis, si el valor es False no se incluyen las variables \
-            numéricas en el análisis.
-        :param variables: (list) lista de nombres de las columnas separados \
-            por comas. Permite escoger las columnas de interés de análisis \
-            del dataframe
-        :return: dataframe con las estadísticas descriptivas de las columnas \
-            de tipo texto.
+        :param limite: Valor de 0 a 1. Se utiliza para determinar si las \
+            variables posiblemente son de tipo categóricas y ser incluidas \
+            en el análisis. Si el número de valores únicos por columna es \
+            mayor al número de registros limite, se considera que la \
+            variable no es categórica. Por defecto `0.5`
+        :type limite: float, opcional
+        :param categoriasMaximas: Valor mayor a 1. Indica el máximo número \
+            de categorías de una variable para que sea incluida en el \
+            análisis. Por defecto `30`.
+        :type categoriasMaximas: int, opcional
+        :param incluirNumericos:  Determina si se desea considerar las \
+            variables numéricas como categóricas e incluirlas en el \
+            análisis. Si el valor es `True` se incluyen las variables \
+            numéricas, solo si `variables` es igual a `None`. Por defecto \
+            `True`.
+        :type incluirNumericos: bool, opcional
+        :param variables: Lista de nombres de las columnas separados \
+            por comas. Permite escoger las columnas de interés. Si `variables`\
+            es `None`, se considera todas las columnas del conjunto de datos. \
+            Por defecto es `None`.
+        :type variables: [type], opcional
+        :return: (pandas.DataFrame) Dataframe con las estadísticas \
+            descriptivas de las columnas identificadas de tipo categórica.
         """
 
-        # Filtrar El conjunto de datos por las variables escogidas en la opción 'variables'
+        if not isinstance(incluirNumericos, bool):
+            raise ValueError(
+                "incluirNumericos debe ser booleano. {True, False}."
+            )
         if isinstance(variables, list):
-            for v in variables:
-                if v in self.lista_tipos_columnas[0]:
-                    pass
-                else:
-                    raise ValueError(
-                        '"{0}" no es una columna del conjunto de datos'.format(
-                            v
-                        )
-                    )
-        else:
-            variables = self.lista_tipos_columnas[0].copy()
-
-        # Si una variable solo tiene missing values, quitar
-        for s in self.base.columns:
-            if self.base[s].isnull().sum() == self.base.shape[0]:
-                variables.remove(s)
+            not_in_cols = [
+                v for v in variables if v not in self.lista_tipos_columnas[0]
+            ]
+            variables = [v for v in variables if v not in not_in_cols]
+            if len(not_in_cols):
+                cols = ", ".join(not_in_cols)
                 warnings.warn(
-                    "La variable '{0}' se eliminó del análisis descriptivo porque solo tiene valores faltantes".format(
-                        s
-                    )
+                    f"Las variables {cols} no están en la base de datos"
                 )
-            else:
-                pass
 
-        # Revisar si hay columnas con tipos diccionario o lista
-        lista_columnas_dict = []
-        for i in range(len(self.lista_tipos_columnas[0])):
-            col_nombre = self.lista_tipos_columnas[0][i]
-            tip = self.lista_tipos_columnas[2][i]
-
-            if tip == "dict" or tip == "list":
-                # base[col_nombre] = base[col_nombre].apply(str)
-                lista_columnas_dict.append(col_nombre)
-            else:
-                pass
-
-        # Filtrar por el número de categorías únicas en cada variable
-        if categoriasMaximas > 0:
-            categorias_unicas = self.base.nunique()
-            categorias_unicas = categorias_unicas.loc[
-                categorias_unicas <= categoriasMaximas
-            ].index
-            variables = [q for q in variables if q in categorias_unicas]
+            if not len(variables):
+                raise ValueError(
+                    "El parámetro `variables` no contiene ningún nombre "
+                    "de columna valido."
+                )
+        elif variables is None:
+            variables = self.lista_tipos_columnas[0].copy()
+            if not incluirNumericos:
+                col_num = self.base.select_dtypes(
+                    include=np.number
+                ).columns.tolist()
+                variables = [v for v in variables if v not in col_num]
         else:
             raise ValueError(
-                '"categoriasMaximas" tiene que un ´numero mayor a 0"'
+                "El parámetro `variables` debe ser una lista de nombres "
+                "de variables en el conjunto de datos"
             )
 
-        # Calcular qué variables tipo object tienen valores únicos menores al
-        # 50% (o valor de 'limite') del total de filas del conjunto de datos original
-        col_object = self.base.loc[:, variables].dtypes
-        col_object = col_object[col_object == "object"]
-        lista_object_unicos = []
-        for s in col_object.index:
-            unico = len(pd.unique(self.base[s]))
-            if unico < self.base.shape[0] * limite:
-                lista_object_unicos.append(s)
+        missing = self.base.columns[
+            self.base.isnull().sum() == self.base.shape[0]
+        ]
+        if len(missing):
+            variables = [v for v in variables if v not in missing]
 
-        # Si la opción 'transformar_nums' es True, incluir las variables
-        # numéricas con repeticiones menores al 50% (o el límite) del total de
-        # filas
-        if incluirNumericos == True:
-            cols_types = self.base.loc[:, variables].dtypes
-            col_nums = []
-            for i in range(len(cols_types)):
-                if "int" in str(cols_types[i]) or "float" in str(
-                    cols_types[i]
-                ):
-                    col_nums.append(cols_types.index[i])
-            # print(col_nums)
-            for s in col_nums:
-                unico = len(pd.unique(self.base[s]))
-                if unico < self.base.shape[0] * limite:
-                    lista_object_unicos.append(s)
-        elif incluirNumericos == False:
-            pass
+        if not len(variables):
+            warnings.warn(
+                "No hay variables categóricas en el conjunto de datos."
+            )
+            return pd.DataFrame()
+
+        # Detectar columnas de tipo object y transformar a string
+        colObjs = list(
+            self.base[variables].columns[
+                self.base[variables].dtypes == "object"
+            ]
+        )
+        if len(colObjs):
+            tempData = self.base[colObjs].astype("str")
+            variables = [v for v in variables if v not in colObjs]
+
+        # Filtrar por el número de categorías únicas en cada variable
+        if categoriasMaximas >= 2:
+            if len(variables):
+                categorias_unicas = self.base[variables].nunique()
+                variables = list(
+                    categorias_unicas.loc[
+                        (categorias_unicas <= categoriasMaximas)
+                        & (categorias_unicas >= 2)
+                    ].index
+                )
+            if len(colObjs):
+                categorias_unicas = tempData.nunique()
+                colObjs = list(
+                    categorias_unicas.loc[
+                        (categorias_unicas <= categoriasMaximas)
+                        & (categorias_unicas >= 2)
+                    ].index
+                )
         else:
-            raise ValueError('"incluirNumericos" tiene que ser True o False')
+            raise ValueError("`CategoriasMaximas` debe ser mayor o igual a 2.")
+
+        # Calcular qué variables tipo object tienen valores únicos menores al
+        # 50% (o valor de 'limite') del total de filas del conjunto de datos
+        if len(variables):
+            variables = list(
+                self.base[variables].columns[
+                    self.base[variables].nunique()
+                    < (self.base.shape[0] * limite)
+                ]
+            )
+        if len(colObjs):
+            colObjs = list(
+                tempData.columns[
+                    tempData.nunique(dropna=False)
+                    < (self.base.shape[0] * limite)
+                ]
+            )
 
         # Crear el dataframe con la información
-        lista_counts = []
-        for s in lista_object_unicos:
+        variables += colObjs
+        if not len(variables):
+            warnings.warn(
+                "No hay variables categóricas en el conjunto de datos."
+            )
+            return pd.DataFrame()
 
+        lista_counts = []
+        for s in variables:
             counts = (
                 self.base[s]
                 .astype(str)
                 .value_counts()
-                .drop("nan", errors="ignore")
+                .drop("<NA>", errors="ignore")
             )
             if isinstance(counts.index[0], dict):
                 continue
+
             # counts=list(counts)
             lista = counts[0:10]
             resto = sum(counts[10 : len(counts)])
@@ -870,7 +896,14 @@ class CalidadDatos:
                 columns={"index": "Valor", lista_cols[2]: "Frecuencia"}
             )
             lista_counts.append(lista)
-        df_counts = pd.concat(lista_counts, axis=0)
+
+        if not len(lista_counts):
+            warnings.warn(
+                "No hay variables categóricas en el conjunto de datos."
+            )
+            return pd.DataFrame()
+        else:
+            df_counts = pd.concat(lista_counts, axis=0)
 
         return df_counts
 
