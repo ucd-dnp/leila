@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from numpy.core.fromnumeric import var
 import pandas as pd
 import numpy as np
 import scipy.stats as sstats
