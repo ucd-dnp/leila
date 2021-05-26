@@ -66,6 +66,7 @@ class CalidadDatos:
         self._errores = errores
         self._strdate = formato_fecha
         self.base = datos.copy()
+        self._varCategoricas = []
 
     @property
     def base(self):
@@ -852,7 +853,7 @@ class CalidadDatos:
                 "No hay variables categóricas en el conjunto de datos."
             )
             return pd.DataFrame()
-
+        self._varCategoricas = variables
         lista_counts = []
         for s in variables:
             counts = (
@@ -1183,161 +1184,80 @@ class CalidadDatos:
     def CorrelacionCategoricas(
         self, metodo="phik", limite=0.5, categoriasMaximas=30, variables=None
     ):
-        """ Genera una matriz de correlación entre las variables de tipo categóricas. \
-            :ref:`Ver ejemplo <calidad_datos.CorrelacionCategoricas>`
+        """
+        Genera una matriz de correlación entre las variables de tipo \
+        categóricas. \
+        :ref:`Ver ejemplo <calidad_datos.CorrelacionCategoricas>`
 
-        :param metodo: (str) {'phik', 'cramer'}, valor por \
-            defecto: 'phik'. Medida de correlación a utilizar.
-        :param limite: (float) (valor de 0 a 1) límite de referencia, se \
+        :param metodo: Medida de correlación a utilizar. \
+            Por defecto  `phik`.
+        :type metodo: str, opcional
+        :param limite: (valor de 0 a 1) Límite de referencia, se \
             utiliza para determinar si las variables posiblemente son de tipo \
             categóricas y ser incluidas en el análisis. Si el número de \
             valores únicos por columna es mayor al número de registros \
-            limite, se considera que la variable no es categórica.
-        :param categoriasMaximas: (int) (valor mayor a 0), indica el máximo \
+            limite, se considera que la variable no es categórica. \
+            Por defecto  `0.5`.
+        :type limite: float, opcional
+        :param categoriasMaximas: (valor mayor o igual a 2), indica el máximo \
             número de categorías de una variable para que sea incluida en el \
-            análisis
-        :param variables: (list) lista de nombres de las columnas separados \
-            por comas. Permite escoger las columnas de interés de análisis \
-            del dataframe
-        :return: dataframe con las correlaciones de las columnas de tipo \
-            categórica analizadas.
+            análisis. Por defecto  `30`.
+        :type categoriasMaximas: int, opcional
+        :param variables: Lista de nombres de las columnas categóricas \
+            separados por comas. Permite escoger las columnas de interés \
+            dentro del conjunto de datos. Por defecto  `None`.
+        :type variables: [type], opcional
+        :return: (pandas.DataFrame) Dataframe con las correlaciones de las \
+            columnas de tipo categóricas.
         """
-        # verificar si las variables escogidas del filtro se encuentran en el conjunto de datos
-        if isinstance(variables, list):
-            for v in variables:
-                if v in self.lista_tipos_columnas[0]:
-                    pass
-                else:
-                    raise ValueError(
-                        '"{0}" no es una columna del conjunto de datos'.format(
-                            v
-                        )
-                    )
-        else:
-            variables = self.lista_tipos_columnas[0].copy()
 
-        # Revisar si hay columnas con tipos diccionario o lista
-        lista_columnas_dict = []
-        for i in range(len(self.lista_tipos_columnas[0])):
-            col_nombre = self.lista_tipos_columnas[0][i]
-            tip = self.lista_tipos_columnas[2][i]
-
-            if tip == "dict" or tip == "list":
-                lista_columnas_dict.append(col_nombre)
-            else:
-                pass
-
-        # Filtrar por el número de categorías únicas en cada variable
-        if categoriasMaximas > 0:
-            categorias_unicas = pd.concat(
-                [
-                    self.base.drop(columns=lista_columnas_dict),
-                    self.base.loc[:, lista_columnas_dict].astype(str),
-                ],
-                axis=1,
-            ).nunique()
-            categorias_unicas = categorias_unicas.loc[
-                categorias_unicas <= categoriasMaximas
-            ].index
-            variables = [q for q in variables if q in categorias_unicas]
-        else:
+        if metodo not in ["cramer", "phik"]:
             raise ValueError(
-                '"categoriasMaximas" tiene que un ´numero mayor a 0"'
+                "'metodo' no se reconoce. Seleccione 'cramer' "
+                "o 'phik en su lugar."
             )
 
-        # Calcular qué variables tipo object tienen valores únicos menores al
-        # 50% (o valor de 'limite') del total de filas del conjunto de datos original
-        col_object = self.base.loc[:, variables].dtypes
-        col_object = col_object[col_object == "object"]
-        lista_object_unicos = []
-        for s in col_object.index:
-            unico = len(pd.unique(self.base[s]))
-            if unico < self.base.shape[0] * limite:
-                lista_object_unicos.append(s)
-
+        _ = self.DescripcionCategoricas(
+            categoriasMaximas=categoriasMaximas,
+            variables=variables,
+            limite=limite,
+        )
+        varCat = self._varCategoricas
+        data = self.base[varCat].astype(str)
         # Hacer doble loop para crear matriz de correlation tipo Cramer V
         if metodo == "cramer":
-            lista_matriz = []
-            for c in lista_object_unicos:
-                lista_fila = []
-                for cc in lista_object_unicos:
-                    try:
-                        if (
-                            c not in lista_columnas_dict
-                            or cc not in lista_columnas_dict
-                        ):
-                            cramer = self.correlacion_cramerv(
-                                self.base[c], self.base[cc]
-                            )
-                        elif (
-                            c in lista_columnas_dict
-                            or cc not in lista_columnas_dict
-                        ):
-                            cramer = self.correlacion_cramerv(
-                                self.base[c].astype(str), self.base[cc]
-                            )
-                        elif (
-                            c not in lista_columnas_dict
-                            or cc in lista_columnas_dict
-                        ):
-                            cramer = self.correlacion_cramerv(
-                                self.base[c], self.base[cc].astype(str)
-                            )
-                        else:
-                            cramer = self.correlacion_cramerv(
-                                self.base[c].astype(str),
-                                self.base[cc].astype(str),
-                            )
+            lista_matriz = [
+                self.correlacion_cramerv(data[var1], data[var2])
+                for var1 in varCat
+                for var2 in varCat
+            ]
 
-                        lista_fila.append(cramer)
-                    except BaseException:
-                        lista_fila.append(np.nan)
-
-                lista_matriz.append(lista_fila)
-
-            # Convertir a dataframe
-            lista_matriz = pd.DataFrame(lista_matriz)
-            lista_matriz.columns = lista_object_unicos
-            lista_matriz.index = lista_object_unicos
-
+            lista_matriz = [
+                lista_matriz[i : i + len(varCat)]
+                for i in range(0, len(lista_matriz), len(varCat))
+            ]
+            lista_matriz = pd.DataFrame(
+                lista_matriz, columns=varCat, index=varCat
+            )
             correlacion_final = lista_matriz
 
-            # Nombre de variables en 'correlacion_final' antes de filtro
-            nombres_nofiltro = list(correlacion_final.columns)
-
-            # Quitar las columnas y filas que son 'nan'
-            correlacion_final = correlacion_final.dropna(how="all", axis=1)
-            correlacion_final = correlacion_final.dropna(how="all", axis=0)
-
-            # Mencionar las variables cuya correlación no se pudo calcular
-            nombres_filtro = list(correlacion_final.columns)
-            nombres_eliminados = nombres_nofiltro.copy()
-            for s in nombres_filtro:
-                nombres_eliminados.remove(s)
-            for s in nombres_eliminados:
-                warnings.warn(
-                    "no se pudo calcular la correlación con la variable '{0}'".format(
-                        s
-                    )
-                )
-
         # Matriz de correlación con la metodología 'phik'
-        elif metodo == "phik":
-            correlacion_final = self.base.loc[
-                :, lista_object_unicos
-            ].phik_matrix()
-        else:
-            raise ValueError('"metodo" tiene que ser "phik" o "cramer"')
+        else:  # "phik"
+            correlacion_final = data.phik_matrix()
 
         return correlacion_final
 
     def correlacion_cramerv(self, x, y):
-        """ Función de soporte para calcular coeficiente de correlación Cramer V \
-        (para usar en la función de las matrices de correlación entre variables categóricas)
+        """
+        Función de soporte para calcular coeficiente de correlación Cramer V \
+        (para usar en la función de las matrices de correlación entre \
+        variables categóricas).
 
-        :param x:
-        :param y:
-        :return:
+        :param x: Variable categorica 1.
+        :type x: pandas.Series | list
+        :param y: Variable categorica 2.
+        :type y: pandas.Series | list
+        :return: (float) Correlación de cramer V entre x y y
         """
         confusion_matrix = pd.crosstab(x, y)
         chi2 = sstats.chi2_contingency(confusion_matrix)[0]
