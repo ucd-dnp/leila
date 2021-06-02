@@ -28,7 +28,7 @@ setuptools.setup(
                         'requests==2.23.0',
                         'six==1.14.0',
                         'sodapy==2.1.0',
-                        'urllib3==1.25.9',
+                        'urllib3==1.26.5',
                         'phik==0.10.0'],
     license = 'MIT',
     classifiers=[
