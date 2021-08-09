@@ -476,15 +476,14 @@ class CalidadDatos:
                     continue
 
                 verificado.append(r1)
-                indexs.append(subset1.index[r1])
+                indexs.append(r1)
                 for r2 in subset1.iloc[:, i + 1 :]:
                     if r2 not in verificado:
                         comp = subset1[r1].equals(subset1[r2])
                         if comp:
-                            indexs.append(subset1.index[r2])
+                            indexs.append(r2)
                             verificado.append(r2)
                 d_duplicados[str(r1)] = indexs
-
             d = pd.DataFrame.from_dict(d_duplicados, orient="index").T
             d.columns = [
                 f"Columnas iguales {q + 1}" for q in range(d.shape[1])
