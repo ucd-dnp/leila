@@ -5,6 +5,11 @@ import datetime
 import pandas as pd
 from jinja2 import Environment, PackageLoader
 
+##### Quitar luego
+import sys
+sys.path.insert(0, "leila")
+#####
+
 from leila.calidad_datos import CalidadDatos
 from leila import datos_gov
 
@@ -313,10 +318,14 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
         if correlaciones_active==None: correlaciones_active='pearson'
 
         df_corre_pearson = base.CorrelacionNumericas(metodo="pearson")
-        corre_pearson_headers = list(df_corre_pearson)
+        if df_corre_pearson is not None:
+            corre_pearson_headers = list(df_corre_pearson)
 
-        df_corre_pearson = df_corre_pearson.round(3).fillna('null')
-        corre_pearson_values = df_corre_pearson.values.tolist()
+            df_corre_pearson = df_corre_pearson.round(3).fillna('null')
+            corre_pearson_values = df_corre_pearson.values.tolist()
+        else:
+            corre_pearson_headers=None
+            corre_pearson_values=None
     else:
         corre_pearson_headers=None
         corre_pearson_values=None
@@ -327,10 +336,14 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
         if correlaciones_active==None: correlaciones_active='kendall'
 
         df_corre_kendall = base.CorrelacionNumericas(metodo="kendall")
-        corre_kendall_headers = list(df_corre_kendall)
+        if df_corre_kendall is not None:
+            corre_kendall_headers = list(df_corre_kendall)
 
-        df_corre_kendall = df_corre_kendall.round(3).fillna('null')
-        corre_kendall_values = df_corre_kendall.values.tolist()
+            df_corre_kendall = df_corre_kendall.round(3).fillna('null')
+            corre_kendall_values = df_corre_kendall.values.tolist()
+        else:
+            corre_kendall_headers=None
+            corre_kendall_values=None    
     else:
         corre_kendall_headers=None
         corre_kendall_values=None    
@@ -341,10 +354,14 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
         if correlaciones_active==None: correlaciones_active='spearman'
 
         df_corre_spearman = base.CorrelacionNumericas(metodo="spearman")
-        corre_spearman_headers = list(df_corre_spearman)
+        if df_corre_spearman is not None:
+            corre_spearman_headers = list(df_corre_spearman)
 
-        df_corre_spearman = df_corre_spearman.round(3).fillna('null')
-        corre_spearman_values = df_corre_spearman.values.tolist()
+            df_corre_spearman = df_corre_spearman.round(3).fillna('null')
+            corre_spearman_values = df_corre_spearman.values.tolist()
+        else:
+            corre_spearman_headers=None
+            corre_spearman_values=None
     else:
         corre_spearman_headers=None
         corre_spearman_values=None
