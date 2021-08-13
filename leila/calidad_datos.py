@@ -64,7 +64,7 @@ class CalidadDatos:
         self._castdic = diccionarioCast
         self._errores = errores
         self._strdate = formato_fecha
-        self.base = datos.copy()
+        self.base = datos
         self._varCategoricas = []
 
     @property
@@ -656,7 +656,12 @@ class CalidadDatos:
             raise ValueError("No se reconoce el parámetro `variables`.")
 
         # Calcular estadísticas descriptivas
-        base_descripcion = self.base.loc[:, col_num].describe().T
+        try:
+            base_descripcion = self.base.loc[:, col_num].describe().T
+        except Exception:
+            base_descripcion = (
+                self.base.loc[:, col_num].astype(np.float64).describe().T
+            )
         base_descripcion["missing"] = pd.isnull(
             self.base.loc[:, col_num]
         ).sum() / len(self.base.loc[:, col_num])
