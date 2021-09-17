@@ -82,7 +82,7 @@ class CalidadDatos:
         if not isinstance(self._castNum, bool):
             raise ValueError("'castDatos' debe ser de tipo booleano (bool).")
 
-        if self._castNum:
+        if self._castNum and not self._castDatos:
             self._base = datos.fillna(np.nan).convert_dtypes(
                 infer_objects=False,
                 convert_boolean=False,
@@ -504,7 +504,7 @@ class CalidadDatos:
 
             if not no_unic_filas.sum():
                 print("No hay filas duplicadas")
-                return
+                return None
 
             subset1 = self.base.iloc[list(no_unic_filas)]
 
