@@ -3,7 +3,7 @@
 import pandas as pd
 import numpy as np
 import datetime
-from sodapy import Socrata
+import requests
 
 
 # Variables globales
@@ -33,31 +33,60 @@ DIC_RENAME = {
     "informacindelaentidad_municipio": "entidad_municipio",
     "informacindedatos_idioma": "idioma",
     "informacindedatos_coberturageogrfica": "cobertura",
-    "publication_stage": "base_publica"
+    "publication_stage": "base_publica",
 }
 
 
-def cargar_base(api_id, token=None, limite_filas=1000000000):
-    """ Se conecta al API de Socrata y retorna la base de datos descargada del Portal de Datos Abiertos
-    como dataframe. :ref:`Ver ejemplo <datos_gov.cargar_base>`
-
-    .. warning::
-        Al descargar una base de datos utilizando el API de Socrata, esta omitirá cualquier
-        columna que no contenga registros, lo cual puede generar inconsistencias con la información
-        descrita en el portal de datos abiertos.
-
-    :param api_id: (str) Identificación de la base de datos asociado con la API de Socrata.
-    :param token: (str) opcional - token de usuario de la API Socrata.
-    :param limite_filas: (int) (valor mayor a 0), indica el número máximo de filas a descargar de la base de datos \
-    asociada al api_id. El límite está pensado para bases de gran tamaño que superen la capacidad del computador.
-    :return: base de datos en formato dataframe.
+class DatosGov:
+    """
+    Clase para cargar conjutos de datos del portal de `datos.gov.co` y \
+    descargar los metadatos de dichos conjuntos.
     """
 
-    client = Socrata("www.datos.gov.co", app_token=token)
-    results = client.get(api_id, limit=limite_filas)
-    _base = pd.DataFrame.from_records(results)
+    def __init__(self):
+        self._dominio = "https://www.datos.gov.co/resource/"
+        self._meta = "https://www.datos.gov.co/api/views/"
+        self.metadatos = None
+        self.datos = None
 
-    return(_base)
+    def cargar_base(self, api_id, limite_filas=1000000000):
+        """
+        Se conecta al API de Socrata y retorna el conjunto de datos \
+        del Portal de Datos Abiertos como DataFrame. \
+        :ref:`Ver ejemplo <datos_gov.cargar_base>` (REVISAR).
+
+        .. warning::
+            Al descargar una base de datos utilizando el API de Socrata, \
+            esta omitirá cualquier columna que no contenga registros, lo cual \
+            puede generar inconsistencias con la información descrita en el \
+            portal de datos abiertos.
+
+        :param api_id: (str) Identificación de la base de datos asociado con \
+            el API de Socrata.
+        :param limite_filas: (int) (valor mayor a 0), indica el número \
+            máximo de filas a descargar de la base de datos asociada al \
+            `api_id`. El límite está pensado para bases de gran tamaño que \
+            superen la capacidad del computador.
+        :return: (DataFrame) conjunto de datos que se descargó del portal de \
+            datos abiertos.
+        """
+        url = f"{self._dominio}{api_id}.csv?$limit={100}"
+        # Solo se leen 100 filas para estimar tipo de datos
+        temp = pd.read_csv(url)
+        # cols que pueden contener fecha
+        col_objs = list(temp.select_dtypes(object))
+        url = f"{self._dominio}{api_id}.csv?$limit={limite_filas}"
+        self.datos = pd.read_csv(url, parse_dates=col_objs)
+        # Almacenar los metadatos
+        query = requests.get(f"{self._meta}{api_id}.json")
+        self.metadatos = dict(query.json())
+        self.metadatos["n_rows"] = int(
+            self.metadatos["columns"][0]["cachedContents"]["count"]
+        )
+        self.metadatos["n_cols"] = len(self.metadatos["columns"])
+        query.close()
+        return self
+
 
 # OBTENER LA TABLA QUE TIENE DATOS ABIERTOS CON INFORMACIÓN DE LAS BASES
 # DE DATOS
@@ -73,10 +102,11 @@ def tabla_inventario(token=None, limite_filas=1000000000):
     asociada al api_id. El límite está pensado para bases de gran tamaño que superen la capacidad del computador.
     :return: base de datos en formato dataframe.
     """
-    asset_inventory = cargar_base(api_id="uzcf-b9dh", token=token,
-                                  limite_filas=limite_filas)
+    asset_inventory = cargar_base(
+        api_id="uzcf-b9dh", token=token, limite_filas=limite_filas
+    )
     asset_inventory = __asset_inventory_espanol(asset_inventory)
-    return(asset_inventory)
+    return asset_inventory
 
 
 def __asset_inventory_espanol(asset):
@@ -94,7 +124,8 @@ def __asset_inventory_espanol(asset):
     # Cambiar las fechas
     asset["fecha_creacion"] = asset["fecha_creacion"].apply(lambda x: x[0:10])
     asset["fecha_actualizacion"] = asset["fecha_actualizacion"].apply(
-        lambda x: x[0:10])
+        lambda x: x[0:10]
+    )
 
     # Pasar filas y columnas a float
     asset["filas"] = asset["filas"].astype(float)
@@ -102,25 +133,30 @@ def __asset_inventory_espanol(asset):
 
     # Traducir las categorías de 'base_publica'
     asset["base_publica"] = asset["base_publica"].map(
-        {"published": "Si", "unpublished": "No"})
+        {"published": "Si", "unpublished": "No"}
+    )
 
     # Traducir las categorías de
-    asset["tipo"] = asset["tipo"].map({
-        "dataset": "conjunto de datos",
-        "federatet_href": "enlace externo",
-        "href": "enlace externo",
-        "map": "mapa",
-        "chart": "grafico",
-        "filter": "vista filtrada",
-        "file": "archivo o documento",
-        "visualization": "visualizacion",
-        "story": "historia",
-        "datalens": "lente de datos",
-        "form": "formulario",
-        "calendar": "calendario",
-        "invalid_datatype": "tipo_invalido"})
+    asset["tipo"] = asset["tipo"].map(
+        {
+            "dataset": "conjunto de datos",
+            "federatet_href": "enlace externo",
+            "href": "enlace externo",
+            "map": "mapa",
+            "chart": "grafico",
+            "filter": "vista filtrada",
+            "file": "archivo o documento",
+            "visualization": "visualizacion",
+            "story": "historia",
+            "datalens": "lente de datos",
+            "form": "formulario",
+            "calendar": "calendario",
+            "invalid_datatype": "tipo_invalido",
+        }
+    )
 
     return asset
+
 
 # METADATOS
 
@@ -154,7 +190,8 @@ def filtrar_tabla(columnas_valor, token=None):
     for s_key in columnas_string:
         if s_key not in columnas:
             return print(
-                "No existe una columna con el nombre '{0}'".format(s_key))
+                "No existe una columna con el nombre '{0}'".format(s_key)
+            )
         else:
             pass
 
@@ -164,17 +201,21 @@ def filtrar_tabla(columnas_valor, token=None):
         # tildes
         for i_s in range(len(s_value)):
             for i in range(len(lista_vocales)):
-                s_value[i_s] = s_value[i_s].lower().replace(
-                    lista_tildes[i], lista_vocales[i])
+                s_value[i_s] = (
+                    s_value[i_s]
+                    .lower()
+                    .replace(lista_tildes[i], lista_vocales[i])
+                )
 
         # Pasar todo el texto de la columna donde se busca a minúscula
-        asset_columna = base_filtro.loc[:, s_key].astype(
-            str).apply(lambda x: x.lower())
+        asset_columna = (
+            base_filtro.loc[:, s_key].astype(str).apply(lambda x: x.lower())
+        )
         # Cambiar todas las tildes en el texto
         for i in range(len(lista_vocales)):
             asset_columna = asset_columna.apply(
-                lambda x: x.replace(
-                    lista_tildes[i], lista_vocales[i]))
+                lambda x: x.replace(lista_tildes[i], lista_vocales[i])
+            )
 
         # Crear columna que diga si se encuentra o no el ´termino en esa
         # observación
@@ -182,7 +223,8 @@ def filtrar_tabla(columnas_valor, token=None):
         # Iterar para cada término que se quiere buscar
         asset_columna["true"] = 0
         asset_columna["true"] = asset_columna[s_key].apply(
-            lambda x: 1 if all(q in x for q in s_value) else 0)
+            lambda x: 1 if all(q in x for q in s_value) else 0
+        )
         # Quedarse con las observaciones donde se encontró el término
         asset_columna = asset_columna[asset_columna["true"] == 1]
         # Filtrar la base original con el índice dela base con las
@@ -197,16 +239,21 @@ def filtrar_tabla(columnas_valor, token=None):
             # Si los limites son numéricos, por lo tanto en un rango, escoger
             # rango
             if type(limite_inferior) == int and type(limite_superior) == int:
-                base_filtro = base_filtro.loc[(base_filtro[s] <= limite_superior) & (
-                    base_filtro[s] >= limite_inferior), :]
+                base_filtro = base_filtro.loc[
+                    (base_filtro[s] <= limite_superior)
+                    & (base_filtro[s] >= limite_inferior),
+                    :,
+                ]
 
             elif type(limite_inferior) == int and limite_superior == "+":
-                base_filtro = base_filtro.loc[base_filtro[s]
-                                              >= limite_inferior, :]
+                base_filtro = base_filtro.loc[
+                    base_filtro[s] >= limite_inferior, :
+                ]
 
             elif type(limite_inferior) == int and limite_superior == "-":
-                base_filtro = base_filtro.loc[base_filtro[s]
-                                              <= limite_inferior, :]
+                base_filtro = base_filtro.loc[
+                    base_filtro[s] <= limite_inferior, :
+                ]
 
             else:
                 return "Los parámetros de 'fila' y/o 'columna' tienen valores incorrectos"
@@ -214,25 +261,39 @@ def filtrar_tabla(columnas_valor, token=None):
     for s in ["fecha_creacion", "fecha_actualizacion"]:
         if s in columnas_valor:
             fecha_inicio = datetime.datetime.strptime(
-                columnas_valor[s][0], "%Y-%m-%d")
+                columnas_valor[s][0], "%Y-%m-%d"
+            )
 
             # Crear columna con fecha en formato fecha
-            base_filtro.loc[:, "{0}_fecha".format(s)] = base_filtro.loc[:, s].apply(
-                lambda x: datetime.datetime.strptime(x, "%Y-%m-%d") if x != "nan" else np.nan)
+            base_filtro.loc[:, "{0}_fecha".format(s)] = base_filtro.loc[
+                :, s
+            ].apply(
+                lambda x: datetime.datetime.strptime(x, "%Y-%m-%d")
+                if x != "nan"
+                else np.nan
+            )
 
             if columnas_valor[s][1] == "+":
-                base_filtro = base_filtro.loc[base_filtro.loc[:, "{0}_fecha".format(
-                    s)] >= fecha_inicio, :]
+                base_filtro = base_filtro.loc[
+                    base_filtro.loc[:, "{0}_fecha".format(s)] >= fecha_inicio,
+                    :,
+                ]
 
             elif columnas_valor[s][1] == "-":
-                base_filtro = base_filtro.loc[base_filtro.loc[:, "{0}_fecha".format(
-                    s)] <= fecha_inicio, :]
+                base_filtro = base_filtro.loc[
+                    base_filtro.loc[:, "{0}_fecha".format(s)] <= fecha_inicio,
+                    :,
+                ]
 
             else:
                 fecha_fin = datetime.datetime.strptime(
-                    columnas_valor[s][1], "%Y-%m-%d")
-                base_filtro = base_filtro.loc[(base_filtro.loc[:, "{0}_fecha".format(
-                    s)] >= fecha_inicio) & (base_filtro.loc[:, "{0}_fecha".format(s)] <= fecha_fin), :]
+                    columnas_valor[s][1], "%Y-%m-%d"
+                )
+                base_filtro = base_filtro.loc[
+                    (base_filtro.loc[:, "{0}_fecha".format(s)] >= fecha_inicio)
+                    & (base_filtro.loc[:, "{0}_fecha".format(s)] <= fecha_fin),
+                    :,
+                ]
 
             del base_filtro["{0}_fecha".format(s)]
 
