@@ -2,39 +2,8 @@
 
 import pandas as pd
 import numpy as np
-import datetime
+from datetime import datetime
 import requests
-
-
-# Variables globales
-# Diccionario para renombrar los encabezados de la tabla
-DIC_RENAME = {
-    "uid": "numero_api",
-    "name": "nombre",
-    "description": "descripcion",
-    "owner": "dueno",
-    "type": "tipo",
-    "category": "categoria",
-    "tags": "terminos_clave",
-    "url": "url",
-    "creation_date": "fecha_creacion",
-    "last_data_updated_date": "fecha_actualizacion",
-    "informacindedatos_frecuenciadeactualizacin": "actualizacion_frecuencia",
-    "row_count": "filas",
-    "column_count": "columnas",
-    "contact_email": "correo_contacto",
-    "license": "licencia",
-    "attribution": "entidad",
-    "attribution_link": "entidad_url",
-    "informacindelaentidad_sector": "entidad_sector",
-    "informacindelaentidad_departamento": "entidad_departamento",
-    "informacindelaentidad_orden": "entidad_orden",
-    "informacindelaentidad_reaodependencia": "entidad_dependencia",
-    "informacindelaentidad_municipio": "entidad_municipio",
-    "informacindedatos_idioma": "idioma",
-    "informacindedatos_coberturageogrfica": "cobertura",
-    "publication_stage": "base_publica",
-}
 
 
 class DatosGov:
@@ -48,6 +17,33 @@ class DatosGov:
         self._meta = "https://www.datos.gov.co/api/views/"
         self.metadatos = None
         self.datos = None
+        self._DIC_RENAME = {
+            "uid": "numero_api",
+            "name": "nombre",
+            "description": "descripcion",
+            "owner": "dueno",
+            "type": "tipo",
+            "category": "categoria",
+            "tags": "terminos_clave",
+            "url": "url",
+            "creation_date": "fecha_creacion",
+            "last_data_updated_date": "fecha_actualizacion",
+            "informacindedatos_frecuenciadeactualizacin": "actualizacion_frecuencia",
+            "row_count": "filas",
+            "column_count": "columnas",
+            "contact_email": "correo_contacto",
+            "license": "licencia",
+            "attribution": "entidad",
+            "attribution_link": "entidad_url",
+            "informacindelaentidad_sector": "entidad_sector",
+            "informacindelaentidad_departamento": "entidad_departamento",
+            "informacindelaentidad_orden": "entidad_orden",
+            "informacindelaentidad_reaodependencia": "entidad_dependencia",
+            "informacindelaentidad_municipio": "entidad_municipio",
+            "informacindedatos_idioma": "idioma",
+            "informacindedatos_coberturageogrfica": "cobertura",
+            "publication_stage": "base_publica",
+        }
 
     def cargar_base(self, api_id, limite_filas=1000000000):
         """
@@ -87,75 +83,47 @@ class DatosGov:
         query.close()
         return self
 
+    def tabla_inventario(self, limite_filas=10000000000):
+        """
+        Función que se conecta con el API de Socrata para el portal de \
+        datos.gov.co y retorna el inventario de datos disponible. \
+        :ref:`Ver ejemplo <datos_gov.tabla_inventario>` (REVISAR)
 
-# OBTENER LA TABLA QUE TIENE DATOS ABIERTOS CON INFORMACIÓN DE LAS BASES
-# DE DATOS
-
-
-def tabla_inventario(token=None, limite_filas=1000000000):
-    """ Se conecta al API de Socrata y retorna la base de datos *Asset Inventory* descargada del Portal de Datos Abiertos
-    como dataframe. Este conjunto de datos es un inventario de los recursos en el sitio.  \
-    :ref:`Ver ejemplo <datos_gov.tabla_inventario>`
-
-    :param token: (str) *opcional* - token de usuario de la API Socrata.
-    :param limite_filas: (int) (valor mayor a 0), indica el número máximo de filas a descargar de la base de datos \
-    asociada al api_id. El límite está pensado para bases de gran tamaño que superen la capacidad del computador.
-    :return: base de datos en formato dataframe.
-    """
-    asset_inventory = cargar_base(
-        api_id="uzcf-b9dh", token=token, limite_filas=limite_filas
-    )
-    asset_inventory = __asset_inventory_espanol(asset_inventory)
-    return asset_inventory
-
-
-def __asset_inventory_espanol(asset):
-    """ Renombra los encabezados del inventario de bases de datos de Datos \
-        Abiertos Colombia a términos en español.
-
-    :param asset: (pandas.DataFrame) - Tabla de inventario del portal de datos\
-        abiertos Colombia (https://www.datos.gov.co).
-    :return: base de datos en formato dataframe.
-    """
-
-    lista_columnas = list(DIC_RENAME.keys())
-    asset = asset[lista_columnas].rename(columns=DIC_RENAME)
-
-    # Cambiar las fechas
-    asset["fecha_creacion"] = asset["fecha_creacion"].apply(lambda x: x[0:10])
-    asset["fecha_actualizacion"] = asset["fecha_actualizacion"].apply(
-        lambda x: x[0:10]
-    )
-
-    # Pasar filas y columnas a float
-    asset["filas"] = asset["filas"].astype(float)
-    asset["columnas"] = asset["columnas"].astype(float)
-
-    # Traducir las categorías de 'base_publica'
-    asset["base_publica"] = asset["base_publica"].map(
-        {"published": "Si", "unpublished": "No"}
-    )
-
-    # Traducir las categorías de
-    asset["tipo"] = asset["tipo"].map(
-        {
-            "dataset": "conjunto de datos",
-            "federatet_href": "enlace externo",
-            "href": "enlace externo",
-            "map": "mapa",
-            "chart": "grafico",
-            "filter": "vista filtrada",
-            "file": "archivo o documento",
-            "visualization": "visualizacion",
-            "story": "historia",
-            "datalens": "lente de datos",
-            "form": "formulario",
-            "calendar": "calendario",
-            "invalid_datatype": "tipo_invalido",
-        }
-    )
-
-    return asset
+        :param limite_filas: Limite de registros a descargar del inventario \
+            de datos. Por defecto: `10000000000`.
+        :type limite_filas: int, opcional
+        :return: (pandas.DataFrame) Dataframe con la información de los datos \
+            disponibles en el portal datos.gov.co. 
+        """
+        url = f"{self._dominio}uzcf-b9dh.csv?$limit={limite_filas}"
+        tabla = pd.read_csv(
+            url,
+            usecols=list(self._DIC_RENAME.keys()),
+            parse_dates=["last_data_updated_date", "creation_date"],
+        )
+        tabla.rename(columns=self._DIC_RENAME, inplace=True)
+        tabla.replace(
+            {
+                "base_publica": {"published": "Si", "unpublished": "No"},
+                "tipo": {
+                    "dataset": "conjunto de datos",
+                    "federatet_href": "enlace externo",
+                    "href": "enlace externo",
+                    "map": "mapa",
+                    "chart": "grafico",
+                    "filter": "vista filtrada",
+                    "file": "archivo o documento",
+                    "visualization": "visualizacion",
+                    "story": "historia",
+                    "datalens": "lente de datos",
+                    "form": "formulario",
+                    "calendar": "calendario",
+                    "invalid_datatype": "tipo_invalido",
+                },
+            },
+            inplace=True,
+        )
+        return tabla
 
 
 # METADATOS
