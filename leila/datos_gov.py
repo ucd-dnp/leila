@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
+import warnings
 import pandas as pd
-import numpy as np
-from datetime import datetime
 import requests
+from unidecode import unidecode
+import re
 
 
 class DatosGov:
@@ -47,8 +48,8 @@ class DatosGov:
 
     def cargar_base(self, api_id, limite_filas=1000000000):
         """
-        Se conecta al API de Socrata y retorna el conjunto de datos \
-        del Portal de Datos Abiertos como DataFrame. \
+        Permite descargar un conjunto de datos del portal de datos.gov.co \
+        dado su identificador `api_id` en el portal. \
         :ref:`Ver ejemplo <datos_gov.cargar_base>` (REVISAR).
 
         .. warning::
@@ -57,14 +58,15 @@ class DatosGov:
             puede generar inconsistencias con la información descrita en el \
             portal de datos abiertos.
 
-        :param api_id: (str) Identificación de la base de datos asociado con \
-            el API de Socrata.
-        :param limite_filas: (int) (valor mayor a 0), indica el número \
-            máximo de filas a descargar de la base de datos asociada al \
-            `api_id`. El límite está pensado para bases de gran tamaño que \
-            superen la capacidad del computador.
-        :return: (DataFrame) conjunto de datos que se descargó del portal de \
-            datos abiertos.
+        :param api_id: Identificador único del conjunto de datos registrado \
+            en el API de Socrata.
+        :type api_id: str
+        :param limite_filas: Número máximo de registros a descargar del \
+            conjunto de datos. Valor por defecto: `1000000000`.
+        :type limite_filas: int, opcional
+        :return: (DatosGo) Objeto del tipo DatosGov, que contiene la \
+            información del conjunto de datos. Para obtener el DataFrame \
+            revise la función to_dataframe(). (REVISAR)
         """
         url = f"{self._dominio}{api_id}.csv?$limit={100}"
         # Solo se leen 100 filas para estimar tipo de datos
@@ -83,7 +85,24 @@ class DatosGov:
         query.close()
         return self
 
-    def tabla_inventario(self, limite_filas=10000000000):
+    def to_dataframe(self):
+        """
+        Retorna el conjunto de datos descargado del portal de datos \
+        abiertos (datos.gov.co) en formato pandas.DataFrame.
+        :return: (pandas.DataFrame) conjunto de datos en DataFrame.
+        """
+        return self.datos
+
+    def metadatos(self):
+        """
+        Retorna los metadatos del conjunto de datos descargado del \
+        portal de datos abiertos (datos.gov.co) en un diccionario de Python.
+
+        :return: (dict) Diccionario con los metadados del conjunto de datos.
+        """
+        return self.metadatos
+
+    def tabla_inventario(self, filtro=None, limite_filas=10000000000):
         """
         Función que se conecta con el API de Socrata para el portal de \
         datos.gov.co y retorna el inventario de datos disponible. \
@@ -107,7 +126,7 @@ class DatosGov:
                 "base_publica": {"published": "Si", "unpublished": "No"},
                 "tipo": {
                     "dataset": "conjunto de datos",
-                    "federatet_href": "enlace externo",
+                    "federated_href": "enlace externo",
                     "href": "enlace externo",
                     "map": "mapa",
                     "chart": "grafico",
@@ -123,146 +142,83 @@ class DatosGov:
             },
             inplace=True,
         )
+        if filtro is not None:
+            tabla = self.__filtrar_tabla(tabla, filtro)
+
         return tabla
 
-
-# METADATOS
-
-
-def filtrar_tabla(columnas_valor, token=None):
-    """ Permite filtrar la base de datos de *tabla de inventario* de acuerdo con\
-        diferentes términos de búsqueda. Como son fechas, textos y otros. :ref:`Ver ejemplo <datos_gov.filtrar_tabla>`
-
-    :param columnas_valor: (diccinario) {'nombre de columna':'valor a buscar o rangos'}. \
-    Corresponde al nombre de la columna a consultar y el valor a buscar.
-    :param token: (str) opcional - token de usuario de la API Socrata.
-    :return: dataframe Asset Inventory filtrado con los términos de búsqueda).
-    """
-    # base_filtro=tabla.copy()
-    asset = tabla_inventario(token)
-
-    base_filtro = asset.copy()
-
-    columnas = base_filtro.columns.tolist()
-
-    lista_vocales = ["a", "e", "i", "o", "u", "a", "e", "i", "o", "u"]
-    lista_tildes = ["á", "é", "í", "ó", "ú", "ä", "ë", "ï", "ö", "ü"]
-
-    columnas_string = columnas_valor.copy()
-
-    # Revisar si término clave está en columnas de string
-    for s in ["filas", "columnas", "fecha_creacion", "fecha_actualizacion"]:
-        if s in columnas_string:
-            del columnas_string[s]
-
-    for s_key in columnas_string:
-        if s_key not in columnas:
-            return print(
-                "No existe una columna con el nombre '{0}'".format(s_key)
-            )
-        else:
-            pass
-
-        s_value = columnas_valor[s_key]
-
-        # Pasar los nombres de los términos a buscar a minúscula y quitar
-        # tildes
-        for i_s in range(len(s_value)):
-            for i in range(len(lista_vocales)):
-                s_value[i_s] = (
-                    s_value[i_s]
-                    .lower()
-                    .replace(lista_tildes[i], lista_vocales[i])
-                )
-
-        # Pasar todo el texto de la columna donde se busca a minúscula
-        asset_columna = (
-            base_filtro.loc[:, s_key].astype(str).apply(lambda x: x.lower())
+    def __filtrar_tabla(self, data, filtros):
+        # valores del filtro
+        col_filtros = set(filtros.keys())
+        str_cols = list(
+            set(data.dtypes[data.dtypes == object].index.tolist())
+            & col_filtros
         )
-        # Cambiar todas las tildes en el texto
-        for i in range(len(lista_vocales)):
-            asset_columna = asset_columna.apply(
-                lambda x: x.replace(lista_tildes[i], lista_vocales[i])
-            )
-
-        # Crear columna que diga si se encuentra o no el ´termino en esa
-        # observación
-        asset_columna = pd.DataFrame(asset_columna)
-        # Iterar para cada término que se quiere buscar
-        asset_columna["true"] = 0
-        asset_columna["true"] = asset_columna[s_key].apply(
-            lambda x: 1 if all(q in x for q in s_value) else 0
+        num_cols = list(set(["filas", "columnas"]) & col_filtros)
+        date_cols = list(
+            set(["fecha_creacion", "fecha_actualizacion"]) & col_filtros
         )
-        # Quedarse con las observaciones donde se encontró el término
-        asset_columna = asset_columna[asset_columna["true"] == 1]
-        # Filtrar la base original con el índice dela base con las
-        # observaciones encontradas
-        base_filtro = base_filtro.loc[asset_columna.index]
 
-    for s in ["filas", "columnas"]:
-        if s in columnas_valor:
-            # Obtener los límites inferior y superior deseados
-            limite_inferior = columnas_valor[s][0]
-            limite_superior = columnas_valor[s][1]
-            # Si los limites son numéricos, por lo tanto en un rango, escoger
-            # rango
-            if type(limite_inferior) == int and type(limite_superior) == int:
-                base_filtro = base_filtro.loc[
-                    (base_filtro[s] <= limite_superior)
-                    & (base_filtro[s] >= limite_inferior),
-                    :,
-                ]
-
-            elif type(limite_inferior) == int and limite_superior == "+":
-                base_filtro = base_filtro.loc[
-                    base_filtro[s] >= limite_inferior, :
-                ]
-
-            elif type(limite_inferior) == int and limite_superior == "-":
-                base_filtro = base_filtro.loc[
-                    base_filtro[s] <= limite_inferior, :
-                ]
-
-            else:
-                return "Los parámetros de 'fila' y/o 'columna' tienen valores incorrectos"
-
-    for s in ["fecha_creacion", "fecha_actualizacion"]:
-        if s in columnas_valor:
-            fecha_inicio = datetime.datetime.strptime(
-                columnas_valor[s][0], "%Y-%m-%d"
+        if not len(str_cols + num_cols + date_cols):
+            raise KeyError(
+                "La tabla de inventario no tiene columna(s) con el nombre "
+                f"{list(filtros.keys())}. Las llaves del diccionario solo "
+                f" pueden tomar los siguientes valores:{list(data.columns)}"
             )
+        # Buscar en columnas string
+        if len(str_cols) > 0:
+            for c in str_cols:
+                if not isinstance(filtros[c], list):
+                    raise TypeError(
+                        "Los valores buscados deben ser tipo lista. Por "
+                        "ejemplo, para buscar 'moneda' en el nombre de los "
+                        "conjuntos de datos debe pasar filtro = "
+                        "{'nombre':['moneda']}"
+                    )
+                value = [self.__normalizar_string(v) for v in filtros[c]]
+                p = r"\b(?:{})\b".format("|".join(map(re.escape, value)))
+                temp = data[c].apply(self.__normalizar_string)
+                data = data[temp.str.contains(p)]
+                if not data.shape[0]:
+                    warnings.warn(
+                        "No se encontró ningun registro con los valores: "
+                        f"{value} en la columna: {c}"
+                    )
+                    return data
 
-            # Crear columna con fecha en formato fecha
-            base_filtro.loc[:, "{0}_fecha".format(s)] = base_filtro.loc[
-                :, s
-            ].apply(
-                lambda x: datetime.datetime.strptime(x, "%Y-%m-%d")
-                if x != "nan"
-                else np.nan
-            )
+        # buscar limites en columas/filas numericas
+        if len(num_cols) > 0:
+            for c in num_cols:
+                if not isinstance(filtros[c], list) or len(filtros[c]) != 2:
+                    raise TypeError(
+                        f"Para filtrar la tabla de inventario por [{c}] debe "
+                        "pasar una lista de dos posiciones que representan el "
+                        f"valor mínimo y máximo de {c} [v_min, v_max] por el "
+                        "que desea filtrar."
+                    )
+                limites = filtros[c]
+                data = data[(data[c] >= limites[0]) & (data[c] <= limites[1])]
+                if not data.shape[0]:
+                    return data
 
-            if columnas_valor[s][1] == "+":
-                base_filtro = base_filtro.loc[
-                    base_filtro.loc[:, "{0}_fecha".format(s)] >= fecha_inicio,
-                    :,
-                ]
+        # buscar en columnas de fecha
+        if len(date_cols) > 0:
+            for c in date_cols:
+                if not isinstance(filtros[c], list) or len(filtros[c]) != 2:
+                    raise TypeError(
+                        f"Para filtrar la tabla de inventario por [{c}] debe "
+                        "pasar una lista de dos posiciones que representan el "
+                        f"la fecha inicial y fecha final de consulta "
+                        "[fecha_inicial, fecha_final]. Por ejemplo, filtro = "
+                        "{'fecha_creacion': ['2019-01-01', '2020-02-20']} "
+                    )
 
-            elif columnas_valor[s][1] == "-":
-                base_filtro = base_filtro.loc[
-                    base_filtro.loc[:, "{0}_fecha".format(s)] <= fecha_inicio,
-                    :,
-                ]
+                limites = filtros[c]
+                data = data[(data[c] >= limites[0]) & (data[c] <= limites[1])]
+                if not data.shape[0]:
+                    return data
 
-            else:
-                fecha_fin = datetime.datetime.strptime(
-                    columnas_valor[s][1], "%Y-%m-%d"
-                )
-                base_filtro = base_filtro.loc[
-                    (base_filtro.loc[:, "{0}_fecha".format(s)] >= fecha_inicio)
-                    & (base_filtro.loc[:, "{0}_fecha".format(s)] <= fecha_fin),
-                    :,
-                ]
+        return data
 
-            del base_filtro["{0}_fecha".format(s)]
-
-    return base_filtro
+    def __normalizar_string(self, texto):
+        return unidecode(texto.lower())
