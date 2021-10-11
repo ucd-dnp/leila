@@ -1,8 +1,8 @@
 Ejemplos - Datos gov
 ====================
 
-datos_gov.tabla_inventario
---------------------------
+DatosGov.tabla_inventario
+-------------------------
 Se conecta al API de Socrata y retorna la base de datos Asset Inventory descargada del Portal de Datos Abiertos como dataframe. Este conjunto de datos es un inventario de los recursos en el sitio. Ver documentación :py:meth:`datos_gov.tabla_inventario`
 
     .. code-block:: python
@@ -28,8 +28,8 @@ A continuación verificamos el tipo de objeto de la variable **inventario** y su
         (19729, 25)
 
 
-datos_gov.filtrar_tabla
------------------------
+DatosGov.filtrar_tabla
+----------------------
 Permite filtrar la base de datos de tabla de inventario de acuerdo a diferentes términos de búsqueda. Como son fechas, textos y otros. Ver documentación :py:meth:`datos_gov.filtrar_tabla`
 
 Para realizar el filtro de la base de datos de la tabla de inventario debemos tener en cuenta la información disponible, primero consultamos los campos de consulta que podemos usar.
@@ -112,8 +112,8 @@ A continuación se presentan algunas variaciones que pueden utilizar al filtrar 
         >>> columnas_valor = {"filas":[100,10000], "columnas":[10,"+"]}
 
 
-datos_gov.cargar_base
----------------------
+DatosGov.cargar_base
+--------------------
 Se conecta al API de Socrata y retorna la base de datos descargada del Portal de Datos Abiertos como dataframe. Ver documentación :py:meth:`datos_gov.cargar_base`
 
 Para la descarga de una base de datos del portal de datos abiertos, requerimos conocer con anterioridad su api_id, en este ejemplo bajaremos los primeros 1.000 registros de la base de datos denominada 'SECOP II - Contratos Electrónicos'

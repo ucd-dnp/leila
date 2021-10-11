@@ -50,7 +50,7 @@ class DatosGov:
         """
         Permite descargar un conjunto de datos del portal de datos.gov.co \
         dado su identificador `api_id` en el portal. \
-        :ref:`Ver ejemplo <datos_gov.cargar_base>` (REVISAR).
+        :ref:`Ver ejemplo <DatosGov.cargar_base>`.
 
         .. warning::
             Al descargar una base de datos utilizando el API de Socrata, \
@@ -64,9 +64,9 @@ class DatosGov:
         :param limite_filas: Número máximo de registros a descargar del \
             conjunto de datos. Valor por defecto: `1000000000`.
         :type limite_filas: int, opcional
-        :return: (DatosGo) Objeto del tipo DatosGov, que contiene la \
+        :return: (DatosGov) Objeto del tipo DatosGov, que contiene la \
             información del conjunto de datos. Para obtener el DataFrame \
-            revise la función to_dataframe(). (REVISAR)
+            revise la función to_dataframe().
         """
         url = f"{self._dominio}{api_id}.csv?$limit={100}"
         # Solo se leen 100 filas para estimar tipo de datos
@@ -89,6 +89,7 @@ class DatosGov:
         """
         Retorna el conjunto de datos descargado del portal de datos \
         abiertos (datos.gov.co) en formato pandas.DataFrame.
+
         :return: (pandas.DataFrame) conjunto de datos en DataFrame.
         """
         return self.datos
@@ -106,7 +107,7 @@ class DatosGov:
         """
         Función que se conecta con el API de Socrata para el portal de \
         datos.gov.co y retorna el inventario de datos disponible. \
-        :ref:`Ver ejemplo <datos_gov.tabla_inventario>` (REVISAR)
+        :ref:`Ver ejemplo <DatosGov.tabla_inventario>`
 
         :param limite_filas: Limite de registros a descargar del inventario \
             de datos. Por defecto: `10000000000`.
