@@ -12,3 +12,5 @@ env
 # ignore other files
 .idea
 __pycache__
+
+sphinx/build
