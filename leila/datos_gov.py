@@ -108,11 +108,17 @@ class DatosGov:
         datos.gov.co y retorna el inventario de datos disponible. \
         :ref:`Ver ejemplo <datos_gov.tabla_inventario>` (REVISAR)
 
+        :param filtro: Permite filtar la tabla de inventario de datos \
+            tomando como referencia las columnas presentes en la tabla, \
+            mediante un diccionario de datos del tipo {"nombre_columna": \
+            ["valor buscado1", "valor buscado 2"]}. Para mayor información \
+            consulte: (REVISAR)
+        :type filtro: dict, opcional.
         :param limite_filas: Limite de registros a descargar del inventario \
             de datos. Por defecto: `10000000000`.
-        :type limite_filas: int, opcional
+        :type limite_filas: int, opcional.
         :return: (pandas.DataFrame) Dataframe con la información de los datos \
-            disponibles en el portal datos.gov.co. 
+            disponibles en el portal datos.gov.co.
         """
         url = f"{self._dominio}uzcf-b9dh.csv?$limit={limite_filas}"
         tabla = pd.read_csv(
