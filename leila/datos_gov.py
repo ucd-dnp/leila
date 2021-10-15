@@ -16,7 +16,7 @@ class DatosGov:
     def __init__(self):
         self._dominio = "https://www.datos.gov.co/resource/"
         self._meta = "https://www.datos.gov.co/api/views/"
-        self.metadatos = None
+        self.__metadatos = None
         self.datos = None
         self._DIC_RENAME = {
             "uid": "numero_api",
@@ -77,11 +77,11 @@ class DatosGov:
         self.datos = pd.read_csv(url, parse_dates=col_objs)
         # Almacenar los metadatos
         query = requests.get(f"{self._meta}{api_id}.json")
-        self.metadatos = dict(query.json())
-        self.metadatos["n_rows"] = int(
-            self.metadatos["columns"][0]["cachedContents"]["count"]
+        self.__metadatos = dict(query.json())
+        self.__metadatos["n_rows"] = int(
+            self.__metadatos["columns"][0]["cachedContents"]["count"]
         )
-        self.metadatos["n_cols"] = len(self.metadatos["columns"])
+        self.__metadatos["n_cols"] = len(self.__metadatos["columns"])
         query.close()
         return self
 
@@ -101,7 +101,7 @@ class DatosGov:
 
         :return: (dict) Diccionario con los metadados del conjunto de datos.
         """
-        return self.metadatos
+        return self.__metadatos
 
     def tabla_inventario(self, filtro=None, limite_filas=10000000000):
         """
