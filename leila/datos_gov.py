@@ -5,6 +5,7 @@ import pandas as pd
 import requests
 from unidecode import unidecode
 import re
+import datetime
 
 
 class DatosGov:
@@ -101,7 +102,7 @@ class DatosGov:
 
         :return: (dict) Diccionario con los metadados del conjunto de datos.
         """
-        return self.__metadatos
+        return self.__renombrar_metadatos()
 
     def tabla_inventario(self, filtro=None, limite_filas=10000000000):
         """
@@ -229,3 +230,88 @@ class DatosGov:
 
     def __normalizar_string(self, texto):
         return unidecode(texto.lower())
+
+    def __renombrar_metadatos(self):
+        # Crear diccionario para renombrar algunos metadatos
+        dic_rename = {
+            'id': 'numero_api',
+            'name': 'nombre',
+            'description': 'descripcion',
+            'assetType': 'tipo',
+            'attributionLink': 'url',
+            'category': 'categoria',
+            'createdAt': 'fecha_creacion', 
+            'viewCount': 'numero_vistas',
+            'downloadCount': 'numero_descargas', 
+            'licenseId': 'licencia',
+            'publicationDate': 'fecha_publicacion', 
+            'publicationStage': 'base_publica',
+            'rowsUpdatedAt': 'fecha_actualizacion',  
+            'n_rows': 'filas',
+            'n_cols': 'columnas'
+        }
+
+        # Crear nuevo diccionario con algunos valores renombrados de metadatos
+        dic_metadatos = {}
+        dic_metadatos = {v: self.__metadatos[k] for (k, v) in dic_rename.items()}
+            
+        # Crear valores de fecha (a partir de integers)
+        dic_metadatos['fecha_creacion'] = datetime.datetime.fromtimestamp(dic_metadatos['fecha_creacion']).strftime('%Y-%m-%d')
+        dic_metadatos['fecha_publicacion'] = datetime.datetime.fromtimestamp(dic_metadatos['fecha_publicacion']).strftime('%Y-%m-%d')
+        dic_metadatos['fecha_actualizacion'] = datetime.datetime.fromtimestamp(dic_metadatos['fecha_actualizacion']).strftime('%Y-%m-%d')
+
+        # Agregar licencias
+        dic_metadatos['licencia'] = self.__metadatos['license']['name']
+        dic_metadatos['licencia_url'] = self.__metadatos['license']['termsLink']
+
+        # # Agregar filas y columnas
+        # dic_metadatos["filas"] = self.__metadatos['n_rows']
+        # dic_metadatos["columnas"] = self.__metadatos['n_cols']
+
+        # Diccionario para renombrar metadatos de 'Información de la Entidad'
+        entidad_info_nombres = {
+            'entidad': 'Nombre de la Entidad', 
+            'entidad_municipio': 'Municipio',
+            'entidad_sector': 'Sector', 
+            'entidad_departamento': 'Departamento', 
+            'entidad_orden': 'Orden', 
+            'entidad_dependencia': 'Área o dependencia', 
+        }
+
+        # Diccionario para renombrar metadatos de 'Información de Datos'
+        entidad_datos_nombres = {
+            'cobertura': 'Cobertura Geográfica', 
+            'idioma': 'Idioma', 
+            'frecuencia_actualizacion': 'Frecuencia de Actualización'
+        }
+
+        # Crear diccionarios reducidos de 'Información de la Entidad' e 'Información de Datos'
+        dic_info_entidad = self.__metadatos['metadata']['custom_fields']['Información de la Entidad']
+        dic_info_datos = self.__metadatos['metadata']['custom_fields']['Información de Datos']
+
+        # Agregar información renombrada a diccionario de metadatos
+        for k, v in entidad_info_nombres.items():
+            dic_metadatos[k] = dic_info_entidad[v]
+            
+        for k, v in entidad_datos_nombres.items():
+            dic_metadatos[k] = dic_info_datos[v]
+
+        # Agregar dueño
+        dic_metadatos['dueno'] = self.__metadatos['owner']['displayName']
+
+        # Diccionario de columnas
+        dic_c = {}
+
+        # Agregar cada columna renombrada al diccionario de columnas
+        for c in self.__metadatos['columns']:
+            name = c["name"]
+            dic_c[name] = {
+                'tipo': c['dataTypeName'], 
+                'descripcion': c['description'], 
+                'nombre_df': c['fieldName']      
+            }
+
+        # Agergar diccionario de columnas a diccionario de metadatos
+        dic_metadatos["columnas"] = dic_c
+
+        return dic_metadatos
