@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from leila.datos_gov import DatosGov
 import pandas as pd
 import numpy as np
 import scipy.stats as sstats
@@ -7,49 +7,75 @@ import warnings
 import re
 import math
 import phik
+import openpyxl
 
 
 class CalidadDatos:
+    """
+    Constructor por defecto de la clase leila.CalidadDatos. Esta clase se \
+    encarga de manejar todas las funciones asociadas a la medición de la \
+    calidad de los datos en una base de datos estructurada.
+
+    Soporta la lectura directa de archivos con extensión `.xlsx` y \
+    `.csv`, para otro tipo de formato (`.xls`, `xlsm`, `xlsb`, `odf`, \
+    `ods` y `odt`) se recomienda hacer la conversión al formato `.csv`.\
+
+    Nota: Se recomienda cargar directamente los archivos con esta clase, \
+    en lugar de utilizar pandas.
+    """
+
     def __init__(
         self,
         datos,
-        castNumero=False,
         castDatos=True,
         diccionarioCast=None,
         errores="ignore",
         formato_fecha="%d/%m/%Y",
+        **kwargs,
     ):
         """
-        Constructor por defecto de la clase CalidadDatos. Esta clase se \
+        Constructor por defecto de la clase leila.CalidadDatos. Esta clase se \
         encarga de manejar todas las funciones asociadas a la medición de la \
         calidad de los datos en una base de datos estructurada.
 
-        :param datos: (Dataframe) Base de datos de tipo pandas.DataFrame que \
-            será analizada por la clase `CalidadDatos`.
-        :param castNumero: (bool) {True, False}. Valor por defecto: False \
-            Indica si se desea convertir las columnas de tipos object y \
-            bool a float, de ser posible.
-        :param castDatos: (bool) {True, False}. Valor por defecto: True. \
-            Indica si se desean convertir las columnas al mejor tipo de datos \
-            para cada columna según la función `convert_dtypes` de Pandas. \
-            Por ejemplo si una columna es de tipo string, pero sus datos son \
-            en su mayoría números, se convierte a columna númerica. \
-            `castNumero` debe ser `False`.
-        :param diccionarioCast: (dict) { {nombre_columna : tipo_columna} }. \
-            Valor por defecto None. Diccionario donde se especifican los \
-            tipos de datos a los que se desean convertir las columnas dentro \
-            del diccionario, por ejemplo, {'col1': 'booleano', \
+        :param datos: Se acepta cualquier ruta o path a archivos tipo `.xlsx` \
+            o `.csv` (recomendado).\
+            Si desea pasar un `DataFrame` de pandas, LEILA soporta este tipo \
+            de entrada.
+            LEILA también soporta como entrada objectos del tipo \
+            `leila.DatosGov`. Para este tipo de entrada LEILA tendrá en el \
+            el futuro funcionalidades extendidas de calidad de datos con base \
+            a los metadatos del conjunto de datos descargado del portal \
+            datos.gov.co.
+        :type datos: str, pandas.DataFrame, leila.DatosGov
+        :param castDatos: Indica si se desean convertir las columnas al \
+            mejor tipo de datos para cada columna según la función \
+            `convert_dtypes` de Pandas. Por ejemplo si una columna es de \
+            tipo `string`, pero sus datos son en su mayoría números, se \
+            convierte a columna númerica. Valor por defecto: `True`.
+        :type castDatos: bool, opcional
+        :param diccionarioCast: Diccionario donde se especifican los tipos \
+            de datos a los que se desean convertir las columnas dentro \
+            del conjunto de datos. Por ejemplo, {'col1': 'booleano', \
             'edad':'numerico'}, donde `col1` y `edad` son columnas de la base \
             de datos. Los valores a los que se pueden convertir son: \
-            ['string', 'numerico', 'booleano', 'fecha', 'categorico'].
-        :param errores: (string) {'ignore', 'coerce', 'raise'}\
-            Valor por defecto: 'ignore'. Indica qué hacer con las columnas \
-            cuyo tipo no se puede cambiar al solicitado en 'diccionarioCast'.
-        :param formato_fecha: (string) Valor de defecto: "%d/%m/%Y". Formato \
-            string para el cast de las variables tipo fecha.
-            Para más informacion sobre las opciones de strings, consulte: \
-            https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior
-        :return: Objeto del tipo de la clase `CalidadDatos`.
+            ['string', 'numerico', 'booleano', 'fecha', 'categorico']. Valor \
+            por defecto: `None`.
+        :type diccionarioCast: dict , opcional
+        :param errores: Indica qué hacer con las columnas cuyo tipo no se \
+            puede cambiar al solicitado en `diccionarioCast`. Valor por \
+            defecto: `"ignore"`.
+        :type errores: {"ignore", "coerce", "raise"}, opcional
+        :param formato_fecha: Formato string para el cast de las variables \
+            tipo fecha. Para más informacion sobre las opciones de strings, \
+            consulte: \
+            https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior. \
+            Valor por defecto: `"%d/%m/%Y"`.
+        :type formato_fecha: str, optional
+        :param **kwargs: Parámetros adicionales que se le pueden pasar a la \
+            función `pandas.read_csv()`. Para más información sobre estos \
+            parámetros, consulte: \
+            https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html.
         """
         self._dic_tipo = {
             "int": "Numérico",
@@ -59,7 +85,9 @@ class CalidadDatos:
             "date": "Fecha",
             "object": "Otro",
         }
-        self._castNum = castNumero
+        self._metadatos = None
+        self.__source = None
+        self.__kwargs = kwargs
         self._castDatos = castDatos
         self._castdic = diccionarioCast
         self._errores = errores
@@ -73,46 +101,34 @@ class CalidadDatos:
 
     @base.setter
     def base(self, datos):
-        if not isinstance(self._castNum, bool):
-            raise ValueError("'castNumero' debe ser de tipo booleano (bool).")
         if not isinstance(self._castdic, (dict, type(None))):
             raise ValueError(
                 "'diccionarioCast' debe ser de tipo diccionario (dict)."
             )
-        if not isinstance(self._castNum, bool):
+
+        if not isinstance(self._castDatos, bool):
             raise ValueError("'castDatos' debe ser de tipo booleano (bool).")
 
-        if self._castNum and not self._castDatos:
-            self._base = datos.fillna(np.nan).convert_dtypes(
-                infer_objects=False,
-                convert_boolean=False,
-            )
-            warnings.warn(
-                "En futuras versiones, el párametro castNumero será "
-                "eliminado. En su lugar use castDatos=True",
-                FutureWarning,
-            )
-        elif self._castDatos:
-            self._base = datos.fillna(np.nan).convert_dtypes()
-        else:
-            self._base = datos.fillna(np.nan).convert_dtypes(
-                infer_objects=False,
-                convert_string=True,
-                convert_integer=False,
-                convert_boolean=False,
-                convert_floating=False,
-            )
+        self.__get_source(datos)
+        if self.__source == "excel":
+            self.__read_excel(datos, **self.__kwargs)
+        elif self.__source == "csv":
+            self.__read_csv(datos, **self.__kwargs)
+        elif self.__source == "pandas":
+            self._base = datos
+        elif self.__source == "leila":
+            self.__from_leila(datos)
 
         if self._castdic:
             for col, tipo in self._castdic.items():
                 if tipo == "string":
-                    self._base[col] = self.base[col].apply(lambda x: str(x))
+                    self._base[col] = self._base[col].apply(lambda x: str(x))
                 elif tipo == "numerico":
                     self._base[col] = pd.to_numeric(
                         self._base[col], errors=self._errores
                     )
                 elif tipo == "booleano":
-                    self._base[col] = self.base[col].astype("bool")
+                    self._base[col] = self._base[col].astype("bool")
                 elif tipo == "fecha":
                     self._base[col] = pd.to_datetime(
                         self._base[col],
@@ -128,9 +144,20 @@ class CalidadDatos:
                         "'fecha' o 'categorico' "
                     )
 
+        if self._castDatos:
+            self._base = self._base.convert_dtypes()
+        else:
+            self._base = self._base.convert_dtypes(
+                infer_objects=False,
+                convert_string=True,
+                convert_integer=False,
+                convert_boolean=False,
+                convert_floating=False,
+            )
+
         # Tipo más común de cada columna
         tipo_mas_comun = [
-            re.findall("'(.*)'", str(type(datos[col][0])))[0]
+            re.findall("'(.*)'", str(type(self._base[col][0])))[0]
             for col in self._base.columns
         ]
 
@@ -1271,3 +1298,60 @@ class CalidadDatos:
         rcorr = r - ((r - 1) ** 2) / (n - 1)
         kcorr = k - ((k - 1) ** 2) / (n - 1)
         return np.sqrt(phi2corr / min((kcorr - 1), (rcorr - 1)))
+
+    def __read_excel(self, datos):
+        warnings.warn(
+            "Cargar archivos xlsx puede tomar demasiado tiempo, se aconseja "
+            "fuertemente convertirlos a archivo csv, esto puede mejorar hasta "
+            f"100x veces la velocidad de carga del archivo {datos}"
+        )
+        try:
+            wb = openpyxl.load_workbook(
+                datos,
+                read_only=True,
+                data_only=True,
+                keep_links=False,
+                keep_vba=False,
+            )
+        except Exception:
+            raise NotImplementedError(
+                "LEILA no soporta los archivos con el antiguo formato .xls, "
+                "por favor convierta el archivo al formato xlsx o csv."
+            )
+        ws = wb.active
+        data = ws.values
+        cols = next(data)
+        self._base = pd.DataFrame(list(data), columns=cols)
+
+    def __read_csv(self, datos, **kwargs):
+        kwtemp = kwargs.copy()
+        kwtemp.pop("nrows", None)
+        temp = pd.read_csv(datos, nrows=100, **kwtemp)
+        # cols que pueden contener fecha
+        col_objs = list(temp.select_dtypes(object))
+        self._base = pd.read_csv(datos, parse_dates=col_objs, **kwargs)
+
+    def __from_leila(self, datos):
+        self._base = datos.datos
+        self._metadatos = datos.metadatos()
+
+    def __get_source(self, datos):
+        if isinstance(datos, str):
+            tipo = datos.split(".")[-1]
+            if tipo == "csv":
+                self.__source = "csv"
+            elif tipo in ["xlsx", "xls", "xlsm"]:
+                self.__source = "excel"
+            else:
+                raise NotImplementedError(
+                    f"Los archivos con formato {tipo} no son soportados por "
+                    "LEILA. Intente con archivos xlsx, xls, csv"
+                )
+        elif isinstance(datos, pd.DataFrame):
+            self.__source = "pandas"
+        elif isinstance(datos, DatosGov):
+            self.__source = "leila"
+        else:
+            raise NotImplementedError(
+                f"El tipo de datos {type(datos)} no está soportado por LEILA."
+            )
