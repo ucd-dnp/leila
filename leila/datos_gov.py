@@ -79,10 +79,12 @@ class DatosGov:
         # Almacenar los metadatos
         query = requests.get(f"{self._meta}{api_id}.json")
         self.__metadatos = dict(query.json())
-        self.__metadatos["n_rows"] = int(
-            self.__metadatos["columns"][0]["cachedContents"]["count"]
-        )
-        self.__metadatos["n_cols"] = len(self.__metadatos["columns"])
+        if "count" in self.__metadatos["columns"][0]["cachedContents"]:
+            self.__metadatos["n_rows"] = int(
+                self.__metadatos["columns"][0]["cachedContents"]["count"]
+            )
+        if "columns" in self.__metadatos:
+            self.__metadatos["n_cols"] = len(self.__metadatos["columns"])
         query.close()
         return self
 
