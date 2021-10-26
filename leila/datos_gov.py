@@ -79,10 +79,12 @@ class DatosGov:
         # Almacenar los metadatos
         query = requests.get(f"{self._meta}{api_id}.json")
         self.__metadatos = dict(query.json())
-        self.__metadatos["n_rows"] = int(
-            self.__metadatos["columns"][0]["cachedContents"]["count"]
-        )
-        self.__metadatos["n_cols"] = len(self.__metadatos["columns"])
+        if "count" in self.__metadatos["columns"][0]["cachedContents"]:
+            self.__metadatos["n_rows"] = int(
+                self.__metadatos["columns"][0]["cachedContents"]["count"]
+            )
+        if "columns" in self.__metadatos:
+            self.__metadatos["n_cols"] = len(self.__metadatos["columns"])
         query.close()
         return self
 
@@ -248,21 +250,25 @@ class DatosGov:
             'publicationStage': 'base_publica',
             'rowsUpdatedAt': 'fecha_actualizacion',  
             'n_rows': 'filas',
-            'n_cols': 'columnas'
+            'n_cols': 'columnas',
+            'igit': 'igit'
         }
 
         # Crear nuevo diccionario con algunos valores renombrados de metadatos
         dic_metadatos = {}
-        dic_metadatos = {v: self.__metadatos[k] for (k, v) in dic_rename.items()}
-            
+        dic_metadatos = {v: self.__metadatos[k] if k in list(self.__metadatos.keys()) else None for (k, v) in dic_rename.items()}
+        
         # Crear valores de fecha (a partir de integers)
         dic_metadatos['fecha_creacion'] = datetime.datetime.fromtimestamp(dic_metadatos['fecha_creacion']).strftime('%Y-%m-%d')
         dic_metadatos['fecha_publicacion'] = datetime.datetime.fromtimestamp(dic_metadatos['fecha_publicacion']).strftime('%Y-%m-%d')
         dic_metadatos['fecha_actualizacion'] = datetime.datetime.fromtimestamp(dic_metadatos['fecha_actualizacion']).strftime('%Y-%m-%d')
 
         # Agregar licencias
-        dic_metadatos['licencia'] = self.__metadatos['license']['name']
-        dic_metadatos['licencia_url'] = self.__metadatos['license']['termsLink']
+        if 'license' in self.__metadatos and 'name' in self.__metadatos['license']['name']:
+            dic_metadatos['licencia'] = self.__metadatos['license']['name']
+        
+        if 'license' in self.__metadatos and 'termsLink' in self.__metadatos['license']:
+            dic_metadatos['licencia_url'] = self.__metadatos['license']['termsLink']
 
         # # Agregar filas y columnas
         # dic_metadatos["filas"] = self.__metadatos['n_rows']
@@ -291,13 +297,16 @@ class DatosGov:
 
         # Agregar información renombrada a diccionario de metadatos
         for k, v in entidad_info_nombres.items():
-            dic_metadatos[k] = dic_info_entidad[v]
+            if v in dic_info_entidad:
+                dic_metadatos[k] = dic_info_entidad[v]
             
         for k, v in entidad_datos_nombres.items():
-            dic_metadatos[k] = dic_info_datos[v]
+            if v in dic_info_datos:
+                dic_metadatos[k] = dic_info_datos[v]
 
         # Agregar dueño
-        dic_metadatos['dueno'] = self.__metadatos['owner']['displayName']
+        if 'owner' in self.__metadatos and 'displayName' in self.__metadatos['owner']:
+            dic_metadatos['dueno'] = self.__metadatos['owner']['displayName']
 
         # Diccionario de columnas
         dic_c = {}
