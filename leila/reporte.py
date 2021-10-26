@@ -11,7 +11,7 @@ sys.path.insert(0, "leila")
 #####
 
 from leila.calidad_datos import CalidadDatos
-from leila import datos_gov
+from leila.datos_gov import DatosGov
 
 def df_as_html(base, id=None, classes=None):
     """ Transforma el dataframe de entrada en una tabla HTML, se asignan al tab table las clases 'table' y
@@ -35,16 +35,12 @@ def df_as_html(base, id=None, classes=None):
     return html
 
 
-def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamiento',
-                    archivo='perfilamiento_leila.html', castNumero=False, 
-                    secciones = {'generales':True, 'muestra_datos': True, 'especificas': True,  'correlaciones': True}):
+def generar_reporte(datos=None, titulo='Reporte perfilamiento', archivo='perfilamiento_leila.html', 
+                    secciones = {'generales':True, 'muestra_datos': True, 'especificas': True,  'correlaciones': True}, **kwargs):
     """Genera un reporte de calidad de datos en formato HTML. :ref:`Ver ejemplo <reporte.generar_reporte>`
 
-    :param castNumero: (bool) {True, False}. Valor por defecto: False. \
-            Indica si se desea convertir las columnas de tipos object y bool a float, de ser posible.
     :param df: (dataframe) base de datos de insumo para la generación del reporte de calidad de datos.
     :param api_id: (str) opcional - Identificación de la base de datos asociado con la API de Socrata (de Datos Abiertos).
-    :param token: (str) opcional - Token de usuario de la API de Socrata (de Datos Abiertos).
     :param titulo: (str) valor por defecto: 'Reporte perfilamiento'. Título del reporte a generar.
     :param archivo: (str) valor por defecto: 'perfilamiento.html'. Ruta donde guardar el reporte.    
     :param secciones: (dic) Diccionario indicando cuales secciones incluir en el reporte. Las opciones son las siguientes: \
@@ -59,54 +55,65 @@ def generar_reporte(df=None, api_id=None, token=None, titulo='Reporte perfilamie
                 cuál pestaña de la sección incluir. Valores posibles: 'pearson','kendall','spearman','cramer','phik' |/li| 
          |/ul| 
     """
-    if api_id is not None:
-        datos = datos_gov.cargar_base(api_id=api_id, token=token)
-        base = CalidadDatos(datos, castNumero=castNumero)
 
-        inventario = datos_gov.tabla_inventario(token=token)
-        df_metadatos = inventario[inventario['numero_api'] == api_id]
+    link_datos_abiertos = None
+    html_metadatos_full = None
+    html_metadatos_head = None
+    html_metadatos_tail = None
 
-        df_metadatos.columns = ['Id api', 'Nombre', 'Descripción', 'Propietario', 'Tipo', 'Categoría', 'Términos clave',
-                                'Página web', 'Fecha de creación', 'Fecha de actualización',
-                                'Frecuencia de actualización', 'Número de filas', 'Número de columnas',
-                                'Correo de contacto', 'Licencia', 'Entidad', 'Página web de la entidad',
-                                'Sector entidad', 'Departamento entidad', 'Orden entidad', 'Dependencia entidad',
-                                'Municipio entidad', 'Idioma', 'Cobertura', '¿Es pública la base?']
-        df_metadatos = df_metadatos[['Id api', 'Nombre', 'Descripción', 'Propietario', 'Tipo', 'Categoría',
-                                     'Términos clave', 'Página web', 'Fecha de creación', 'Fecha de actualización',
-                                     'Frecuencia de actualización', 'Número de filas', 'Número de columnas',
-                                     'Entidad', 'Dependencia entidad', 'Sector entidad', 'Página web de la entidad',
-                                     'Correo de contacto', 'Licencia', 'Departamento entidad', 'Municipio entidad',
-                                     'Orden entidad', 'Idioma', 'Cobertura', '¿Es pública la base?']]
-        df_metadatos = df_metadatos.T.reset_index()
-        df_metadatos.columns = ['Atributo', 'Valor']
+    # if api_id is not None:
+    if isinstance(datos, str):
+        if datos == '':
+            raise ValueError(
+                "El parámetro datos no puede ser vacío"
+            )
         try:
-            df_metadatos['Valor'] = df_metadatos['Valor'].apply(
-                '{:,.0f}'.format)
-        except BaseException:
-            pass
+            # verifica si el string datos tiene extensión, en caso que no se asume que corresponde a un api_id
+            temp = datos.split(".")[1]
+            
+            tipo = datos.split(".")[-1]
+            base = CalidadDatos(datos)
 
-        link_datos_abiertos = df_metadatos[df_metadatos['Atributo']
-                                           == 'Página web']['Valor'].item()
+        except Exception as e:
+            if (str(e) == 'list index out of range'):
+                
+                datos = DatosGov().cargar_base(api_id=datos, **kwargs) #BORRAR **kwargs
 
-        df_metadatos.replace('\n', '@#$', regex=True, inplace=True)
-        html_metadatos_full = df_as_html(
-            df_metadatos, classes=['white_spaces'])
-        html_metadatos_head = df_as_html(
-            df_metadatos[:3], classes=['white_spaces'])
-        html_metadatos_tail = df_as_html(
-            df_metadatos[-22:], classes=['white_spaces'])
+                base = CalidadDatos(datos)
+                df_metadatos = pd.DataFrame.from_dict(datos.metadatos(), orient='index')
 
-        html_metadatos_full = html_metadatos_full.replace('@#$', '<br>')
-        html_metadatos_head = html_metadatos_head.replace('@#$', '<br>')
-        html_metadatos_tail = html_metadatos_tail.replace('@#$', '<br>')
-        print('--------------------------------------------------------------------------------------------')
+                # Se cuenta el número de columnas del conjunto de datos
+                df_metadatos.loc['columnas', 0] = len((df_metadatos.loc['columnas', 0]).keys())
+
+                df_metadatos = df_metadatos.reset_index()
+                df_metadatos.columns = ['Atributo', 'Valor']
+                try:
+                    df_metadatos['Valor'] = df_metadatos['Valor'].apply(
+                        '{:,.0f}'.format)
+                except BaseException:
+                    pass
+
+                # link_datos_abiertos = df_metadatos[df_metadatos['Atributo'] == 'Página web']['Valor'].item()
+                link_datos_abiertos = df_metadatos[df_metadatos['Atributo'] == 'url']['Valor'].item()
+
+                df_metadatos.replace('\n', '@#$', regex=True, inplace=True)
+                html_metadatos_full = df_as_html(
+                    df_metadatos, classes=['white_spaces'])
+                html_metadatos_head = df_as_html(
+                    df_metadatos[:3], classes=['white_spaces'])
+                html_metadatos_tail = df_as_html(
+                    df_metadatos[-22:], classes=['white_spaces'])
+
+                html_metadatos_full = html_metadatos_full.replace('@#$', '<br>')
+                html_metadatos_head = html_metadatos_head.replace('@#$', '<br>')
+                html_metadatos_tail = html_metadatos_tail.replace('@#$', '<br>')
+                print('--------------------------------------------------------------------------------------------')
+
+    elif (datos.__class__.__name__ == 'CalidadDatos'):
+        base = datos
+
     else:
-        base = CalidadDatos(df, castNumero=castNumero)
-        link_datos_abiertos = None
-        html_metadatos_full = None
-        html_metadatos_head = None
-        html_metadatos_tail = None
+        base = CalidadDatos(datos)
 
     timestamp = datetime.datetime.now()
     current_time = timestamp.strftime("%d-%m-%Y %I:%M:%S %p")
