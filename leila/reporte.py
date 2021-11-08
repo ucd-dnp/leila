@@ -36,7 +36,8 @@ def df_as_html(base, id=None, classes=None):
 
 
 def generar_reporte(datos=None, titulo='Reporte perfilamiento', archivo='perfilamiento_leila.html', 
-                    secciones = {'generales':True, 'muestra_datos': True, 'especificas': True,  'correlaciones': True}, **kwargs):
+                    secciones = {'generales':True, 'muestra_datos': True, 'correlaciones': True, 
+                    'especificas': ['tipo', 'frecuencias', 'duplicados_columnas', 'descriptivas']}, **kwargs):
     """Genera un reporte de calidad de datos en formato HTML. :ref:`Ver ejemplo <reporte.generar_reporte>`
 
     :param df: (dataframe) base de datos de insumo para la generación del reporte de calidad de datos.
@@ -49,7 +50,8 @@ def generar_reporte(datos=None, titulo='Reporte perfilamiento', archivo='perfila
          |li| 'muestra_datos': (bool) {True, False}. Valor por defecto: True. Indica si desea incluir la sección 'Muestra de datos' en el reporte. |/li| 
          |li| 'especificas': (bool/list) {True, False, Lista}. Valor por defecto: True. Puede tomar un valor boolean indicando \
                 si desea incluir la sección de 'Estadísticas específicas' en el reporte. O mediante una lista de strings indicar \
-                cuál pestaña de la sección incluir. Valores posibles: 'tipo','frecuencias','duplicados','descriptivas' |/li| 
+                cuál pestaña de la sección incluir. Valores posibles: 'tipo', 'frecuencias', 'duplicados', 'duplicados_filas', \
+                'duplicados_columnas', 'descriptivas' |/li|
          |li| 'correlaciones': (bool/list) {True, False, Lista}. Valor por defecto: True. Puede tomar un valor boolean indicando \
                 si desea incluir la sección de 'Correlaciones' en el reporte. O mediante una lista de strings indicar \
                 cuál pestaña de la sección incluir. Valores posibles: 'pearson','kendall','spearman','cramer','phik' |/li| 
@@ -57,6 +59,7 @@ def generar_reporte(datos=None, titulo='Reporte perfilamiento', archivo='perfila
     """
 
     link_datos_abiertos = None
+    html_descr_col_meta = None
     html_metadatos_full = None
     html_metadatos_head = None
     html_metadatos_tail = None
@@ -77,32 +80,74 @@ def generar_reporte(datos=None, titulo='Reporte perfilamiento', archivo='perfila
         except Exception as e:
             if (str(e) == 'list index out of range'):
                 
-                datos = DatosGov().cargar_base(api_id=datos, **kwargs) #BORRAR **kwargs
+                # FIXME: BORRAR **kwargs
+                datos = DatosGov().cargar_base(api_id=datos, **kwargs)
 
                 base = CalidadDatos(datos)
                 df_metadatos = pd.DataFrame.from_dict(datos.metadatos(), orient='index')
 
-                # Se cuenta el número de columnas del conjunto de datos
-                df_metadatos.loc['columnas', 0] = len((df_metadatos.loc['columnas', 0]).keys())
+                desc_col = pd.DataFrame.from_dict(df_metadatos.loc['columnas', 0], orient='index')
+                desc_col = desc_col.reset_index()
+                desc_col = desc_col.rename(columns={"index": "Variable", "tipo": "Tipo", "descripcion":"Descripción", "nombre_df":"Nombre variable"})
+                desc_col = desc_col[['Variable', 'Nombre variable', 'Tipo', 'Descripción']]
+
+                df_metadatos = df_metadatos.drop("columnas")
+                
+                df_metadatos.loc['numero_vistas', 0] = str('{:,.0f}'.format(df_metadatos.loc['numero_vistas', 0]))
+                df_metadatos.loc['numero_descargas', 0] = str('{:,.0f}'.format(df_metadatos.loc['numero_descargas', 0]))
+                df_metadatos.loc['numero_filas', 0] = str('{:,.0f}'.format(df_metadatos.loc['numero_filas', 0]))
+                df_metadatos.loc['numero_columnas', 0] = str('{:,.0f}'.format(df_metadatos.loc['numero_columnas', 0]))
+
+                df_metadatos = df_metadatos.T
+                df_metadatos = df_metadatos.rename(
+                    columns={
+                        "numero_api": "Número API",
+                        "nombre": "Nombre",
+                        "descripcion":"Descripción",
+                        "tipo":"Tipo",
+                        "url":"URL",
+                        "categoria":"Categoría",
+                        "fecha_creacion":"Fecha de creación",
+                        "numero_vistas":"Número de vistas",
+                        "numero_descargas":"Número de descargas",
+                        "licencia":"Licencia",
+                        "fecha_publicacion":"Fecha de publicación",
+                        "base_publica":"Base pública",
+                        "fecha_actualizacion":"Fecha de actualización",
+                        "numero_filas":"Número de filas",
+                        "numero_columnas":"Número de columnas",
+                        "licencia_url":"Licencia URL",
+                        "entidad":"Entidad",
+                        "entidad_municipio":"Entidad municipio",
+                        "entidad_sector":"Entidad sector",
+                        "entidad_departamento":"Entidad departamento",
+                        "entidad_orden":"Entidad orden",
+                        "entidad_dependencia":"Entidad dependencia",
+                        "cobertura":"Cobertura",
+                        "idioma":"Idioma",
+                        "frecuencia_actualizacion":"Frecuencia de actualización",
+                        "dueno":"Dueño",
+                    })
+                df_metadatos = df_metadatos.T
 
                 df_metadatos = df_metadatos.reset_index()
                 df_metadatos.columns = ['Atributo', 'Valor']
-                try:
-                    df_metadatos['Valor'] = df_metadatos['Valor'].apply(
-                        '{:,.0f}'.format)
-                except BaseException:
-                    pass
 
-                # link_datos_abiertos = df_metadatos[df_metadatos['Atributo'] == 'Página web']['Valor'].item()
-                link_datos_abiertos = df_metadatos[df_metadatos['Atributo'] == 'url']['Valor'].item()
+                link_datos_abiertos = df_metadatos[df_metadatos['Atributo'] == 'URL']['Valor'].item()
 
                 df_metadatos.replace('\n', '@#$', regex=True, inplace=True)
+
+                html_descr_col_meta = df_as_html(
+                    desc_col, classes=['white_spaces'])
+
                 html_metadatos_full = df_as_html(
                     df_metadatos, classes=['white_spaces'])
+
                 html_metadatos_head = df_as_html(
                     df_metadatos[:3], classes=['white_spaces'])
+
                 html_metadatos_tail = df_as_html(
-                    df_metadatos[-22:], classes=['white_spaces'])
+                    df_metadatos[-(len(datos.metadatos().keys()) - 4):], classes=['white_spaces'])
 
                 html_metadatos_full = html_metadatos_full.replace('@#$', '<br>')
                 html_metadatos_head = html_metadatos_head.replace('@#$', '<br>')
@@ -218,27 +263,53 @@ def generar_reporte(datos=None, titulo='Reporte perfilamiento', archivo='perfila
         items_3=None
 
     # ------------------------------------------------------------------------
-    if (isinstance(s_especificas, list) and 'duplicados' in s_especificas) or (s_especificas==True):
-        
-        especificas_duplicados=True
+    # TODO: REVISAR - emparejamiento de filas dejarlo en FALSE por defecto
+    # if (isinstance(s_especificas, list) and 'duplicados' in s_especificas) or (s_especificas==True):
+    if (isinstance(s_especificas, list) and any(item in ['duplicados', 'duplicados_filas', 'duplicados_columnas'] for item in s_especificas)) or (s_especificas==True):
+
+        mensaje_duplicados = '<br><i>'
         seccion_especificas=True
-        if especificas_active==None: especificas_active='duplicados' 
-        
+        if especificas_active==None: especificas_active='duplicados'
+
         # Tab 4 - Datos duplicados -----------------------------------------------
+        especificas_duplicados_filas=False
+        especificas_duplicados_columnas=False
         html_dataframe_duplic_filas = None
         html_dataframe_duplic_colum = None
 
-        dataframe_duplic_filas = base.EmparejamientoDuplicados(col=False)
-        if dataframe_duplic_filas is not None:
-            html_dataframe_duplic_filas = df_as_html(dataframe_duplic_filas)
+        if (isinstance(s_especificas, list) and any(item in ['duplicados', 'duplicados_filas'] for item in s_especificas)) or (s_especificas==True):
+            especificas_duplicados_filas=True
+            dataframe_duplic_filas = base.EmparejamientoDuplicados(col=False)
 
-        dataframe_duplic_colum = base.EmparejamientoDuplicados(col=True)
-        if dataframe_duplic_colum is not None:
-            html_dataframe_duplic_colum = df_as_html(dataframe_duplic_colum)
+            if dataframe_duplic_filas is not None:
+                filas_duplicadas = dataframe_duplic_filas.nunique().sum()
+                filas_numero = base.base.shape[0]
+                porcentaje_duplicados = (filas_duplicadas / filas_numero)
+                mensaje_duplicados += f'Filas duplicadas {format(filas_duplicadas, ",.0f")} de {format(filas_numero, ",.0f")} ({str(format(porcentaje_duplicados * 100, ",.2f")) + "%"}). '
+
+                dataframe_duplic_filas.fillna('', inplace=True)
+                html_dataframe_duplic_filas = df_as_html(dataframe_duplic_filas, classes=['highlight_column'])
+
+        if (isinstance(s_especificas, list) and any(item in ['duplicados', 'duplicados_columnas'] for item in s_especificas)) or (s_especificas==True):
+            especificas_duplicados_columnas=True
+            dataframe_duplic_colum = base.EmparejamientoDuplicados(col=True)
+            
+            if dataframe_duplic_colum is not None:
+                col_duplicadas = dataframe_duplic_colum.nunique().sum()
+                col_numero = base.base.shape[1]
+                porcentaje_duplicados = col_duplicadas / col_numero
+                mensaje_duplicados += f'Columnas duplicadas {format(col_duplicadas, ",.0f")} de {format(col_numero, ",.0f")} ({str(format(porcentaje_duplicados * 100, ",.2f")) + "%"}). '
+
+                dataframe_duplic_colum.fillna('', inplace=True)
+                html_dataframe_duplic_colum = df_as_html(dataframe_duplic_colum, classes=['highlight_column'])
+        
+        mensaje_duplicados += '</i>'
     else:
-        especificas_duplicados=False
+        especificas_duplicados_filas=False
+        especificas_duplicados_columnas=False
         html_dataframe_duplic_filas=None
         html_dataframe_duplic_colum=None
+        mensaje_duplicados=''
 
     # ------------------------------------------------------------------------
     if (isinstance(s_especificas, list) and 'descriptivas' in s_especificas) or (s_especificas==True):
@@ -417,6 +488,7 @@ def generar_reporte(datos=None, titulo='Reporte perfilamiento', archivo='perfila
             title=titulo,
             current_time=current_time,
             link_datos_abiertos=link_datos_abiertos,
+            html_descr_col_meta=html_descr_col_meta,
             html_metadatos_full=html_metadatos_full,
             html_metadatos_head=html_metadatos_head,
             html_metadatos_tail=html_metadatos_tail,
@@ -443,7 +515,9 @@ def generar_reporte(datos=None, titulo='Reporte perfilamiento', archivo='perfila
             especificas_active=especificas_active,
             especificas_tipo=especificas_tipo,
             especificas_frecuencias=especificas_frecuencias,
-            especificas_duplicados=especificas_duplicados,
+            especificas_duplicados_filas=especificas_duplicados_filas,
+            especificas_duplicados_columnas=especificas_duplicados_columnas,
+            mensaje_duplicados=mensaje_duplicados,
             especificas_descriptivas=especificas_descriptivas,            
             seccion_correlaciones=seccion_correlaciones,
             correlaciones_active=correlaciones_active,

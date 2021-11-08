@@ -21,21 +21,31 @@
             .aligned-row { display: flex; }
             .borde { border-style: solid; border-width: 1px; border-color: #c2c2c2; }
             .descripcion   { min-height:40px; }
+            .min_size_row_meta { min-height:600px !important; }
+            /* .max_size_row_meta { max-height:900px !important; } */
             .max_size_row  { max-height:450px !important; }
             .max_size_row2 { height:450px !important;}
             .max_size_row3 { height:450px !important;}
             p { margin-bottom:5px; }
             table > tbody > tr > :nth-child(1) { font-weight:bold; }
-            table > tbody > tr:hover           { background-color: #ffff99 !important; }
-            table > tbody > tr:nth-child(even) { background: #ededed;}
+            table:not(.highlight_column) > tbody > tr:hover { background-color: #ffff99 !important; }
+            table:not(.highlight_column) > tbody > tr:nth-child(even) { background: #ededed;}
             .tabla_sin_bold > table > tbody > tr > :nth-child(1){ font-weight:normal !important; }
             .tableFixHead { overflow-y: auto; height: 100px; }
             .tableFixHead thead th { position: sticky; top: 0; background:#ffffff; }
-            tr td { white-space: nowrap;}
-            tr th { white-space: nowrap;}
+            tr td, tr th { white-space: nowrap;}
+            .white_spaces > tbody > tr > td { white-space: pre-line;}
             .container {width:100%; text-align: center; overflow:display;}
-            .white_spaces > tbody > tr > td:nth-child(2) { white-space: normal !important;}
             table#StatusTable tr.matching { background: #ffffdb; }
+
+            table.highlight_column { overflow: hidden !important; }            
+            table.highlight_column > tbody > tr > td { position: relative !important; } 
+            table.highlight_column > tbody > tr > td:hover::after {
+                content: ""; position: absolute;
+                background-color: #ffff99 !important;
+                left: 0; top: -5000px; height: 10000px;
+                width: 100%; z-index: -1;
+            }
         </style>
     </head>
     <body>
@@ -54,34 +64,61 @@
                     </div>
 
                     <hr>
-
+                    
                     <!-- Metadatos -->
                     {% if html_metadatos_full != None %}
                         <div class="row">
-                            <div class="col-md-12 borde">
+                            <div class="col-md-12 borde min_size_row_meta">
+
                                 <div class="row">
                                     <div class="col-md-6">
                                         <h3><em>Metadatos - <a href='{{ link_datos_abiertos }}' target="_blank">ver en Datos Abiertos</a></em></h3>
                                     </div>
                                 </div>
-                                <div class="row hidden-md hidden-lg">
-                                    <div class="col-md-12">
-                                        <div class="table-responsive">
-                                            {{ html_metadatos_full }}
+
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a data-toggle="tab" href="#tab_metadatos">Información general</a></li>
+                                    <li><a data-toggle="tab" href="#tab_columnas">Columnas en este conjunto de datos</a></li>
+                                </ul>
+
+                                <div class="tab-content">
+                                    <!-- Metadatos -->
+                                    <div id="tab_metadatos" class="tab-pane fade in active">
+                                        <br>
+                                        <div class="row hidden-md hidden-lg">
+                                            <div class="col-md-12">
+                                                <div class="table-responsive">
+                                                    {{ html_metadatos_full }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row hidden-xs hidden-sm">
+                                            <div class="col-md-6">
+                                                <div class="table-responsive">
+                                                    {{ html_metadatos_head }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="table-responsive">
+                                                    {{ html_metadatos_tail }}
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row hidden-xs hidden-sm">
-                                    <div class="col-md-6">
-                                        <div class="table-responsive">
-                                            {{ html_metadatos_head }}
+
+                                    <!-- Columnas -->
+                                    <div id="tab_columnas" class="tab-pane fade">
+                                        <br>
+                                        <div class="row">
+                                        <!-- <div class="row hidden-xs hidden-sm"> -->
+                                            <div class="col-md-12">
+                                                <div class="table-responsive">
+                                                    {{ html_descr_col_meta }}
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="table-responsive">
-                                            {{ html_metadatos_tail }}
-                                        </div>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -170,7 +207,7 @@
                                         <a data-toggle="tab" href="#tab03">Frecuencia de categorías</a></li>
                                     {% endif %}
 
-                                    {% if especificas_duplicados %} {% if especificas_active == 'duplicados' %}<li class="active">{% else %}<li>{% endif %}
+                                    {% if especificas_duplicados_filas or especificas_duplicados_columnas %} {% if especificas_active == 'duplicados' %}<li class="active">{% else %}<li>{% endif %}
                                         <a data-toggle="tab" href="#tab04">Datos duplicados</a></li>
                                     {% endif %}
 
@@ -179,185 +216,39 @@
                                     {% endif %}
                                 </ul>
 
-                                <div class="tab-content" style="text-align: justify; text-justify: inter-word;">                    
-
-                                <!-- Tipo de las columnas -->
-                                {% if especificas_tipo %}
-                                    {% if especificas_active == 'tipo' %}
-                                        <div id="tab05" class="tab-pane fade in active">
-                                    {% else %}
-                                        <div id="tab05" class="tab-pane fade">
-                                    {% endif %}
-                                        <br>
-                                        <p class="descripcion">
-                                            Aquí se muestran los tipos de las columnas de la base de datos con tres metodologías diferentes. La columna 'Tipo general' muestra si las variables son numéricas, de texto, booleanas; la columna 'Tipo general (Python)' muestra el tipo de la variable según la función "dtypes" de Python; las columnas 'Tipo especifico' muestran los tipos de las observaciones de cada columna, incluidos datos faltantes ("nan"), como porcentaje del total.
-                                        </p>
-                                        <div class="row max_size_row2 aligned-row">
-
-                                            <div class="col-md-3 table-responsive">
-                                                <h4><strong><em>Variables</em></strong></h4>
-                                                <p><input type="checkbox" onClick="toggle5(this)" id="select-all_5"> Seleccionar todos</p>
-                                                    {% for item in variables_list_2 %}
-                                                    <p><input type="checkbox" name="tab5" class="checkbox_tab5" value="{{ item }}"> {{ loop.index }} - {{ item }}</p>
-                                                {% endfor %}
-                                            </div>
-                                            <div class="col-md-9 table-responsive">
-                                                <table class="table table-condensed tableFixHead" id="OtrosTable">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Variable</th>
-                                                            {% for item in header_list_2 %}
-                                                                <th>{{ item }}</th>
-                                                            {% endfor %}
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {% for row in items_2%}
-                                                            <tr>
-                                                                {% for column in row %}
-                                                                    {% if loop.index0 == 0 %}
-                                                                        <td class="referencia">{{ column }}</td>
-                                                                    {% else %}
-                                                                        <td>{{ column }}</td>
-                                                                    {% endif %}
-                                                                {% endfor %}
-                                                            </tr>
-                                                        {% endfor %}
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                {% endif %}
-
-                                <!-- Frecuencia de categorías -->
-                                {% if especificas_frecuencias %}
-                                    {% if especificas_active == 'frecuencias' %}
-                                        <div id="tab03" class="tab-pane fade in active">
-                                    {% else %}
-                                        <div id="tab03" class="tab-pane fade">
-                                    {% endif %}
-                                        <br>
-                                        <p class="descripcion">
-                                            Contiene las 10 categorías más frecuentes de las columnas tipo texto y presenta el porcentaje dentro del total de observaciones. Incluye valores faltantes.
-                                        </p>
-                                        <div class="row max_size_row2 aligned-row">
-
-                                            <div class="col-md-3 table-responsive">
-                                                <h4><strong><em>Variables</em></strong></h4>
-                                                <p><input type="checkbox" onClick="toggle3(this)" id="select-all_3"> Seleccionar todos</p>
-                                                {% for item in variables_list_3 %}
-                                                    <p><input type="checkbox" name="tab3" class="checkbox_tab3" value="{{ item }}"> {{ loop.index }} - {{ item }}</p>
-                                                {% endfor %}
-                                            </div>
-                                            <div class="col-md-9 table-responsive">
-                                                <table class="table table-condensed tableFixHead" id="StatusTable">
-                                                    <thead>
-                                                        <tr>
-                                                            {% for item in columnas_list_3 %}
-                                                                <th>{{ item }}</th>
-                                                            {% endfor %}
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {% for row in items_3%}
-                                                            <tr>
-                                                                {% for column in row %}
-                                                                    {% if loop.index0 == 0 %}
-                                                                        <td class="referencia">{{ column }}</td>
-                                                                    {% else %}
-                                                                        <td>{{ column }}</td>
-                                                                    {% endif %}
-                                                                {% endfor %}
-                                                            </tr>
-                                                        {% endfor %}
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                {% endif %}
-
-                                <!-- Datos duplicados -->
-                                {% if especificas_duplicados %}
-                                    {% if especificas_active == 'duplicados' %}
-                                        <div id="tab04" class="tab-pane fade in active">
-                                    {% else %}
-                                        <div id="tab04" class="tab-pane fade">
-                                    {% endif %}
-                                        <br>
-                                        <p class="descripcion">
-                                            Cada columna muestra los nombres de las filas y columnas que están duplicadas en la base de datos
-                                        </p>
-                                        <div class="row max_size_row2 aligned-row">
-                                            <div class="col-md-12 table-responsive">
-                                                <ul class="nav nav-tabs">
-                                                    <li class="active"><a data-toggle="tab" href="#duplic_by_row">Filas</a></li>
-                                                    <li><a data-toggle="tab" href="#duplic_by_column">Columnas</a></li>
-                                                </ul>
-                                                <div class="tab-content" style="text-align: justify; text-justify: inter-word;">
-
-                                                    <!-- Duplicados por filas -->
-                                                    <div id="duplic_by_row" class="tab-pane fade in active">
-                                                        <br>
-                                                        {% if html_dataframe_duplic_filas != None %}
-                                                            <div class="tabla_sin_bold">
-                                                                {{ html_dataframe_duplic_filas }}
-                                                            </div>
-                                                        {% else %}
-                                                            <strong>* La base de datos no contiene filas duplicadas</strong>
-                                                        {% endif %}
-                                                    </div>
-
-                                                    <!-- Duplicados por columnas -->
-                                                    <div id="duplic_by_column" class="tab-pane fade">
-                                                        <br>
-                                                        {% if html_dataframe_duplic_colum != None %}
-                                                            <div class="tabla_sin_bold">
-                                                                {{ html_dataframe_duplic_colum }}
-                                                            </div>
-                                                        {% else %}
-                                                            <strong>* La base de datos no contiene columnas duplicadas</strong>
-                                                        {% endif %}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                {% endif %}
-
-                                <!-- Estadísticas Descriptivas -->
-                                {% if especificas_descriptivas %}
-                                    {% if especificas_active == 'descriptivas' %}
-                                        <div id="tab06" class="tab-pane fade in active">
-                                    {% else %}
-                                        <div id="tab06" class="tab-pane fade">
-                                    {% endif %}                                    
-                                        <br>
-                                        <p class="descripcion">
-                                            Contiene información para cada columna de tipo numérico, incluye media, mediana, percentiles, desviación estándar, valores extremos y porcentaje de valores faltantes.
-                                        </p>
-                                        {% if variables_list != None %}
+                                <div class="tab-content" style="text-align: justify; text-justify: inter-word;">
+                                    <!-- Tipo de las columnas -->
+                                    {% if especificas_tipo %}
+                                        {% if especificas_active == 'tipo' %}
+                                            <div id="tab05" class="tab-pane fade in active">
+                                        {% else %}
+                                            <div id="tab05" class="tab-pane fade">
+                                        {% endif %}
+                                            <br>
+                                            <p class="descripcion">
+                                                Aquí se muestran los tipos de las columnas de la base de datos con tres metodologías diferentes. La columna 'Tipo general' muestra si las variables son numéricas, de texto, booleanas; la columna 'Tipo general (Python)' muestra el tipo de la variable según la función "dtypes" de Python; las columnas 'Tipo especifico' muestran los tipos de las observaciones de cada columna, incluidos datos faltantes ("nan"), como porcentaje del total.
+                                            </p>
                                             <div class="row max_size_row2 aligned-row">
+
                                                 <div class="col-md-3 table-responsive">
                                                     <h4><strong><em>Variables</em></strong></h4>
-                                                    <p><input type="checkbox" onClick="toggle6(this)" id="select-all_6"> Seleccionar todos</p>
-                                                        {% for item in variables_list %}
-                                                        <p><input type="checkbox" name="tab6" class="checkbox_tab6" value="{{ item }}"> {{ loop.index }} - {{ item }}</p>
+                                                    <p><input type="checkbox" onClick="toggle5(this)" id="select-all_5"> Seleccionar todos</p>
+                                                        {% for item in variables_list_2 %}
+                                                        <p><input type="checkbox" name="tab5" class="checkbox_tab5" value="{{ item }}"> {{ loop.index }} - {{ item }}</p>
                                                     {% endfor %}
                                                 </div>
                                                 <div class="col-md-9 table-responsive">
-                                                    <table class="table table-condensed tableFixHead" id="EstDescriptivas">
+                                                    <table class="table table-condensed tableFixHead" id="OtrosTable">
                                                         <thead>
                                                             <tr>
                                                                 <th>Variable</th>
-                                                                {% for item in header_list %}
+                                                                {% for item in header_list_2 %}
                                                                     <th>{{ item }}</th>
                                                                 {% endfor %}
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            {% for row in items%}
+                                                            {% for row in items_2%}
                                                                 <tr>
                                                                     {% for column in row %}
                                                                         {% if loop.index0 == 0 %}
@@ -372,12 +263,162 @@
                                                     </table>
                                                 </div>
                                             </div>
-                                        {% else %}
-                                            <strong>* La base de datos no tiene columnas numéricas</strong>
-                                        {% endif %}
-                                    </div>
-                                {% endif %}
+                                        </div>
+                                    {% endif %}
 
+                                    <!-- Frecuencia de categorías -->
+                                    {% if especificas_frecuencias %}
+                                        {% if especificas_active == 'frecuencias' %}
+                                            <div id="tab03" class="tab-pane fade in active">
+                                        {% else %}
+                                            <div id="tab03" class="tab-pane fade">
+                                        {% endif %}
+                                            <br>
+                                            <p class="descripcion">
+                                                Contiene las 10 categorías más frecuentes de las columnas tipo texto y presenta el porcentaje dentro del total de observaciones. Incluye valores faltantes.
+                                            </p>
+                                            <div class="row max_size_row2 aligned-row">
+
+                                                <div class="col-md-3 table-responsive">
+                                                    <h4><strong><em>Variables</em></strong></h4>
+                                                    <p><input type="checkbox" onClick="toggle3(this)" id="select-all_3"> Seleccionar todos</p>
+                                                    {% for item in variables_list_3 %}
+                                                        <p><input type="checkbox" name="tab3" class="checkbox_tab3" value="{{ item }}"> {{ loop.index }} - {{ item }}</p>
+                                                    {% endfor %}
+                                                </div>
+                                                <div class="col-md-9 table-responsive">
+                                                    <table class="table table-condensed tableFixHead" id="StatusTable">
+                                                        <thead>
+                                                            <tr>
+                                                                {% for item in columnas_list_3 %}
+                                                                    <th>{{ item }}</th>
+                                                                {% endfor %}
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for row in items_3%}
+                                                                <tr>
+                                                                    {% for column in row %}
+                                                                        {% if loop.index0 == 0 %}
+                                                                            <td class="referencia">{{ column }}</td>
+                                                                        {% else %}
+                                                                            <td>{{ column }}</td>
+                                                                        {% endif %}
+                                                                    {% endfor %}
+                                                                </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+
+                                    <!-- Datos duplicados -->
+                                    {% if especificas_duplicados_filas or especificas_duplicados_columnas %}
+                                        {% if especificas_active == 'duplicados' %}
+                                            <div id="tab04" class="tab-pane fade in active">
+                                        {% else %}
+                                            <div id="tab04" class="tab-pane fade">
+                                        {% endif %}
+                                            <br>
+                                            <p class="descripcion">
+                                                Cada columna muestra los nombres de las filas y columnas que están duplicadas en la base de datos.{{ mensaje_duplicados }}
+                                            </p>
+                                            <div class="row max_size_row2 aligned-row">
+                                                <div class="col-md-12 table-responsive">
+                                                    <ul class="nav nav-tabs">
+                                                        {% if especificas_duplicados_filas and not especificas_duplicados_columnas %}
+                                                            <li class="active"><a data-toggle="tab" href="#duplic_by_row">Filas</a></li>
+                                                        {% elif not especificas_duplicados_filas and especificas_duplicados_columnas %}
+                                                            <li class="active"><a data-toggle="tab" href="#duplic_by_column">Columnas</a></li>
+                                                        {% else %}
+                                                            <li class="active"><a data-toggle="tab" href="#duplic_by_row">Filas</a></li>
+                                                            <li><a data-toggle="tab" href="#duplic_by_column">Columnas</a></li>
+                                                        {% endif %}
+                                                    </ul>
+                                                    <div class="tab-content" style="text-align: justify; text-justify: inter-word;">
+
+                                                        <!-- Duplicados por filas -->
+                                                        <div id="duplic_by_row" class="tab-pane fade in active">
+                                                            <br>
+                                                            {% if html_dataframe_duplic_filas != None %}
+                                                                <div class="tabla_sin_bold">
+                                                                    {{ html_dataframe_duplic_filas }}
+                                                                </div>
+                                                            {% else %}
+                                                                <strong>* La base de datos no contiene filas duplicadas</strong>
+                                                            {% endif %}
+                                                        </div>
+
+                                                        <!-- Duplicados por columnas -->
+                                                        <div id="duplic_by_column" class="tab-pane fade">
+                                                            <br>
+                                                            {% if html_dataframe_duplic_colum != None %}
+                                                                <div class="tabla_sin_bold">
+                                                                    {{ html_dataframe_duplic_colum }}
+                                                                </div>
+                                                            {% else %}
+                                                                <strong>* La base de datos no contiene columnas duplicadas</strong>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+
+                                    <!-- Estadísticas Descriptivas -->
+                                    {% if especificas_descriptivas %}
+                                        {% if especificas_active == 'descriptivas' %}
+                                            <div id="tab06" class="tab-pane fade in active">
+                                        {% else %}
+                                            <div id="tab06" class="tab-pane fade">
+                                        {% endif %}
+                                            <br>
+                                            <p class="descripcion">
+                                                Contiene información para cada columna de tipo numérico, incluye media, mediana, percentiles, desviación estándar, valores extremos y porcentaje de valores faltantes.
+                                            </p>
+                                            {% if variables_list != None %}
+                                                <div class="row max_size_row2 aligned-row">
+                                                    <div class="col-md-3 table-responsive">
+                                                        <h4><strong><em>Variables</em></strong></h4>
+                                                        <p><input type="checkbox" onClick="toggle6(this)" id="select-all_6"> Seleccionar todos</p>
+                                                            {% for item in variables_list %}
+                                                            <p><input type="checkbox" name="tab6" class="checkbox_tab6" value="{{ item }}"> {{ loop.index }} - {{ item }}</p>
+                                                        {% endfor %}
+                                                    </div>
+                                                    <div class="col-md-9 table-responsive">
+                                                        <table class="table table-condensed tableFixHead" id="EstDescriptivas">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Variable</th>
+                                                                    {% for item in header_list %}
+                                                                        <th>{{ item }}</th>
+                                                                    {% endfor %}
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {% for row in items%}
+                                                                    <tr>
+                                                                        {% for column in row %}
+                                                                            {% if loop.index0 == 0 %}
+                                                                                <td class="referencia">{{ column }}</td>
+                                                                            {% else %}
+                                                                                <td>{{ column }}</td>
+                                                                            {% endif %}
+                                                                        {% endfor %}
+                                                                    </tr>
+                                                                {% endfor %}
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            {% else %}
+                                                <strong>* La base de datos no tiene columnas numéricas</strong>
+                                            {% endif %}
+                                        </div>
+                                    {% endif %}
                                 </div>
                                 <br>
                             </div>
