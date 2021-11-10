@@ -79,7 +79,7 @@ class DatosGov:
         # Almacenar los metadatos
         query = requests.get(f"{self._meta}{api_id}.json")
         self.__metadatos = dict(query.json())
-        if "count" in self.__metadatos["columns"][0]["cachedContents"]:
+        if "cachedContents" in self.__metadatos["columns"][0] and "count" in self.__metadatos["columns"][0]["cachedContents"]:
             self.__metadatos["n_rows"] = int(
                 self.__metadatos["columns"][0]["cachedContents"]["count"]
             )
