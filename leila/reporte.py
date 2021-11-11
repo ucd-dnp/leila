@@ -86,8 +86,12 @@ def generar_reporte(datos=None, titulo='Reporte perfilamiento', archivo='perfila
             
             df_metadatos.loc['numero_vistas', 0] = str('{:,.0f}'.format(df_metadatos.loc['numero_vistas', 0]))
             df_metadatos.loc['numero_descargas', 0] = str('{:,.0f}'.format(df_metadatos.loc['numero_descargas', 0]))
-            df_metadatos.loc['numero_filas', 0] = str('{:,.0f}'.format(df_metadatos.loc['numero_filas', 0]))
-            df_metadatos.loc['numero_columnas', 0] = str('{:,.0f}'.format(df_metadatos.loc['numero_columnas', 0]))
+            
+            if df_metadatos.loc['numero_filas', 0] is not 'NA':
+                df_metadatos.loc['numero_filas', 0] = str('{:,.0f}'.format( df_metadatos.loc['numero_filas', 0]))
+            
+            if df_metadatos.loc['numero_columnas', 0] is not 'NA':
+                df_metadatos.loc['numero_columnas', 0] = str('{:,.0f}'.format(df_metadatos.loc['numero_columnas', 0]))
 
             df_metadatos = df_metadatos.T
             df_metadatos = df_metadatos.rename(
