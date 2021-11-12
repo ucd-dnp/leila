@@ -72,6 +72,7 @@ def generar_reporte(datos=None, titulo='Reporte perfilamiento', archivo='perfila
 
         elif re.match("[A-Za-z0-9]{4}-[A-Za-z0-9]{4}", datos):
             # FIXME: BORRAR **kwargs
+            api_id = datos
             datos = DatosGov().cargar_base(api_id=datos, **kwargs)
 
             base = CalidadDatos(datos)
@@ -87,10 +88,10 @@ def generar_reporte(datos=None, titulo='Reporte perfilamiento', archivo='perfila
             df_metadatos.loc['numero_vistas', 0] = str('{:,.0f}'.format(df_metadatos.loc['numero_vistas', 0]))
             df_metadatos.loc['numero_descargas', 0] = str('{:,.0f}'.format(df_metadatos.loc['numero_descargas', 0]))
             
-            if df_metadatos.loc['numero_filas', 0] is not 'NA':
+            if df_metadatos.loc['numero_filas', 0] != 'NA':
                 df_metadatos.loc['numero_filas', 0] = str('{:,.0f}'.format( df_metadatos.loc['numero_filas', 0]))
             
-            if df_metadatos.loc['numero_columnas', 0] is not 'NA':
+            if df_metadatos.loc['numero_columnas', 0] != 'NA':
                 df_metadatos.loc['numero_columnas', 0] = str('{:,.0f}'.format(df_metadatos.loc['numero_columnas', 0]))
 
             df_metadatos = df_metadatos.T
@@ -128,7 +129,8 @@ def generar_reporte(datos=None, titulo='Reporte perfilamiento', archivo='perfila
             df_metadatos = df_metadatos.reset_index()
             df_metadatos.columns = ['Atributo', 'Valor']
 
-            link_datos_abiertos = df_metadatos[df_metadatos['Atributo'] == 'URL']['Valor'].item()
+            # link_datos_abiertos = df_metadatos[df_metadatos['Atributo'] == 'URL']['Valor'].item()            
+            link_datos_abiertos = f'https://www.datos.gov.co/resource/{api_id}'
 
             df_metadatos.replace('\n', '@#$', regex=True, inplace=True)
 
@@ -251,9 +253,16 @@ def generar_reporte(datos=None, titulo='Reporte perfilamiento', archivo='perfila
         except BaseException:
             pass
 
-        variables_list_3 = dataframe_unique_text.Columna.unique()
-        columnas_list_3 = list(dataframe_unique_text)
-        items_3 = dataframe_unique_text.values.tolist()
+        try:
+            variables_list_3 = dataframe_unique_text.Columna.unique()
+            columnas_list_3 = list(dataframe_unique_text)
+            items_3 = dataframe_unique_text.values.tolist()
+        except BaseException:
+            especificas_frecuencias=False
+            variables_list_3=None
+            columnas_list_3=None
+            items_3=None
+            pass
     else:
         especificas_frecuencias=False
         variables_list_3=None

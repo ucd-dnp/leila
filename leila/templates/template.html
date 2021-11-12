@@ -64,17 +64,21 @@
                     </div>
 
                     <hr>
-                    
+
                     <!-- Metadatos -->
                     {% if html_metadatos_full != None %}
                         <div class="row">
                             <div class="col-md-12 borde min_size_row_meta">
-
+                                
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <h3><em>Metadatos - <a href='{{ link_datos_abiertos }}' target="_blank">ver en Datos Abiertos</a></em></h3>
+                                        {% if link_datos_abiertos != 'NA' %}
+                                            <h3><em>Metadatos - <a href='{{ link_datos_abiertos }}' target="_blank">ver en Datos Abiertos</a></em></h3>
+                                        {% else %}
+                                            <h3><em>Metadatos</em></h3>
+                                        {% endif %}
                                     </div>
-                                </div>
+                                </div>                               
 
                                 <ul class="nav nav-tabs">
                                     <li class="active"><a data-toggle="tab" href="#tab_metadatos">Información general</a></li>
@@ -226,7 +230,7 @@
                                         {% endif %}
                                             <br>
                                             <p class="descripcion">
-                                                Aquí se muestran los tipos de las columnas de la base de datos con tres metodologías diferentes. La columna 'Tipo general' muestra si las variables son numéricas, de texto, booleanas; la columna 'Tipo general (Python)' muestra el tipo de la variable según la función "dtypes" de Python; las columnas 'Tipo especifico' muestran los tipos de las observaciones de cada columna, incluidos datos faltantes ("nan"), como porcentaje del total.
+                                                Aquí se muestran los tipos de las columnas de El conjunto de datos con tres metodologías diferentes. La columna 'Tipo general' muestra si las variables son numéricas, de texto, booleanas; la columna 'Tipo general (Python)' muestra el tipo de la variable según la función "dtypes" de Python; las columnas 'Tipo especifico' muestran los tipos de las observaciones de cada columna, incluidos datos faltantes ("nan"), como porcentaje del total.
                                             </p>
                                             <div class="row max_size_row2 aligned-row">
 
@@ -267,7 +271,7 @@
                                     {% endif %}
 
                                     <!-- Frecuencia de categorías -->
-                                    {% if especificas_frecuencias %}
+                                    {% if especificas_frecuencias%}
                                         {% if especificas_active == 'frecuencias' %}
                                             <div id="tab03" class="tab-pane fade in active">
                                         {% else %}
@@ -323,7 +327,7 @@
                                         {% endif %}
                                             <br>
                                             <p class="descripcion">
-                                                Cada columna muestra los nombres de las filas y columnas que están duplicadas en la base de datos.{{ mensaje_duplicados }}
+                                                Cada columna muestra los nombres de las filas y columnas que están duplicadas en el conjunto de datos.{{ mensaje_duplicados }}
                                             </p>
                                             <div class="row max_size_row2 aligned-row">
                                                 <div class="col-md-12 table-responsive">
@@ -340,28 +344,37 @@
                                                     <div class="tab-content" style="text-align: justify; text-justify: inter-word;">
 
                                                         <!-- Duplicados por filas -->
-                                                        <div id="duplic_by_row" class="tab-pane fade in active">
-                                                            <br>
-                                                            {% if html_dataframe_duplic_filas != None %}
-                                                                <div class="tabla_sin_bold">
-                                                                    {{ html_dataframe_duplic_filas }}
-                                                                </div>
-                                                            {% else %}
-                                                                <strong>* La base de datos no contiene filas duplicadas</strong>
-                                                            {% endif %}
-                                                        </div>
+                                                        {% if especificas_duplicados_filas%}
+                                                            <div id="duplic_by_row" class="tab-pane fade in active">
+                                                                <br>
+                                                                {% if html_dataframe_duplic_filas != None %}
+                                                                    <div class="tabla_sin_bold">
+                                                                        {{ html_dataframe_duplic_filas }}
+                                                                    </div>
+                                                                {% else %}
+                                                                    <strong>* El conjunto de datos no contiene filas duplicadas</strong>
+                                                                {% endif %}
+                                                            </div>
+                                                        {% endif %}
 
                                                         <!-- Duplicados por columnas -->
-                                                        <div id="duplic_by_column" class="tab-pane fade">
-                                                            <br>
-                                                            {% if html_dataframe_duplic_colum != None %}
-                                                                <div class="tabla_sin_bold">
-                                                                    {{ html_dataframe_duplic_colum }}
-                                                                </div>
+                                                        {% if especificas_duplicados_columnas %}
+                                                            {% if especificas_duplicados_filas%}
+                                                                <div id="duplic_by_column" class="tab-pane fade">
                                                             {% else %}
-                                                                <strong>* La base de datos no contiene columnas duplicadas</strong>
+                                                                <div id="duplic_by_column" class="tab-pane fade in active"></div>
                                                             {% endif %}
-                                                        </div>
+                                                                <br>
+                                                                {% if html_dataframe_duplic_colum != None %}
+                                                                    <div class="tabla_sin_bold">
+                                                                        {{ html_dataframe_duplic_colum }}
+                                                                    </div>
+                                                                {% else %}
+                                                                    <strong>* El conjunto de datos no contiene columnas duplicadas</strong>
+                                                                {% endif %}
+                                                            </div>
+                                                        {% endif %}
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -415,7 +428,7 @@
                                                     </div>
                                                 </div>
                                             {% else %}
-                                                <strong>* La base de datos no tiene columnas numéricas</strong>
+                                                <strong>* El conjunto de datos no tiene columnas numéricas</strong>
                                             {% endif %}
                                         </div>
                                     {% endif %}
@@ -473,7 +486,7 @@
                                                 </div>
                                             <p>* En caso de ver mal los labels del eje x, ajustar el zoom del navegador.</p><br>
                                             {% else %}
-                                                <p><strong>* La base de datos no tiene columnas numéricas para el cálculo de correlaciones</strong></p>
+                                                <p><strong>* El conjunto de datos no tiene columnas numéricas para el cálculo de correlaciones</strong></p>
                                             {% endif %}
                                         </div>
                                     {% endif %}
@@ -499,7 +512,7 @@
                                                 </div>
                                             <p>* En caso de ver mal los labels del eje x, ajustar el zoom del navegador.</p><br>
                                             {% else %}
-                                                <p><strong>* La base de datos no tiene columnas numéricas para el cálculo de correlaciones</strong></p>
+                                                <p><strong>* El conjunto de datos no tiene columnas numéricas para el cálculo de correlaciones</strong></p>
                                             {% endif %}
                                         </div>
                                     {% endif %}
@@ -525,7 +538,7 @@
                                                 </div>
                                             <p>* En caso de ver mal los labels del eje x, ajustar el zoom del navegador.</p><br>
                                             {% else %}
-                                                <p><strong>* La base de datos no tiene columnas numéricas para el cálculo de correlaciones</strong></p>
+                                                <p><strong>* El conjunto de datos no tiene columnas numéricas para el cálculo de correlaciones</strong></p>
                                             {% endif %}
                                         </div>
                                     {% endif %}
@@ -551,7 +564,7 @@
                                                 </div>
                                             <p>* En caso de ver mal los labels del eje x, ajustar el zoom del navegador.</p><br>
                                             {% else %}
-                                                <p><strong>* La base de datos no tiene columnas categóricas para el cálculo de correlaciones</strong></p>
+                                                <p><strong>* El conjunto de datos no tiene columnas categóricas para el cálculo de correlaciones</strong></p>
                                             {% endif %}
                                         </div>
                                     {% endif %}
@@ -577,7 +590,7 @@
                                                 </div>
                                             <p>* En caso de ver mal los labels del eje x, ajustar el zoom del navegador.</p><br>
                                             {% else %}
-                                                <p><strong>* La base de datos no tiene columnas categóricas para el cálculo de correlaciones</strong></p>
+                                                <p><strong>* El conjunto de datos no tiene columnas categóricas para el cálculo de correlaciones</strong></p>
                                             {% endif %}
                                         </div>
                                     {% endif %}
