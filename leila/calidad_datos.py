@@ -1262,15 +1262,18 @@ class CalidadDatos:
                 for var2 in varCat
             ]
 
-            lista_matriz = [
-                lista_matriz[i : i + len(varCat)]
-                for i in range(0, len(lista_matriz), len(varCat))
-            ]
-            lista_matriz = pd.DataFrame(
-                lista_matriz, columns=varCat, index=varCat
-            )
-            correlacion_final = lista_matriz
+            if len(lista_matriz) > 0:
 
+                lista_matriz = [
+                    lista_matriz[i : i + len(varCat)]
+                    for i in range(0, len(lista_matriz), len(varCat))
+                ]
+                lista_matriz = pd.DataFrame(
+                    lista_matriz, columns=varCat, index=varCat
+                )
+                correlacion_final = lista_matriz
+            else:
+                correlacion_final = pd.DataFrame()
         # Matriz de correlación con la metodología 'phik'
         else:  # "phik"
             correlacion_final = data.phik_matrix()
