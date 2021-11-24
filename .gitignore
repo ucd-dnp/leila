@@ -14,3 +14,6 @@ env
 __pycache__
 
 sphinx/build
+data/
+prueba.py
+.vscode

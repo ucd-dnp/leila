@@ -1,18 +1,15 @@
 # LEILA - Librería de calidad de datos
 
 ![screenshot](https://raw.githubusercontent.com/ucd-dnp/leila/master/recursos/LEILA.jpg "LEILA")
-<<<<<<< HEAD
----
+
+
 
 [![PyPI version fury.io](https://badge.fury.io/py/leila.svg)](https://pypi.org/project/leila/) [![PyPI pyversions](https://img.shields.io/pypi/pyversions/leila.svg)](https://pypi.org/project/leila/)
  [![PyPI license](https://img.shields.io/pypi/l/leila.svg)](https://pypi.org/project/leila/) [![Downloads](https://pepy.tech/badge/leila)](https://pepy.tech/project/leila) [![GitHub forks](https://img.shields.io/github/forks/ucd-dnp/leila.svg?style=social&label=Fork&maxAge=2592000)](https://github.com/ucd-dnp/leila/)
 
-=======
->>>>>>> master
-
 ## Descripción
 
-La librería de calidad de datos tiene como objetivo principal ser una herramienta que facilite la verificación de contenido de bases de datos y dé métricas de calidad para que usuarios puedan decidir si sus bases de datos necesitan modificarse para ser utilizadas en los proyectos. La librería fue escrita en el lenguaje de programación de <em>Python</em> y puede analizar bases de datos estructurados que se conviertan en objetos tipo pandas dataframe. Contiene tres módulos principales, el módulo <strong>Calidad Datos</strong> para analizar cualquier base de datos, el módulo <strong>Datos gov</strong> para conectarse con los metadatos del Portal de [Datos Abiertos de Colombia](https://www.datos.gov.co/) y utilizar sus bases de datos, y por último el módulo <strong>Reporte</strong> el cual permite generar un reporte de calidad utilizando los módulos anteriores.
+La librería de calidad de datos tiene como objetivo principal ser una herramienta que facilite la verificación de contenido de bases de datos y dé métricas de calidad para que usuarios puedan decidir si sus bases de datos necesitan modificarse para ser utilizadas en los proyectos. La librería fue escrita en el lenguaje de programación de <em>Python</em> y puede analizar bases de datos estructurados que se conviertan en objetos tipo pandas.DataFrame. Contiene tres módulos principales, el módulo <strong>Calidad Datos</strong> para analizar cualquier base de datos, el módulo <strong>Datos gov</strong> para conectarse con los metadatos del Portal de [Datos Abiertos de Colombia](https://www.datos.gov.co/) y utilizar sus bases de datos, y por último el módulo <strong>Reporte</strong> el cual permite generar un reporte de calidad utilizando los módulos anteriores.
 
 La librería surge como resultado de un proyecto relacionado con realizar análisis descriptivos de la calidad de la información cargada al portal de Datos Abiertos de Colombia, durante el desarrollo del proyecto se identifica el interés por parte de diferentes actores en el proyecto al igual que el beneficio potencial de tener a la mano una librería que facilite describir la calidad de una base de datos, lo cual motivó a realizar la implementación de la librería.
 
