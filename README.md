@@ -23,17 +23,15 @@ La librería surge como resultado de un proyecto relacionado con realizar análi
 
 ## Ejemplo
 
-![screenshot](https://raw.githubusercontent.com/ucd-dnp/leila/master/recursos/vista_reporte.gif "Reporte")
-
-
 La librería permite generar un reporte de calidad de datos el cual contiene información descriptiva del dataframe analizado, a continuación se presenta el código requerido para generar un reporte a partir de un archivo en Excel en formato .xlsx.
 
 ``` python
-import pandas as pd
 from leila.reporte import generar_reporte
 
-generar_reporte(df=pd.read_excel('datosDeInteres.xlsx'))
+generar_reporte(datos='datosDeInteres.xlsx')
 ```
+
+![screenshot](https://raw.githubusercontent.com/ucd-dnp/leila/master/recursos/vista_reporte.gif "Reporte")
 
 ## Documentación
 
