@@ -207,11 +207,10 @@ def generar_reporte(datos=None, titulo='Reporte perfilamiento', archivo='perfila
 
     # ------------------------------------------------------------------------
     if (isinstance(s_especificas, list) and 'tipo' in s_especificas) or (s_especificas==True):
-    
         especificas_tipo=True
         seccion_especificas=True
-        if especificas_active==None: especificas_active='tipo' 
-        
+        if especificas_active is None: especificas_active='tipo' 
+
         # Tab 5 - Tipo de las columnas -------------------------------------------
         tipo_columnas_df = base.TipoColumnas()
 
@@ -226,6 +225,7 @@ def generar_reporte(datos=None, titulo='Reporte perfilamiento', archivo='perfila
 
         tipo_columnas_df = tipo_columnas_df.reset_index()
         items_2 = tipo_columnas_df.values.tolist()
+
     else:
         especificas_tipo=False
         header_list_2=None
@@ -237,7 +237,7 @@ def generar_reporte(datos=None, titulo='Reporte perfilamiento', archivo='perfila
         
         especificas_frecuencias=True
         seccion_especificas=True
-        if especificas_active==None: especificas_active='frecuencias' 
+        if especificas_active is None: especificas_active='frecuencias' 
         
         # Tab 3 - Frecuencia de categorías ---------------------------------------
         dataframe_unique_text = base.DescripcionCategoricas()
@@ -270,13 +270,13 @@ def generar_reporte(datos=None, titulo='Reporte perfilamiento', archivo='perfila
         items_3=None
 
     # ------------------------------------------------------------------------
-    # TODO: REVISAR - emparejamiento de filas dejarlo en FALSE por defecto
+    # DONE: REVISAR - emparejamiento de filas dejarlo en FALSE por defecto
     # if (isinstance(s_especificas, list) and 'duplicados' in s_especificas) or (s_especificas==True):
     if (isinstance(s_especificas, list) and any(item in ['duplicados', 'duplicados_filas', 'duplicados_columnas'] for item in s_especificas)) or (s_especificas==True):
 
         mensaje_duplicados = '<br><i>'
         seccion_especificas=True
-        if especificas_active==None: especificas_active='duplicados'
+        if especificas_active is None: especificas_active='duplicados'
 
         # Tab 4 - Datos duplicados -----------------------------------------------
         especificas_duplicados_filas=False
@@ -323,7 +323,7 @@ def generar_reporte(datos=None, titulo='Reporte perfilamiento', archivo='perfila
     
         especificas_descriptivas=True
         seccion_especificas=True
-        if especificas_active==None: especificas_active='descriptivas' 
+        if especificas_active is None: especificas_active='descriptivas' 
         
         # Tab 6 - Estadísticas descriptivas --------------------------------------
         dataframe_descriptive_stats = base.DescripcionNumericas()

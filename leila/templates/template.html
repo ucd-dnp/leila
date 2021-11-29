@@ -345,7 +345,7 @@
                                                     <div class="tab-content" style="text-align: justify; text-justify: inter-word;">
 
                                                         <!-- Duplicados por filas -->
-                                                        {% if especificas_duplicados_filas%}
+                                                        {% if especificas_duplicados_filas %}
                                                             <div id="duplic_by_row" class="tab-pane fade in active">
                                                                 <br>
                                                                 {% if html_dataframe_duplic_filas != None %}
@@ -360,10 +360,10 @@
 
                                                         <!-- Duplicados por columnas -->
                                                         {% if especificas_duplicados_columnas %}
-                                                            {% if especificas_duplicados_filas%}
+                                                            {% if especificas_duplicados_filas %}
                                                                 <div id="duplic_by_column" class="tab-pane fade">
                                                             {% else %}
-                                                                <div id="duplic_by_column" class="tab-pane fade in active"></div>
+                                                                <div id="duplic_by_column" class="tab-pane fade in active">
                                                             {% endif %}
                                                                 <br>
                                                                 {% if html_dataframe_duplic_colum != None %}
