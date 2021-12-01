@@ -18,10 +18,49 @@ class CalidadDatos:
 
     Soporta la lectura directa de archivos con extensión `.xlsx` y \
     `.csv`, para otro tipo de formato (`.xls`, `xlsm`, `xlsb`, `odf`, \
-    `ods` y `odt`) se recomienda hacer la conversión al formato `.csv`.\
+    `ods` y `odt`) se recomienda hacer la conversión al formato `.csv`.
 
-    Nota: Se recomienda cargar directamente los archivos con esta clase, \
+    **Nota:** Se recomienda cargar directamente los archivos con esta clase, \
     en lugar de utilizar pandas.
+
+    :param datos: Se acepta cualquier ruta o path a archivos tipo `.xlsx` \
+        o `.csv` (recomendado).\
+        Si desea pasar un `DataFrame` de pandas, LEILA soporta este tipo \
+        de entrada.
+        LEILA también soporta como entrada objectos del tipo \
+        `leila.DatosGov`. Para este tipo de entrada LEILA tendrá en el \
+        el futuro funcionalidades extendidas de calidad de datos con base \
+        a los metadatos del conjunto de datos descargado del portal \
+        datos.gov.co.
+    :type datos: str, pandas.DataFrame, leila.DatosGov
+    :param castDatos: Indica si se desean convertir las columnas al \
+        mejor tipo de datos para cada columna según la función \
+        `convert_dtypes` de Pandas. Por ejemplo si una columna es de \
+        tipo `string`, pero sus datos son en su mayoría números, se \
+        convierte a columna númerica. Valor por defecto: `True`.
+    :type castDatos: bool, opcional
+    :param diccionarioCast: Diccionario donde se especifican los tipos \
+        de datos a los que se desean convertir las columnas dentro \
+        del conjunto de datos. Por ejemplo, {'col1': 'booleano', \
+        'edad':'numerico'}, donde `col1` y `edad` son columnas de la base \
+        de datos. Los valores a los que se pueden convertir son: \
+        ['string', 'numerico', 'booleano', 'fecha', 'categorico']. Valor \
+        por defecto: `None`.
+    :type diccionarioCast: dict , opcional
+    :param errores: Indica qué hacer con las columnas cuyo tipo no se \
+        puede cambiar al solicitado en `diccionarioCast`. Valor por \
+        defecto: `"ignore"`.
+    :type errores: {"ignore", "coerce", "raise"}, opcional
+    :param formato_fecha: Formato string para el cast de las variables \
+        tipo fecha. Para más informacion sobre las opciones de strings, \
+        consulte: \
+        https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior. \
+        Valor por defecto: `"%d/%m/%Y"`.
+    :type formato_fecha: str, optional
+    :param ``**kwargs``: Parámetros adicionales que se le pueden pasar a la \
+        función `pandas.read_csv()`. Para más información sobre estos \
+        parámetros, consulte: \
+        https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html.
     """
 
     def __init__(
@@ -36,46 +75,7 @@ class CalidadDatos:
         """
         Constructor por defecto de la clase leila.CalidadDatos. Esta clase se \
         encarga de manejar todas las funciones asociadas a la medición de la \
-        calidad de los datos en una base de datos estructurada.
-
-        :param datos: Se acepta cualquier ruta o path a archivos tipo `.xlsx` \
-            o `.csv` (recomendado).\
-            Si desea pasar un `DataFrame` de pandas, LEILA soporta este tipo \
-            de entrada.
-            LEILA también soporta como entrada objectos del tipo \
-            `leila.DatosGov`. Para este tipo de entrada LEILA tendrá en el \
-            el futuro funcionalidades extendidas de calidad de datos con base \
-            a los metadatos del conjunto de datos descargado del portal \
-            datos.gov.co.
-        :type datos: str, pandas.DataFrame, leila.DatosGov
-        :param castDatos: Indica si se desean convertir las columnas al \
-            mejor tipo de datos para cada columna según la función \
-            `convert_dtypes` de Pandas. Por ejemplo si una columna es de \
-            tipo `string`, pero sus datos son en su mayoría números, se \
-            convierte a columna númerica. Valor por defecto: `True`.
-        :type castDatos: bool, opcional
-        :param diccionarioCast: Diccionario donde se especifican los tipos \
-            de datos a los que se desean convertir las columnas dentro \
-            del conjunto de datos. Por ejemplo, {'col1': 'booleano', \
-            'edad':'numerico'}, donde `col1` y `edad` son columnas de la base \
-            de datos. Los valores a los que se pueden convertir son: \
-            ['string', 'numerico', 'booleano', 'fecha', 'categorico']. Valor \
-            por defecto: `None`.
-        :type diccionarioCast: dict , opcional
-        :param errores: Indica qué hacer con las columnas cuyo tipo no se \
-            puede cambiar al solicitado en `diccionarioCast`. Valor por \
-            defecto: `"ignore"`.
-        :type errores: {"ignore", "coerce", "raise"}, opcional
-        :param formato_fecha: Formato string para el cast de las variables \
-            tipo fecha. Para más informacion sobre las opciones de strings, \
-            consulte: \
-            https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior. \
-            Valor por defecto: `"%d/%m/%Y"`.
-        :type formato_fecha: str, optional
-        :param **kwargs: Parámetros adicionales que se le pueden pasar a la \
-            función `pandas.read_csv()`. Para más información sobre estos \
-            parámetros, consulte: \
-            https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html.
+        calidad de los datos en una base de datos estructurada.        
         """
         self._dic_tipo = {
             "int": "Numérico",
