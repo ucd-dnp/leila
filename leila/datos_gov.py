@@ -10,7 +10,7 @@ import datetime
 
 class DatosGov:
     """
-    Clase para cargar conjutos de datos del portal de `datos.gov.co` y \
+    Clase para cargar conjuntos de datos del portal de `datos.gov.co` y \
     descargar los metadatos de dichos conjuntos.
     """
 
@@ -51,7 +51,7 @@ class DatosGov:
         """
         Permite descargar un conjunto de datos del portal de datos.gov.co \
         dado su identificador `api_id` en el portal. \
-        :ref:`Ver ejemplo <DatosGov.cargar_base>`.
+        :ref:`Ver ejemplo <Cargar conjunto de datos con número API>`.
 
         .. warning::
             Al descargar una base de datos utilizando el API de Socrata, \
@@ -114,7 +114,7 @@ class DatosGov:
         """
         Función que se conecta con el API de Socrata para el portal de \
         datos.gov.co y retorna el inventario de datos disponible. \
-        :ref:`Ver ejemplo <DatosGov.tabla_inventario>`
+        :ref:`Ver ejemplo <Ejemplo tabla_inventario>`
 
         :param filtro: Permite filtar la tabla de inventario de datos \
             tomando como referencia las columnas presentes en la tabla, \

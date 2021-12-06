@@ -38,7 +38,8 @@ def df_as_html(base, id=None, classes=None):
 def generar_reporte(datos=None, titulo='Reporte perfilamiento', archivo='perfilamiento_leila.html', 
                     secciones = {'generales':True, 'muestra_datos': True, 'correlaciones': True, 
                     'especificas': ['tipo', 'frecuencias', 'duplicados_columnas', 'descriptivas']}, **kwargs):
-    """Genera un reporte de calidad de datos en formato HTML. :ref:`Ver ejemplo <reporte.generar_reporte>`
+    """
+    Genera un reporte de calidad de datos en formato HTML. :ref:`Ver ejemplo <Ejemplo generar_reporte>`
     
     :param datos: (str, pandas.DataFrame, leila.CalidadDatos) Se acepta cualquier ruta o path a archivos tipo `.xlsx` \
             o `.csv` (recomendado). Si desea pasar un `DataFrame` de pandas, LEILA soporta este tipo \
@@ -58,7 +59,7 @@ def generar_reporte(datos=None, titulo='Reporte perfilamiento', archivo='perfila
                 Puede tomar un valor booleano indicando si desea incluir la sección de 'Estadísticas específicas' en el reporte. \
                 O mediante una lista de strings indicar cuál pestaña de la sección incluir. Valores posibles: 'tipo', 'frecuencias', \
                 'duplicados', 'duplicados_filas', 'duplicados_columnas', 'descriptivas' |/li|
-         |/ul| 
+         |/ul|
     """
 
     link_datos_abiertos = None

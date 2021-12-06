@@ -52,7 +52,7 @@ class CalidadDatos:
         defecto: `"ignore"`.
     :type errores: {"ignore", "coerce", "raise"}, opcional
     :param formato_fecha: Formato string para el cast de las variables \
-        tipo fecha. Para más informacion sobre las opciones de strings, \
+        tipo fecha. Para más información sobre las opciones de strings, \
         consulte: \
         https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior. \
         Valor por defecto: `"%d/%m/%Y"`.
@@ -175,7 +175,7 @@ class CalidadDatos:
     ):
         """
         Retorna el tipo de dato de cada columna del dataframe. \
-        :ref:`Ver ejemplo <calidad_datos.TipoColumnas>`
+        :ref:`Ver ejemplo <Tipos de cada columna>`
 
         :param tipoGeneral: (bool) {True, False}, valor por defecto: True. \
             Incluye el tipo general de cada columna. Los tipos son: numérico,\
@@ -273,8 +273,7 @@ class CalidadDatos:
     # sin missing values
     def ValoresUnicos(self, faltantes=False):
         """
-        Calcula la cantidad de valores únicos de cada columna del dataframe. \
-        :ref:`Ver ejemplo <calidad_datos.ValoresUnicos>`
+        Calcula la cantidad de valores únicos de cada columna del dataframe.
 
         :param faltantes: (bool) {True, False}, Valor por defecto: False. \
             Indica si desea tener en cuenta los valores faltantes en el \
@@ -298,7 +297,7 @@ class CalidadDatos:
     def ValoresFaltantes(self, numero=False):
         """
         Calcula el porcentaje/número de valores faltantes de cada columna \
-        del dataframe. :ref:`Ver ejemplo <calidad_datos.ValoresFaltantes>`
+        del dataframe. :ref:`Ver ejemplo <Datos faltantes>`
 
         :param numero: (bool) {True, False} Valor por defecto: False. Si el \
             valor es `False` el resultado se expresa como un cociente, si el \
@@ -323,7 +322,7 @@ class CalidadDatos:
         """
         Retorna el porcentaje/número de filas o columnas duplicadas \
         (repetidas) en el dataframe. \
-        :ref:`Ver ejemplo <calidad_datos.CantidadDuplicados>`
+        :ref:`Ver ejemplo <Datos duplicados>`
 
         :param eje: (int) {1, 0} Valor por defecto: 0. Si el valor \
             es `1` la validación se realiza por columnas. Si el valor es \
@@ -335,7 +334,7 @@ class CalidadDatos:
         :param numero_filas: (int) Valor por defecto: 30000. Número de filas \
             que tendrá cada columna cuando se verifiquen los duplicados por \
             columna (cuando 'eje = 1'). Se utiliza para agilizar el proceso \
-            de verificación de duplicados de columans, el cual puede resultar \
+            de verificación de duplicados de columnas, el cual puede resultar \
             extremadamente lento para un conjunto de datos con muchas filas.
         :return: (int o float) Resultado de unicidad.
         """
@@ -420,7 +419,7 @@ class CalidadDatos:
         """
         Retorna las columnas o filas que presenten valores duplicados del \
         dataframe. \
-        :ref:`Ver ejemplo <calidad_datos.EmparejamientoDuplicados>`
+        :ref:`Ver ejemplo <Emparejamiento de duplicados>`
 
         :param col: (bool) {True, False}, valor por defecto: False. Si el \
             valor es `True` la validación se realiza por columnas, en caso \
@@ -430,7 +429,7 @@ class CalidadDatos:
             columna (cuando `eje=1`). Se utiliza para agilizar el proceso de \
             verificación de duplicados por columnas, el cual puede resultar \
             extremadamente lento para un conjunto de datos con muchas filas.
-        :return: (Dataframe) Matriz que relaciona los indices de filas o \
+        :return: (Dataframe) Matriz que relaciona los índices de filas o \
             nombre de columnas que presentan valores duplicados.
         """
 
@@ -564,8 +563,7 @@ class CalidadDatos:
         """
         Calcula el porcentaje o cantidad de valores extremos (outliers) de \
         cada columna numérica (las columnas con números en formato string se \
-        intentarán transformar a columnas numéricas). \
-        :ref:`Ver ejemplo <calidad_datos.ValoresExtremos>`
+        intentarán transformar a columnas numéricas).
 
         :param extremos: {'superior', 'inferior', 'ambos'}. Si el valor es \
             `inferior` se tienen en cuenta los registros con valor menor al \
@@ -654,7 +652,7 @@ class CalidadDatos:
         Calcula estadísticas descriptivas de cada columna numérica. \
         Incluyen media, mediana, valores en distintos percentiles,\
         desviación estándar, valores extremos y porcentaje de valores \
-        faltantes. :ref:`Ver ejemplo <calidad_datos.DescripcionNumericas>`
+        faltantes. :ref:`Ver ejemplo <Estadísticas descriptivas de variables numéricas>`
 
         :param variables: Por defecto None. lista de nombres de las \
             columnas númericas que se desea analizar. Si `None`, todas las \
@@ -708,8 +706,7 @@ class CalidadDatos:
     def VarianzaEnPercentil(self, percentil_inferior=5, percentil_superior=95):
         """
         Retorna el nombre de las columnas numéricas cuyo `percentil_inferior` \
-        sea igual a su `percentil_superior`. \
-        :ref:`Ver ejemplo <calidad_datos.VarianzaEnPercentil>`
+        sea igual a su `percentil_superior`.
 
         :param percentil_inferior: Percentil inferior de referencia en la \
             comparación. Valor por defecto 5.
@@ -756,7 +753,7 @@ class CalidadDatos:
         Genera una tabla con los primeros 10 valores más frecuentes de las \
         columnas categóricas del dataframe, además calcula su frecuencia y \
         porcentaje dentro del total de observaciones. Incluye los valores \
-        faltantes. :ref:`Ver ejemplo <calidad_datos.DescripcionCategoricas>`.
+        faltantes. :ref:`Ver ejemplo <Estadísticas descriptivas de variables categóricas>`.
 
         :param limite: Valor de 0 a 1. Se utiliza para determinar si las \
             variables posiblemente son de tipo categóricas y ser incluidas \
@@ -943,7 +940,7 @@ class CalidadDatos:
     def Memoria(self, col=False, unidad="Mb"):
         """
         Calcula el tamaño del conjunto de datos en memoria (megabytes). \
-        :ref:`Ver ejemplo <calidad_datos.Memoria>`
+        :ref:`Ver ejemplo <Peso de las variables en la memoria RAM>`
 
         :param col: Si `False` realiza el cálculo de memoria del Dataframe \
             completo, si `True` realiza el cálculo de memoria por \
@@ -955,7 +952,7 @@ class CalidadDatos:
         :type unidad: str, opcional
 
         :return: (float | pandas.Series) Si `col = False` retorna el valor de \
-            memoria ocupada por el cojunto de datos. Si `col = True`, retorna \
+            memoria ocupada por el conjunto de datos. Si `col = True`, retorna \
             la memoria ocupada por cada columna del conjunto de datos.
         """
 
@@ -1008,7 +1005,7 @@ class CalidadDatos:
         columnas no únicas, número de columnas con más de la mitad de las \
         observaciones con datos faltantes, número de columnas con más del \
         10% de observaciones con datos extremos y el tamaño del conjunto de \
-        datos en memoria. :ref:`Ver ejemplo <calidad_datos.Resumen>`
+        datos en memoria. :ref:`Ver ejemplo <Tabla de resumen>`
 
         :param filas: Indica si se incluye el cálculo de número de filas \
             del conjunto de datos. Por defecto `True`.
@@ -1167,10 +1164,10 @@ class CalidadDatos:
     def CorrelacionNumericas(self, metodo="pearson", variables=None):
         """
         Genera una matriz de correlación entre las variables de tipo numérico \
-        :ref:`Ver ejemplo <calidad_datos.CorrelacionNumericas>`.
+        :ref:`Ver ejemplo <Correlación entre variables numéricas>`.
 
         :param metodo: {'pearson', 'kendall', 'spearman'} Medida de \
-            correlacion. Por defecto "pearson".
+            correlación. Por defecto "pearson".
         :type metodo: str, opcional
         :param variables: Lista de nombres de las columnas númericas \
             separados por comas. Permite seleccionar las columnas de interés. \
@@ -1217,7 +1214,7 @@ class CalidadDatos:
         """
         Genera una matriz de correlación entre las variables de tipo \
         categóricas. \
-        :ref:`Ver ejemplo <calidad_datos.CorrelacionCategoricas>`
+        :ref:`Ver ejemplo <Correlación de variables categóricas>`
 
         :param metodo: Medida de correlación a utilizar. \
             Por defecto  `phik`.

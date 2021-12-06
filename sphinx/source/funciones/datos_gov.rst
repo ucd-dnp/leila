@@ -19,3 +19,7 @@ Este módulo permite conectar y evaluar desde el código los metadatos del Porta
    :undoc-members:
    :show-inheritance:
    :exclude-members: asset_inventory_espanol
+
+.. include:: ../ejemplos/header_ejemplos.rst
+.. include:: ../ejemplos/ejemplos_datos_gov.rst
+    :start-line: 3

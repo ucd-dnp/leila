@@ -6,10 +6,9 @@ LEILA - Librería de calidad de datos
    :caption: LEILA:
    :hidden:
 
-   introduccion   
+   introduccion
    instalacion
-   ejemplos
-      
+
 .. toctree::
    :maxdepth: 2
    :caption: Módulos y funciones:
@@ -17,7 +16,8 @@ LEILA - Librería de calidad de datos
 
    funciones/calidad_datos
    funciones/datos_gov
-   funciones/reporte   
+   funciones/reporte
+
 
 .. figure:: _static/image/LEILA.jpg
     :align: center
@@ -26,3 +26,4 @@ LEILA - Librería de calidad de datos
 
 
 .. include:: introduccion.rst
+    :start-line: 4
