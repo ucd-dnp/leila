@@ -17,6 +17,7 @@ La librería surge como resultado de un proyecto relacionado con realizar análi
   - [Ejemplo](#ejemplo)
   - [Documentación](#documentaci%C3%B3n)  
   - [Instalación](#instalaci%C3%B3n)
+  - [Control de cambios](#Control de cambios)
   - [Contribuciones](#contribuciones)
   - [Licencia](#licencia)
   - [Contacto](#contacto)
@@ -52,7 +53,9 @@ De manera alterna también puede utilizar el gestor de paquetes ``conda``.
 ```
 conda install -c ucd-dnp leila
 ```
+## Control de cambios
 
+Para ver todos los cambios en las versiones de `LEILA` ver el archivo [changelog](https://github.com/ucd-dnp/leila/wiki/Changelog)
 ## Contribuciones a LEILA
 
 Todas las contribuciones, reportes de errores, corrección de errores, las mejoras de la documentación y las ideas son bienvenidas.
