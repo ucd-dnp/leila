@@ -17,7 +17,7 @@ La librería surge como resultado de un proyecto relacionado con realizar análi
   - [Ejemplo](#ejemplo)
   - [Documentación](#documentaci%C3%B3n)  
   - [Instalación](#instalaci%C3%B3n)
-  - [Control de cambios](#controldecambios)
+  - [Control de cambios](#control-de-cambios)
   - [Contribuciones](#contribuciones)
   - [Licencia](#licencia)
   - [Contacto](#contacto)
