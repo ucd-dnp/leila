@@ -27,8 +27,8 @@ Columna                         Descripción
 **nombre**                      nombre de la publicación
 **descripcion**                 descripción de la publicación
 **dueno**                       dueño de la publicación. 
-**base_publica**                indica con un "si" si la información del conjunto de datos es público y con un "no" de lo contrario
-**tipo**                        indica el tipo de la publicación, que puede ser uno de los siguientes: "conjunto de datos", "enlace externo", "mapa", "grafico", "vista filtrada", "archivo o documento", "historia", "visualizacion", "lente de datos", "formulario", "calendario".
+**base_publica**                indica con un 'si' si la información del conjunto de datos es público y con un 'no' de lo contrario
+**tipo**                        indica el tipo de la publicación, que puede ser uno de los siguientes: 'conjunto de datos', 'enlace externo', 'mapa', 'grafico', 'vista filtrada', 'archivo o documento', 'historia', 'visualizacion', 'lente de datos', 'formulario', 'calendario'.
 **categoria**                   tema general del que trata la información publicada
 **terminos_clave**              términos clave relacionados con la publicación
 **url**                         enlace web de la publicación en el Portal de Datos Abiertos
@@ -57,19 +57,19 @@ Filtrar tabla inventario
 Búsqueda por términos clave
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Para hacer la búsqueda por términos clave, se construye un diccionario de Python que contenga como llaves los nombres de las columnas de texto de la tabla de inventario sobre las cuales se desea hacer el filtro. Los valores de cada llave es una lista que contiene uno o más términos clave. Este diccionario se ingresa al método "tabla_inventario" de DatosGov dentro del parámetro "filtro".
+Para hacer la búsqueda por términos clave, se construye un diccionario de Python que contenga como llaves los nombres de las columnas de texto de la tabla de inventario sobre las cuales se desea hacer el filtro. Los valores de cada llave es una lista que contiene uno o más términos clave. Este diccionario se ingresa al método :py:meth:`DatosGov.tabla_inventario` dentro del parámetro 'filtro'.
 
-Los términos que se ingresan al diccionario no tienen que tener tildes o mayúsculas que se encuentran en la columna original de la tabla de inventario. Por ejemplo, los resultados serán los mismos si se buscan las palabras "Economía", "economía", "economia" o "ECONOMÍA".
+Los términos que se ingresan al diccionario no tienen que tener tildes o mayúsculas que se encuentran en la columna original de la tabla de inventario. Por ejemplo, los resultados serán los mismos si se buscan las palabras 'Economía', 'economía', 'economia' o 'ECONOMÍA'.
 
-Abajo se encuentra un ejemplo donde se filtra la tabla de inventario por las columnas "nombre" y "tipo". Dentro de la columna "nombre" se busca si contiene los términos "economia" o "ambiente" y si la columna "tipo" contiene el término "conjunto de datos". Es decir, se están buscando conjuntos de datos de temas de economía o ambiente.
+Abajo se encuentra un ejemplo donde se filtra la tabla de inventario por las columnas 'nombre' y 'tipo'. Dentro de la columna 'nombre' se busca si contiene los términos 'economia' o 'ambiente' y si la columna 'tipo' contiene el término 'conjunto de datos'. Es decir, se están buscando conjuntos de datos de temas de economía o ambiente.
 
 
     .. code-block:: python
 
         >>> # Se crea el diccionario con el filtro deseado
         >>> filtro = {
-        >>>     "nombre": ["economia", "ambiente"],
-        >>>     "tipo": ["conjunto de datos"]
+        >>>     'nombre': ['economia', 'ambiente'],
+        >>>     'tipo': ['conjunto de datos']
         >>> }
 
         >>> # Se abre la tabla de inventario con el filtro deseado
@@ -99,7 +99,7 @@ Abajo se encuentra un ejemplo donde se filtra la tabla de inventario por las col
 Búsqueda por rango de filas y columnas
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Para hacer el filtro de la tabla de inventario por el tamaño de un conjunto de datos, se tiene que incluir el nombre de las columnas "filas" y "columnas" en el diccionario. Los valores de estas llaves son listas con dos elementos cada una: el primer elemento es el valor mínimo de filas o columnas y el segundo el valor máximo.
+Para hacer el filtro de la tabla de inventario por el tamaño de un conjunto de datos, se tiene que incluir el nombre de las columnas 'filas' y 'columnas' en el diccionario. Los valores de estas llaves son listas con dos elementos cada una: el primer elemento es el valor mínimo de filas o columnas y el segundo el valor máximo.
 
 A continuación se muestra un ejemplo de filtro, donde se seleccionan los conjuntos de datos con mínimo 50 filas y máximo 60 y con mínimo 8 columnas y máximo 10
 
@@ -108,8 +108,8 @@ A continuación se muestra un ejemplo de filtro, donde se seleccionan los conjun
 
         >>> # Se crea el diccionario con el filtro deseado
         >>> filtro = {
-        >>>     "filas": [50, 60],
-        >>>     "columnas": [8, 10]
+        >>>     'filas': [50, 60],
+        >>>     'columnas': [8, 10]
         >>> }
         
         >>> # Se abre la tabla de inventario con el filtro deseado
@@ -119,7 +119,7 @@ A continuación se muestra un ejemplo de filtro, donde se seleccionan los conjun
     .. code-block:: python
 
         >>> # Imprimir las columnas del código API, nombre, descripción, filas y columnas de la tabla de inventario filtrada
-        >>> inventario[["numero_api", "nombre", "descripcion", "filas", "columnas"]]
+        >>> inventario[['numero_api', 'nombre', 'descripcion', 'filas', 'columnas']]
 
 
     =====   ==========  ==================================================  =================================================   =====   ========
@@ -148,7 +148,7 @@ La tabla de inventario también puede filtrase por fecha. Para hacerlo, se ingre
 
         >>> # Se crea el diccionario con el filtro deseado
         >>> filtro = {
-        >>>     "fecha_creacion": ["2020-01-01", "2020-02-01"],
+        >>>     'fecha_creacion': ['2020-01-01', '2020-02-01'],
         >>> }
 
         >>> # Se abre la tabla de inventario con el filtro deseado
@@ -182,9 +182,9 @@ index   numero_api      nombre                                              desc
 Abrir un conjunto de datos del Portal de Datos Abiertos
 -------------------------------------------------------
 
-Para abrir un conjunto de datos.gov.co es necesario tener el código API de ese conjunto e ingresarlo al método "cargar_base" de la clase DatosGov. Con esta función se crea un objeto que contiene el dataframe y el diccionario de metadatos del conjunto, los cuales se pueden obtener con los métodos "to_dataframe" y "metadatos"
+Para abrir un conjunto de datos.gov.co es necesario tener el código API de ese conjunto e ingresarlo al método :py:meth:`DatosGov.cargar_base`. Con esta función se crea un objeto que contiene el dataframe y el diccionario de metadatos del conjunto, los cuales se pueden obtener con los métodos 'to_dataframe' y 'metadatos'
 
-A continuación está el código para cargar el conjunto de datos de "Pueblos indígenas a nivel Nacional 2020", el cual se encuentra en el último filtro de la tabla de inventario.
+A continuación está el código para cargar el conjunto de datos de 'Pueblos indígenas a nivel Nacional 2020', el cual se encuentra en el último filtro de la tabla de inventario.
 
 
 Cargar conjunto de datos con número API
@@ -193,11 +193,11 @@ Cargar conjunto de datos con número API
 
     .. code-block:: python
         
-        >>> # Se define la variable "numero_api", que contiene el número API del conjunto "Pueblos indígenas a nivel Nacional 2020"
-        >>> numero_api = "etwv-wj8f"
+        >>> # Se define la variable 'numero_api', que contiene el número API del conjunto 'Pueblos indígenas a nivel Nacional 2020'
+        >>> numero_api = 'etwv-wj8f'
 
-        >>> # Se descarga la información del conjunto de datos en la variable "data" con el método "cargar_base". 
-        >>> # Al parámetro "api_id" se asigna el número API y "limite_filas" especifica que únicamente se descargan 200 filas del conjunto
+        >>> # Se descarga la información del conjunto de datos en la variable 'data' con el método 'cargar_base'. 
+        >>> # Al parámetro 'api_id' se asigna el número API y 'limite_filas' especifica que únicamente se descargan 200 filas del conjunto
         >>> data = DatosGov().cargar_base(api_id = numero_api, limite_filas=200)
 
 
@@ -207,7 +207,7 @@ Obtener dataframe del conjunto de datos
 
     .. code-block:: python
         
-        >>> # Se obtiene el dataframe del conjunto de datos con el método "to_dataframe"
+        >>> # Se obtiene el dataframe del conjunto de datos con el método 'to_dataframe'
         >>> datos = data.to_dataframe()
 
         >>> # Se visualiza una versión reducida del dataframe
@@ -236,7 +236,7 @@ Obtener diccionario de metadatos del conjunto de datos
 
     .. code-block:: python
 
-        >>> # Los metadatos se obtienen con el método "metadatos" y se asignan a la variable "meta"
+        >>> # Los metadatos se obtienen con el método 'metadatos' y se asignan a la variable 'meta'
         >>> meta = data.metadatos()
         
         >>> # Se visualiza el diccionario de metadatos

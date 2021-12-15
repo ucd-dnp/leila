@@ -39,7 +39,7 @@ def generar_reporte(datos=None, titulo='Reporte perfilamiento', archivo='perfila
                     secciones = {'generales':True, 'muestra_datos': True, 'correlaciones': True, 
                     'especificas': ['tipo', 'frecuencias', 'duplicados_columnas', 'descriptivas']}, **kwargs):
     """
-    Genera un reporte de calidad de datos en formato HTML. :ref:`Ver ejemplo <Ejemplo generar_reporte>`
+    Genera un reporte de calidad de datos en formato HTML. :ref:`Ver ejemplo <Generando un reporte>`
     
     :param datos: (str, pandas.DataFrame, leila.CalidadDatos) Se acepta cualquier ruta o path a archivos tipo `.xlsx` \
             o `.csv` (recomendado). Si desea pasar un `DataFrame` de pandas, LEILA soporta este tipo \
@@ -48,16 +48,16 @@ def generar_reporte(datos=None, titulo='Reporte perfilamiento', archivo='perfila
             con la API de Socrata (de Datos Abiertos).
     :param titulo: (str) valor por defecto: 'Reporte perfilamiento'. Título del reporte a generar.
     :param archivo: (str) valor por defecto: 'perfilamiento.html'. Ruta donde guardar el reporte.    
-    :param secciones: (dic) Diccionario indicando cuales secciones incluir en el reporte. Las opciones son las siguientes: \
+    :param secciones: (dic) Diccionario indicando que secciones incluir en el reporte. :ref:`Ver ejemplo <Personalizar secciones>` |br| Las opciones son las siguientes: \
          |ul| 
          |li| 'generales': (bool) {True, False}. Valor por defecto: True. Indica si desea incluir la sección de 'Estadísticas generales' en el reporte. |/li| 
          |li| 'muestra_datos': (bool) {True, False}. Valor por defecto: True. Indica si desea incluir la sección 'Muestra de datos' en el reporte. |/li|
          |li| 'correlaciones': (bool/list) {True, False, Lista}. Valor por defecto: True. Puede tomar un valor booleano indicando \
-                si desea incluir la sección de 'Correlaciones' en el reporte. O mediante una lista de strings indicar \
-                cuál pestaña de la sección incluir. Valores posibles: 'pearson', 'kendall', 'spearman', 'cramer', 'phik' |/li|
+                si desea incluir la sección de 'Correlaciones' en el reporte y todas sus pestañas. O mediante una lista de strings indicar \
+                que pestaña de la sección incluir. Valores posibles: 'pearson', 'kendall', 'spearman', 'cramer', 'phik' |/li|
          |li| 'especificas': (bool/list) {True, False, Lista}. Valor por defecto: ['tipo', 'frecuencias', 'duplicados_columnas', 'descriptivas']. \
-                Puede tomar un valor booleano indicando si desea incluir la sección de 'Estadísticas específicas' en el reporte. \
-                O mediante una lista de strings indicar cuál pestaña de la sección incluir. Valores posibles: 'tipo', 'frecuencias', \
+                Puede tomar un valor booleano indicando si desea incluir la sección de 'Estadísticas específicas' en el reporte y todas sus pestañas. \
+                O mediante una lista de strings indicar que pestaña de la sección incluir. Valores posibles: 'tipo', 'frecuencias', \
                 'duplicados', 'duplicados_filas', 'duplicados_columnas', 'descriptivas' |/li|
          |/ul|
     """

@@ -118,8 +118,8 @@ class DatosGov:
 
         :param filtro: Permite filtar la tabla de inventario de datos \
             tomando como referencia las columnas presentes en la tabla, \
-            mediante un diccionario de datos del tipo {"nombre_columna": \
-            ["valor buscado1", "valor buscado 2"]}. Para mayor información \
+            mediante un diccionario de datos del tipo {'nombre_columna': \
+            ['valor buscado1', 'valor buscado 2']}. Para mayor información \
             consulte: (REVISAR)
         :type filtro: dict, opcional.
         :param limite_filas: Limite de registros a descargar del inventario \

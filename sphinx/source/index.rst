@@ -18,6 +18,12 @@ LEILA - Librería de calidad de datos
    funciones/datos_gov
    funciones/reporte
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Otros:
+   :hidden:
+
+   control_de_cambios
 
 .. figure:: _static/image/LEILA.jpg
     :align: center
