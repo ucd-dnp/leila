@@ -69,7 +69,7 @@ También lo invitamos a revisar el [:calendar: Tablero **TODO** de LEILA](https:
 ### **MIT License** 
 
 La librería LEILA - Calidad de datos se encuentra publicada bajo la licencia MIT <br />
-Copyleft (c) 2020 Departamento Nacional de Planeación - DNP Colombia
+Copyleft (c) 2020 - 2021 Departamento Nacional de Planeación - DNP Colombia
 
 Para mayor información puede consultar el archivo de [Licencia](https://github.com/ucd-dnp/leila/blob/master/LICENSE)
 
