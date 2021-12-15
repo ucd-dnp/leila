@@ -29,7 +29,7 @@ class CalidadDatos:
         de entrada.
         LEILA también soporta como entrada objectos del tipo \
         `leila.DatosGov`. Para este tipo de entrada LEILA tendrá en el \
-        el futuro funcionalidades extendidas de calidad de datos con base \
+        futuro funcionalidades extendidas de calidad de datos con base \
         a los metadatos del conjunto de datos descargado del portal \
         datos.gov.co.
     :type datos: str, pandas.DataFrame, leila.DatosGov

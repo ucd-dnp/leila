@@ -1,6 +1,6 @@
 .. |Ejemplos| raw:: html
 
-   <h4 style="margin-bottom: 6px;">Ejemplos</h4>
+   <h2 style="margin-bottom: 6px;">Ejemplos</h2>
 
 .. |hr| raw:: html
 

@@ -202,7 +202,7 @@ EL ejemplo abajo muestra los nombres de las columnas duplicadas en cada columna 
 Estadísticas descriptivas de variables numéricas
 ------------------------------------------------
 
-El método :py:meth:`CalidadDatos.DescripcionNumericas` permite calcular estadísticas descriptivas para variables numéricas tales como el promedio, la desviación estánar, el mínimo, máximo, mediana (percentil 50), valores valtantes y extremos.
+El método :py:meth:`CalidadDatos.DescripcionNumericas` permite calcular estadísticas descriptivas para variables numéricas tales como el promedio, la desviación estándar, el mínimo, máximo, mediana (percentil 50), valores faltantes y extremos.
 
 El objetivo de estos cálculos es verificar si las variables del conjunto de datos contienen los valores esperados o si existen errores en la digitación de los valores
 
