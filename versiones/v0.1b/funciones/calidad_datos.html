@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calidad datos &mdash; documentación de LEILA - 0.1</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/translations.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+    <link rel="next" title="Datos gov" href="datos_gov.html" />
+    <link rel="prev" title="Ejemplos" href="../ejemplos.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> LEILA
+            <img src="../_static/logo_400.png" class="logo" alt="Logotipo"/>
+          </a>
+              <div class="version">
+                v0.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">LEILA:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduccion.html">Introducción</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../instalacion.html">Instalación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ejemplos.html">Ejemplos</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Módulos y funciones:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Calidad datos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datos_gov.html">Datos gov</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reporte.html">Reporte</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">LEILA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Calidad datos</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="calidad-datos">
+<span id="id1"></span><h1>Calidad datos<a class="headerlink" href="#calidad-datos" title="Enlazar permanentemente con este título"></a></h1>
+<p>Este módulo se enfoca en analizar cualquier base de datos (dataframe) de interes para el usuario. Se tiene acceso a funciones de estadísticas descriptivas, cálculo de memoria, registros duplicados, faltantes y otras.</p>
+<span class="target" id="module-calidad_datos"></span><dl class="py class">
+<dt class="sig sig-object py" id="calidad_datos.CalidadDatos">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><code class="sig-prename descclassname"><span class="pre">calidad_datos.</span></code><code class="sig-name descname"><span class="pre">CalidadDatos</span></code><span class="sig-paren">(</span><em><span class="n"><span class="pre">_base</span></span></em>, <em><span class="n"><span class="pre">castNumero</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em><span class="n"><span class="pre">diccionarioCast</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em><span class="n"><span class="pre">errores</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ignore'</span></span></em>, <em><span class="n"><span class="pre">formato_fecha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#calidad_datos.CalidadDatos" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="calidad_datos.CalidadDatos.CantidadDuplicados">
+<code class="sig-name descname"><span class="pre">CantidadDuplicados</span></code><span class="sig-paren">(</span><em><span class="n"><span class="pre">eje</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em><span class="n"><span class="pre">numero</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#calidad_datos.CalidadDatos.CantidadDuplicados" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Retorna el porcentaje/número de             filas o columnas duplicadas (repetidas) en el dataframe.             <a class="reference internal" href="../ejemplos/ejemplos_calidad_datos.html#calidad-datos-cantidadduplicados"><span class="std std-ref">Ver ejemplo</span></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>eje</strong> – (int) {1, 0}, valor por defecto: 0. Si el valor             es 1 la validación se realiza por columnas, si el valor es                 0 la validación se realiza por filas.</li>
+<li><strong>numero</strong> – (bool) {True, False}, valor por defecto: False. Si el             valor es False el resultado se expresa como un cociente, si el             valor es True el valor se expresa como una cantidad de             registros (número entero).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">(int o float) resultado de unicidad.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="calidad_datos.CalidadDatos.CorrelacionCategoricas">
+<code class="sig-name descname"><span class="pre">CorrelacionCategoricas</span></code><span class="sig-paren">(</span><em><span class="n"><span class="pre">metodo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'phik'</span></span></em>, <em><span class="n"><span class="pre">limite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em><span class="n"><span class="pre">categoriasMaximas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em><span class="n"><span class="pre">variables</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#calidad_datos.CalidadDatos.CorrelacionCategoricas" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Genera una matriz de correlación entre las variables de tipo categóricas.             <a class="reference internal" href="../ejemplos/ejemplos_calidad_datos.html#calidad-datos-correlacioncategoricas"><span class="std std-ref">Ver ejemplo</span></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>metodo</strong> – (str) {“phik”, “cramer”}, valor por             defecto: “phik”. Medida de correlación a utilizar.</li>
+<li><strong>limite</strong> – (float) (valor de 0 a 1) límite de referencia, se             utiliza para determinar si las variables posiblemente son de tipo             categóricas y ser incluidas en el análisis. Si el número de             valores únicos por columna es mayor al número de registros             limite, se considera que la variable no es categórica.</li>
+<li><strong>categoriasMaximas</strong> – (int) (valor mayor a 0), indica el máximo             número de categorías de una variable para que sea incluida en el             análisis</li>
+<li><strong>variables</strong> – (list) lista de nombres de las columnas separados             por comas. Permite escoger las columnas de interés de análisis             del dataframe</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">dataframe con las correlaciones de las columnas de tipo             categórica analizadas.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="calidad_datos.CalidadDatos.CorrelacionNumericas">
+<code class="sig-name descname"><span class="pre">CorrelacionNumericas</span></code><span class="sig-paren">(</span><em><span class="n"><span class="pre">metodo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pearson'</span></span></em>, <em><span class="n"><span class="pre">variables</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#calidad_datos.CalidadDatos.CorrelacionNumericas" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Genera una matriz de correlación entre las variables de tipo numérico             <a class="reference internal" href="../ejemplos/ejemplos_calidad_datos.html#calidad-datos-correlacionnumericas"><span class="std std-ref">Ver ejemplo</span></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>metodo</strong> – (str) {“pearson”, “kendall”, “spearman”}, valor por             defecto: “pearson”. Medida de correlación a utilizar.</li>
+<li><strong>variables</strong> – (list) lista de nombres de las columnas separados             por comas. Permite escoger las columnas de interés de análisis             del dataframe</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">dataframe con las correlaciones de las columnas de tipo             numérico analizadas.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="calidad_datos.CalidadDatos.DescripcionCategoricas">
+<code class="sig-name descname"><span class="pre">DescripcionCategoricas</span></code><span class="sig-paren">(</span><em><span class="n"><span class="pre">limite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em><span class="n"><span class="pre">categoriasMaximas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em><span class="n"><span class="pre">incluirNumericos</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em><span class="n"><span class="pre">variables</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#calidad_datos.CalidadDatos.DescripcionCategoricas" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Genera una tabla con los primeros 10 valores más frecuentes de las             columnas categóricas del dataframe, además calcula su frecuencia             y porcentaje dentro del total de observaciones. Incluye los             valores faltantes. <a class="reference internal" href="../ejemplos/ejemplos_calidad_datos.html#calidad-datos-descripcioncategoricas"><span class="std std-ref">Ver ejemplo</span></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>limite</strong> – (float) (valor de 0 a 1) límite de referencia, se             utiliza para determinar si las variables posiblemente son de tipo             categóricas y ser incluidas en el análisis. Si el número de             valores únicos por columna es mayor al número de registros             limite, se considera que la variable no es categórica.</li>
+<li><strong>categoriasMaximas</strong> – (int) (valor mayor a 0), indica el máximo             número de categorías de una variable para que sea incluida en el             análisis</li>
+<li><strong>incluirNumericos</strong> – (bool) {True, False}, determina si se desea             considerar las variables numéricas como categóricas e incluirlas en el             análisis. Si el valor es True se incluyen las variables numéricas             en el análisis, si el valor es False no se incluyen las variables             numéricas en el análisis.</li>
+<li><strong>variables</strong> – (list) lista de nombres de las columnas separados             por comas. Permite escoger las columnas de interés de análisis             del dataframe</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">dataframe con las estadísticas descriptivas de las columnas             de tipo texto.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="calidad_datos.CalidadDatos.DescripcionNumericas">
+<code class="sig-name descname"><span class="pre">DescripcionNumericas</span></code><span class="sig-paren">(</span><em><span class="n"><span class="pre">variables</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#calidad_datos.CalidadDatos.DescripcionNumericas" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Calcula estadísticas descriptivas de cada columna numérica.             Incluyen media, mediana, valores en distintos percentiles,            desviación estándar, valores extremos y porcentaje de valores             faltantes. <a class="reference internal" href="../ejemplos/ejemplos_calidad_datos.html#calidad-datos-descripcionnumericas"><span class="std std-ref">Ver ejemplo</span></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>variables</strong> – (list) lista de nombres de las columnas separados             por comas. Permite escoger las columnas de interés de análisis             del dataframe</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body">dataframe con las estadísticas descriptivas.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="calidad_datos.CalidadDatos.EmparejamientoDuplicados">
+<code class="sig-name descname"><span class="pre">EmparejamientoDuplicados</span></code><span class="sig-paren">(</span><em><span class="n"><span class="pre">col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#calidad_datos.CalidadDatos.EmparejamientoDuplicados" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Retorna las columnas o filas que presenten valores duplicados del             dataframe. <a class="reference internal" href="../ejemplos/ejemplos_calidad_datos.html#calidad-datos-emparejamientoduplicados"><span class="std std-ref">Ver ejemplo</span></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>col</strong> – (bool) {True, False}, valor por defecto: False. Si el valor             es True la validación se realiza por columnas, si el valor es                 False la validación se realiza por filas.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body">matriz (dataframe) que relaciona las indices de filas/nombre             de columnas que presentan valores duplicados.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="calidad_datos.CalidadDatos.Memoria">
+<code class="sig-name descname"><span class="pre">Memoria</span></code><span class="sig-paren">(</span><em><span class="n"><span class="pre">col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em><span class="n"><span class="pre">unidad</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'megabyte'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#calidad_datos.CalidadDatos.Memoria" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Calcula el tamaño de la base de datos en memoria (megabytes). <a class="reference internal" href="../ejemplos/ejemplos_calidad_datos.html#calidad-datos-memoria"><span class="std std-ref">Ver ejemplo</span></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>col</strong> – (bool) {True, False}, valor por defecto: False. Si el             valor es False realiza el cálculo de memoria del dataframe             completo, si el valor es True realiza el cálculo de memoria por             cada columna del dataframe.</li>
+<li><strong>unidad</strong> – (str) {byte, kylobyte, megabyte, gygabyte, terabyte},             valor por defecto: “megabyte”. Es la unidad con la que se desea             ver la memoria de la base de datos</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">valor (float) del tamaño de la base de datos en megabytes             (si el parámetro col es False). Serie de pandas con el cálculo de             memoria en megabytes por cada columna del dataframe. (si el             parámetro col es True).</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="calidad_datos.CalidadDatos.Resumen">
+<code class="sig-name descname"><span class="pre">Resumen</span></code><span class="sig-paren">(</span><em><span class="n"><span class="pre">filas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em><span class="n"><span class="pre">columnas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em><span class="n"><span class="pre">colNumericas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em><span class="n"><span class="pre">colTexto</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em><span class="n"><span class="pre">colBooleanas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em><span class="n"><span class="pre">colFecha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em><span class="n"><span class="pre">colOtro</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em><span class="n"><span class="pre">filasRepetidas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em><span class="n"><span class="pre">columnasRepetidas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em><span class="n"><span class="pre">colFaltantes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em><span class="n"><span class="pre">colExtremos</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em><span class="n"><span class="pre">memoriaTotal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#calidad_datos.CalidadDatos.Resumen" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Retorna una tabla con información general de la base de datos.        Incluye número de filas y columnas, número de columnas de tipo         numéricas, de texto, booleanas, fecha y otros, número de filas y         columnas no únicas, número de columnas con más de la mitad de las         observaciones con datos faltantes, número de columnas con más del         10% de observaciones con datos extremos y el tamaño de la base de         datos en memoria. <a class="reference internal" href="../ejemplos/ejemplos_calidad_datos.html#calidad-datos-resumen"><span class="std std-ref">Ver ejemplo</span></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>filas</strong> – (bool) {True, False}, valor por defecto: True. Indica             si se incluye el cálculo de número de filas del dataframe.</li>
+<li><strong>columnas</strong> – (bool) {True, False}, valor por defecto: True.             Indica si se incluye el cálculo de número de filas del dataframe.</li>
+<li><strong>colNumericas</strong> – (bool) {True, False}, valor por defecto: True.             Indica si se incluye el número de columnas de tipo numéricas.</li>
+<li><strong>colTexto</strong> – (bool) {True, False}, valor por defecto: True.             Indica si se incluye el número de columnas de tipo texto.</li>
+<li><strong>colBooleanas</strong> – (bool) {True, False}, valor por defecto: True.             Indica si se incluye el número de columnas de tipo boolean.</li>
+<li><strong>colFecha</strong> – (bool) {True, False}, valor por defecto: True.             Indica si se incluye el número de columnas de tipo fecha.</li>
+<li><strong>colOtro</strong> – (bool) {True, False}, valor por defecto: True.             Indica si se incluye el número de columnas de otro tipo deferente             a los anteriores.</li>
+<li><strong>filasRepetidas</strong> – (bool) {True, False}, valor por defecto: True.             Indica si se incluye el número de filas repetidas.</li>
+<li><strong>columnasRepetidas</strong> – (bool) {True, False}, valor por defecto:             False. Indica si se incluye el número de columnas repetidas.</li>
+<li><strong>colFaltantes</strong> – (bool) {True, False}, valor por defecto: True.             Indica si se incluye el número de columnas con más de la mitad de             las observaciones con datos faltantes.</li>
+<li><strong>colExtremos</strong> – (bool) {True, False}, valor por defecto: True.             Indica si se incluye el número de columnas con más del 10% de                 observaciones con datos extremos.</li>
+<li><strong>memoriaTotal</strong> – (bool) {True, False}, valor por defecto: True.             Indica si se incluye el cálculo del tamaño de la base de datos en memoria.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">serie de pandas con las estadísticas descriptivas del dataframe.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="calidad_datos.CalidadDatos.TipoColumnas">
+<code class="sig-name descname"><span class="pre">TipoColumnas</span></code><span class="sig-paren">(</span><em><span class="n"><span class="pre">tipoGeneral</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em><span class="n"><span class="pre">tipoGeneralPython</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em><span class="n"><span class="pre">tipoEspecifico</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#calidad_datos.CalidadDatos.TipoColumnas" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Retorna el tipo de dato de cada columna del dataframe. <a class="reference internal" href="../ejemplos/ejemplos_calidad_datos.html#calidad-datos-tipocolumnas"><span class="std std-ref">Ver ejemplo</span></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>tipoGeneral</strong> – (bool) {True, False}, valor por defecto: True.             Incluye el tipo general de cada columna. Los tipos son: numérico,            texto, booleano, otro</li>
+<li><strong>tipoGeneralPython</strong> – (bool) {True, False}, valor por defecto:             True. Incluye el tipo general de cada columna dado por el método            “dtypes” de Python</li>
+<li><strong>tipoEspecifico</strong> – (bool) {True, False}, valor por defecto: True.            Incluye el porcentaje de los tres tipos más frecuentes de cada            columna. Se aplica la función “type” de Python para cada             observación.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">Dataframe de pandas con los tipos de dato de cada columna.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="calidad_datos.CalidadDatos.ValoresExtremos">
+<code class="sig-name descname"><span class="pre">ValoresExtremos</span></code><span class="sig-paren">(</span><em><span class="n"><span class="pre">extremos</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ambos'</span></span></em>, <em><span class="n"><span class="pre">numero</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#calidad_datos.CalidadDatos.ValoresExtremos" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Calcula el porcentaje o cantidad de outliers de cada columna numérica             (las columnas con números en formato string se intentarán transformar             a columnas numéricas). <a class="reference internal" href="../ejemplos/ejemplos_calidad_datos.html#calidad-datos-valoresextremos"><span class="std std-ref">Ver ejemplo</span></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>extremos</strong> – (str) {“superior”, “inferior”, “ambos”}, valor por             defecto: “ambos”. Si el valor es “<strong>inferior</strong>” se tienen en cuenta los             registros con valor menor al límite inferior calculado por la             metodología de valor atípico por rango intercuartílico. Si el valor es             “<strong>superior</strong>” se tienen en cuenta los registros con valor mayor al            límite superior calculado por la metodología de valor atípico por rango             intercuartílico. Si el valor es “<strong>ambos</strong>” se tienen en cuenta los             registros con valor menor al límite inferior calculado por la              metodología de valor atípico por rango intercuartílico, y también             aquellos con valor mayor al límite superior calculado por la             metodología de valor atípico por rango intercuartílico.</li>
+<li><strong>numero</strong> – (bool) {True, False}, valor por defecto: False. Si el valor es             False el resultado se expresa como una proporcion (en decimales), si el valor es True el             valor se expresa como una cantidad de registros (número entero).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">serie de pandas con la cantidad/proporcion de valores outliers             de cada columna.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="calidad_datos.CalidadDatos.ValoresFaltantes">
+<code class="sig-name descname"><span class="pre">ValoresFaltantes</span></code><span class="sig-paren">(</span><em><span class="n"><span class="pre">numero</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#calidad_datos.CalidadDatos.ValoresFaltantes" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Calcula el porcentaje/número de valores faltantes de cada columna             del dataframe. <a class="reference internal" href="../ejemplos/ejemplos_calidad_datos.html#calidad-datos-valoresfaltantes"><span class="std std-ref">Ver ejemplo</span></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>numero</strong> – (bool) {True, False}, valor por defecto: False. Si el             valor es False el resultado se expresa como un cociente, si el             valor es True el valor se expresa como una cantidad de             registros (número entero).</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body">serie de pandas con la cantidad/cociente de valores             faltantes de cada columna.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="calidad_datos.CalidadDatos.ValoresUnicos">
+<code class="sig-name descname"><span class="pre">ValoresUnicos</span></code><span class="sig-paren">(</span><em><span class="n"><span class="pre">faltantes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#calidad_datos.CalidadDatos.ValoresUnicos" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Calcula la cantidad de valores únicos de cada columna del dataframe.              <a class="reference internal" href="../ejemplos/ejemplos_calidad_datos.html#calidad-datos-valoresunicos"><span class="std std-ref">Ver ejemplo</span></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><strong>faltantes</strong> – (bool) {True, False}, valor por defecto: False.             Indica si desea tener en cuenta los valores faltantes en el                 conteo de valores únicos.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body">serie de pandas con la cantidad de valores únicos de cada columna.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="calidad_datos.CalidadDatos.VarianzaEnPercentil">
+<code class="sig-name descname"><span class="pre">VarianzaEnPercentil</span></code><span class="sig-paren">(</span><em><span class="n"><span class="pre">percentil_inferior</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em><span class="n"><span class="pre">percentil_superior</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">95</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#calidad_datos.CalidadDatos.VarianzaEnPercentil" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Retorna las columnas numéricas cuyo percentil_inferior sea igual             a su percentil_superior. <a class="reference internal" href="../ejemplos/ejemplos_calidad_datos.html#calidad-datos-varianzaenpercentil"><span class="std std-ref">Ver ejemplo</span></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
+<li><strong>base</strong> – (dataframe) base de datos de interés a ser analizada.</li>
+<li><strong>percentil_inferior</strong> – (float), valor por defecto: 5. Percentil             inferior de referencia en la comparación.</li>
+<li><strong>percentil_superior</strong> – (float), valor por defecto: 95. Percentil             superior de referencia en la comparación.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">indices de columnas cuyo percentil inferior es igual al             percentil superior.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Pie de página">
+        <a href="../ejemplos.html" class="btn btn-neutral float-left" title="Ejemplos" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Anterior</a>
+        <a href="datos_gov.html" class="btn btn-neutral float-right" title="Datos gov" accesskey="n" rel="next">Siguiente <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Derechos de autor 2021, UCD - DNP.</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Otras versiones</span>
+        v: v0.1
+      
+
+    <span class="fa fa-caret-down"></span>
+  </span>
+  <div class="rst-other-versions">
+    <dl>
+      <dt>Ramas</dt>
+          <dd><a href="../../master/funciones/calidad_datos.html">latest</a></dd>        
+        
+    </dl>
+    <dl>
+      <dt>Tags</dt>
+
+      
+        <dd><a href="calidad_datos.html">v0.1</a></dd>
+      
+    </dl>    
+
+  </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

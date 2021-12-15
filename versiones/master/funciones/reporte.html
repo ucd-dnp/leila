@@ -1,244 +1,258 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="es" >
 <head>
   <meta charset="utf-8" />
-  
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>Reporte &mdash; documentación de LEILA - 0.1</title>
-  
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
-
-  
-  
+  <title>Reporte &mdash; documentación de LEILA - 0.2</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
-  
-
-  
-  
-
-  
-
-  
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/clipboard.min.js"></script>
         <script src="../_static/copybutton.js"></script>
         <script src="../_static/translations.js"></script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-
-    
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Índice" href="../genindex.html" />
     <link rel="search" title="Búsqueda" href="../search.html" />
+    <link rel="next" title="Control de cambios" href="../control_de_cambios.html" />
     <link rel="prev" title="Datos gov" href="datos_gov.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
             <a href="../index.html" class="icon icon-home"> LEILA
-          
-
-          
-            
-            <img src="../_static/logo_400.png" class="logo" alt="Logo"/>
-          
+            <img src="../_static/logo_400.png" class="logo" alt="Logotipo"/>
           </a>
-
-          
-            
-            
               <div class="version">
-                latest - v0.1
+                latest - v0.2
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Buscar documentos" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">LEILA:</span></p>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">LEILA:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../introduccion.html">Introducción</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../instalacion.html">Instalación</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../ejemplos.html">Ejemplos</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Módulos y funciones:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Módulos y funciones:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="calidad_datos.html">Calidad datos</a></li>
 <li class="toctree-l1"><a class="reference internal" href="datos_gov.html">Datos gov</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Reporte</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Reporte</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#generando-un-reporte">Generando un reporte</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#personalizar-secciones">Personalizar secciones</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reporte-usando-archivos-xlsx-csv-o-dataframes">Reporte usando archivos XLSX, CSV o DataFrames</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Otros:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../control_de_cambios.html">Control de cambios</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">LEILA</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content style-external-links">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-        
       <li>Reporte</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="reporte">
-<span id="id1"></span><h1>Reporte<a class="headerlink" href="#reporte" title="Enlazar permanentemente con este título">¶</a></h1>
-<div class="align-center figure" id="id2">
-<img alt="Ejemplo de reporte" src="https://github.com/jairoruizsaenz/test_sphinx/blob/master/docs/_images/vista_reporte.gif?raw=true" />
-<p class="caption"><span class="caption-text">Ejemplo de reporte</span><a class="headerlink" href="#id2" title="Enlace permanente a esta imagen">¶</a></p>
-</div>
-<p>La función <code class="docutils literal notranslate"><span class="pre">generar_reporte(base)</span></code> del módulo <strong>reporte</strong> busca facilitar el proceso de entendimiento de la calidad de datos de una base de datos de interés, para esto genera un reporte en formato HTML el cual consolida las funciones de calidad de datos implementadas en el módulo <a class="reference internal" href="calidad_datos.html#calidad-datos"><span class="std std-ref">Calidad datos</span></a> y <a class="reference internal" href="datos_gov.html#datos-gov"><span class="std std-ref">Datos gov</span></a>, facilitando la consulta de los resultados obtenidos del análisis exploratorio en un archivo independiente.</p>
+             
+  <span class="target" id="reporte"></span><div class="section" id="id1">
+<h1>Reporte<a class="headerlink" href="#id1" title="Enlazar permanentemente con este título"></a></h1>
+<p>La función <code class="docutils literal notranslate"><span class="pre">generar_reporte(base)</span></code> busca facilitar el proceso de entendimiento de la calidad de datos de una base de datos de interés, para esto genera un reporte en formato HTML el cual consolida las funciones de calidad de datos implementadas en el módulo <a class="reference internal" href="calidad_datos.html#calidad-datos"><span class="std std-ref">leila.calidad_datos</span></a> y <a class="reference internal" href="datos_gov.html#datos-gov"><span class="std std-ref">leila.datos_gov</span></a>, facilitando la consulta de los resultados obtenidos del análisis exploratorio en un archivo independiente.</p>
 <span class="target" id="module-reporte"></span><dl class="py function">
-<dt id="reporte.generar_reporte">
-<code class="descclassname"><span class="pre">reporte.</span></code><code class="descname"><span class="pre">generar_reporte</span></code><span class="sig-paren">(</span><em><span class="n"><span class="pre">df</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em><span class="n"><span class="pre">api_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em><span class="n"><span class="pre">token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em><span class="n"><span class="pre">titulo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Reporte</span> <span class="pre">perfilamiento'</span></span></em>, <em><span class="n"><span class="pre">archivo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'perfilamiento_leila.html'</span></span></em>, <em><span class="n"><span class="pre">castNumero</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reporte.generar_reporte" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Genera un reporte de calidad de datos en formato HTML. <a class="reference internal" href="../ejemplos/ejemplos_reporte.html#reporte-generar-reporte"><span class="std std-ref">Ver ejemplo</span></a></p>
+<dt class="sig sig-object py" id="reporte.generar_reporte">
+<code class="sig-prename descclassname"><span class="pre">reporte.</span></code><code class="sig-name descname"><span class="pre">generar_reporte</span></code><span class="sig-paren">(</span><em><span class="n"><span class="pre">datos</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em><span class="n"><span class="pre">titulo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Reporte</span> <span class="pre">perfilamiento'</span></span></em>, <em><span class="n"><span class="pre">archivo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'perfilamiento_leila.html'</span></span></em>, <em><span class="n"><span class="pre">secciones</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'correlaciones':</span> <span class="pre">True,</span> <span class="pre">'especificas':</span> <span class="pre">['tipo',</span> <span class="pre">'frecuencias',</span> <span class="pre">'duplicados_columnas',</span> <span class="pre">'descriptivas'],</span> <span class="pre">'generales':</span> <span class="pre">True,</span> <span class="pre">'muestra_datos':</span> <span class="pre">True}</span></span></em>, <em><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#reporte.generar_reporte" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Genera un reporte de calidad de datos en formato HTML. <a class="reference internal" href="#generando-un-reporte"><span class="std std-ref">Ver ejemplo</span></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first simple">
-<li><strong>castNumero</strong> – (bool) {True, False}. Valor por defecto: False.             Indica si se desea convertir las columnas de tipos object y bool a float, de ser posible.</li>
-<li><strong>df</strong> – (dataframe) base de datos de insumo para la generación del reporte de calidad de datos.</li>
-<li><strong>api_id</strong> – (str) opcional - Identificación de la base de datos asociado con la API de Socrata (de Datos Abiertos).</li>
-<li><strong>token</strong> – (str) opcional - Token de usuario de la API de Socrata (de Datos Abiertos).</li>
+<tr class="field-odd field"><th class="field-name">Parámetros:</th><td class="field-body"><ul class="first last simple">
+<li><strong>datos</strong> – (str, pandas.DataFrame, leila.CalidadDatos) Se acepta cualquier ruta o path a archivos tipo <cite>.xlsx</cite>             o <cite>.csv</cite> (recomendado). Si desea pasar un <cite>DataFrame</cite> de pandas, LEILA soporta este tipo             de entrada. LEILA también soporta como entrada objectos del tipo             <cite>leila.CalidadDatos</cite>. También se acepta la identificación de la base de datos asociado             con la API de Socrata (de Datos Abiertos).</li>
 <li><strong>titulo</strong> – (str) valor por defecto: “Reporte perfilamiento”. Título del reporte a generar.</li>
 <li><strong>archivo</strong> – (str) valor por defecto: “perfilamiento.html”. Ruta donde guardar el reporte.</li>
+<li><strong>secciones</strong> – (dic) Diccionario indicando que secciones incluir en el reporte. <a class="reference internal" href="#personalizar-secciones"><span class="std std-ref">Ver ejemplo</span></a> <br> Las opciones son las siguientes:          <ul> 
+<li> “generales”: (bool) {True, False}. Valor por defecto: True. Indica si desea incluir la sección de “Estadísticas generales” en el reporte. </li> 
+<li> “muestra_datos”: (bool) {True, False}. Valor por defecto: True. Indica si desea incluir la sección “Muestra de datos” en el reporte. </li>
+<li> “correlaciones”: (bool/list) {True, False, Lista}. Valor por defecto: True. Puede tomar un valor booleano indicando                 si desea incluir la sección de “Correlaciones” en el reporte y todas sus pestañas. O mediante una lista de strings indicar                 que pestaña de la sección incluir. Valores posibles: “pearson”, “kendall”, “spearman”, “cramer”, “phik” </li>
+<li> “especificas”: (bool/list) {True, False, Lista}. Valor por defecto: [“tipo”, “frecuencias”, “duplicados_columnas”, “descriptivas”].                 Puede tomar un valor booleano indicando si desea incluir la sección de “Estadísticas específicas” en el reporte y todas sus pestañas.                 O mediante una lista de strings indicar que pestaña de la sección incluir. Valores posibles: “tipo”, “frecuencias”,                 “duplicados”, “duplicados_filas”, “duplicados_columnas”, “descriptivas” </li>
+</ul></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Devuelve:</th><td class="field-body"><p class="first last">archivo de reporte en formato HTML.</p>
 </td>
 </tr>
 </tbody>
 </table>
 </dd></dl>
 
+<p><h2 style="margin-bottom: 6px;">Ejemplos</h2>
+<hr style="margin-top: 0;"></p>
+<p>A continuación se presentan ejemplos de uso, el código y resultado esperado de estos. Los datos utilizados para los ejemplos corresponden a una muestra de los <strong>Casos positivos de COVID-19 en Colombia</strong> disponibles en el portal de <a class="reference external" href="https://www.datos.gov.co/Salud-y-Protecci-n-Social/Casos-positivos-de-COVID-19-en-Colombia/gt2j-8ykr" target="_blank">Datos Abiertos de Colombia</a>, se debe aclarar que los datos fueron modificados con el propósito de presentar el alcance de las diferentes funciones de la librería.</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Se importa la librería pandas para la lectura de datos</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dtypes</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ID de caso&#39;</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>          <span class="s1">&#39;Código DIVIPOLA&#39;</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>          <span class="s1">&#39;Codigo departamento&#39;</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>          <span class="s1">&#39;Codigo pais&#39;</span><span class="p">:</span><span class="nb">object</span><span class="p">}</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Lectura de archivo de datos como dataframe</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df_datos</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="s1">&#39;dataset ejemplos.xlsx&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtypes</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>En caso que desee utilizar los datos utilizados en los ejemplos, puede descargarlos utilizando el siguiente link. <a class="reference download external" download="" href="https://planeacionnacional-my.sharepoint.com/:x:/g/personal/ucd_dnp_gov_co/EcSDnonZAlBFqSFZ7N9MP1gBp50GlC_itwgNcLOm9CksyA?Download=1"><code class="xref download docutils literal notranslate"><span class="pre">Descargar</span> <span class="pre">datos</span> <span class="pre">(6.2</span> <span class="pre">MB)</span></code></a>.</p>
+<p><hr style="margin-top: 0;"></p>
+<div class="section" id="generando-un-reporte">
+<h2>Generando un reporte<a class="headerlink" href="#generando-un-reporte" title="Enlazar permanentemente con este título"></a></h2>
+<p>Crea un reporte de calidad de datos en formato HTML. Ver documentación <a class="reference internal" href="#reporte.generar_reporte" title="reporte.generar_reporte"><code class="xref py py-meth docutils literal notranslate"><span class="pre">reporte.generar_reporte()</span></code></a></p>
+<p>En este ejemplo generaremos el reporte a partir de un api_id, este caso corresponde a los casos positivos de COVID-19 reportados en Colombia en el Portal de Datos Abiertos.</p>
+<p>Teniendo en cuenta que se trata de un conjunto de datos con muchos registros, usamos el argumento limite_filas para
+limitar la descarga de información a solo los primeros 1.000 registros.</p>
+<p>El título del reporte será “Casos positivos de COVID-19 en Colombia (primeros 1000 registros)” y será guardado con el nombre reporte_calidad_COVID.html</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Se importa la función generar_reporte del módulo de reporte</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">leila.reporte</span> <span class="kn">import</span> <span class="n">generar_reporte</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">generar_reporte</span><span class="p">(</span><span class="n">datos</span><span class="o">=</span><span class="s2">&quot;gt2j-8ykr&quot;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                <span class="n">titulo</span><span class="o">=</span><span class="s1">&#39;Casos positivos de COVID-19 en Colombia (primeros 1000 registros)&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                <span class="n">archivo</span><span class="o">=</span><span class="s1">&#39;ejemplo_reporte__API_datos_abiertos.html&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                <span class="n">limite_filas</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+
+<span class="go">--------------------------------------------------------------------------------------------</span>
+<span class="go">No hay columnas duplicadas</span>
+<span class="go">--------------------------------------------------------------------------------------------</span>
+<span class="go">Se ha generado el reporte &quot;ejemplo_reporte__API_datos_abiertos.html&quot;</span>
+<span class="go">09:00:11 AM (00 min 6 seg)</span>
+<span class="go">--------------------------------------------------------------------------------------------</span>
+</pre></div>
+</div>
+</div></blockquote>
+<div class="section" id="personalizar-secciones">
+<h3>Personalizar secciones<a class="headerlink" href="#personalizar-secciones" title="Enlazar permanentemente con este título"></a></h3>
+<p>Si desea excluir una sección del reporte lo puede hacer mediante el parámetro secciones.
+En el siguiente ejemplo se excluyó del reporte la sección “correlaciones”, y de la sección “Estadísticas específicas”
+solo se incluyeron las pestañas “Tipo de las columnas” y “Frecuencia de categorías”</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Se importa la función generar_reporte del módulo de reporte</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">leila.reporte</span> <span class="kn">import</span> <span class="n">generar_reporte</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">generar_reporte</span><span class="p">(</span><span class="n">datos</span><span class="o">=</span><span class="s2">&quot;bign-27m7&quot;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                <span class="n">titulo</span><span class="o">=</span><span class="s2">&quot;Reporte visas&quot;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                <span class="n">archivo</span><span class="o">=</span><span class="s1">&#39;ejemplo_reporte__secciones.html&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                <span class="n">secciones</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;generales&#39;</span><span class="p">:</span><span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;muestra_datos&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;correlaciones&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                           <span class="s1">&#39;especificas&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;tipo&#39;</span><span class="p">,</span> <span class="s1">&#39;frecuencias&#39;</span><span class="p">]})</span>
+
+<span class="go">--------------------------------------------------------------------------------------------</span>
+<span class="go">El conjunto de datos no tiene columnas numéricas</span>
+<span class="go">--------------------------------------------------------------------------------------------</span>
+<span class="go">Se ha generado el reporte &quot;ejemplo_reporte__secciones.html&quot;</span>
+<span class="go">09:00:20 AM (00 min 0 seg)</span>
+<span class="go">--------------------------------------------------------------------------------------------</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="reporte-usando-archivos-xlsx-csv-o-dataframes">
+<h3>Reporte usando archivos XLSX, CSV o DataFrames<a class="headerlink" href="#reporte-usando-archivos-xlsx-csv-o-dataframes" title="Enlazar permanentemente con este título"></a></h3>
+<p>También se puede generar el reporte a partir de un dataframe o indicando la ruta de un archivo XLSX o CSV. Para esto solo se requiere cambiar el parámetro datos.</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Se importa la función generar_reporte del módulo de reporte</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">leila.reporte</span> <span class="kn">import</span> <span class="n">generar_reporte</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Se llama la función para generar el reporte</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">generar_reporte</span><span class="p">(</span><span class="n">datos</span><span class="o">=</span><span class="s2">&quot;dataset ejemplos.xlsx&quot;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                <span class="n">titulo</span><span class="o">=</span><span class="s1">&#39;Reporte de prueba archivo XLSX&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                <span class="n">archivo</span><span class="o">=</span><span class="s1">&#39;ejemplo_reporte__archivo_XLSX.html&#39;</span><span class="p">)</span>
+
+<span class="go">--------------------------------------------------------------</span>
+<span class="go">Se ha generado el reporte &quot;ejemplo_reporte__archivo_XLSX.html&quot;</span>
+<span class="go">09:00:38 AM (00 min 20 seg)</span>
+<span class="go">--------------------------------------------------------------</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Se importa la función generar_reporte del módulo de reporte</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">leila.reporte</span> <span class="kn">import</span> <span class="n">generar_reporte</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Se llama la función para generar el reporte</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">generar_reporte</span><span class="p">(</span><span class="n">datos</span><span class="o">=</span><span class="n">df_datos</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                <span class="n">titulo</span><span class="o">=</span><span class="s1">&#39;Perfilamiento datos COVID-19 - Colombia&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                <span class="n">archivo</span><span class="o">=</span><span class="s1">&#39;ejemplo_reporte__dataframe.html&#39;</span><span class="p">)</span>
+
+<span class="go">--------------------------------------------------------------</span>
+<span class="go">Se ha generado el reporte &quot;ejemplo_reporte__dataframe.html&quot;</span>
+<span class="go">09:01:22 AM (00 min 22 seg)</span>
+<span class="go">--------------------------------------------------------------</span>
+</pre></div>
+</div>
+</div></blockquote>
+<div class="align-center figure" id="id2">
+<img alt="Ejemplo de reporte" src="https://github.com/ucd-dnp/leila/blob/gh-pages/sphinx/source/_static/image/vista_reporte.gif?raw=true" />
+<p class="caption"><span class="caption-text">Ejemplo de reporte</span><a class="headerlink" href="#id2" title="Enlace permanente a esta imagen"></a></p>
+</div>
+</div>
+</div>
 </div>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="datos_gov.html" class="btn btn-neutral float-left" title="Datos gov" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Pie de página">
+        <a href="datos_gov.html" class="btn btn-neutral float-left" title="Datos gov" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Anterior</a>
+        <a href="../control_de_cambios.html" class="btn btn-neutral float-right" title="Control de cambios" accesskey="n" rel="next">Siguiente <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Derechos de autor 2021, UCD - DNP.
-
-    </p>
+    <p>&#169; Derechos de autor 2021, UCD - DNP.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
   
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
@@ -254,21 +268,21 @@
       <dt>Ramas</dt>
           <dd><a href="reporte.html">latest</a></dd>        
         
+    </dl>
+    <dl>
+      <dt>Tags</dt>
+
+      
+        <dd><a href="../../v0.1b/funciones/reporte.html">v0.1</a></dd>
+      
     </dl>    
 
   </div>
-</div>
-
-  <script type="text/javascript">
+</div><script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

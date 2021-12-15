@@ -23,7 +23,7 @@ copyright = '2021, UCD - DNP'
 author = 'UCD - DNP'
 
 # The full version, including alpha/beta/rc tags
-release = '0.1'
+release = '0.2'
 version = 'gh-pages'
 
 # -- General configuration ---------------------------------------------------
@@ -32,11 +32,12 @@ version = 'gh-pages'
 
 # Whitelist pattern for tags (set to None to ignore all tags)
 # smv_tag_whitelist = r'^.*$' # default
-smv_tag_whitelist = r'^(?!v0.1b).*$' # ignora la versión v0.1
+smv_tag_whitelist = r'^(v0.1b)$' # ignora la versión v0.1
 
 # Whitelist pattern for branches (set to None to ignore all branches)
 # smv_branch_whitelist = r'^.*$' # default - all branches
-smv_branch_whitelist = r'^(master|desarrollo)$'
+# smv_branch_whitelist = r'^(master|desarrollo)$'
+smv_branch_whitelist = r'^(master)$'
 
 # Pattern for released versions
 # smv_released_pattern = r'^tags/.*$'

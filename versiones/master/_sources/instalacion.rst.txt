@@ -8,3 +8,9 @@ Para la instalación de la librería se debe utilizar el gestor de paquetes ``pi
     .. code-block:: console
 
         pip install leila
+
+De manera alterna también puede utilizar el gestor de paquetes ``conda``.
+
+    .. code-block:: console
+    
+		conda install -c ucd-dnp leila
