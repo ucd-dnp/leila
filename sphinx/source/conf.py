@@ -32,7 +32,8 @@ version = 'gh-pages'
 
 # Whitelist pattern for tags (set to None to ignore all tags)
 # smv_tag_whitelist = r'^.*$' # default
-smv_tag_whitelist = r'^(v0.1b)$' # ignora la versión v0.1
+smv_tag_whitelist = r'^(v0.1b)$'
+# smv_tag_whitelist = r'^(v0.1b|v0.2b)$'
 
 # Whitelist pattern for branches (set to None to ignore all branches)
 # smv_branch_whitelist = r'^.*$' # default - all branches
