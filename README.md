@@ -51,7 +51,7 @@ pip install leila
 De manera alterna también puede utilizar el gestor de paquetes ``conda``.
 
 ```
-conda install -c ucd-dnp leila
+conda install -c ucd-dnp -c conda-forge leila
 ```
 ## Control de cambios
 
