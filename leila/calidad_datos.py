@@ -8,7 +8,10 @@ import re
 import math
 import phik
 import openpyxl
-
+import requests
+from difflib import SequenceMatcher
+import datetime
+from dateutil.parser import parse
 
 class CalidadDatos:
     """
@@ -1355,3 +1358,580 @@ class CalidadDatos:
             raise NotImplementedError(
                 f"El tipo de datos {type(datos)} no está soportado por LEILA."
             )
+
+
+
+class indice_calidad:
+    
+    # METER EN INIT LOS PARÁMETROS DE LAS FUNCIONES
+    def __init__(
+            self,
+            api_id = "",
+            token = None,
+            numero_filas = 30000
+            ):
+        self.numero_filas = numero_filas
+        dominio = "https://www.datos.gov.co/"
+        # Datos
+        try:
+            url = dominio + "resource/{0}.csv".format(api_id)
+            self.base = pd.read_csv(url)
+            
+        except:
+            self.base = None
+            print("No es posible descargar los datos del conjunto de datos con número API {0}".format(api_id))            
+        try:
+            url = dominio + "api/views/" + api_id + ".json"
+            self.metadatos = dict(requests.get(url).json())
+        except:
+            self.metadatos = None
+            print("No es posible extraer los metadatos del conjunto de datos con número API {0}".format(api_id))
+        
+    ## Valores faltantes
+    # Valores faltantes de todo el dataframe
+    def faltantes(self):
+        if self.base.shape[0] == 0 or self.base.shape[1] == 0:
+            indicador = 0
+        else:
+            indicador = 1 - (pd.isnull(self.base).sum().sum() / (self.base.shape[0] * self.base.shape[1]))
+        return indicador
+    
+    # Tamaño de las filas
+    def tamano_filas(self):
+        if self.base.shape[0] < 50:
+            indicador = self.base.shape[0] / 50 
+        else:
+            indicador = 1
+        return indicador
+    
+    # Tamaño de las columnas
+    def tamano_columnas(self):
+        if self.base.shape[1] < 3:
+            indicador = self.base.shape[1] / 3
+        else:
+            indicador = 1
+        return indicador
+    
+    # Duplicados de filas
+    def duplicados_filas(self):
+        if self.base.shape[0] == 0 or self.base.shape[1] == 0:
+            indicador = 0
+        else:
+            indicador = 1 - (self.base.applymap(str).duplicated(keep = "first").sum() / self.base.shape[0])
+        return indicador
+    
+    # Duplicados de columnas (REVISAR DAVID)
+    def duplicados_columnas(self):
+        if self.base.shape[0] == 0 or self.base.shape[1] == 0:
+            indicador = 0
+        elif self.base.shape[0] > 0 and self.base.shape[1] > 0 and self.numero_filas < 30000:
+            indicador = 1 - (self.base.applymap(str).T.duplicated(keep = "first").sum() / self.base.shape[1])
+        else:
+            numero_filas_tercio = self.numero_filas // 3
+            base_mitad = self.base.shape[0] // 2
+            mini_base = pd.concat([self.base.iloc[0: numero_filas_tercio], self.base.iloc[base_mitad: base_mitad + numero_filas_tercio], self.base.iloc[-numero_filas_tercio:]])
+            indicador = 1 - (mini_base.applymap(str).T.duplicated(keep = "first").sum() / self.base.shape[1])
+        return indicador
+    
+    # Más de un valor único por columna
+    def valores_unicos(self):
+        if self.base.shape[0] == 0:
+            indicador = 0
+        else:
+            unicos = self.base.applymap(str).nunique()
+            indicador = 1 - (len(unicos[unicos == 1]) / self.base.shape[1])
+        return indicador
+    
+    # Tipos de observaciones en cada columna
+    def tipos_columnas_unicos(self):
+        if self.base.shape[1] == 0:
+            indicador = 0
+        else:
+            tipos_mal = []
+            for s in self.base.columns:  
+                tip = self.base[s].fillna("nan").apply(
+                    lambda x: x if x == "nan" else type(x)).value_counts(
+                    normalize=True, dropna=False).drop("nan", errors = "ignore")
+                if len(tip) > 1:
+                    tipos_mal.append(tip)
+                else:
+                    pass
+                indicador = 1 - (len(tipos_mal) / self.base.shape[1])
+        return indicador
+    
+    # Actualización de conjunto de datos
+    def retardo_actualizacion(self):
+        
+        # Freuencia de actualización
+        try:
+            frecuencia_actualizacion = self.metadatos["metadata"]["custom_fields"]["Información de Datos"]["Frecuencia de Actualización"].lower()
+        except:
+            frecuencia_actualizacion = None
+        
+        dic_frecuencias = {
+            "diaria": 1,
+            "semanal": 7,
+            "quincenal": 15, 
+            "mensual": 31, 
+            "trimestral": 92, 
+            "cuatrimestral": 31 * 4,
+            "semestral": 182, 
+            "anual": 366,
+            "trieno": 365 * 3, 
+            }
+        
+        if frecuencia_actualizacion == "no aplica" or frecuencia_actualizacion == "nunca":
+            return 1
+        
+        if frecuencia_actualizacion not in dic_frecuencias:
+            print("No se puede calcular la actualización del conjunto de datos porque no está disponible la frecuencia de actualización")
+            return 0
+     
+        dias = dic_frecuencias[frecuencia_actualizacion]
+
+        fecha_act_num = self.metadatos["rowsUpdatedAt"]
+        fecha_hoy_num = datetime.datetime.now().timestamp()
+        
+        # diferencia_fechas = (fecha_hoy_num - fecha_act_num) / 60 / 60 / 24
+        diferencia_fechas = (datetime.datetime.fromtimestamp(fecha_hoy_num) - datetime.datetime.fromtimestamp(fecha_act_num)).days
+    
+        # Fecha de actualización
+        try:
+            fecha_actualizacion = datetime.datetime.fromtimestamp(self.metadatos["rowsUpdatedAt"])
+        except:
+            fecha_actualizacion = None
+        
+        if diferencia_fechas >= dias:
+            print("El conjunto de datos no se encuentra actualizado porque la última actualización fue el {0} y debe ser actualizado de manera {1}".format(fecha_actualizacion, frecuencia_actualizacion))        
+            indicador = 0
+        else:
+            print("El conjunto de datos se encuentra actualizado")
+            indicador = 1
+        
+        return indicador
+    
+    # Trazabilidad_creacion
+    def trazabilidad_creacion(self):
+        # Definir variables
+        try:
+            fecha_creacion = datetime.datetime.fromtimestamp(self.metadatos["createdAt"])
+        except:
+            fecha_creacion = None   
+        try:
+            fecha_publicacion = datetime.datetime.fromtimestamp(self.metadatos["publicationDate"])
+        except:
+            fecha_publicacion = None
+
+        indicador = 0
+        
+        if fecha_creacion is not None:
+            indicador = indicador + 0.5
+        else: 
+            pass
+            
+        if fecha_publicacion is not None:
+            indicador = indicador + 0.5
+        else:
+            pass
+        
+        return indicador
+    
+    # Trazabilidad publicacion
+    def trazabilidad_actualizacion(self):
+        # Definir variables
+        try:
+            fecha_actualizacion = datetime.datetime.fromtimestamp(self.metadatos["rowsUpdatedAt"])
+        except:
+            fecha_actualizacion = None
+        
+        # Freuencia de actualización
+        try:
+            frecuencia_actualizacion = self.metadatos["metadata"]["custom_fields"]["Información de Datos"]["Frecuencia de Actualización"]
+        except:
+            frecuencia_actualizacion = None
+            
+        indicador = 0
+        if fecha_actualizacion is not None:
+            indicador = indicador + 0.5
+        else: 
+            pass
+            
+        if frecuencia_actualizacion is not None:
+            indicador = indicador + 0.5
+        else:
+            pass
+        
+        return indicador
+    
+    # Trazabilidad_contacto
+    def trazabilidad_contacto(self):
+        # Definir variables
+        submitador = self.metadatos["approvals"][0]["submitter"]
+        try: 
+            nombre_contacto = submitador["displayName"]
+        except:
+            nombre_contacto = None
+
+        indicador = 0
+        if nombre_contacto is not None:
+            indicador = indicador + 1
+        else:
+            pass
+
+        return indicador
+    
+    # Trazabilidad título y descripción
+    def trazabilidad_descripcion(self):
+        # Definir variables
+        try:
+            titulo = self.metadatos["name"]
+        except:
+            titulo = None
+        try:
+            descripcion = self.metadatos["description"]
+        except:
+            descripcion = None
+                    
+        # Calcular similitud con SequenceMatcher
+        try:
+            similitud = SequenceMatcher(None, titulo.lower(), descripcion.lower()).ratio()
+        except:
+            similitud = 0
+        
+        # Revisar si hay al menos una letra en el título
+        if titulo is not None:
+            if any(c.isalpha() for c in titulo):
+               titulo_letra = True
+            else:
+                titulo_letra = False
+        else:
+            titulo_letra = False
+                
+        # Revisar si hay al menos una letra en el título
+        if descripcion is not None:
+            if any(c.isalpha() for c in descripcion):
+               descripcion_letra = True
+            else:
+                descripcion_letra = False
+        else:
+            descripcion_letra = False
+
+        indicador = 0
+        if titulo is not None and titulo_letra == True and len(titulo) > 20:
+            indicador = indicador + 0.5
+        else:
+            pass
+        if descripcion is not None and descripcion_letra == True and similitud < 0.5 and len(descripcion) > 60:
+            indicador = indicador + 0.5
+        else:
+            pass
+        
+        return indicador    
+
+    # Nombres de las columnas
+    def nombres_columnas(self):
+        lista_nombres_cols = [q["name"] for q in self.metadatos["columns"]]
+        indicador = 0
+        for s in lista_nombres_cols:
+            if s == "":
+                pass
+            else:
+                indicador = indicador + 1
+        return indicador / len(self.metadatos["columns"])    
+
+    # Descripción de las columnas
+    # Verificar si lo que está escrito está en español y tiene sentido (no puntuación)
+    def descripcion_columnas(self):
+        try:
+            lista_descr_cols = [q["description"] for q in self.metadatos["columns"]]
+        except:
+            return 0
+        indicador = 0
+        for s in lista_descr_cols:
+            if s == "":
+                pass
+            else:
+                indicador = indicador + 1
+        return indicador / len(self.metadatos["columns"])
+
+    # Tipos de columnas
+    def tipos_columnas_meta(self):
+        # Definir variables
+        lista_tipos_meta = [q["renderTypeName"] for q in self.metadatos["columns"]]
+        
+        indicador = 0
+        for s in lista_tipos_meta:
+            if s == "":
+                pass
+            else:
+                indicador = indicador + 1
+        return indicador / len(self.metadatos["columns"])
+
+    # Tamaño de conjunto igual en metadatos y en datos
+    def tamano_comparacion(self):
+        # Defnición de variables
+        try:
+            cached_contents = self.metadatos["columns"][0]["cachedContents"]
+        except:
+            pass
+        try:
+            numero_filas = int(cached_contents["non_null"]) + int(cached_contents["null"])
+        except:
+            numero_filas = None
+        try:
+            numero_columnas = len(self.metadatos["columns"])
+        except:
+            numero_columnas = None
+
+
+        fil_datos = self.base.shape[0]
+        col_datos = self.base.shape[1]
+        
+        indicador = 0
+        
+        if fil_datos == numero_filas:
+            indicador = indicador + 0.5
+        else:
+            pass
+        
+        if col_datos == numero_columnas:
+            indicador = indicador + 0.5
+        else:
+            pass
+        
+        return indicador
+
+    # Tipos de columnas son los que son
+    def verificar_meta_cols(self):
+        if self.base.shape[1] == 0:
+            resultado = 0
+        else:
+            lista_tipos_meta = [q["renderTypeName"] for q in self.metadatos["columns"]]
+            lista_tipos_datos = self.base.columns
+            
+            if len(lista_tipos_datos) != len(lista_tipos_meta):
+                resultado = 0
+            else:
+                indicador = 0
+                
+                for i in range(len(lista_tipos_meta)):
+                    columna = lista_tipos_datos[i]
+                    m = self.base[columna].mode().iloc[0]
+                            
+                    if lista_tipos_meta[i] == "number":
+                        try:
+                            int(m)
+                            indicador = indicador + 1
+                        except:
+                            try:
+                                float(m)
+                                indicador = indicador + 1
+                            except:
+                                pass
+                    elif lista_tipos_meta[i] == "calendar_date":
+                        try:
+                            parse(m, fuzzy = False)
+                            indicador = indicador + 1
+                        except:
+                                pass
+                    elif lista_tipos_meta[i] == "checkbox":
+                        if str(m) == "True" or str(m) == "False":
+                            indicador = indicador + 1
+                        else:
+                            pass
+                    elif lista_tipos_meta[i] == "text":
+                        if isinstance(m, str) == True:
+                            indicador = indicador + 1
+                        else:
+                            pass
+                    else:
+                        pass
+                    
+                resultado = indicador / len(lista_tipos_meta)
+        
+        return resultado
+    
+    def indice(self, datos = True, meta = True, subindicadores = False, numero_filas = 30000, dic_pesos_meta = None, dic_pesos_datos = None):
+        
+        if meta == True:
+            if self.metadatos is not None and dic_pesos_meta is None:
+                dic_meta = {
+                    1: self.trazabilidad_descripcion(),
+                    2: self.descripcion_columnas(),
+                    3: self.nombres_columnas(),
+                    4: self.retardo_actualizacion(),
+                    5: self.trazabilidad_actualizacion(),
+                    6: self.tipos_columnas_meta(),
+                    7: self.verificar_meta_cols(),
+                    8: self.trazabilidad_creacion(), 
+                    9: self.trazabilidad_contacto(),
+                    10: self.tamano_comparacion()
+                    }
+            elif self.metadatos is None and dic_pesos_meta is None:
+                dic_meta = {
+                    1: 0,
+                    2: 0,
+                    3: 0,
+                    4: 0,
+                    5: 0,
+                    6: 0,
+                    7: 0,
+                    8: 0,
+                    9: 0, 
+                    10: 0,
+                    }  
+            
+            else:
+                dic_meta = {
+                    1: self.trazabilidad_descripcion(),
+                    2: self.descripcion_columnas(),
+                    3: self.nombres_columnas(),
+                    4: self.retardo_actualizacion(),
+                    5: self.trazabilidad_actualizacion(),
+                    6: self.tipos_columnas_meta(),
+                    7: self.verificar_meta_cols(),
+                    8: self.trazabilidad_creacion(), 
+                    9: self.trazabilidad_contacto(),
+                    10: self.tamano_comparacion()
+                    }
+                
+                pesos_meta = dic_pesos_meta.copy()
+                indice_meta = 0
+                for i in range(1, len(pesos_meta) + 1):
+                # print(dic_meta[i], pesos_meta[i - 1])
+                    indice_meta = indice_meta + dic_meta[i] * pesos_meta[i]                
+                
+            #### Índice de calidad estándar para metadatos
+            if dic_pesos_meta is None:
+                n_meta = len(dic_meta)
+    
+                ##### Suma reciprocal para metadatos
+                jota_meta = sum([1 / q for q in range(1, n_meta +1)])
+                
+                # metadatos
+                pesos_meta = []
+                for i in range(1, n_meta + 1):
+                    peso = (1 / i) / (jota_meta)
+                    pesos_meta.append(peso)
+    
+                # Índice de calidad metadatos
+                indice_meta = 0
+                for i in range(1, n_meta + 1):
+                # print(dic_meta[i], pesos_meta[i - 1])
+                    indice_meta = indice_meta + dic_meta[i] * pesos_meta[i - 1]
+                ##
+                lista_nombres_meta = ['trazabilidad_descripcion', 'descripcion_columnas', 
+                                      'nombres_columnas', 'retardo_actualizacion', 
+                                      'trazabilidad_actualizacion', 
+                                      'tipos_columnas_meta', 'verificar_meta_cols', 
+                                      'trazabilidad_creacion', 'trazabilidad_contacto', 
+                                      'tamano_comparacion']
+    
+                for i in range(1, n_meta + 1):
+                    s = lista_nombres_meta[i - 1]
+                    dic_meta[s] = dic_meta.pop(i)
+                    
+            else:
+                pass
+        else:
+            pass
+                        
+        ##
+        if datos == True:
+            if self.base is not None and dic_pesos_datos is None:
+                dic_datos = {
+                    1: self.faltantes(),
+                    2: self.tamano_columnas(),
+                    3: self.tamano_filas(),
+                    4: self.duplicados_filas(),
+                    5: self.duplicados_columnas(),                    
+                    6: self.tipos_columnas_unicos(),
+                    7: self.valores_unicos()
+                    }
+            elif self.base is None and dic_pesos_datos is None:
+                dic_datos = {
+                    1: 0,
+                    2: 0,
+                    3: 0,
+                    4: 0,
+                    5: 0,
+                    6: 0,
+                    7: 0
+                    }
+                
+            else:
+                dic_datos = {
+                        1: self.faltantes(),
+                        2: self.tamano_columnas(),
+                        3: self.tamano_filas(),
+                        4: self.duplicados_filas(),
+                        5: self.duplicados_columnas(numero_filas = numero_filas),
+                        6: self.tipos_columnas_unicos(),
+                        7: self.valores_unicos()
+                        }
+                pesos_datos = dic_pesos_datos.copy()
+                indice_datos = 0
+                for i in range(1, len(pesos_datos) + 1):
+                    indice_datos = indice_datos + dic_datos[i] * pesos_datos[i]     
+                       
+            #### Índice de calidad estándar para datos 
+            if dic_pesos_datos is None:
+                n_datos = len(dic_datos)
+    
+                ##### Suma ranking para métricas de datos
+                jota_datos = sum([q for q in range(1, n_datos +1)])
+                           
+                # datos
+                pesos_datos = []
+                for i in range(1, n_datos + 1):
+                    peso = (n_datos + 1 - i) / (jota_datos)
+                    pesos_datos.append(peso)
+                    
+                #### ïndices de calidad
+                # Índice de calidad datos
+                indice_datos = 0
+                for i in range(1, n_datos + 1):
+                    indice_datos = indice_datos + dic_datos[i] * pesos_datos[i - 1]
+                
+                lista_nombres_datos = ['faltantes', 'tamano_columnas', 'tamano_filas', 
+                                       'duplicados_filas', 'duplicados_columnas', 
+                                       'tipos_columnas_unicos', 'valores_unicos']
+                
+                for i in range(1, n_datos + 1):
+                    s = lista_nombres_datos[i - 1]
+                    dic_datos[s] = dic_datos.pop(i)
+        
+            else:
+                pass
+        else:
+            pass
+
+        ####
+        if datos == True and meta == True:
+            indice_final = 0.5 * indice_meta + 0.5 * indice_datos
+        
+            dic_indices = {"indice": indice_final,
+                    "indice_metadatos": indice_meta, 
+                    "indice_datos": indice_datos
+                    }
+            if subindicadores:
+                return dic_indices, dic_meta, dic_datos
+            else:
+                return dic_indices
+    
+        elif datos == True and meta == False:
+            indice_final = indice_datos
+            dic_indices = {"indice": indice_final,
+                    "indice_datos": indice_datos
+                    }
+            return dic_indices
+        
+        elif datos == False and meta == True:
+            indice_final = indice_meta
+            dic_indices = {"indice": indice_final,
+                    "indice_datos": indice_meta
+                    }
+            return dic_indices
+        
+        else:
+            print("Es necesario asignar el valor True a al menos uno de los siguientes parámetros: 'datos', 'meta'")
