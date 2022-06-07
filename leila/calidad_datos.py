@@ -1362,12 +1362,26 @@ class CalidadDatos:
 
 
 class indice_calidad:
-    
-    # METER EN INIT LOS PARÁMETROS DE LAS FUNCIONES
+    """
+    Constructor por defecto de la clase leila.indice_calidad. Esta clase se \
+    encarga de generar el índice de calidad de conjuntos de datos del Portal \
+    de Datos Abiertos de Colombia y sus subindicadores. 
+
+    El insumo principal para generar el índice de calidad de un conjunto de datos \
+    es su código API del Portal de Datos Abiertos. 
+
+    :param api_id: código API del conjunto de datos del Portal de Datos Abiertos. Es \
+        un string de nueve caracteres único para cada conjunto
+    :type api_id: str
+    :param numero_filas: es el número de filas que se utilizan para calcular los \
+        duplicados de columnas en el método 'duplicados_columnas'
+    :type numero_filas: int
+
+    """ 
+
     def __init__(
             self,
             api_id = "",
-            token = None,
             numero_filas = 30000
             ):
         self.numero_filas = numero_filas
@@ -1390,6 +1404,11 @@ class indice_calidad:
     ## Valores faltantes
     # Valores faltantes de todo el dataframe
     def faltantes(self):
+        """
+        Subindicador que varía entre 0 y 1, donde 1 representa la mejor calidad y 0 la peor calidad. Calcula \
+        el porcentaje de celdas faltantes dentro del conjunto de datos y lo divide por el total de celdas y \
+        resta el resultado al número 1
+        """
         if self.base.shape[0] == 0 or self.base.shape[1] == 0:
             indicador = 0
         else:
@@ -1398,6 +1417,12 @@ class indice_calidad:
     
     # Tamaño de las filas
     def tamano_filas(self):
+        """
+        Subindicador que varía entre 0 y 1, donde 1 representa la mejor calidad y 0 la peor calidad. Verifica si \
+        el conjunto de datos tiene una cantidad mínima de filas. Revisa si el número de filas del conjunto de \
+        datos es menor o no a 50 y, en caso de ser 50 o más, el índice será 1. En caso de ser menor a 50, el \
+        subindicador será el número de filas del conjunto dividio por 50
+        """
         if self.base.shape[0] < 50:
             indicador = self.base.shape[0] / 50 
         else:
@@ -1406,6 +1431,12 @@ class indice_calidad:
     
     # Tamaño de las columnas
     def tamano_columnas(self):
+        """
+        Subindicador que varía entre 0 y 1, donde 1 representa la mejor calidad y 0 la peor calidad. Verifica \
+        que el conjunto de datos tenga una cantidad mínima de columnas. En caso de tener 3 o más columnas, el \
+        subindicador será igual a 1. En caso de tener menos de 3 columnas, será el número de columnas divido \
+        por 3
+        """        
         if self.base.shape[1] < 3:
             indicador = self.base.shape[1] / 3
         else:
@@ -1414,6 +1445,11 @@ class indice_calidad:
     
     # Duplicados de filas
     def duplicados_filas(self):
+        """
+        Subindicador que varía entre 0 y 1, donde 1 representa la mejor calidad y 0 la peor calidad. Calcula \
+        la cantidad de filas duplicadas, las divide por el total de filas y luego resta este porcentaje al \
+        número 1
+        """
         if self.base.shape[0] == 0 or self.base.shape[1] == 0:
             indicador = 0
         else:
@@ -1422,6 +1458,12 @@ class indice_calidad:
     
     # Duplicados de columnas (REVISAR DAVID)
     def duplicados_columnas(self):
+        """
+        Subindicador que varía entre 0 y 1, donde 1 representa la mejor calidad y 0 la peor calidad. Calcula \
+        el número de columnas duplicadas, lo divide por el total de columnas y luego resta este porcentaje \
+        al número 1. En caso de tener un valor mayor o igual al parámetro 'numero_filas' (por defecto es 30.000), \
+        el algoritmo utiliza únicamente el número de filas igual a 'numero_filas' en los cálculos de duplicados
+        """
         if self.base.shape[0] == 0 or self.base.shape[1] == 0:
             indicador = 0
         elif self.base.shape[0] > 0 and self.base.shape[1] > 0 and self.numero_filas < 30000:
@@ -1435,6 +1477,11 @@ class indice_calidad:
     
     # Más de un valor único por columna
     def valores_unicos(self):
+        """
+        Subindicador que varía entre 0 y 1, donde 1 representa la mejor calidad y 0 la peor calidad. Verifica si \
+        hay columnas que contienen el mismo valor en todos sus campos. El subindicador es igual al número 1 restado \
+        por el porcentaje de columnas que contienen el mismo valor en cada celda
+        """
         if self.base.shape[0] == 0:
             indicador = 0
         else:
@@ -1444,6 +1491,12 @@ class indice_calidad:
     
     # Tipos de observaciones en cada columna
     def tipos_columnas_unicos(self):
+        """
+        Subindicador que varía entre 0 y 1, donde 1 representa la mejor calidad y 0 la peor calidad. Verifica \
+        si hay columnas que contienen tipos de datos distintos, que no deberían estar en la misma columna. Por \
+        ejemplo, si una columna contiene al mismo tiempo valores string y numéricos. El subindicador es igual \
+        al número 1 restado por el porcentaje de columnas con más de 1 valor en sus celdas
+        """
         if self.base.shape[1] == 0:
             indicador = 0
         else:
@@ -1461,7 +1514,11 @@ class indice_calidad:
     
     # Actualización de conjunto de datos
     def retardo_actualizacion(self):
-        
+        """
+        Subindicador que varía entre 0 y 1, donde 1 representa la mejor calidad y 0 la peor calidad. Verifica si 
+        el conjunto de datos se encuentra actualizado o no según la información de los metadatos. El valor es 1 \
+        si está actualizado y 0 de lo contrario
+        """
         # Freuencia de actualización
         try:
             frecuencia_actualizacion = self.metadatos["metadata"]["custom_fields"]["Información de Datos"]["Frecuencia de Actualización"].lower()
@@ -1512,6 +1569,11 @@ class indice_calidad:
     
     # Trazabilidad_creacion
     def trazabilidad_creacion(self):
+        """
+        Subindicador que varía entre 0 y 1, donde 1 representa la mejor calidad y 0 la peor calidad. Verifica si \
+        se encuentran los campos de la fecha de creación y la fecha de publicación del conjunto de datos en los \
+        metadatos
+        """
         # Definir variables
         try:
             fecha_creacion = datetime.datetime.fromtimestamp(self.metadatos["createdAt"])
@@ -1538,6 +1600,11 @@ class indice_calidad:
     
     # Trazabilidad publicacion
     def trazabilidad_actualizacion(self):
+        """
+        Subindicador que varía entre 0 y 1, donde 1 representa la mejor calidad y 0 la peor calidad. Verifica si \
+        se encuentran los campos de la frecuencia de actualización y la fecha de la última actualización en los \
+        metadatos
+        """
         # Definir variables
         try:
             fecha_actualizacion = datetime.datetime.fromtimestamp(self.metadatos["rowsUpdatedAt"])
@@ -1565,6 +1632,10 @@ class indice_calidad:
     
     # Trazabilidad_contacto
     def trazabilidad_contacto(self):
+        """
+        Subindicador que varía entre 0 y 1, donde 1 representa la mejor calidad y 0 la peor calidad. Verifica si \
+        se encuentra el campo del nombre del dueño del conjunto de datos en los metadatos
+        """
         # Definir variables
         submitador = self.metadatos["approvals"][0]["submitter"]
         try: 
@@ -1582,6 +1653,12 @@ class indice_calidad:
     
     # Trazabilidad título y descripción
     def trazabilidad_descripcion(self):
+        """
+        Subindicador que varía entre 0 y 1, donde 1 representa la mejor calidad y 0 la peor calidad. Verifica si \
+        se encuentran los campos del título y la descripción en los metadatos. Adicionalmente, castiga los metadatos \
+        que contienen el título y descripción muy similares, que no contengan un mínimo de caracteres adecuado y que \
+        no contengan letras
+        """
         # Definir variables
         try:
             titulo = self.metadatos["name"]
@@ -1607,7 +1684,7 @@ class indice_calidad:
         else:
             titulo_letra = False
                 
-        # Revisar si hay al menos una letra en el título
+        # Revisar si hay al menos una letra en la descripción
         if descripcion is not None:
             if any(c.isalpha() for c in descripcion):
                descripcion_letra = True
@@ -1630,6 +1707,10 @@ class indice_calidad:
 
     # Nombres de las columnas
     def nombres_columnas(self):
+        """
+        Subindicador que varía entre 0 y 1, donde 1 representa la mejor calidad y 0 la peor calidad. Verifica si \
+        el nombre de cada columna aparece en los metadatos
+        """
         lista_nombres_cols = [q["name"] for q in self.metadatos["columns"]]
         indicador = 0
         for s in lista_nombres_cols:
@@ -1642,6 +1723,10 @@ class indice_calidad:
     # Descripción de las columnas
     # Verificar si lo que está escrito está en español y tiene sentido (no puntuación)
     def descripcion_columnas(self):
+        """
+        Subindicador que varía entre 0 y 1, donde 1 representa la mejor calidad y 0 la peor calidad. Verifica si \
+        cada columna tiene su descripción en los metadatos
+        """
         try:
             lista_descr_cols = [q["description"] for q in self.metadatos["columns"]]
         except:
@@ -1656,6 +1741,10 @@ class indice_calidad:
 
     # Tipos de columnas
     def tipos_columnas_meta(self):
+        """
+        Subindicador que varía entre 0 y 1, donde 1 representa la mejor calidad y 0 la peor calidad. Verifica si \
+        existe el campo que indica el tipo de cada columna en los metadatos
+        """
         # Definir variables
         lista_tipos_meta = [q["renderTypeName"] for q in self.metadatos["columns"]]
         
@@ -1669,6 +1758,11 @@ class indice_calidad:
 
     # Tamaño de conjunto igual en metadatos y en datos
     def tamano_comparacion(self):
+        """
+        Subindicador que varía entre 0 y 1, donde 1 representa la mejor calidad y 0 la peor calidad. Verifica si \
+        el número de filas y columnas del conjunto de datos es igual al número de filas y columnas reportado en los \
+        metadatos
+        """
         # Defnición de variables
         try:
             cached_contents = self.metadatos["columns"][0]["cachedContents"]
@@ -1703,6 +1797,10 @@ class indice_calidad:
 
     # Tipos de columnas son los que son
     def verificar_meta_cols(self):
+        """
+        Subindicador que varía entre 0 y 1, donde 1 representa la mejor calidad y 0 la peor calidad. Verifica si \
+        cada columna del conjunto de datos tiene el mismo tipo indicado en los metadatos
+        """
         if self.base.shape[1] == 0:
             resultado = 0
         else:
@@ -1752,7 +1850,32 @@ class indice_calidad:
         return resultado
     
     def indice(self, datos = True, meta = True, subindicadores = False, numero_filas = 30000, dic_pesos_meta = None, dic_pesos_datos = None):
-        
+        """
+        Método para calcular el índice de calidad y sus subindicadores para un conjunto de datos del Portal de Datos Abiertos. 
+
+        :param datos: si es True incluye información de la calidad de los datos en los resultados. De lo contrario no calcula \
+            la calidad de los datos y sí de los metadatos. Al menos uno de los parámetros, 'datos' o 'meta', tiene que tener el valor True \
+            para poder generar resultados
+        :type datos: bool
+        :param meta: si es True incluye información de la calidad de los metadatos en los resultados. De lo contrario no calcula \
+            la calidad de los metadatos y sí de los datos. Al menos uno de los parámetros, 'datos' o 'meta', tiene que tener el valor True \
+            para poder generar resultados
+        :type meta: bool
+        :param subindicadores: si es True se calculan todos los subindicadores de los indicadores de datos y metadatos
+        :type subindicadores: bool
+        :numero_filas: es el número de filas que se utilizan para calcular los \
+            duplicados de columnas en el método 'duplicados_columnas'
+        :type numero_filas:int
+        :dic_pesos_meta: diccionario de Python opcional donde un usuario define los pesos que desea para cada subindicador de \
+            los metadatos. Las llaves del diccionario son los números de 1 a 10, representan cada subindicador, y los valores \
+            son los pesos de cada subindicador, los cuales ttienen que sumar 1. 
+        :type dic_pesos_meta: dict
+        :dic_pesos_datos: diccionario de Python opcional donde un usuario define los pesos que desea para cada subindicador de \
+            los datos. Las llaves del diccionario son los números de 1 a 7, representan cada subindicador, y los valores \
+            son los pesos de cada subindicador, los cuales ttienen que sumar 1. 
+        :type dic_pesos_datos: dict 
+
+        """
         if meta == True:
             if self.metadatos is not None and dic_pesos_meta is None:
                 dic_meta = {
@@ -1924,14 +2047,20 @@ class indice_calidad:
             dic_indices = {"indice": indice_final,
                     "indice_datos": indice_datos
                     }
-            return dic_indices
+            if subindicadores:
+                return dic_indices, dic_datos
+            else:
+                return dic_indices
         
         elif datos == False and meta == True:
             indice_final = indice_meta
             dic_indices = {"indice": indice_final,
                     "indice_datos": indice_meta
                     }
-            return dic_indices
+            if subindicadores:
+                return dic_indices, dic_meta
+            else:
+                return dic_indices
         
         else:
             print("Es necesario asignar el valor True a al menos uno de los siguientes parámetros: 'datos', 'meta'")
