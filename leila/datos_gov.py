@@ -79,10 +79,14 @@ class DatosGov:
         # Almacenar los metadatos
         query = requests.get(f"{self._meta}{api_id}.json")
         self.__metadatos = dict(query.json())
-        if "cachedContents" in self.__metadatos["columns"][0] and "count" in self.__metadatos["columns"][0]["cachedContents"]:
-            self.__metadatos["n_rows"] = int(
-                self.__metadatos["columns"][0]["cachedContents"]["count"]
-            )
+        if "cachedContents" in self.__metadatos["columns"][0] and "non_null" in self.__metadatos["columns"][0]["cachedContents"]:
+                self.__metadatos["n_rows"] = int(
+                    self.__metadatos["columns"][0]["cachedContents"]["null"]
+                )\
+                + int(
+                    self.__metadatos["columns"][0]["cachedContents"]["non_null"]
+                )
+
         else:
             self.__metadatos["n_rows"] = "NA"
         if "columns" in self.__metadatos:
@@ -162,6 +166,20 @@ class DatosGov:
         return tabla
 
     def __filtrar_tabla(self, data, filtros):
+        """
+        Función que filtra la data si es puesto un filtro como parámetro en la función
+        tabla_inventario y retorna los datos filtrados. \
+        :ref:`Ver ejemplo <Ejemplo Cargar conjunto de datos con número API>`
+
+        :param filtros: Permite filtar la tabla de inventario de datos \
+            tomando como referencia las columnas presentes en la tabla, \
+            mediante un diccionario de datos del tipo {'nombre_columna': \
+            ['valor buscado1', 'valor buscado 2']}. Para mayor información \
+            consulte: (REVISAR)
+        :type filtro: dict, opcional.
+        :return: (pandas.DataFrame) Dataframe con la información filtrada de los datos \
+            disponibles en el portal datos.gov.co.
+        """
         # valores del filtro
         col_filtros = set(filtros.keys())
         str_cols = list(
@@ -235,9 +253,21 @@ class DatosGov:
         return data
 
     def __normalizar_string(self, texto):
+        """
+        :param texto: String a ser convertido en ASCII caracteres
+        :type texto: "string"
+        :return: (texto) - String en ASCII caracteres.
+        :rtype: string
+        """
         return unidecode(texto.lower())
 
     def __renombrar_metadatos(self):
+        """
+        Función que renombra las llaves en el diccionario de metadatos
+        :return: Un diccionario con las llaves cambiadas especificadas por la variable
+        dic_rename
+        :rtype: diccionario
+        """
         # Crear diccionario para renombrar algunos metadatos
         dic_rename = {
             'id': 'numero_api',
@@ -267,11 +297,12 @@ class DatosGov:
         dic_metadatos['fecha_actualizacion'] = datetime.datetime.fromtimestamp(dic_metadatos['fecha_actualizacion']).strftime('%Y-%m-%d')
 
         # Agregar licencias
-        if 'license' in self.__metadatos and 'name' in self.__metadatos['license']['name']:
+
+        if 'license' in self.__metadatos and 'name' in self.__metadatos['license']:
             dic_metadatos['licencia'] = self.__metadatos['license']['name']
         else:
             dic_metadatos['licencia'] = "NA"
-        
+
         if 'license' in self.__metadatos and 'termsLink' in self.__metadatos['license']:
             dic_metadatos['licencia_url'] = self.__metadatos['license']['termsLink']
         else:
