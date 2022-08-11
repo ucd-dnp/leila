@@ -17,7 +17,7 @@ import requests
 from difflib import SequenceMatcher
 import datetime
 from dateutil.parser import parse
-
+import phik
 class CalidadDatos:
     """
     Constructor por defecto de la clase leila.CalidadDatos. Esta clase se \
@@ -2137,8 +2137,7 @@ class Reporte:
     API de Socrata (de Datos Abiertos)
     :type datos: str
     """
-    def __init__(self, datos):
-        self.datos = datos
+
 
     def df_as_html(self, base, id=None, classes=None):
         """ Transforma el dataframe de entrada en una tabla HTML, se asignan al tab table las clases 'table' y
@@ -2188,7 +2187,7 @@ class Reporte:
                     'duplicados', 'duplicados_filas', 'duplicados_columnas', 'descriptivas' |/li|
              |/ul|
         """
-        datos = self.datos
+
         link_datos_abiertos = None
         html_descr_col_meta = None
         html_metadatos_full = None
