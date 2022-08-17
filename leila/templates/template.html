@@ -13,6 +13,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 
         <!-- Load plotly.js into the DOM -->
         <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
@@ -31,7 +32,9 @@
             table > tbody > tr > :nth-child(1) { font-weight:bold; }
             table:not(.highlight_column) > tbody > tr:hover { background-color: #ffff99 !important; }
             table:not(.highlight_column) > tbody > tr:nth-child(even) { background: #ededed;}
-            .tabla_sin_bold > table > tbody > tr > :nth-child(1){ font-weight:normal !important; }
+            .tabla_sin_bold > table > tbody > tr > :nth-child(1){ font-weight:normal !important; }            
+            .tabla_sin_bold2 > table > tbody > tr > :nth-child(2){ font-weight:normal !important; }            
+            .tabla_sin_bg > table > tbody > tr:nth-child(even) { background: white;}
             .tableFixHead { overflow-y: auto; height: 100px; }
             .tableFixHead thead th { position: sticky; top: 0; background:#ffffff; }
             tr td, tr th { white-space: nowrap;}
@@ -46,6 +49,22 @@
                 background-color: #ffff99 !important;
                 left: 0; top: -5000px; height: 10000px;
                 width: 100%; z-index: -1;
+            }
+
+            .bigger{
+                font-size: 1.1em;
+            }
+            .y {
+                color: #ebc707;
+                text-shadow: 1px 1px 1px #ccc;
+            }
+            .g {
+                color: #c6c8cc;
+                text-shadow: 1px 1px 1px #ccc;
+            }
+            .b {
+                color: #b08d57;
+                text-shadow: 1px 1px 1px #ccc;
             }
         </style>
     </head>
@@ -79,7 +98,7 @@
                                             <h3><em>Metadatos</em></h3>
                                         {% endif %}
                                     </div>
-                                </div>                               
+                                </div>
 
                                 <ul class="nav nav-tabs">
                                     <li class="active"><a data-toggle="tab" href="#tab_metadatos">Información general</a></li>
@@ -120,6 +139,95 @@
                                                 <div class="table-responsive">
                                                     {{ html_descr_col_meta }}
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                    {% endif %}
+
+                    <!-- Indice de calidad -->
+                    {% if seccion_indice_calidad %}
+                        <div class="row">
+                            <div class="col-md-12 borde min_size_row_meta">
+                                
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h3><em>Indice de calidad de datos</em></h3>
+                                        <p>
+                                            El índice de calidad de datos está construido a partir de subindicadores que miden aspectos específicos de los datos y metadatos de un conjunto de datos. En total son 17. De estos, 10 se miden a partir de los metadatos, ya sea directamente o por su relación con los datos, y 7 que se calculan a partir de los datos, es decir, de la información que se encuentra en cada conjunto de datos independientemente de los metadatos. El índice de calidad final es el promedio del índice de metadatos y del índice de datos. Se presentan los datos en un rango de 0 a 5.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h3 class='text-center'>Calificación general índice de calidad</h3>
+                                        {% if (indice_general_values[1] >= 3) and (indice_general_values[1] < 4) %}
+                                            <h4 class='text-center' style="margin:0px;">{{ indice_general_values[0] }}{{ indice_general_stars[0] }} - Medalla de calidad Bronce <i class="fas fa-award b"></i></h4>
+                                        {% elif (indice_general_values[1] >= 4) and (indice_general_values[1] < 4.5) %}
+                                            <h4 class='text-center' style="margin:0px;">{{ indice_general_values[0] }}{{ indice_general_stars[0] }} - Medalla de calidad Plata <i class="fas fa-award g"></i></h4>
+                                        {% elif indice_general_values[1] >= 4.5 %}
+                                            <h4 class='text-center' style="margin:0px;">{{ indice_general_values[0] }}{{ indice_general_stars[0] }} - Medalla de calidad Oro <i class="fas fa-award y"></i></h4>
+                                        {% else %}
+                                            <h4 class='text-center' style="margin:0px;">{{ indice_general_values[0] }}{{ indice_general_stars[0] }}</h4>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 center-block table-responsive" style="margin-top:30px;">
+                                        <h4 class='text-center'>Calificación índice de calidad - metadatos</h4>
+                                        <h4 class='text-center' style="margin:0px;">{{ indice_general_values[1] }}{{ indice_general_stars[1] }}</h4>
+
+                                        <div class="row">
+                                            <div id='radar_metadatos' class="max_size_row3"></div>
+                                        </div>
+                                        <div class="row bigger" style="margin-left:15px; margin-right:15px; margin-bottom:15px;">
+                                            <div class="tabla_sin_bold tabla_sin_bold2 tabla_sin_bg">
+                                                <table style="margin-left: auto; margin-right: auto;">
+                                                    <tr>
+                                                        <th style="text-align: right;">Subindicador</th>
+                                                        <th style="padding-left:10px;">Calificación</th>
+                                                    </tr>
+                                                    {% for indicador in indice_metadatos_headers %}
+                                                        <tr>
+                                                            <td style="text-align: right;">{{ indicador }}</td>
+                                                            <td style="padding-left:10px;">{{ indice_metadatos_values[loop.index0] }}
+                                                                {{ indice_metadatos_stars[loop.index0] }}
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 center-block table-responsive" style="margin-top:30px;">
+                                        <h4 class='text-center'>Calificación índice de calidad - datos</h4>
+                                        <h4 class='text-center' style="margin:0px;">{{ indice_general_values[2] }}{{ indice_general_stars[2] }}</h4>
+                                        <div class="row">
+                                            <div id='radar_datos' class="max_size_row3"></div>
+                                        </div>
+                                        <div class="row bigger" style="margin-left:15px; margin-right:15px; margin-bottom:15px;">
+                                            <div class="tabla_sin_bold tabla_sin_bold2 tabla_sin_bg">
+                                                <table style="margin-left: auto; margin-right: auto;">
+                                                    <tr>
+                                                        <th style="text-align: right;">Subindicador</th>
+                                                        <th style="padding-left:10px;">Calificación</th>
+                                                    </tr>
+                                                    {% for indicador in indice_datos_headers %}
+                                                        <tr>
+                                                            <td style="text-align: right;">{{ indicador }}</td>
+                                                            <td style="padding-left:10px;">{{ indice_datos_values[loop.index0] }}
+                                                                {{ indice_datos_stars[loop.index0] }}
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </table>
                                             </div>
                                         </div>
                                     </div>
@@ -461,12 +569,12 @@
                                     {% endif %}
                                     {% if corre_phik_values != None %} {% if correlaciones_active == 'phik' %}<li class="active">{% else %}<li>{% endif %}
                                         <a data-toggle="tab" href="#tab05b">Phik</a></li>
-                                    {% endif %}                                    
+                                    {% endif %}
                                 </ul>
 
                                 <div class="tab-content" style="text-align: justify; text-justify: inter-word;">
 
-                                    <!-- correlación numérica - Pearson -->                                    
+                                    <!-- correlación numérica - Pearson -->
                                     {% if corre_pearson_values != None %}
                                         {% if correlaciones_active == 'pearson' %}
                                             <div id="tab01b" class="tab-pane fade in active">
@@ -576,7 +684,7 @@
                                             <div id="tab05b" class="tab-pane fade in active">
                                         {% else %}
                                             <div id="tab05b" class="tab-pane fade">
-                                        {% endif %}                                    
+                                        {% endif %}
                                             <br>
                                             <p class="descripcion">
                                                 Esta correlación se calcula con el módulo Phik de Python. <a href="https://pypi.org/project/phik/" target="_blank">ver más detalles</a>
@@ -807,6 +915,38 @@
                             $('#select-all_6').prop('checked', value);
                         });
                     </script>
+
+                    <!-- Gráficos Radar -->
+                    {% if seccion_indice_calidad %}
+                        <script>
+                            // Función para la generación de heat maps de correlación usando plotly
+                            function radar(graph_id, headers, values) {
+                                var data = [
+                                    {
+                                        type: 'scatterpolar',
+                                        r: values,
+                                        theta: headers,
+                                        fill: 'toself'
+                                    }
+                                ];
+
+                                var layout = {
+                                    polar: {
+                                    radialaxis: {
+                                        visible: true,
+                                        range: [0, 5]
+                                    }
+                                    },
+                                    showlegend: false
+                                };
+                                try { Plotly.newPlot(graph_id, data, layout, {displayModeBar: false, responsive: true}); } catch (error) { }
+                            }
+                            
+                            try { radar('radar_metadatos', {{ indice_metadatos_headers }}, {{ indice_metadatos_values }}); } catch (error) { }
+                            try { radar('radar_datos', {{ indice_datos_headers }}, {{ indice_datos_values }}); } catch (error) { }
+                        </script>
+                        
+                    {% endif %}
 
                     <!-- Heatmaps -->
                     {% if seccion_correlaciones %}

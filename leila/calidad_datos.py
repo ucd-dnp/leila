@@ -2138,6 +2138,45 @@ class Reporte:
     :type datos: str
     """
 
+    
+    def style_headers(reporte, value):
+        dict_header = {
+            'trazabilidad_descripcion':"Trazabilidad descripción",
+            'descripcion_columnas':"Descripción de columnas",
+            'nombres_columnas':"Nombres de columnas",
+            'retardo_actualizacion':"Retardo en actualización",
+            'trazabilidad_actualizacion':"Trazabilidad actualización",
+            'tipos_columnas_meta':"Tipos de columnas metadatos",
+            'verificar_meta_cols':"Verificar metadatos columnas",
+            'trazabilidad_creacion':"Trazabilidad creación",
+            'trazabilidad_contacto':"Trazabilidad contacto",
+            'tamano_comparacion':"Tamaño comparación",
+            'faltantes':"Faltantes",
+            'tamano_columnas':"Tamaño columnas",
+            'tamano_filas':"Tamano filas",
+            'duplicados_filas':"Duplicados filas",
+            'duplicados_columnas':"Duplicados columnas",
+            'tipos_columnas_unicos':"Tipos columnas únicos",
+            'valores_unicos':"Valores únicos",
+        }
+
+        header = dict_header[value]        
+        return header
+
+
+    def html_stars(reporte, value):
+        string = ''
+        rounded_value = math.floor(value * 2) / 2
+        frac, whole = math.modf(rounded_value)
+        remaining_int = 5 - math.ceil(rounded_value)
+
+        string = '<i class="fas fa-star y"></i>' * int(whole)
+        if frac == 0.5:
+            string += '<i class="fas fa-star-half-alt y"></i>'
+
+        string += '<i class="fas fa-star g"></i>' * int(remaining_int)
+        return string
+
 
     def df_as_html(self, base, id=None, classes=None):
         """ Transforma el dataframe de entrada en una tabla HTML, se asignan al tab table las clases 'table' y
@@ -2159,6 +2198,7 @@ class Reporte:
         html = base.to_html(index=False, table_id=id, classes=my_classes) \
             .replace('table border="1" class="dataframe ', 'table class="')
         return html
+
 
     def generar_reporte(self, datos=None, titulo='Reporte perfilamiento', archivo='perfilamiento_leila.html',
                         secciones={'generales': True, 'muestra_datos': True, 'correlaciones': True,
@@ -2193,6 +2233,7 @@ class Reporte:
         html_metadatos_full = None
         html_metadatos_head = None
         html_metadatos_tail = None
+        seccion_indice_calidad = False
 
         if isinstance(datos, str):
             if datos == '':
@@ -2201,9 +2242,31 @@ class Reporte:
                 )
 
             elif re.match("[A-Za-z0-9]{4}-[A-Za-z0-9]{4}", datos):
-                # FIXME: BORRAR **kwargs
                 api_id = datos
                 datos = DatosGov().cargar_base(api_id=datos, **kwargs)
+
+                IndiceCalidad = indice_calidad(api_id=api_id)
+                resultados_indice_calidad = IndiceCalidad.indice(datos = True, meta = True, subindicadores = True, numero_filas = 30000,  dic_pesos_meta = None, dic_pesos_datos = None)
+
+                IC_general = resultados_indice_calidad[0]
+                IC_metadatos = resultados_indice_calidad[1]
+                IC_datos = resultados_indice_calidad[2]
+
+                indice_general_headers = list(IC_general.keys())
+                indice_general_values = [round(IC_general[x] * 5.0, 1) for x in indice_general_headers]
+                indice_general_stars = [self.html_stars(item) for item in indice_general_values]
+
+                indice_metadatos_headers = list(IC_metadatos.keys())
+                indice_metadatos_values = [round(IC_metadatos[x] * 5.0, 1) for x in indice_metadatos_headers]
+                indice_metadatos_stars = [self.html_stars(item) for item in indice_metadatos_values]
+                indice_metadatos_headers = [self.style_headers(item) for item in indice_metadatos_headers]
+
+                indice_datos_headers = list(IC_datos.keys())
+                indice_datos_values = [round(IC_datos[x] * 5.0, 1) for x in indice_datos_headers]
+                indice_datos_stars = [self.html_stars(item) for item in indice_datos_values]
+                indice_datos_headers = [self.style_headers(item) for item in indice_datos_headers]
+
+                seccion_indice_calidad = True
 
                 base = CalidadDatos(datos)
                 df_metadatos = pd.DataFrame.from_dict(datos.metadatos(), orient='index')
@@ -2675,7 +2738,17 @@ class Reporte:
                 corre_cramer_headers=corre_cramer_headers,
                 corre_cramer_values=corre_cramer_values,
                 corre_phik_headers=corre_phik_headers,
-                corre_phik_values=corre_phik_values
+                corre_phik_values=corre_phik_values,
+                seccion_indice_calidad=seccion_indice_calidad,
+                indice_general_headers=indice_general_headers,
+                indice_general_values=indice_general_values,
+                indice_general_stars=indice_general_stars,
+                indice_metadatos_headers=indice_metadatos_headers,
+                indice_metadatos_values=indice_metadatos_values,
+                indice_metadatos_stars=indice_metadatos_stars,
+                indice_datos_headers=indice_datos_headers,
+                indice_datos_values=indice_datos_values,
+                indice_datos_stars=indice_datos_stars,
             )
             try:
                 HTML_file.write(output)
