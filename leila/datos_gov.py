@@ -6,9 +6,9 @@ import requests
 from unidecode import unidecode
 import re
 import datetime
+from leila.calidad_datos import Reporte, IndiceCalidad
 
-
-class DatosGov:
+class DatosGov(Reporte, IndiceCalidad):
     """
     Clase para cargar conjuntos de datos del portal de `datos.gov.co` y \
     descargar los metadatos de dichos conjuntos.
@@ -18,6 +18,7 @@ class DatosGov:
         self._dominio = "https://www.datos.gov.co/resource/"
         self._meta = "https://www.datos.gov.co/api/views/"
         self.__metadatos = None
+        self.metadatos_indice = None
         self.datos = None
         self._DIC_RENAME = {
             "uid": "numero_api",
@@ -46,6 +47,8 @@ class DatosGov:
             "informacindedatos_coberturageogrfica": "cobertura",
             "publication_stage": "base_publica",
         }
+        IndiceCalidad.__init__(self, datos=self)
+        Reporte.__init__(self)
 
     def cargar_base(self, api_id, limite_filas=1000000000):
         """
@@ -76,9 +79,14 @@ class DatosGov:
         col_objs = list(temp.select_dtypes(object))
         url = f"{self._dominio}{api_id}.csv?$limit={limite_filas}"
         self.datos = pd.read_csv(url, parse_dates=col_objs)
+        # para el cálculo del índice
+        self.base_indice = self.datos
         # Almacenar los metadatos
         query = requests.get(f"{self._meta}{api_id}.json")
         self.__metadatos = dict(query.json())
+        # Para el cálculo del índice
+        self.metadatos_indice = dict(query.json())
+
         if "cachedContents" in self.__metadatos["columns"][0] and "non_null" in self.__metadatos["columns"][0]["cachedContents"]:
                 self.__metadatos["n_rows"] = int(
                     self.__metadatos["columns"][0]["cachedContents"]["null"]
