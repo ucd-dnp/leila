@@ -166,6 +166,12 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <h3 class='text-center'>Calificación general índice de calidad</h3>
+                                        {% if html_metadatos_full == None %}
+                                            <div style="color:red;">
+                                                Este conjunto de datos no cuenta con metadatos, por lo tanto, el índice de calidad fue calculado teniendo en cuenta únicamente el componente de datos.
+                                            </div>
+                                        {% endif %}
+
                                         {% if (indice_general_values[1] >= 3) and (indice_general_values[1] < 4) %}
                                             <h4 class='text-center' style="margin:0px;">{{ indice_general_values[0] }}{{ indice_general_stars[0] }} - Medalla de calidad Bronce <i class="fas fa-award b"></i></h4>
                                         {% elif (indice_general_values[1] >= 4) and (indice_general_values[1] < 4.5) %}
@@ -177,36 +183,42 @@
                                         {% endif %}
                                     </div>
                                 </div>
-
+                                
                                 <div class="row">
-                                    <div class="col-md-6 center-block table-responsive" style="margin-top:30px;">
-                                        <h4 class='text-center'>Calificación índice de calidad - metadatos</h4>
-                                        <h4 class='text-center' style="margin:0px;">{{ indice_general_values[1] }}{{ indice_general_stars[1] }}</h4>
+                                    {% if html_metadatos_full != None %}
+                                        <div class="col-md-6 center-block table-responsive" style="margin-top:30px;">
+                                            <h4 class='text-center'>Calificación índice de calidad - metadatos</h4>
+                                            <h4 class='text-center' style="margin:0px;">{{ indice_general_values[1] }}{{ indice_general_stars[1] }}</h4>
 
-                                        <div class="row">
-                                            <div id='radar_metadatos' class="max_size_row3"></div>
-                                        </div>
-                                        <div class="row bigger" style="margin-left:15px; margin-right:15px; margin-bottom:15px;">
-                                            <div class="tabla_sin_bold tabla_sin_bold2 tabla_sin_bg">
-                                                <table style="margin-left: auto; margin-right: auto;">
-                                                    <tr>
-                                                        <th style="text-align: right;">Subindicador</th>
-                                                        <th style="padding-left:10px;">Calificación</th>
-                                                    </tr>
-                                                    {% for indicador in indice_metadatos_headers %}
+                                            <div class="row">
+                                                <div id='radar_metadatos' class="max_size_row3"></div>
+                                            </div>
+                                            <div class="row bigger" style="margin-left:15px; margin-right:15px; margin-bottom:15px;">
+                                                <div class="tabla_sin_bold tabla_sin_bold2 tabla_sin_bg">
+                                                    <table style="margin-left: auto; margin-right: auto;">
                                                         <tr>
-                                                            <td style="text-align: right;">{{ indicador }}</td>
-                                                            <td style="padding-left:10px;">{{ indice_metadatos_values[loop.index0] }}
-                                                                {{ indice_metadatos_stars[loop.index0] }}
-                                                            </td>
+                                                            <th style="text-align: right;">Subindicador</th>
+                                                            <th style="padding-left:10px;">Calificación</th>
                                                         </tr>
-                                                    {% endfor %}
-                                                </table>
+                                                        {% for indicador in indice_metadatos_headers %}
+                                                            <tr>
+                                                                <td style="text-align: right;">{{ indicador }}</td>
+                                                                <td style="padding-left:10px;">{{ indice_metadatos_values[loop.index0] }}
+                                                                    {{ indice_metadatos_stars[loop.index0] }}
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    {% endif %}
 
-                                    <div class="col-md-6 center-block table-responsive" style="margin-top:30px;">
+                                    {% if html_metadatos_full == None %}
+                                        <div class="col-md-12 center-block table-responsive" style="margin-top:30px;">
+                                    {% else %}
+                                        <div class="col-md-6 center-block table-responsive" style="margin-top:30px;">
+                                    {% endif %}
                                         <h4 class='text-center'>Calificación índice de calidad - datos</h4>
                                         <h4 class='text-center' style="margin:0px;">{{ indice_general_values[2] }}{{ indice_general_stars[2] }}</h4>
                                         <div class="row">

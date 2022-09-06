@@ -46,8 +46,8 @@ class IndiceCalidad:
             # self.metadatos_indice = datos.metadatos()
             # self.base_indice = datos.datos
             # self.base = datos.datos
-            print(f"clase Índice. Constructor. Tipo de objeto: {type(self)}")
             # self.metadatos = datos.metadatos_indice
+            print(f"clase Índice. Constructor. Tipo de objeto: {type(self)}")
         else:
             raise ValueError(
                 "Los datos deben ser instancias de la clase DatosGov o de la clase CalidadDatos"
@@ -889,32 +889,14 @@ class Reporte:
         html_metadatos_tail = None
         seccion_indice_calidad = False
 
-        print(f"Clase Reporte. Método generar_reporte. Tipo de objeto: {self}")
-        print(f"Clase Reporte. Método generar_reporte. self.datos: {type(self.datos)}")
         if isinstance(self, str):
             raise ValueError(
                 "El parámetro no puede ser un string"
             )
         elif isinstance(self, datos_gov.DatosGov):
-            print(f"Clase Reporte. Método generar_reporte. Tipo de objeto: {type(self)}")
             datos = self
-            # base = CalidadDatos(datos)
 
-            # if isinstance(datos, str):
-            #    if datos == '':
-            #        raise ValueError(
-            #            "El parámetro datos no puede ser vacío"
-            #        )
-
-            # elif re.match("[A-Za-z0-9]{4}-[A-Za-z0-9]{4}", datos):
-            # api_id = datos
-            # datos = DatosGov().cargar_base(api_id=datos, **kwargs)
-            # IndiceCalidad = Indice_calidad(datos)
             resultados_indice_calidad = self.indice(subindicadores=True)
-            print(f"Clase reporte. Método generar reporte. resultados_indice_calidad: {resultados_indice_calidad} ")
-            # resultados_indice_calidad = IndiceCalidad.indice(datos=True, meta=True, subindicadores=True,
-            #                                                 numero_filas=30000, dic_pesos_meta=None,
-            #                                                 dic_pesos_datos=None)
 
             IC_general = resultados_indice_calidad[0]
             IC_metadatos = resultados_indice_calidad[1]
@@ -1013,17 +995,30 @@ class Reporte:
             html_metadatos_full = html_metadatos_full.replace('@#$', '<br>')
             html_metadatos_head = html_metadatos_head.replace('@#$', '<br>')
             html_metadatos_tail = html_metadatos_tail.replace('@#$', '<br>')
-            print('--------------------------------------------------------------------------------------------')
 
-        # else:
-        #     base = CalidadDatos(datos)
-
-        # elif (datos.__class__.__name__ == 'CalidadDatos'):
-        #     base = datos
         elif isinstance(self, CalidadDatos):
             base = self
-        #else:
-        #    base = CalidadDatos(datos)
+            resultados_indice_calidad = self.indice(subindicadores=True)
+
+            IC_general = resultados_indice_calidad[0]
+            IC_metadatos = resultados_indice_calidad[1]
+            IC_datos = resultados_indice_calidad[2]
+
+            indice_general_headers = list(IC_general.keys())
+            indice_general_values = [round(IC_general[x] * 5.0, 1) for x in indice_general_headers]
+            indice_general_stars = [self.html_stars(item) for item in indice_general_values]
+
+            indice_metadatos_headers = list(IC_metadatos.keys())
+            indice_metadatos_values = [round(IC_metadatos[x] * 5.0, 1) for x in indice_metadatos_headers]
+            indice_metadatos_stars = [self.html_stars(item) for item in indice_metadatos_values]
+            indice_metadatos_headers = [self.style_headers(item) for item in indice_metadatos_headers]
+
+            indice_datos_headers = list(IC_datos.keys())
+            indice_datos_values = [round(IC_datos[x] * 5.0, 1) for x in indice_datos_headers]
+            indice_datos_stars = [self.html_stars(item) for item in indice_datos_values]
+            indice_datos_headers = [self.style_headers(item) for item in indice_datos_headers]
+
+            seccion_indice_calidad = True
 
         timestamp = datetime.datetime.now()
         current_time = timestamp.strftime("%d-%m-%Y %I:%M:%S %p")
@@ -1527,6 +1522,7 @@ class CalidadDatos(IndiceCalidad, Reporte):
             "object": "Otro",
         }
         self._metadatos = None
+        self.metadatos_indice = None
         self.__source = None
         self.__kwargs = kwargs
         self._castDatos = castDatos
@@ -2801,7 +2797,3 @@ class CalidadDatos(IndiceCalidad, Reporte):
             raise NotImplementedError(
                 f"El tipo de datos {type(datos)} no está soportado por LEILA."
             )
-
-
-
-
