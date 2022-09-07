@@ -167,8 +167,8 @@
                                     <div class="col-md-12">
                                         <h3 class='text-center'>Calificación general índice de calidad</h3>
                                         {% if html_metadatos_full == None %}
-                                            <div style="color:red;">
-                                                Este conjunto de datos no cuenta con metadatos, por lo tanto, el índice de calidad fue calculado teniendo en cuenta únicamente el componente de datos.
+                                            <div class="alert alert-danger" role="alert" style="text-align: center;">
+                                                <i class="fas fa-exclamation-triangle"></i> Este conjunto de datos no cuenta con información de metadatos, por lo tanto, el índice de calidad fue calculado únicamente con el componente de datos. Consulta el siguiente enlace para conocer <a href="#">como cargar los metadatos</a>.
                                             </div>
                                         {% endif %}
 
