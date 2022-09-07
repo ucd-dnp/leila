@@ -166,12 +166,6 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <h3 class='text-center'>Calificación general índice de calidad</h3>
-                                        {% if html_metadatos_full == None %}
-                                            <div style="color:red;">
-                                                Este conjunto de datos no cuenta con metadatos, por lo tanto, el índice de calidad fue calculado teniendo en cuenta únicamente el componente de datos.
-                                            </div>
-                                        {% endif %}
-
                                         {% if (indice_general_values[1] >= 3) and (indice_general_values[1] < 4) %}
                                             <h4 class='text-center' style="margin:0px;">{{ indice_general_values[0] }}{{ indice_general_stars[0] }} - Medalla de calidad Bronce <i class="fas fa-award b"></i></h4>
                                         {% elif (indice_general_values[1] >= 4) and (indice_general_values[1] < 4.5) %}
@@ -181,13 +175,18 @@
                                         {% else %}
                                             <h4 class='text-center' style="margin:0px;">{{ indice_general_values[0] }}{{ indice_general_stars[0] }}</h4>
                                         {% endif %}
+                                        {% if html_metadatos_full == None %}
+                                            <div class="alert alert-danger" role="alert" style="text-align: center;margin-top:20px;">
+                                                <i class="fas fa-exclamation-triangle"></i> Este conjunto de datos no cuenta con información de metadatos, por lo tanto, el índice de calidad fue calculado únicamente con el componente de datos. Consulta el siguiente enlace para conocer <a href="#">como cargar los metadatos</a> antes de la generación del reporte.
+                                            </div>
+                                        {% endif %}
                                     </div>
                                 </div>
                                 
                                 <div class="row">
                                     {% if html_metadatos_full != None %}
                                         <div class="col-md-6 center-block table-responsive" style="margin-top:30px;">
-                                            <h4 class='text-center'>Calificación índice de calidad - metadatos</h4>
+                                            <h4 class='text-center'>Calificación índice de calidad - componente de metadatos</h4>
                                             <h4 class='text-center' style="margin:0px;">{{ indice_general_values[1] }}{{ indice_general_stars[1] }}</h4>
 
                                             <div class="row">
@@ -215,11 +214,11 @@
                                     {% endif %}
 
                                     {% if html_metadatos_full == None %}
-                                        <div class="col-md-12 center-block table-responsive" style="margin-top:30px;">
+                                        <div class="col-md-12 center-block table-responsive">
                                     {% else %}
                                         <div class="col-md-6 center-block table-responsive" style="margin-top:30px;">
                                     {% endif %}
-                                        <h4 class='text-center'>Calificación índice de calidad - datos</h4>
+                                        <h4 class='text-center'>Calificación índice de calidad - componente de datos</h4>
                                         <h4 class='text-center' style="margin:0px;">{{ indice_general_values[2] }}{{ indice_general_stars[2] }}</h4>
                                         <div class="row">
                                             <div id='radar_datos' class="max_size_row3"></div>

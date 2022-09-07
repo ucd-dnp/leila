@@ -811,7 +811,7 @@ class Reporte:
             'tamano_comparacion': "Tamaño comparación",
             'faltantes': "Faltantes",
             'tamano_columnas': "Tamaño columnas",
-            'tamano_filas': "Tamano filas",
+            'tamano_filas': "Tamaño filas",
             'duplicados_filas': "Duplicados filas",
             'duplicados_columnas': "Duplicados columnas",
             'tipos_columnas_unicos': "Tipos columnas únicos",
