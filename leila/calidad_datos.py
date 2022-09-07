@@ -1674,6 +1674,7 @@ class CalidadDatos(IndiceCalidad, Reporte):
             print(f"La llave '{e.args[0]}' no coincide ya sea en el formato de los metadatos " +\
                   "o en los metadatos que está intentando subir.")
             print(f"El formato de los metadatos es el siguiente: {dict_meta}")
+        self.metadatos_indice = metadatos_json
 
 
     # Tipos de las columnas
