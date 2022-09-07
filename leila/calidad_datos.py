@@ -19,6 +19,7 @@ from difflib import SequenceMatcher
 import datetime
 from dateutil.parser import parse
 import phik
+import json
 
 
 class IndiceCalidad:
@@ -1607,6 +1608,73 @@ class CalidadDatos(IndiceCalidad, Reporte):
             col_dtypes,
             tipo_mas_comun,
         ]
+
+
+    """
+           En caso de que los metadatos no se carguen en el constructor de la clase indice
+           y el usuario haya decidido cargar los datos entonces el siguiente método permite al usuario
+           cargar los datos en formato json
+    """
+    def cargar_metadatos(self, ruta_json):
+        # obtiene los metadatos que están en la ruta: ruta_json
+        with open(ruta_json) as f:
+            metadatos_json = json.load(f)
+
+        # Estructura de los metadatos para calcular el índice
+        dict_meta = {
+            "name": "nombre",
+            "description": "descripcion",
+            "createdAt": "fecha_creacion",
+            "publicationDate": "fecha_publicacion",
+            "rowsUpdatedAt": "fecha_actualizacion",
+            "metadata": {
+                "custom_fields": {
+                    "Información de Datos": {
+                        "Frecuencia de Actualización": "Anual"
+                    }
+                }
+            },
+            "approvals": [
+                {
+                    "submitter": {
+                        "displayName": "Alcaldia de Pereira Secretaria TIC"
+                    },
+                }
+            ],
+            "columns": [
+                {
+                    "name": "vivienda_id_sistema",
+                    "description": "",
+                    "renderTypeName": "number",
+                    "cachedContents": {
+                        "non_null": "14287",
+                        "null": "0"
+                    }
+                }
+            ]
+        }
+
+        # revisar si tienen las mismas llaves que el formato para los metadatos de leila
+        try:
+            #Probando que tenga todas las llaves de la llave "metadata"
+            metadatos_json["metadata"][
+                "custom_fields"]["Información de Datos"]["Frecuencia de Actualización"]
+            # Probando que tenga todas las llaves de "approvals"
+            metadatos_json["approvals"][0]["submitter"]["displayName"]
+            #Probando que tenga algunas de las llaves de "columns"
+            metadatos_json["columns"][0]["cachedContents"]["non_null"]
+            metadatos_json["columns"][0]["cachedContents"]["null"]
+            # Probando que tenga todas las llaves inmediatas
+            for llave in list(metadatos_json.keys()):
+                dict_meta[llave]
+            # Probando que tenga todas las llaves de "columns"
+            for llave in metadatos_json["columns"][0].keys():
+                dict_meta[llave]
+        except KeyError as e:
+            print(f"La llave '{e.args[0]}' no coincide ya sea en el formato de los metadatos " +\
+                  "o en los metadatos que está intentando subir.")
+            print(f"El formato de los metadatos es el siguiente: {dict_meta}")
+
 
     # Tipos de las columnas
     def TipoColumnas(
