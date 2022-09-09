@@ -1668,13 +1668,14 @@ class CalidadDatos(IndiceCalidad, Reporte):
             for llave in list(metadatos_json.keys()):
                 dict_meta[llave]
             # Probando que tenga todas las llaves de "columns"
-            for llave in metadatos_json["columns"][0].keys():
-                dict_meta[llave]
+            for llave in list(metadatos_json["columns"][0].keys()):
+                dict_meta["columns"][0][llave]
         except KeyError as e:
             print(f"La llave '{e.args[0]}' no coincide ya sea en el formato de los metadatos " +\
                   "o en los metadatos que está intentando subir.")
             print(f"El formato de los metadatos es el siguiente: {dict_meta}")
         self.metadatos_indice = metadatos_json
+        return self
 
 
     # Tipos de las columnas
