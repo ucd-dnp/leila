@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # -*- coding: utf-8 -*-
-
+import array
 import os
 from jinja2 import Environment, PackageLoader
 import sys
@@ -1610,23 +1610,61 @@ class CalidadDatos(IndiceCalidad, Reporte):
         ]
 
 
-    """
-           En caso de que los metadatos no se carguen en el constructor de la clase indice
-           y el usuario haya decidido cargar los datos entonces el siguiente método permite al usuario
-           cargar los datos en formato json
-    """
+
     def cargar_metadatos(self, ruta_json):
+        """
+        En caso de que los datos sean locales entonces el siguiente método
+        permite al usuario cargar los metadatos en formato json. Si los metadatos tienen el
+        formato mostrado a continuación, entonces se cargar y se almacenan en la variable
+        'metadatos_indice':
+        dict_meta = {
+            "name": "nombre",
+            "description": "descripcion",
+            "createdAt": 1575379734,
+            "publicationDate": 1575380046,
+            "rowsUpdatedAt": 1618623047,
+            "metadata": {
+                "custom_fields": {
+                    "Información de Datos": {
+                        "Frecuencia de Actualización": "Anual"
+                    }
+                }
+            },
+            "approvals": [
+                {
+                    "submitter": {
+                        "displayName": "Alcaldia de Pereira Secretaria TIC"
+                    },
+                }
+            ],
+            "columns": [
+                {
+                    "name": "vivienda_id_sistema",
+                    "description": "",
+                    "renderTypeName": "number",
+                    "cachedContents": {
+                        "non_null": "14287",
+                        "null": "0"
+                    }
+                }
+            ]
+        }
+        formato del diccionario de los metadatos
+        :param ruta_json: (string) "texto". \
+        especifica la ruta local en la que están guardados los metadatos.
+        :return: (self) retorna la instancia de la clase que llamó al método cargar_metadatos.
+        Esto con el fin de que pueda calcular un índice o generar un reporte inmediatamente.
+        """
         # obtiene los metadatos que están en la ruta: ruta_json
         with open(ruta_json) as f:
             metadatos_json = json.load(f)
-
         # Estructura de los metadatos para calcular el índice
         dict_meta = {
             "name": "nombre",
             "description": "descripcion",
-            "createdAt": "fecha_creacion",
-            "publicationDate": "fecha_publicacion",
-            "rowsUpdatedAt": "fecha_actualizacion",
+            "createdAt": 1575379734,
+            "publicationDate": 1575380046,
+            "rowsUpdatedAt": 1618623047,
             "metadata": {
                 "custom_fields": {
                     "Información de Datos": {
@@ -1674,6 +1712,98 @@ class CalidadDatos(IndiceCalidad, Reporte):
             print(f"La llave '{e.args[0]}' no coincide ya sea en el formato de los metadatos " +\
                   "o en los metadatos que está intentando subir.")
             print(f"El formato de los metadatos es el siguiente: {dict_meta}")
+        # Probando que el tipo de dato de los valores de las llaves sean los correctos
+        try:
+            if isinstance(metadatos_json["name"], str) and \
+               isinstance(metadatos_json["description"], str) and \
+               isinstance(metadatos_json["metadata"], dict) and \
+               isinstance(metadatos_json["approvals"], list) and \
+               isinstance(metadatos_json["columns"], list):
+                pass
+            else:
+                raise Exception(
+                    "error en el tipo de dato de uno de los valores asociados a las llaves "
+                    "'name', 'description', 'metadata', 'approvals', 'columns'"
+                )
+            pd.Timestamp(metadatos_json["publicationDate"])
+            pd.Timestamp(metadatos_json["rowsUpdatedAt"])
+            pd.Timestamp(metadatos_json["createdAt"])
+            if type(metadatos_json["metadata"]["custom_fields"]) is \
+                type(dict_meta["metadata"]["custom_fields"]) and \
+                type(metadatos_json["approvals"][0]) is \
+                type(dict_meta["approvals"][0]) and\
+                type(metadatos_json["columns"][0]) is \
+                type(dict_meta["columns"][0]):
+                pass
+            else:
+                raise Exception(
+                    "Error en alguno de los tipos de datos de los valores de las llaves 'metadata', "
+                    "'approvals', 'columns'"
+                )
+
+
+            if type(metadatos_json["metadata"]["custom_fields"]["Información de Datos"]) is \
+                type(dict_meta["metadata"]["custom_fields"]["Información de Datos"]) and \
+                type(metadatos_json["approvals"][0]["submitter"]) is \
+                type(dict_meta["approvals"][0]["submitter"]):
+                pass
+            else:
+                raise Exception(
+                "Algunos de los tipos de datos de los diccionarios no coinciden con respecto "
+                "a la llave 'metadata', 'approvals'"
+            )
+
+            if isinstance(metadatos_json["columns"][0]["name"], str) and \
+               isinstance(metadatos_json["columns"][0]["description"], str) and \
+               isinstance(metadatos_json["columns"][0]["renderTypeName"], str) and \
+               isinstance(metadatos_json["columns"][0]["cachedContents"], dict):
+                pass
+            else:
+                raise Exception(
+                    "Algunos de los tipos de datos con respecto a la llave 'columns': "
+                    "'name', 'description', "
+                    "'renderTypeName', 'cachedContents' no coinciden"
+                )
+
+            if type(metadatos_json["metadata"]["custom_fields"]["información de Datos"]["Frecuencia de Actualización"]) is \
+               type(dict_meta["metadata"]["custom_fields"]["información de Datos"]["Frecuencia de Actualización"]) and \
+               type(metadatos_json["submitter"]["displayName"]) is type(dict_meta["submitter"]["displayName"]):
+                pass
+            else:
+                raise Exception(
+                "Alguno de los tipos de datos no son correctos en la llave 'metadata'"
+            )
+
+        # Verificando que coincidan los tipos de columnas
+            tipo_dato_columnas = ["number", "calendar_date", "checkbox", "text"]
+            if metadatos_json["columns"][0]["renderTypeName"] in tipo_dato_columnas:
+                pass
+            else:
+                raise Exception(
+                    "Hay un tipo de columna que no está especificado en la llave 'renderTypeName'"
+                )
+            # Verificando que coincida la frecuencia de actualización de los datos.
+            arreglo_frecuencias = ["diaria", "semanal", "quincenal", "mensual", "trimestral",
+                "cuatrimestral", "semestral", "anual", "trieno",
+            ]
+            fecha_actualizacion = metadatos_json["metadata"]["custom_fields"]["Información de Datos"]["Frecuencia de Actualización"]
+            if fecha_actualizacion in arreglo_frecuencias:
+                pass
+            else:
+                raise Exception(
+                    "La 'Frecuencia de Actualización' no es la correcta"
+                )
+            # Verificando que la cantidad de filas y columnas sean un string que se pueda
+            # convertir a entero positivo
+            if int(metadatos_json["columns"][0]["cachedContents"]["non_null"]) >= 0 and \
+               int(metadatos_json["columns"][0]["cachedContents"]["null"]) >= 0:
+                pass
+            else:
+                raise Exception(
+                    "'non_null' o 'null' deben ser enteros positivos"
+                )
+        except Exception as e:
+            print(e)
         self.metadatos_indice = metadatos_json
         return self
 
