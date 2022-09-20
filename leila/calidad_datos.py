@@ -43,12 +43,6 @@ class IndiceCalidad:
     def __init__(self, datos, numero_filas=30000):
         if isinstance(datos, CalidadDatos):
             self.base = datos._base
-        elif isinstance(datos, datos_gov.DatosGov):
-            # self.metadatos_indice = datos.metadatos()
-            # self.base_indice = datos.datos
-            # self.base = datos.datos
-            # self.metadatos = datos.metadatos_indice
-            print(f"clase Índice. Constructor. Tipo de objeto: {type(self)}")
         else:
             raise ValueError(
                 "Los datos deben ser instancias de la clase DatosGov o de la clase CalidadDatos"
@@ -1800,7 +1794,7 @@ class CalidadDatos(IndiceCalidad, Reporte):
                 pass
             else:
                 raise Exception(
-                    "'non_null' o 'null' deben ser enteros positivos"
+                    "'non_null' o 'null' deben ser strings que se puedan convertir a enteros positivos"
                 )
         except Exception as e:
             print(e)
