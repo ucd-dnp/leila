@@ -20,6 +20,11 @@ class DatosGov(Reporte, IndiceCalidad):
         self.__metadatos = None
         self.metadatos_indice = None
         self.datos = None
+        # representa la cantidad de bases de datos en DatosGov que están vacías
+        self.cant_bases_vacias = 0
+        self.cant_bases_cargadas = 0
+        # Error en la lectura de una bd asociada a una api de DatosGov
+        self.error = None
         self._DIC_RENAME = {
             "uid": "numero_api",
             "name": "nombre",
@@ -50,7 +55,7 @@ class DatosGov(Reporte, IndiceCalidad):
         IndiceCalidad.__init__(self, datos=self)
         Reporte.__init__(self)
 
-    def cargar_base(self, api_id, limite_filas=1000000000):
+    def cargar_base(self, api_id, limite_filas=100):
         """
         Permite descargar un conjunto de datos del portal de datos.gov.co \
         dado su identificador `api_id` en el portal. \
@@ -74,11 +79,18 @@ class DatosGov(Reporte, IndiceCalidad):
         """
         url = f"{self._dominio}{api_id}.csv?$limit={100}"
         # Solo se leen 100 filas para estimar tipo de datos
-        temp = pd.read_csv(url)
+        try:
+            temp = pd.read_csv(url)
+        except Exception as e:
+            raise Exception(e)
+
+
         # cols que pueden contener fecha
         col_objs = list(temp.select_dtypes(object))
         url = f"{self._dominio}{api_id}.csv?$limit={limite_filas}"
         self.datos = pd.read_csv(url, parse_dates=col_objs)
+
+
         # para el cálculo del índice
         self.base_indice = self.datos
         # Almacenar los metadatos

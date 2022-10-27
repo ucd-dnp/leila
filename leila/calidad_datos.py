@@ -5,7 +5,6 @@ import os
 from jinja2 import Environment, PackageLoader
 import sys
 sys.path.insert(0, "leila")
-#from leila.datos_gov import DatosGov
 import leila.datos_gov as datos_gov
 import pandas as pd
 import numpy as np
@@ -43,6 +42,8 @@ class IndiceCalidad:
     def __init__(self, datos, numero_filas=30000):
         if isinstance(datos, CalidadDatos):
             self.base = datos._base
+        elif isinstance(datos, datos_gov.DatosGov):
+            self.base = datos.datos
         else:
             raise ValueError(
                 "Los datos deben ser instancias de la clase DatosGov o de la clase CalidadDatos"
@@ -505,8 +506,10 @@ class IndiceCalidad:
 
                 for i in range(len(lista_tipos_meta)):
                     columna = lista_tipos_datos[i]
-                    m = self.base_indice[columna].mode().iloc[0]
-
+                    try:
+                        m = self.base_indice[columna].mode().iloc[0]
+                    except:
+                        m = 'Columnas vacías'
                     if lista_tipos_meta[i] == "number":
                         try:
                             int(m)
@@ -1650,8 +1653,16 @@ class CalidadDatos(IndiceCalidad, Reporte):
         Esto con el fin de que pueda calcular un índice o generar un reporte inmediatamente.
         """
         # obtiene los metadatos que están en la ruta: ruta_json
-        with open(ruta_json) as f:
-            metadatos_json = json.load(f)
+        try:
+            if isinstance(ruta_json, dict):
+                metadatos_json = ruta_json
+            elif isinstance(ruta_json, str):
+                with open(ruta_json) as f:
+                    metadatos_json = json.load(f)
+        except Exception as e:
+            raise (
+                f"'Error': {e}"
+            )
         # Estructura de los metadatos para calcular el índice
         dict_meta = {
             "name": "nombre",
