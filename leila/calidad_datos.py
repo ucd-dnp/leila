@@ -1017,7 +1017,81 @@ class Reporte:
             indice_datos_headers = [self.style_headers(item) for item in indice_datos_headers]
 
             seccion_indice_calidad = True
+            #--------------
+            if base.metadatos_indice is not None:
 
+                df_metadatos = pd.DataFrame.from_dict(datos.metadatos_indice, orient='index')
+                print(df_metadatos.head())
+                desc_col = pd.DataFrame.from_dict(df_metadatos.loc['name', 0], orient='index')
+                desc_col = desc_col.reset_index()
+                desc_col = desc_col.rename(columns={"index": "Variable", "tipo": "Tipo", "descripcion": "Descripción",
+                                                    "nombre_df": "Nombre variable"})
+                desc_col = desc_col[['Variable', 'Nombre variable', 'Tipo', 'Descripción']]
+
+                df_metadatos = df_metadatos.drop("columnas")
+
+                df_metadatos.loc['numero_vistas', 0] = str('{:,.0f}'.format(df_metadatos.loc['numero_vistas', 0]))
+                df_metadatos.loc['numero_descargas', 0] = str('{:,.0f}'.format(df_metadatos.loc['numero_descargas', 0]))
+
+                if df_metadatos.loc['numero_filas', 0] != 'NA':
+                    df_metadatos.loc['numero_filas', 0] = str('{:,.0f}'.format(df_metadatos.loc['numero_filas', 0]))
+
+                if df_metadatos.loc['numero_columnas', 0] != 'NA':
+                    df_metadatos.loc['numero_columnas', 0] = str(
+                        '{:,.0f}'.format(df_metadatos.loc['numero_columnas', 0]))
+
+                df_metadatos = df_metadatos.T
+                df_metadatos = df_metadatos.rename(
+                    columns={
+                        "numero_api": "Número API",
+                        "nombre": "Nombre",
+                        "descripcion": "Descripción",
+                        "tipo": "Tipo",
+                        "url": "URL",
+                        "categoria": "Categoría",
+                        "fecha_creacion": "Fecha de creación",
+                        "numero_vistas": "Número de vistas",
+                        "numero_descargas": "Número de descargas",
+                        "licencia": "Licencia",
+                        "fecha_publicacion": "Fecha de publicación",
+                        "base_publica": "Base pública",
+                        "fecha_actualizacion": "Fecha de actualización",
+                        "numero_filas": "Número de filas",
+                        "numero_columnas": "Número de columnas",
+                        "licencia_url": "Licencia URL",
+                        "entidad": "Entidad",
+                        "entidad_municipio": "Entidad municipio",
+                        "entidad_sector": "Entidad sector",
+                        "entidad_departamento": "Entidad departamento",
+                        "entidad_orden": "Entidad orden",
+                        "entidad_dependencia": "Entidad dependencia",
+                        "cobertura": "Cobertura",
+                        "idioma": "Idioma",
+                        "frecuencia_actualizacion": "Frecuencia de actualización",
+                        "dueno": "Dueño",
+                    })
+                df_metadatos = df_metadatos.T
+
+                df_metadatos = df_metadatos.reset_index()
+                df_metadatos.columns = ['Atributo', 'Valor']
+
+                df_metadatos.replace('\n', '@#$', regex=True, inplace=True)
+
+                html_descr_col_meta = self.df_as_html(
+                    desc_col, classes=['white_spaces'])
+
+                html_metadatos_full = self.df_as_html(
+                    df_metadatos, classes=['white_spaces'])
+
+                html_metadatos_head = self.df_as_html(
+                    df_metadatos[:3], classes=['white_spaces'])
+
+                html_metadatos_tail = self.df_as_html(
+                    df_metadatos[-(len(datos.metadatos().keys()) - 4):], classes=['white_spaces'])
+
+                html_metadatos_full = html_metadatos_full.replace('@#$', '<br>')
+                html_metadatos_head = html_metadatos_head.replace('@#$', '<br>')
+                html_metadatos_tail = html_metadatos_tail.replace('@#$', '<br>')
         timestamp = datetime.datetime.now()
         current_time = timestamp.strftime("%d-%m-%Y %I:%M:%S %p")
 
