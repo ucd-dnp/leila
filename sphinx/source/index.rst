@@ -25,7 +25,7 @@ LEILA - Librería de calidad de datos
 
    control_de_cambios
 
-.. figure:: _static/image/LEILA.jpg
+.. figure:: _static/image/leila.png
     :align: center
     :alt: 
     :figclass: align-center
