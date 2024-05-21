@@ -32,11 +32,21 @@
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
             <a href="#" class="icon icon-home"> LEILA
-            <img src="_static/logo_400.png" class="logo" alt="Logotipo"/>
+            <img src="_images/logo.png" class="logo" alt="Logotipo"/>
           </a>
               <div class="version">
                 latest - v0.2
               </div>
+              <style>
+                .logo {
+                    width: 10px; /* Ajusta el ancho deseado */
+                    height: 10px; /* Ajusta la altura deseada */
+                    object-fit: cover; /* Mantiene la proporción y recorta si es necesario */
+                    display: block; /* Asegura que se comporte como un bloque */
+                    max-width: 40%; /* Asegura que no exceda el contenedor */
+                    max-height: 10%; /* Asegura que no exceda el contenedor */
+                }
+            </style>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Buscar documentos" />
@@ -93,7 +103,7 @@
 <div class="toctree-wrapper compound">
 </div>
 <div class="align-center figure">
-<img alt="" src="_images/LEILA.jpg" />
+<img alt="" src="_images/LEILA.png" />
 </div>
 <p>La librería surge como resultado de un proyecto relacionado con realizar análisis descriptivos de la calidad de la información cargada al portal de Datos Abiertos de Colombia, durante el desarrollo del proyecto se identifica el interés por parte de diferentes actores en el proyecto al igual que el beneficio potencial de tener a la mano una librería que facilite describir la calidad de una base de datos, lo cual motivó a realizar la implementación de la librería.</p>
 <p>Esta página contiene toda la información relacionada con la librería, en el panel de navegación se tiene acceso a las diferentes secciones, las cuales cubren la instalación de la librería, la documentación de los módulos y funciones, ejemplos y demás información de interés.</p>
