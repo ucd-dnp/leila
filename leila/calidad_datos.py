@@ -624,18 +624,21 @@ class CalidadDatos:
         dic_outliers = {}
         if extremos == "ambos":
             for i in range(0, len(iqr)):
-                dic_outliers[self.base[col_num].columns[i]] = (
-                    self.base[col_num].iloc[:, i] > iqr_upper[i]
-                ) | (self.base[col_num].iloc[:, i] < iqr_lower[i])
+                col_name = self.base[col_num].columns[i]
+                dic_outliers[col_name] = (
+                    self.base[col_num].iloc[:, i] > iqr_upper.iloc[i]
+                ) | (self.base[col_num].iloc[:, i] < iqr_lower.iloc[i])
         elif extremos == "superior":
             for i in range(0, len(iqr)):
-                dic_outliers[self.base[col_num].columns[i]] = (
-                    self.base[col_num].iloc[:, i] > iqr_upper[i]
+                col_name = self.base[col_num].columns[i]
+                dic_outliers[col_name] = (
+                    self.base[col_num].iloc[:, i] > iqr_upper.iloc[i]
                 )
         else:  # extremos == "inferior":
             for i in range(0, len(iqr)):
-                dic_outliers[self.base[col_num].columns[i]] = (
-                    self.base[col_num].iloc[:, i] < iqr_lower[i]
+                col_name = self.base[col_num].columns[i]
+                dic_outliers[col_name] = (
+                    self.base[col_num].iloc[:, i] < iqr_lower.iloc[i]
                 )
 
         base_outliers = pd.DataFrame(dic_outliers)
@@ -910,7 +913,7 @@ class CalidadDatos:
             lista["Columna"] = s
             lista["Porcentaje del total de filas"] = lista[s] / len(self.base)
 
-            resto = lista.iloc[:, 0].loc["Demás categorías"]
+            resto = lista.iloc[:, 0].iloc[lista.iloc[:, 0].index.get_loc("Demás categorías")]
 
             if resto == 0:
                 lista = lista.drop("Demás categorías", axis=0)
@@ -1075,35 +1078,35 @@ class CalidadDatos:
 
         # Número de columnas numéricas
         if colNumericas:
-            calculo = int((col_tipos == "Numérico").sum())
+            calculo = int((col_tipos == "Numérico").sum().iloc[0])
             nombre = "Columnas numéricas"
             lista_resumen[0].append(nombre)
             lista_resumen[1].append(calculo)
 
         # Número de columnas de texto
         if colTexto:
-            calculo = int((col_tipos == "Texto").sum())
+            calculo = int((col_tipos == "Texto").sum().iloc[0])
             nombre = "Columnas de texto"
             lista_resumen[0].append(nombre)
             lista_resumen[1].append(calculo)
 
         # Número de columnas booleanas
         if colBooleanas:
-            calculo = int((col_tipos == "Booleano").sum())
+            calculo = int((col_tipos == "Booleano").sum().iloc[0])
             nombre = "Columnas booleanas"
             lista_resumen[0].append(nombre)
             lista_resumen[1].append(calculo)
 
         # Número de columnas de fecha
         if colFecha:
-            calculo = int((col_tipos == "Fecha").sum())
+            calculo = int((col_tipos == "Fecha").sum().iloc[0])
             nombre = "Columnas de fecha"
             lista_resumen[0].append(nombre)
             lista_resumen[1].append(calculo)
 
         # Número de columnas de otro tipo
         if colOtro:
-            calculo = int((col_tipos == "Otro").sum())
+            calculo = int((col_tipos == "Otro").sum().iloc[0])
             nombre = "Otro tipo de columnas"
             lista_resumen[0].append(nombre)
             lista_resumen[1].append(calculo)

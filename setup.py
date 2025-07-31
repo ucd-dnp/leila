@@ -4,14 +4,15 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 INSTALL_REQUIRES = [
-    "jinja2>=3.0.3",
-    "openpyxl>=3.0.9",
-    "pandas>=1.1.5",
+    "jinja2>=3.1.0",
+    "openpyxl>=3.1.0",
+    "pandas>=2.0.0",
     "phik>=0.12.0",
-    "requests>=2.26.0",
-    "scipy>=1.5.4",
-    "unidecode>=1.3.2",
+    "requests>=2.31.0",
+    "scipy>=1.10.0",
+    "unidecode>=1.3.0",
     "xlrd>=2.0.1",
+    "numpy>=1.24.0",
 ]
 PACKAGE_NAME = "leila"
 
@@ -47,10 +48,11 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: Microsoft :: Windows",
         "Operating System :: POSIX :: Linux",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
     ],
-    python_requires=">=3.6.2",
+    python_requires=">=3.8",
 )
